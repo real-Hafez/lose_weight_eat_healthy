@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   another_flutter_splash_screen: ^1.2.1
+  auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.8
   device_preview: ^1.2.0
   flutter:

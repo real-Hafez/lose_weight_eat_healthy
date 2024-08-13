@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         gifWidth: 200,
         gifHeight: 474,
         nextScreen: const OnBoarding(),
-        duration: const Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 300),
         onInit: () async {
           debugPrint("onInit");
         },
@@ -40,15 +40,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+// class MyHomePage extends StatelessWidget {
+//   const MyHomePage({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Welcome to My Home Page!'),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Scaffold(
+//       body: Center(
+//         child: Text('Welcome to My Home Page!'),
+//       ),
+//     );
+//   }
+// }

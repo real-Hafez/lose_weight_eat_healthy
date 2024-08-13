@@ -19,30 +19,32 @@ class OnBoarding extends StatelessWidget {
         finishButtonStyle: const FinishButtonStyle(),
         skipTextButton: const Text('Skip'),
         trailing: const Text('Login'),
-        background: const [
-          VideoWidget(
-            videoPath: 'assets/on-boarding-assets/battle-rope.mp4',
-            height: 200,
+        background: [
+          Padding(
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * .01),
+            child: const VideoWidget(
+              videoPath: 'assets/on-boarding-assets/895109962323Workout.mp4',
+              // height: MediaQuery.of(context).size.height * .2,
+            ),
           ),
-          VideoWidget(
-            videoPath: 'assets/on-boarding-assets/Workout_Plans.mp4',
-            height: 200,
+          const VideoWidget(
+            videoPath: 'assets/on-boarding-assets/895109962323Workout.mp4',
+            // height: 200,
           ),
         ],
         totalPage: 2,
         speed: 1.8,
         pageBodies: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 1),
-            child: const Column(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                VideoWidget(
-                  videoPath: 'assets/on-boarding-assets/battle-rope.mp4',
-                  height: 300,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * .25,
                 ),
-                // SizedBox(height: 10),
-                onboarding_First_page(),
+                const onboarding_First_page(),
               ],
             ),
           ),

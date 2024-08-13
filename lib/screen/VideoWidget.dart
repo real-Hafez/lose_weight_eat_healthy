@@ -4,9 +4,11 @@ import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
   final String videoPath;
-  final double height;
 
-  const VideoWidget({super.key, required this.videoPath, required this.height});
+  const VideoWidget({
+    super.key,
+    required this.videoPath,
+  });
 
   @override
   _VideoWidgetState createState() => _VideoWidgetState();
@@ -33,7 +35,8 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.height,
+      height: MediaQuery.of(context).size.height * .25,
+      width: MediaQuery.of(context).size.height * .3,
       child: _controller.value.isInitialized
           ? AspectRatio(
               aspectRatio: _controller.value.aspectRatio,
