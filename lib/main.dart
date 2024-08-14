@@ -7,7 +7,7 @@ import 'package:lose_weight_eat_healthy/screen/onboarding.dart';
 void main() => runApp(
       DevicePreview(
         enabled: !kReleaseMode,
-        builder: (context) => const MyApp(), // Wrap your app
+        builder: (context) => const MyApp(),
       ),
     );
 

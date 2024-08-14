@@ -1,55 +1,52 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
-import 'package:lose_weight_eat_healthy/screen/VideoWidget.dart';
-import 'package:lose_weight_eat_healthy/screen/onboarding_First_page.dart';
-import 'package:lose_weight_eat_healthy/screen/onboarding_Second_page.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lose_weight_eat_healthy/screen/widgets/FirstOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/screen/widgets/SecondOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/screen/widgets/ThirdOnboardingPage.dart';
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      color: Colors.black,
+    return MaterialApp(
       home: OnBoardingSlider(
+        centerBackground: true,
+        speed: 1,
         headerBackgroundColor: Colors.white,
-        pageBackgroundColor: Colors.white,
-        finishButtonText: 'Register',
-        finishButtonStyle: const FinishButtonStyle(),
-        skipTextButton: const Text('Skip'),
-        trailing: const Text('Login'),
+        finishButtonText: 'Get Started',
+        finishButtonStyle: FinishButtonStyle(
+          backgroundColor: Colors.orange,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        skipTextButton: const Text(
+          'Skip',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         background: [
-          Padding(
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * .01),
-            child: const VideoWidget(
-              videoPath: 'assets/on-boarding-assets/895109962323Workout.mp4',
-              // height: MediaQuery.of(context).size.height * .2,
-            ),
+          SvgPicture.asset(
+            'assets/on-boarding-assets/freeicons.io.svg',
+            height: MediaQuery.of(context).size.height * .29,
           ),
-          const VideoWidget(
-            videoPath: 'assets/on-boarding-assets/895109962323Workout.mp4',
-            // height: 200,
+          SvgPicture.asset('assets/on-boarding-assets/apple-freeicons.io.svg',
+              height: MediaQuery.of(context).size.height * .29),
+          SvgPicture.asset(
+            'assets/on-boarding-assets/free-freeicons.io.svg',
+            height: MediaQuery.of(context).size.height * .35,
           ),
         ],
-        totalPage: 2,
-        speed: 1.8,
-        pageBodies: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .25,
-                ),
-                const onboarding_First_page(),
-              ],
-            ),
-          ),
-          const onboarding_Second_page(),
+        totalPage: 3,
+        pageBodies: const [
+          FirstOnboardingPage(),
+          SecondOnboardingPage(),
+          ThirdOnboardingPage(),
         ],
+        controllerColor: Colors.orange,
       ),
     );
   }
