@@ -9,9 +9,8 @@ class FirstOnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CustomTextStyle(
-      main_text: 'Find the Best Cardio Workout for You',
-      sub_text:
-          'the train is customized for u bassed on u weight to reach u target to be better of yourslf',
-    );
+        main_text: 'Find Your Perfect Cardio Routine',
+        sub_text:
+            "Browse videos that match your fitness level and help you reach your cardio goals.");
   }
 }
