@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/SignIn/SignInscreen.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/SignUpAndLoginButton.dart';
@@ -17,7 +16,9 @@ class signup_textfield_and_ui extends StatelessWidget {
     return Column(
       children: [
         const SignupIntroSection(),
-        const create_account_Text(),
+        const create_account_Text(
+          text: 'Create a new account',
+        ),
         Row(
           children: [
             Expanded(
@@ -70,7 +71,7 @@ class signup_textfield_and_ui extends StatelessWidget {
           targetScreen: Signinscreen(),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * .02,
+          height: MediaQuery.of(context).size.height * .01,
         ),
         SignUpAndLoginButton(
           label: 'Sign up ',
