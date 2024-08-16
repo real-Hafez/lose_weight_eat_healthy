@@ -12,9 +12,6 @@ class SignupIntroSection extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * .01,
-        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: AutoSizeText(
@@ -22,8 +19,9 @@ class SignupIntroSection extends StatelessWidget {
             maxLines: 1,
             maxFontSize: 30,
             minFontSize: 18,
-            style:
-                TextStyle(fontSize: MediaQuery.of(context).size.height * .04),
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.height * .04,
+            ),
           ),
         ),
         SizedBox(
@@ -38,6 +36,8 @@ class SignupIntroSection extends StatelessWidget {
             ),
             child: AnimatedTextKit(
               animatedTexts: [
+                RotateAnimatedText('PERSONALIZED TRAINING',
+                    duration: const Duration(milliseconds: 1950)),
                 RotateAnimatedText('PERSONALIZED TRAINING',
                     duration: const Duration(milliseconds: 1950)),
                 RotateAnimatedText('HEALTHY RECIPE SUGGESTIONS',
