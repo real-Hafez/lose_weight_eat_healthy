@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lose_weight_eat_healthy/SignIn/SignInscreen.dart';
 import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/SignUpAndLoginButton.dart';
@@ -19,6 +20,33 @@ class signup_textfields extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
+    void validateAndSubmit() {
+      final firstName = firstNameController.text.trim();
+      final lastName = lastNameController.text.trim();
+      final username = usernameController.text.trim();
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
+
+      // Check if required fields are filled
+      if (firstName.isEmpty ||
+          username.isEmpty ||
+          email.isEmpty ||
+          password.isEmpty) {
+        Fluttertoast.showToast(msg: "Please fill in all required fields");
+        return;
+      }
+
+      // Proceed with signup
+      context.read<SignupCubit>().signupUser(
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            email: email,
+            password: password,
+            context: context,
+          );
+    }
+
     return Column(
       children: [
         const SignupIntroSection(),
@@ -28,8 +56,9 @@ class signup_textfields extends StatelessWidget {
             Expanded(
               child: CustomTextField(
                 controller: firstNameController,
-                hintText: 'ahmed',
+                hintText: 'Ahmed',
                 label: 'First name',
+                isRequired: true,
                 isPassword: false,
                 keyboardType: TextInputType.name,
               ),
@@ -38,8 +67,9 @@ class signup_textfields extends StatelessWidget {
             Expanded(
               child: CustomTextField(
                 controller: lastNameController,
-                hintText: 'hafez',
+                hintText: 'Hafez',
                 label: 'Last name',
+                isRequired: false, // Not required
                 isPassword: false,
                 keyboardType: TextInputType.name,
               ),
@@ -50,6 +80,7 @@ class signup_textfields extends StatelessWidget {
           controller: usernameController,
           hintText: 'ahmed140',
           label: 'Username',
+          isRequired: true,
           isPassword: false,
           keyboardType: TextInputType.name,
         ),
@@ -57,6 +88,7 @@ class signup_textfields extends StatelessWidget {
           controller: emailController,
           hintText: 'email@example.com',
           label: 'Email',
+          isRequired: true,
           isPassword: false,
           keyboardType: TextInputType.emailAddress,
         ),
@@ -64,6 +96,7 @@ class signup_textfields extends StatelessWidget {
           controller: passwordController,
           hintText: 'Ahmed@9510',
           label: 'Password',
+          isRequired: true,
           isPassword: true,
           keyboardType: TextInputType.visiblePassword,
         ),
@@ -78,16 +111,7 @@ class signup_textfields extends StatelessWidget {
           label: 'Sign up',
           icon: Icons.email,
           color: Colors.blue,
-          onPressed: () {
-            context.read<SignupCubit>().signupUser(
-                  firstName: firstNameController.text,
-                  lastName: lastNameController.text,
-                  username: usernameController.text,
-                  email: emailController.text,
-                  password: passwordController.text,
-                  context: context,
-                );
-          },
+          onPressed: validateAndSubmit,
         ),
       ],
     );

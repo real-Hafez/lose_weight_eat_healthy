@@ -30,6 +30,7 @@ class SignupCubit extends Cubit<SignupState> {
         lastName: lastName,
         username: username,
         email: email,
+        
         context: context,
       );
 

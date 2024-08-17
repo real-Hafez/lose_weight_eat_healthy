@@ -7,8 +7,9 @@ class CustomTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextEditingController? controller;
   final Size size;
-  final bool hasError; // New property for error state
-  final Function(String)? onChanged; // New property for text change callback
+  final bool hasError;
+  final bool isRequired; // New variable for required text
+  final Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -17,9 +18,10 @@ class CustomTextField extends StatefulWidget {
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.controller,
-    this.size = const Size(double.infinity, 50), // Default size
-    this.hasError = false, // Default value for error state
-    this.onChanged, // Initialize onChanged callback
+    this.size = const Size(double.infinity, 50),
+    this.hasError = false,
+    this.isRequired = false, // Default value for isRequired
+    this.onChanged,
   });
 
   @override
@@ -61,12 +63,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              widget.label,
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height * .02,
-                color: widget.hasError ? Colors.red : Colors.black,
-              ),
+            child: Row(
+              children: [
+                Text(
+                  widget.label,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .02,
+                    color: widget.hasError ? Colors.red : Colors.white,
+                  ),
+                ),
+                if (widget.isRequired)
+                  Text(
+                    ' *',
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * .02,
+                      color: Colors.red,
+                    ),
+                  ),
+              ],
             ),
           ),
           SizedBox(
@@ -80,7 +94,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               keyboardType: widget.keyboardType,
               obscureText: widget.isPassword ? _obscureText : false,
               focusNode: _focusNode,
-              onChanged: widget.onChanged, // Pass the onChanged callback
+              onChanged: widget.onChanged,
               decoration: InputDecoration(
                 hintText: widget.hintText,
                 hintStyle: const TextStyle(
