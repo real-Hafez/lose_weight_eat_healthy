@@ -9,7 +9,7 @@ class Signup extends StatelessWidget {
     return const Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
-          child: signup_textfield_and_ui(),
+          child: signup_textfields(),
         ),
       ),
     );

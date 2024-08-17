@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -8,6 +7,9 @@ class CustomTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextEditingController? controller;
   final Size size;
+  final bool hasError; // New property for error state
+  final Function(String)? onChanged; // New property for text change callback
+
   const CustomTextField({
     super.key,
     required this.label,
@@ -16,6 +18,8 @@ class CustomTextField extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.controller,
     this.size = const Size(double.infinity, 50), // Default size
+    this.hasError = false, // Default value for error state
+    this.onChanged, // Initialize onChanged callback
   });
 
   @override
@@ -57,13 +61,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
-            child: AutoSizeText(
+            child: Text(
               widget.label,
-              maxLines: 1,
-              maxFontSize: 30,
-              minFontSize: 21,
               style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height * .01,
+                fontSize: MediaQuery.of(context).size.height * .02,
+                color: widget.hasError ? Colors.red : Colors.black,
               ),
             ),
           ),
@@ -78,6 +80,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               keyboardType: widget.keyboardType,
               obscureText: widget.isPassword ? _obscureText : false,
               focusNode: _focusNode,
+              onChanged: widget.onChanged, // Pass the onChanged callback
               decoration: InputDecoration(
                 hintText: widget.hintText,
                 hintStyle: const TextStyle(
@@ -86,11 +89,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 contentPadding: const EdgeInsets.symmetric(
                     horizontal: 18.0, vertical: 10.0),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade300),
+                  borderSide: BorderSide(
+                      color:
+                          widget.hasError ? Colors.red : Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(22),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade300),
+                  borderSide: BorderSide(
+                      color:
+                          widget.hasError ? Colors.red : Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 suffixIcon: widget.isPassword

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "528529121967",
+    "project_id": "project-without-name-159ef",
+    "storage_bucket": "project-without-name-159ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528529121967:android:e3d1257ed1873e10bfea5a",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLRnrW-vO5U311DjgVM6JEbS33xIwhpIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528529121967:android:1ba110bf571de710bfea5a",
+        "android_client_info": {
+          "package_name": "com.example.lose_weight_eat_healthy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLRnrW-vO5U311DjgVM6JEbS33xIwhpIA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
