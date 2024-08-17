@@ -20,17 +20,11 @@ class SignupCubit extends Cubit<SignupState> {
     emit(SignupLoading());
     try {
       await _authService.signup(
-        email: email,
-        password: password,
-        context: context,
-      );
-
-      await _authService.saveAdditionalUserDetails(
         firstName: firstName,
         lastName: lastName,
         username: username,
         email: email,
-        
+        password: password,
         context: context,
       );
 

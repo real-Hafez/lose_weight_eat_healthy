@@ -36,7 +36,6 @@ class signup_textfields extends StatelessWidget {
         return;
       }
 
-      // Proceed with signup
       context.read<SignupCubit>().signupUser(
             firstName: firstName,
             lastName: lastName,
@@ -47,73 +46,80 @@ class signup_textfields extends StatelessWidget {
           );
     }
 
-    return Column(
-      children: [
-        const SignupIntroSection(),
-        const create_account_Text(text: 'Create a new account'),
-        Row(
+    return BlocConsumer<SignupCubit, SignupState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Column(
           children: [
-            Expanded(
-              child: CustomTextField(
-                controller: firstNameController,
-                hintText: 'Ahmed',
-                label: 'First name',
-                isRequired: true,
-                isPassword: false,
-                keyboardType: TextInputType.name,
-              ),
+            const SignupIntroSection(),
+            const create_account_Text(text: 'Create a new account'),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    controller: firstNameController,
+                    hintText: 'Ahmed',
+                    label: 'First name',
+                    isRequired: true,
+                    isPassword: false,
+                    keyboardType: TextInputType.name,
+                  ),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * .02),
+                Expanded(
+                  child: CustomTextField(
+                    controller: lastNameController,
+                    hintText: 'Hafez',
+                    label: 'Last name',
+                    isRequired: false, // Not required
+                    isPassword: false,
+                    keyboardType: TextInputType.name,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: MediaQuery.of(context).size.width * .02),
-            Expanded(
-              child: CustomTextField(
-                controller: lastNameController,
-                hintText: 'Hafez',
-                label: 'Last name',
-                isRequired: false, // Not required
-                isPassword: false,
-                keyboardType: TextInputType.name,
-              ),
+            CustomTextField(
+              controller: usernameController,
+              hintText: 'ahmed140',
+              label: 'Username',
+              isRequired: true,
+              isPassword: false,
+              keyboardType: TextInputType.name,
+            ),
+            CustomTextField(
+              controller: emailController,
+              hintText: 'email@example.com',
+              label: 'Email',
+              isRequired: true,
+              isPassword: false,
+              keyboardType: TextInputType.emailAddress,
+            ),
+            CustomTextField(
+              controller: passwordController,
+              hintText: 'Ahmed@9510',
+              label: 'Password',
+              isRequired: true,
+              isPassword: true,
+              keyboardType: TextInputType.visiblePassword,
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * .01),
+            const HaveAccount(
+              promptText: 'Do you already have an account? ',
+              actionText: 'Log in',
+              targetScreen: Signinscreen(),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * .01),
+            SignUpAndLoginButton(
+              label: 'Sign up',
+              icon: Icons.email,
+              color: Colors.blue,
+              onPressed: validateAndSubmit,
             ),
           ],
-        ),
-        CustomTextField(
-          controller: usernameController,
-          hintText: 'ahmed140',
-          label: 'Username',
-          isRequired: true,
-          isPassword: false,
-          keyboardType: TextInputType.name,
-        ),
-        CustomTextField(
-          controller: emailController,
-          hintText: 'email@example.com',
-          label: 'Email',
-          isRequired: true,
-          isPassword: false,
-          keyboardType: TextInputType.emailAddress,
-        ),
-        CustomTextField(
-          controller: passwordController,
-          hintText: 'Ahmed@9510',
-          label: 'Password',
-          isRequired: true,
-          isPassword: true,
-          keyboardType: TextInputType.visiblePassword,
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * .01),
-        const HaveAccount(
-          promptText: 'Do you already have an account? ',
-          actionText: 'Log in',
-          targetScreen: Signinscreen(),
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * .01),
-        SignUpAndLoginButton(
-          label: 'Sign up',
-          icon: Icons.email,
-          color: Colors.blue,
-          onPressed: validateAndSubmit,
-        ),
-      ],
+        );
+      },
     );
   }
 }

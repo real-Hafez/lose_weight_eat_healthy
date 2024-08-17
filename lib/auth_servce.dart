@@ -11,47 +11,36 @@ class AuthService {
     required String email,
     required String password,
     required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String username,
   }) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       // Save additional user details to Firestore
       await _firestore.collection('users').doc(userCredential.user?.uid).set({
+        'firstName': firstName,
+        'lastName': lastName,
+        'username': username,
         'email': email,
-        // You can add other fields if necessary
+        // Add other fields if necessary
       });
 
       // Optionally navigate or perform additional actions here
     } on FirebaseAuthException catch (e) {
-      String message = '';
-      switch (e.code) {
-        case 'email-already-in-use':
-          message = 'The email address is already in use by another account.';
-          break;
-        case 'invalid-email':
-          message = 'The email address is badly formatted.';
-          break;
-        case 'weak-password':
-          message = 'The password provided is too weak.';
-          break;
-        default:
-          message = 'An unknown error occurred. Please try again.';
-      }
-      Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.black54,
-        textColor: Colors.white,
-        fontSize: 14.0,
-      );
+      String message = _getFirebaseAuthErrorMessage(e);
+      _showToast(message);
+    } catch (e) {
+      _showToast('An unknown error occurred. Please try again.');
     }
   }
 
-  // Method to save additional user details to Firestore
+  // Method to save additional user details (for existing users)
   Future<void> saveAdditionalUserDetails({
     required String firstName,
     required String lastName,
@@ -71,14 +60,33 @@ class AuthService {
         });
       }
     } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Failed to update user details. Please try again.',
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.black54,
-        textColor: Colors.white,
-        fontSize: 14.0,
-      );
+      _showToast('Failed to update user details. Please try again.');
     }
+  }
+
+  // Helper method to get user-friendly error messages
+  String _getFirebaseAuthErrorMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'email-already-in-use':
+        return 'The email address is already in use by another account.';
+      case 'invalid-email':
+        return 'The email address is badly formatted.';
+      case 'weak-password':
+        return 'The password provided is too weak.';
+      default:
+        return 'An unknown error occurred. Please try again.';
+    }
+  }
+
+  // Helper method to show a toast message
+  void _showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.SNACKBAR,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 14.0,
+    );
   }
 }

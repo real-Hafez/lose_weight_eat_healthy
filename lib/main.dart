@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SignupCubit(AuthService()),
         ),
-        // Add other providers here if needed
       ],
       child: MaterialApp(
         useInheritedMediaQuery: true,
