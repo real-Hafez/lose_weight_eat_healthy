@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/signup/widgets/SignupFormFields.dart';
+import 'package:lose_weight_eat_healthy/signup/widgets/loading.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/signup_textfield_and_ui.dart';
 
 class Signup extends StatelessWidget {
@@ -7,9 +9,11 @@ class Signup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: signup_textfields(),
+      body: Center(
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: SignupTextFields(),
+          ),
         ),
       ),
     );

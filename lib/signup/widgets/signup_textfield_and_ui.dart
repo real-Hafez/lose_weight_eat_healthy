@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lose_weight_eat_healthy/SignIn/SignInscreen.dart';
+import 'package:lose_weight_eat_healthy/consent.dart';
 import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/SignUpAndLoginButton.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/SignupIntroSection.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/create_new_account.dart';
+import 'package:lose_weight_eat_healthy/signup/widgets/SignupFormFields.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/have_account.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/text_field_for_sign_up_and_login.dart';
+import 'package:lose_weight_eat_healthy/signup/widgets/loading.dart';
 
-class signup_textfields extends StatelessWidget {
-  const signup_textfields({super.key});
+class SignupTextFields extends StatelessWidget {
+  const SignupTextFields({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +26,12 @@ class signup_textfields extends StatelessWidget {
       final email = emailController.text.trim();
       final password = passwordController.text.trim();
 
-      // Check if required fields are filled
       if (firstName.isEmpty ||
           username.isEmpty ||
           email.isEmpty ||
           password.isEmpty) {
-        Fluttertoast.showToast(msg: "Please fill in all required fields");
+        ToastUtil.showToast('Please fill in all required fields');
+
         return;
       }
 
@@ -48,61 +47,26 @@ class signup_textfields extends StatelessWidget {
 
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
-        // TODO: implement listener
+        if (state is SignupSuccess) {
+          print('Signup successful');
+          ToastUtil.showToast('Signup successful');
+        } else if (state is SignupFailure) {
+          print('Signup failed');
+          ToastUtil.showToast(state.errorMessage);
+        }
       },
       builder: (context, state) {
+        if (state is SignupLoading) {
+          return const Center(child: LoadingWidget());
+        }
         return Column(
           children: [
-            const SignupIntroSection(),
-            const create_account_Text(text: 'Create a new account'),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextField(
-                    controller: firstNameController,
-                    hintText: 'Ahmed',
-                    label: 'First name',
-                    isRequired: true,
-                    isPassword: false,
-                    keyboardType: TextInputType.name,
-                  ),
-                ),
-                SizedBox(width: MediaQuery.of(context).size.width * .02),
-                Expanded(
-                  child: CustomTextField(
-                    controller: lastNameController,
-                    hintText: 'Hafez',
-                    label: 'Last name',
-                    isRequired: false, // Not required
-                    isPassword: false,
-                    keyboardType: TextInputType.name,
-                  ),
-                ),
-              ],
-            ),
-            CustomTextField(
-              controller: usernameController,
-              hintText: 'ahmed140',
-              label: 'Username',
-              isRequired: true,
-              isPassword: false,
-              keyboardType: TextInputType.name,
-            ),
-            CustomTextField(
-              controller: emailController,
-              hintText: 'email@example.com',
-              label: 'Email',
-              isRequired: true,
-              isPassword: false,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            CustomTextField(
-              controller: passwordController,
-              hintText: 'Ahmed@9510',
-              label: 'Password',
-              isRequired: true,
-              isPassword: true,
-              keyboardType: TextInputType.visiblePassword,
+            SignupFormFields(
+              firstNameController: firstNameController,
+              lastNameController: lastNameController,
+              usernameController: usernameController,
+              emailController: emailController,
+              passwordController: passwordController,
             ),
             SizedBox(height: MediaQuery.of(context).size.height * .01),
             const HaveAccount(

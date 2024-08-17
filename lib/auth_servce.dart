@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Method to sign up a new user with email and password
   Future<void> signup({
     required String email,
     required String password,
@@ -30,17 +28,14 @@ class AuthService {
         'email': email,
         // Add other fields if necessary
       });
-
-      // Optionally navigate or perform additional actions here
     } on FirebaseAuthException catch (e) {
-      String message = _getFirebaseAuthErrorMessage(e);
-      _showToast(message);
+      // Throw an exception with a user-friendly message
+      throw _getFirebaseAuthErrorMessage(e);
     } catch (e) {
-      _showToast('An unknown error occurred. Please try again.');
+      throw 'An unknown error occurred. Please try again.';
     }
   }
 
-  // Method to save additional user details (for existing users)
   Future<void> saveAdditionalUserDetails({
     required String firstName,
     required String lastName,
@@ -60,11 +55,10 @@ class AuthService {
         });
       }
     } catch (e) {
-      _showToast('Failed to update user details. Please try again.');
+      throw 'Failed to update user details. Please try again.';
     }
   }
 
-  // Helper method to get user-friendly error messages
   String _getFirebaseAuthErrorMessage(FirebaseAuthException e) {
     switch (e.code) {
       case 'email-already-in-use':
@@ -76,17 +70,5 @@ class AuthService {
       default:
         return 'An unknown error occurred. Please try again.';
     }
-  }
-
-  // Helper method to show a toast message
-  void _showToast(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.SNACKBAR,
-      backgroundColor: Colors.black54,
-      textColor: Colors.white,
-      fontSize: 14.0,
-    );
   }
 }
