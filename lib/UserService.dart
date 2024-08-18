@@ -12,7 +12,30 @@ class UserService {
       return result.docs.isNotEmpty;
     } catch (e) {
       // Handle error if needed
+      print('Error checking username: $e');
       return false;
+    }
+  }
+
+  Future<void> saveUserDetails({
+    required String email,
+    required String firstName,
+    required String lastName,
+    required String userId, // Added userId parameter
+    required String username, // Added username parameter
+  }) async {
+    try {
+      final userCollection = _firestore.collection('users');
+      await userCollection.doc(userId).set({
+        'email': email,
+        'firstName': firstName,
+        'lastName': lastName,
+        'username': username,
+      });
+      print('User details saved successfully.');
+    } catch (e) {
+      // Handle error if needed
+      print('Error saving user details: $e');
     }
   }
 }

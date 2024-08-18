@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/BuildSocialButton.dart';
+import 'package:lose_weight_eat_healthy/signup/widgets/GoogleSignuP.dart';
 
 class SignUpAndLoginButton extends StatelessWidget {
   final String label;
@@ -64,8 +65,8 @@ class SignUpAndLoginButton extends StatelessWidget {
               // text: 'Google',
               icon: Icons.email,
               color: Colors.redAccent,
-              onPressed: () {
-                // Handle Google sign-in
+              onPressed: () async {
+                Authentication.signInWithGoogle(context: context);
               },
             ),
           ],
