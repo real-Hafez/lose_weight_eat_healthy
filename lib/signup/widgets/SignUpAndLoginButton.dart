@@ -49,27 +49,13 @@ class SignUpAndLoginButton extends StatelessWidget {
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * .003),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            BuildSocialButton(
-              // text: 'Facebook',
-              icon: Icons.facebook,
-              color: Colors.blueAccent,
-              onPressed: () {
-                // Handle Facebook sign-in
-              },
-            ),
-            SizedBox(width: MediaQuery.of(context).size.width * .05),
-            BuildSocialButton(
-              // text: 'Google',
-              icon: Icons.email,
-              color: Colors.redAccent,
-              onPressed: () async {
-                Authentication.signInWithGoogle(context: context);
-              },
-            ),
-          ],
+        SizedBox(width: MediaQuery.of(context).size.width * .05),
+        BuildSocialButton(
+          // text: 'Google',
+          Image: 'assets/Google_logo.png',
+          onPressed: () async {
+            Authentication.signInWithGoogle(context: context);
+          },
         ),
       ],
     );

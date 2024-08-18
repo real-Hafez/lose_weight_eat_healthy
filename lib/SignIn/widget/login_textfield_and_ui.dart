@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/signup/Signup.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/BuildSocialButton.dart';
+import 'package:lose_weight_eat_healthy/signup/widgets/GoogleSignuP.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/create_new_account.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/have_account.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/text_field_for_sign_up_and_login.dart';
@@ -68,21 +69,12 @@ class LoginTextfieldAndUi extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BuildSocialButton(
-              // text: 'Facebook',
-              icon: Icons.facebook,
-              color: Colors.blueAccent,
-              onPressed: () {
-                // Handle Facebook sign-in
-              },
-            ),
             SizedBox(width: MediaQuery.of(context).size.width * .05),
             BuildSocialButton(
               // text: 'Google',
-              icon: Icons.email,
-              color: Colors.redAccent,
-              onPressed: () {
-                // Handle Google sign-in
+              Image: 'assets/Google_logo.png',
+              onPressed: () async {
+                Authentication.signInWithGoogle(context: context);
               },
             ),
           ],

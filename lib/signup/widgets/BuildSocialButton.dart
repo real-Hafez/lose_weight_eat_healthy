@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
 class BuildSocialButton extends StatelessWidget {
-  final IconData icon;
-  final Color color;
+  final String Image;
   final String text; // Removed nullable type
   final VoidCallback onPressed;
 
   const BuildSocialButton({
     super.key,
-    required this.icon,
-    required this.color,
+    required this.Image,
     this.text = '',
     required this.onPressed,
   });
@@ -29,12 +27,9 @@ class BuildSocialButton extends StatelessWidget {
         GestureDetector(
           onTap: onPressed,
           child: CircleAvatar(
+            backgroundImage: AssetImage(Image),
             radius: 25,
-            backgroundColor: color,
-            child: Icon(
-              icon,
-              color: Colors.white,
-            ),
+            backgroundColor: Colors.transparent,
           ),
         ),
       ],
