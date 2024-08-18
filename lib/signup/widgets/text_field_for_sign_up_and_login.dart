@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/signup/widgets/CustomStyles.dart';
 
 class CustomTextField extends StatefulWidget {
   final String label;
@@ -35,6 +36,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   final FocusNode _focusNode = FocusNode();
   bool isUsernameTaken = false;
   bool isChecking = false;
+  bool hasStartedTyping = false;
 
   @override
   void initState() {
@@ -42,10 +44,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
     _obscureText = widget.isPassword;
     _controller = widget.controller ?? TextEditingController();
 
-    // Attach the onChanged function to the controller to listen for changes.
     _controller.addListener(() {
       if (widget.label == 'Username') {
-        checkUsernameAvailability(_controller.text.trim());
+        if (_controller.text.isNotEmpty) {
+          setState(() {
+            hasStartedTyping = true;
+          });
+          checkUsernameAvailability(_controller.text.trim());
+        } else {
+          setState(() {
+            hasStartedTyping = false;
+            isUsernameTaken = false;
+          });
+        }
       }
     });
   }
@@ -84,6 +95,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
   }
 
+  void _togglePasswordVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -93,34 +110,24 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .006,
-          ),
+          SizedBox(height: MediaQuery.of(context).size.height * .006),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Row(
               children: [
                 Text(
                   widget.label,
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * .02,
-                    color: widget.hasError ? Colors.red : Colors.white,
-                  ),
+                  style: CustomStyles.labelStyle(context, widget.hasError),
                 ),
                 if (widget.isRequired)
                   Text(
                     ' *',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * .02,
-                      color: Colors.red,
-                    ),
+                    style: CustomStyles.requiredMarkStyle(context),
                   ),
               ],
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .005,
-          ),
+          SizedBox(height: MediaQuery.of(context).size.height * .005),
           SizedBox(
             width: widget.size.width,
             height: widget.size.height,
@@ -130,46 +137,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
               obscureText: widget.isPassword ? _obscureText : false,
               focusNode: _focusNode,
               onChanged: widget.onChanged,
-              decoration: InputDecoration(
+              decoration: CustomStyles.inputDecoration(
                 hintText: widget.hintText,
-                hintStyle: const TextStyle(
-                  color: Colors.grey,
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 18.0, vertical: 10.0),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color:
-                          widget.hasError ? Colors.red : Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color:
-                          widget.hasError ? Colors.red : Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                suffixIcon: widget.label == 'Username'
-                    ? isChecking
-                        ? const CircularProgressIndicator()
-                        : isUsernameTaken
-                            ? const Icon(Icons.close, color: Colors.red)
-                            : const Icon(Icons.check, color: Colors.green)
-                    : widget.isPassword
-                        ? IconButton(
-                            icon: Icon(
-                              _obscureText
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Colors.grey,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscureText = !_obscureText;
-                              });
-                            },
-                          )
-                        : null,
+                hasError: widget.hasError,
+                isPassword: widget.isPassword,
+                isChecking: isChecking,
+                hasStartedTyping: hasStartedTyping,
+                isUsernameTaken: isUsernameTaken,
+                isObscureText: _obscureText,
+                onTogglePasswordVisibility:
+                    widget.isPassword ? _togglePasswordVisibility : null,
               ),
             ),
           ),
@@ -184,7 +161,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
           if (isChecking && widget.label == 'Username')
             const Padding(
               padding: EdgeInsets.only(top: 5, left: 5),
-              child: CircularProgressIndicator(),
             ),
         ],
       ),

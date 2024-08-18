@@ -72,7 +72,7 @@ class SignupFormFields extends StatelessWidget {
           label: 'Password',
           isRequired: true,
           isPassword: true,
-          keyboardType: TextInputType.visiblePassword,
+          // keyboardType: TextInputType.visiblePassword,
         ),
       ],
     );
