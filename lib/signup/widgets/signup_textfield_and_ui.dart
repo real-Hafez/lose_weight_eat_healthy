@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/SignIn/SignInscreen.dart';
 import 'package:lose_weight_eat_healthy/consent.dart';
+import 'package:lose_weight_eat_healthy/home.dart';
 import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/SignUpAndLoginButton.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/SignupFormFields.dart';
@@ -50,6 +51,11 @@ class SignupTextFields extends StatelessWidget {
         if (state is SignupSuccess) {
           print('Signup successful');
           ToastUtil.showToast('Signup successful');
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) {
+              return const Home();
+            },
+          ));
         } else if (state is SignupFailure) {
           print('Signup failed');
           ToastUtil.showToast(state.errorMessage);

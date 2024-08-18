@@ -7,10 +7,11 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: SpinKitThreeBounce(
-        color: Colors.blue,
-        size: 50.0,
-        duration: Duration(milliseconds: 8000),
+      child: SpinKitPouringHourGlass(
+        strokeWidth: 1,
+        color: Colors.orange,
+        size: 120.0,
+      
       ),
     );
   }
