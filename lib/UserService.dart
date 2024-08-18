@@ -11,7 +11,6 @@ class UserService {
           .get();
       return result.docs.isNotEmpty;
     } catch (e) {
-      // Handle error if needed
       print('Error checking username: $e');
       return false;
     }
@@ -21,12 +20,11 @@ class UserService {
     required String email,
     required String firstName,
     required String lastName,
-    required String userId, // Added userId parameter
-    required String username, // Added username parameter
+    required String userId,
+    required String username,
   }) async {
     try {
-      final userCollection = _firestore.collection('users');
-      await userCollection.doc(userId).set({
+      await _firestore.collection('users').doc(userId).set({
         'email': email,
         'firstName': firstName,
         'lastName': lastName,
@@ -34,7 +32,6 @@ class UserService {
       });
       print('User details saved successfully.');
     } catch (e) {
-      // Handle error if needed
       print('Error saving user details: $e');
     }
   }

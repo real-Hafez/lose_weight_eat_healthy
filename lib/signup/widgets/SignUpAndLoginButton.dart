@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/BuildSocialButton.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/GoogleSignuP.dart';
 
 class SignUpAndLoginButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color color;
+  final bool isLogin;
   final VoidCallback onPressed;
 
   const SignUpAndLoginButton({
@@ -14,6 +16,7 @@ class SignUpAndLoginButton extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.onPressed,
+    this.isLogin = false,
   });
 
   @override
@@ -51,11 +54,16 @@ class SignUpAndLoginButton extends StatelessWidget {
         SizedBox(height: MediaQuery.of(context).size.height * .003),
         SizedBox(width: MediaQuery.of(context).size.width * .05),
         BuildSocialButton(
-          // text: 'Google',
-          Image: 'assets/Google_logo.png',
           onPressed: () async {
-            Authentication.signInWithGoogle(context: context);
+            // Use the isLogin flag to determine the action
+            final cubit = context.read<SignupCubit>();
+            if (isLogin) {
+              await cubit.signInWithGoogle(context: context);
+            } else {
+              await cubit.signInWithGoogle(context: context);
+            }
           },
+          Image: 'assets/Google_logo.png',
         ),
       ],
     );

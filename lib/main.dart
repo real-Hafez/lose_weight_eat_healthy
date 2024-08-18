@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/Routes.dart';
 import 'package:lose_weight_eat_healthy/auth_servce.dart';
 import 'package:lose_weight_eat_healthy/firebase_options.dart';
 import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart'; // Import your cubit
@@ -34,6 +35,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        initialRoute: AppRoutes.signUpAndLogin,
+        onGenerateRoute: AppRoutes.generateRoute,
         useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
