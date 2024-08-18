@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -8,7 +9,7 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
   final Size size;
   final bool hasError;
-  final bool isRequired; // New variable for required text
+  final bool isRequired;
   final Function(String)? onChanged;
 
   const CustomTextField({
@@ -20,7 +21,7 @@ class CustomTextField extends StatefulWidget {
     this.controller,
     this.size = const Size(double.infinity, 50),
     this.hasError = false,
-    this.isRequired = false, // Default value for isRequired
+    this.isRequired = false,
     this.onChanged,
   });
 
@@ -32,12 +33,21 @@ class _CustomTextFieldState extends State<CustomTextField> {
   late TextEditingController _controller;
   bool _obscureText = true;
   final FocusNode _focusNode = FocusNode();
+  bool isUsernameTaken = false;
+  bool isChecking = false;
 
   @override
   void initState() {
     super.initState();
     _obscureText = widget.isPassword;
     _controller = widget.controller ?? TextEditingController();
+
+    // Attach the onChanged function to the controller to listen for changes.
+    _controller.addListener(() {
+      if (widget.label == 'Username') {
+        checkUsernameAvailability(_controller.text.trim());
+      }
+    });
   }
 
   @override
@@ -47,6 +57,31 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
     _focusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> checkUsernameAvailability(String username) async {
+    if (username.isEmpty) return;
+
+    setState(() {
+      isChecking = true;
+    });
+
+    try {
+      final QuerySnapshot result = await FirebaseFirestore.instance
+          .collection('users')
+          .where('username', isEqualTo: username)
+          .get();
+
+      setState(() {
+        isUsernameTaken = result.docs.isNotEmpty;
+        isChecking = false;
+      });
+    } catch (e) {
+      setState(() {
+        isUsernameTaken = false;
+        isChecking = false;
+      });
+    }
   }
 
   @override
@@ -114,24 +149,43 @@ class _CustomTextFieldState extends State<CustomTextField> {
                           widget.hasError ? Colors.red : Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                suffixIcon: widget.isPassword
-                    ? IconButton(
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                      )
-                    : null,
+                suffixIcon: widget.label == 'Username'
+                    ? isChecking
+                        ? const CircularProgressIndicator()
+                        : isUsernameTaken
+                            ? const Icon(Icons.close, color: Colors.red)
+                            : const Icon(Icons.check, color: Colors.green)
+                    : widget.isPassword
+                        ? IconButton(
+                            icon: Icon(
+                              _obscureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
+                            },
+                          )
+                        : null,
               ),
             ),
           ),
+          if (isUsernameTaken && widget.label == 'Username')
+            const Padding(
+              padding: EdgeInsets.only(top: 5, left: 5),
+              child: Text(
+                'Username is already taken',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          if (isChecking && widget.label == 'Username')
+            const Padding(
+              padding: EdgeInsets.only(top: 5, left: 5),
+              child: CircularProgressIndicator(),
+            ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/SignIn/SignInscreen.dart';
+import 'package:lose_weight_eat_healthy/UserService.dart';
 import 'package:lose_weight_eat_healthy/consent.dart';
 import 'package:lose_weight_eat_healthy/home.dart';
 import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart';
@@ -20,7 +21,10 @@ class SignupTextFields extends StatelessWidget {
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
 
-    void validateAndSubmit() {
+    final UserService userService =
+        UserService(); // Create an instance of UserService
+
+    Future<void> validateAndSubmit() async {
       final firstName = firstNameController.text.trim();
       final lastName = lastNameController.text.trim();
       final username = usernameController.text.trim();
@@ -32,10 +36,18 @@ class SignupTextFields extends StatelessWidget {
           email.isEmpty ||
           password.isEmpty) {
         ToastUtil.showToast('Please fill in all required fields');
-
         return;
       }
 
+      // Check if username is available
+      final isUsernameTaken = await userService.isUsernameTaken(username);
+
+      if (isUsernameTaken) {
+        ToastUtil.showToast('Username is already taken');
+        return;
+      }
+
+      // Proceed with sign-up
       context.read<SignupCubit>().signupUser(
             firstName: firstName,
             lastName: lastName,

@@ -11,13 +11,13 @@ class SignupFormFields extends StatelessWidget {
   final TextEditingController passwordController;
 
   const SignupFormFields({
-    Key? key,
+    super.key,
     required this.firstNameController,
     required this.lastNameController,
     required this.usernameController,
     required this.emailController,
     required this.passwordController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
