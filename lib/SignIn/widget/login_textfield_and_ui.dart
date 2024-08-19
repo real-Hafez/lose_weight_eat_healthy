@@ -1,83 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/signup/Signup.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/BuildSocialButton.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/GoogleSignuP.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/create_new_account.dart';
-import 'package:lose_weight_eat_healthy/signup/widgets/have_account.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/text_field_for_sign_up_and_login.dart';
 
-class LoginTextfieldAndUi extends StatelessWidget {
-  const LoginTextfieldAndUi({super.key});
+class LoginFormFields extends StatelessWidget {
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+
+  const LoginFormFields({
+    super.key,
+    required this.emailController,
+    required this.passwordController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * .06,
-        ),
-        const Center(
-          child: create_account_Text(
-            text: 'Welcome back',
-          ),
-        ),
-        const create_account_Text(
-          text: 'Login',
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * .03,
-        ),
-        const CustomTextField(
-          label: 'user name or email',
-          hintText: 'your username or email',
+        CustomTextField(
+          controller: emailController,
+          hintText: 'email@example.com',
+          label: 'Email',
+          isRequired: true,
           isPassword: false,
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.emailAddress,
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * .03,
-        ),
-        const CustomTextField(
+        SizedBox(height: MediaQuery.of(context).size.height * .03),
+        CustomTextField(
+          controller: passwordController,
+          hintText: 'Password',
           label: 'Password',
-          hintText: '***********',
+          isRequired: true,
           isPassword: true,
           keyboardType: TextInputType.visiblePassword,
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * .02,
-        ),
-        const HaveAccount(
-          promptText: 'You don\'t Have account? ',
-          actionText: 'Sign up',
-          targetScreen: Signup(),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * .02,
-        ),
-        Divider(
-          color: Colors.grey.shade400,
-          thickness: 2.0,
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * .01),
-        Text(
-          'Or sign in with',
-          style: TextStyle(
-            fontSize: MediaQuery.of(context).size.height * .04,
-            color: Colors.grey,
-          ),
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * .003),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(width: MediaQuery.of(context).size.width * .05),
-            BuildSocialButton(
-              // text: 'Google',
-              Image: 'assets/Google_logo.png',
-              onPressed: () async {
-                Authentication.signInWithGoogle(context: context);
-              },
-            ),
-          ],
         ),
       ],
     );

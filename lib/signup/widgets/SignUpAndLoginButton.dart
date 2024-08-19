@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/SignIn/cubit/cubit/signin_cubit.dart';
 import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/signup/widgets/BuildSocialButton.dart';
 
@@ -7,7 +8,7 @@ class SignUpAndLoginButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color color;
-  final bool isLogin;
+  final bool isLogin; // Flag to determine if it's for login or signup
   final VoidCallback onPressed;
 
   const SignUpAndLoginButton({
@@ -45,7 +46,7 @@ class SignUpAndLoginButton extends StatelessWidget {
         ),
         SizedBox(height: MediaQuery.of(context).size.height * .01),
         Text(
-          'Or sign up with',
+          'Or ${isLogin ? 'login' : 'sign up'} with',
           style: TextStyle(
             fontSize: MediaQuery.of(context).size.height * .04,
             color: Colors.grey,
@@ -55,11 +56,11 @@ class SignUpAndLoginButton extends StatelessWidget {
         SizedBox(width: MediaQuery.of(context).size.width * .05),
         BuildSocialButton(
           onPressed: () async {
-            // Use the isLogin flag to determine the action
-            final cubit = context.read<SignupCubit>();
             if (isLogin) {
+              final cubit = context.read<SigninCubit>();
               await cubit.signInWithGoogle(context: context);
             } else {
+              final cubit = context.read<SignupCubit>();
               await cubit.signInWithGoogle(context: context);
             }
           },
