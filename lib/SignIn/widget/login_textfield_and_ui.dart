@@ -26,7 +26,7 @@ class LoginFormFields extends StatelessWidget {
         SizedBox(height: MediaQuery.of(context).size.height * .03),
         CustomTextField(
           controller: passwordController,
-          hintText: 'Password',
+          hintText: '********',
           label: 'Password',
           isRequired: true,
           isPassword: true,

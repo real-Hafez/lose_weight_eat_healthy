@@ -29,11 +29,12 @@ class SignupCubit extends Cubit<SignupState> {
         context: context,
       );
       emit(SignupSuccess());
-      _handleSignupSuccess(context);
     } catch (e) {
-      // Logging the error for developers
-      print('Signup error: $e');
-      emit(SignupFailure('Something went wrong. Please try again.'));
+      if (e is String) {
+        emit(SignupFailure(e));
+      } else {
+        emit(SignupFailure('Something went wrong. Please try again.'));
+      }
     }
   }
 
@@ -43,21 +44,11 @@ class SignupCubit extends Cubit<SignupState> {
       final user = await Authentication.signInWithGoogle(context: context);
       if (user != null) {
         emit(SignupSuccess());
-        _handleSignupSuccess(context);
       } else {
         emit(SignupFailure('Google sign-in failed. Please try again.'));
       }
     } catch (e) {
-      // Logging the error for developers
-      print('Google sign-in error: $e');
       emit(SignupFailure('An unexpected error occurred. Please try again.'));
     }
-  }
-
-  void _handleSignupSuccess(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Account created successfully')),
-    );
-    Navigator.of(context).pushReplacementNamed('/toquthions');
   }
 }

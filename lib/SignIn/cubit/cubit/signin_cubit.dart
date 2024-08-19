@@ -23,11 +23,12 @@ class SigninCubit extends Cubit<SigninState> {
         context: context,
       );
       emit(SigninSuccess());
-      _handleSignInSuccess(context);
     } catch (e) {
-      // Logging the error for developers
-      print('Sign-in error: $e');
-      emit(SigninFailure('Something went wrong. Please try again.'));
+      // Assuming the error message is a string
+      String errorMessage =
+          e is String ? e : 'Something went wrong. Please try again.';
+      print('Sign-in error: $errorMessage');
+      emit(SigninFailure(errorMessage));
     }
   }
 
@@ -37,21 +38,12 @@ class SigninCubit extends Cubit<SigninState> {
       final user = await Authentication.signInWithGoogle(context: context);
       if (user != null) {
         emit(SigninSuccess());
-        _handleSignInSuccess(context);
       } else {
         emit(SigninFailure('Google sign-in failed. Please try again.'));
       }
     } catch (e) {
-      // Logging the error for developers
       print('Google sign-in error: $e');
       emit(SigninFailure('An unexpected error occurred. Please try again.'));
     }
-  }
-
-  void _handleSignInSuccess(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Welcome back!')),
-    );
-    Navigator.of(context).pushReplacementNamed('/anotherHome');
   }
 }
