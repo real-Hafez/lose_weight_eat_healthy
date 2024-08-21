@@ -3,11 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lose_weight_eat_healthy/Routes.dart';
-import 'package:lose_weight_eat_healthy/SignIn/cubit/cubit/signin_cubit.dart';
-import 'package:lose_weight_eat_healthy/auth_servce.dart';
+import 'package:lose_weight_eat_healthy/src/Routes/app_routes.dart';
+import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/login_cubit/signin_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/Auth/service/AuthService.dart';
 import 'package:lose_weight_eat_healthy/firebase_options.dart';
-import 'package:lose_weight_eat_healthy/signup/cubit/cubit/signup_cubit.dart'; // Import your cubit
+import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart'; // Import your cubit
 import 'package:lose_weight_eat_healthy/splash-screen/Splash_Screen.dart';
 
 void main() async {
