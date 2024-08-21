@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Login.dart';
-import 'package:lose_weight_eat_healthy/UserService.dart';
+import 'package:lose_weight_eat_healthy/src/features/Auth/service/UserService.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
-import 'package:lose_weight_eat_healthy/home.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/page/setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/signup_widgets/SignupFormFields.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/shared_widget/SignUpAndLoginButton.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/home.dart';
-import 'package:lose_weight_eat_healthy/loginforanother.dart'; // Ensure this import is correct
+import 'package:lose_weight_eat_healthy/src/features/Setup/page/setup.dart';
+import 'package:lose_weight_eat_healthy/src/features/home/loginforanother.dart'; // Ensure this import is correct
 
 class AppRoutes {
   static const String home = '/home';

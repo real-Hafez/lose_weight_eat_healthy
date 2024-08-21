@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/widgets/on_Boarding_text_style.dart';
 

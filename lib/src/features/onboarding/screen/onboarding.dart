@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/pages/FirstOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/pages/SecondOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/pages/ThirdOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Signup.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding/utils/onboarding_images.dart';
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});
@@ -30,16 +30,9 @@ class OnBoarding extends StatelessWidget {
             ),
           ),
           background: [
-            SvgPicture.asset(
-              'assets/on-boarding-assets/freeicons.io.svg',
-              height: MediaQuery.of(context).size.height * .29,
-            ),
-            SvgPicture.asset('assets/on-boarding-assets/apple-freeicons.io.svg',
-                height: MediaQuery.of(context).size.height * .29),
-            SvgPicture.asset(
-              'assets/on-boarding-assets/free-freeicons.io.svg',
-              height: MediaQuery.of(context).size.height * .35,
-            ),
+            OnboardingImages.freeIconsSvg(context),
+            OnboardingImages.appleFreeIconsSvg(context),
+            OnboardingImages.freeFreeIconsSvg(context),
           ],
           totalPage: 3,
           pageBodies: const [
