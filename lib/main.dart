@@ -9,6 +9,7 @@ import 'package:lose_weight_eat_healthy/src/features/Auth/service/AuthService.da
 import 'package:lose_weight_eat_healthy/firebase_options.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart'; // Import your cubit
 import 'package:lose_weight_eat_healthy/src/features/splash/pages/Splash_Screen.dart';
+import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -40,25 +41,30 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SigninCubit(AuthService()),
         ),
+        BlocProvider(
+          create: (context) => LocaleCubit(),
+        ),
       ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-
-        initialRoute: AppRoutes.signUpAndLogin,
-        onGenerateRoute: AppRoutes.generateRoute,
-        // useInheritedMediaQuery: true,
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        themeMode: ThemeMode.light,
-        theme: ThemeData.dark(),
-        darkTheme: ThemeData.dark(),
-        home: const Splash_Screen(),
+      child: BlocBuilder<LocaleCubit, Locale>(
+        builder: (context, locale) {
+          return MaterialApp(
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            locale: locale,
+            initialRoute: AppRoutes.signUpAndLogin,
+            onGenerateRoute: AppRoutes.generateRoute,
+            builder: DevicePreview.appBuilder,
+            themeMode: ThemeMode.light,
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
+            home: const Splash_Screen(),
+          );
+        },
       ),
     );
   }

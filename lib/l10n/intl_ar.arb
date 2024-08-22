@@ -1,0 +1,12 @@
+{
+    "skipbutton": "تخطي",
+
+    "new_account": "انشاء حساب جديد  " , 
+    "main_text_FirstOnboardingPage": "ابحث عن روتين الكارديو المثالي لك",
+    "sub_text_FirstOnboardingPage": "تصفح الفيديوهات التي تناسب مستوى لياقتك وتساعدك على تحقيق أهداف الكارديو الخاصة بك", 
+   "main_text_secondOnboardingPage": "وصفات سريعة، نتائج صحية",
+    "sub_text_secondOnboardingPage": "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك.",
+    "main_text_ThirdOnboardingPage": "مجاناً بالكامل لصحتك",
+    "sub_text_ThirdOnboardingPage": "كل شيء مجاني! نريدك أن تصبح لائقًا وصحيًا، لذا استمتع بمحتوانا دون أي تكلفة."
+
+}

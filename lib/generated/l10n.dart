@@ -49,6 +49,86 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
+
+  /// `skip`
+  String get skipbutton {
+    return Intl.message(
+      'skip',
+      name: 'skipbutton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `create new account`
+  String get new_account {
+    return Intl.message(
+      'create new account',
+      name: 'new_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find Your Perfect Cardio Routine`
+  String get main_text_FirstOnboardingPage {
+    return Intl.message(
+      'Find Your Perfect Cardio Routine',
+      name: 'main_text_FirstOnboardingPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse videos that match your fitness level and help you reach your cardio goals`
+  String get sub_text_FirstOnboardingPage {
+    return Intl.message(
+      'Browse videos that match your fitness level and help you reach your cardio goals',
+      name: 'sub_text_FirstOnboardingPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quick Recipes, Healthy Results`
+  String get main_text_secondOnboardingPage {
+    return Intl.message(
+      'Quick Recipes, Healthy Results',
+      name: 'main_text_secondOnboardingPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover the quickest way to nutritious meals that help you stay fit and healthy.`
+  String get sub_text_secondOnboardingPage {
+    return Intl.message(
+      'Discover the quickest way to nutritious meals that help you stay fit and healthy.',
+      name: 'sub_text_secondOnboardingPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Absolutely Free for Your Health`
+  String get main_text_ThirdOnboardingPage {
+    return Intl.message(
+      'Absolutely Free for Your Health',
+      name: 'main_text_ThirdOnboardingPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `It’s all free! We want you to get fit and healthy, so enjoy our content with no cost.`
+  String get sub_text_ThirdOnboardingPage {
+    return Intl.message(
+      'It’s all free! We want you to get fit and healthy, so enjoy our content with no cost.',
+      name: 'sub_text_ThirdOnboardingPage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -57,6 +137,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'ar'),
     ];
   }
 

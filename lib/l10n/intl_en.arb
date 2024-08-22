@@ -1,1 +1,11 @@
-{}
+{
+    "skipbutton": "skip",
+
+    "new_account": "create new account",
+    "main_text_FirstOnboardingPage" : "Find Your Perfect Cardio Routine",
+    "sub_text_FirstOnboardingPage": "Browse videos that match your fitness level and help you reach your cardio goals",
+    "main_text_secondOnboardingPage": "Quick Recipes, Healthy Results",
+    "sub_text_secondOnboardingPage" : "Discover the quickest way to nutritious meals that help you stay fit and healthy.",
+     "main_text_ThirdOnboardingPage" : "Absolutely Free for Your Health",
+"sub_text_ThirdOnboardingPage" : "It’s all free! We want you to get fit and healthy, so enjoy our content with no cost."
+}

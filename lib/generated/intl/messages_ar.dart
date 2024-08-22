@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a en locale. All the
+// This is a library that provides messages for a ar locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -18,24 +18,24 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'en';
+  String get localeName => 'ar';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "main_text_FirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "Find Your Perfect Cardio Routine"),
-        "main_text_ThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "Absolutely Free for Your Health"),
-        "main_text_secondOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "Quick Recipes, Healthy Results"),
+            "ابحث عن روتين الكارديو المثالي لك"),
+        "main_text_ThirdOnboardingPage":
+            MessageLookupByLibrary.simpleMessage("مجاناً بالكامل لصحتك"),
+        "main_text_secondOnboardingPage":
+            MessageLookupByLibrary.simpleMessage("وصفات سريعة، نتائج صحية"),
         "new_account":
-            MessageLookupByLibrary.simpleMessage("create new account"),
-        "skipbutton": MessageLookupByLibrary.simpleMessage("skip"),
+            MessageLookupByLibrary.simpleMessage("انشاء حساب جديد  "),
+        "skipbutton": MessageLookupByLibrary.simpleMessage("تخطي"),
         "sub_text_FirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "Browse videos that match your fitness level and help you reach your cardio goals"),
+            "تصفح الفيديوهات التي تناسب مستوى لياقتك وتساعدك على تحقيق أهداف الكارديو الخاصة بك"),
         "sub_text_ThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "It’s all free! We want you to get fit and healthy, so enjoy our content with no cost."),
+            "كل شيء مجاني! نريدك أن تصبح لائقًا وصحيًا، لذا استمتع بمحتوانا دون أي تكلفة."),
         "sub_text_secondOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "Discover the quickest way to nutritious meals that help you stay fit and healthy.")
+            "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك.")
       };
 }
