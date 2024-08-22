@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/features/Auth/service/username_service.dart';
+import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/signup_widgets/UsernameErrorText.dart';
 import 'package:lose_weight_eat_healthy/src/shared/CustomStyles.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -50,7 +51,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
           setState(() {
             hasStartedTyping = true;
           });
-          checkUsernameAvailability(_controller.text.trim());
+          checkUsernameAvailability(_controller.text.trim()).then((isTaken) {
+            setState(() {
+              isUsernameTaken = isTaken;
+            });
+          });
         } else {
           setState(() {
             hasStartedTyping = false;
@@ -70,31 +75,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
     super.dispose();
   }
 
-  Future<void> checkUsernameAvailability(String username) async {
-    if (username.isEmpty) return;
-
-    setState(() {
-      isChecking = true;
-    });
-
-    try {
-      final QuerySnapshot result = await FirebaseFirestore.instance
-          .collection('users')
-          .where('username', isEqualTo: username)
-          .get();
-
-      setState(() {
-        isUsernameTaken = result.docs.isNotEmpty;
-        isChecking = false;
-      });
-    } catch (e) {
-      setState(() {
-        isUsernameTaken = false;
-        isChecking = false;
-      });
-    }
-  }
-
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
@@ -108,11 +88,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
         FocusScope.of(context).requestFocus(_focusNode);
       },
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: MediaQuery.of(context).size.height * .006),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .006,
+          ),
           Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding:
+                EdgeInsets.only(left: MediaQuery.of(context).size.height * .01),
             child: Row(
               children: [
                 Text(
@@ -131,37 +113,34 @@ class _CustomTextFieldState extends State<CustomTextField> {
           SizedBox(
             width: widget.size.width,
             height: widget.size.height,
-            child: TextField(
-              controller: _controller,
-              keyboardType: widget.keyboardType,
-              obscureText: widget.isPassword ? _obscureText : false,
-              focusNode: _focusNode,
-              onChanged: widget.onChanged,
-              decoration: CustomStyles.inputDecoration(
-                hintText: widget.hintText,
-                hasError: widget.hasError,
-                isPassword: widget.isPassword,
-                isChecking: isChecking,
-                hasStartedTyping: hasStartedTyping,
-                isUsernameTaken: isUsernameTaken,
-                isObscureText: _obscureText,
-                onTogglePasswordVisibility:
-                    widget.isPassword ? _togglePasswordVisibility : null,
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: MediaQuery.of(context).size.height * .004,
+                right: MediaQuery.of(context).size.height * .004,
+              ),
+              child: TextField(
+                controller: _controller,
+                keyboardType: widget.keyboardType,
+                obscureText: widget.isPassword ? _obscureText : false,
+                focusNode: _focusNode,
+                onChanged: widget.onChanged,
+                decoration: CustomStyles.inputDecoration(
+                  hintText: widget.hintText,
+                  hasError: widget.hasError,
+                  isPassword: widget.isPassword,
+                  isChecking: isChecking,
+                  hasStartedTyping: hasStartedTyping,
+                  isUsernameTaken: isUsernameTaken,
+                  isObscureText: _obscureText,
+                  onTogglePasswordVisibility: widget.isPassword
+                      ? () => _togglePasswordVisibility()
+                      : null,
+                ),
               ),
             ),
           ),
-          if (isUsernameTaken && widget.label == 'Username')
-            const Padding(
-              padding: EdgeInsets.only(top: 5, left: 5),
-              child: Text(
-                'Username is already taken',
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          if (isChecking && widget.label == 'Username')
-            const Padding(
-              padding: EdgeInsets.only(top: 5, left: 5),
-            ),
+          if (widget.label == 'Username')
+            UsernameErrorText(isUsernameTaken: isUsernameTaken),
         ],
       ),
     );
