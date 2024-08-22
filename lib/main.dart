@@ -10,6 +10,9 @@ import 'package:lose_weight_eat_healthy/firebase_options.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart'; // Import your cubit
 import 'package:lose_weight_eat_healthy/src/features/splash/pages/Splash_Screen.dart';
 
+import 'generated/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -39,6 +42,14 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+
         initialRoute: AppRoutes.signUpAndLogin,
         onGenerateRoute: AppRoutes.generateRoute,
         // useInheritedMediaQuery: true,
