@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/localization/styles/arabic_style.dart';
 
 class account_navigation_prompt extends StatelessWidget {
   final String promptText;
@@ -24,7 +25,7 @@ class account_navigation_prompt extends StatelessWidget {
           children: <TextSpan>[
             TextSpan(
               text: actionText,
-              style: const TextStyle(
+              style: ArabicStyle.arabicLightStyle().copyWith(
                 color: Colors.blue,
                 fontWeight: FontWeight.bold,
               ),

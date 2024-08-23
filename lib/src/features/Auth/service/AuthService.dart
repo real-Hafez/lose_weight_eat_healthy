@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
 
 class AuthService {
@@ -29,25 +30,26 @@ class AuthService {
         'email': email,
       });
     } on FirebaseAuthException catch (e) {
-      String errorMessage = _getFirebaseAuthErrorMessage(e);
+      String errorMessage = _getFirebaseAuthErrorMessage(e, context);
       ToastUtil.showToast(errorMessage);
       throw errorMessage; // Ensure specific error messages are propagated
     } catch (e) {
-      ToastUtil.showToast('An unknown error occurred. Please try again.');
-      throw 'An unknown error occurred. Please try again.';
+      ToastUtil.showToast(S.of(context).unknownError);
+      throw S.of(context).unknownError;
     }
   }
 
-  String _getFirebaseAuthErrorMessage(FirebaseAuthException e) {
+  String _getFirebaseAuthErrorMessage(
+      FirebaseAuthException e, BuildContext context) {
     switch (e.code) {
       case 'email-already-in-use':
-        return 'The email address is already in use by another account.';
+        return S.of(context).emailAlreadyInUse;
       case 'invalid-email':
-        return 'The email address is badly formatted.';
+        return S.of(context).invalidEmail;
       case 'weak-password':
-        return 'The password provided is too weak.';
+        return S.of(context).weakPassword;
       default:
-        return 'An unknown error occurred. Please try again.';
+        return S.of(context).unknownError;
     }
   }
 
@@ -70,8 +72,8 @@ class AuthService {
         });
       }
     } catch (e) {
-      ToastUtil.showToast('Failed to update user details. Please try again.');
-      throw 'Failed to update user details. Please try again.';
+      ToastUtil.showToast(S.of(context).updateUserDetailsFailed);
+      throw S.of(context).updateUserDetailsFailed;
     }
   }
 
@@ -86,30 +88,31 @@ class AuthService {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      String errorMessage = _getFirebaseAuthErrorMessageForSignin(e);
+      String errorMessage = _getFirebaseAuthErrorMessageForSignin(e, context);
       ToastUtil.showToast(errorMessage);
       throw errorMessage;
     }
   }
 
-  String _getFirebaseAuthErrorMessageForSignin(FirebaseAuthException e) {
+  String _getFirebaseAuthErrorMessageForSignin(
+      FirebaseAuthException e, BuildContext context) {
     switch (e.code) {
       case 'invalid-email':
-        return 'The email address is badly formatted.';
+        return S.of(context).invalidEmail;
       case 'user-not-found':
-        return 'No user found for that email.';
+        return S.of(context).userNotFound;
       case 'wrong-password':
-        return 'Wrong password provided for that user.';
+        return S.of(context).wrongPassword;
       case 'user-disabled':
-        return 'This user has been disabled.';
+        return S.of(context).userDisabled;
       case 'too-many-requests':
-        return 'Too many requests. Try again later.';
+        return S.of(context).tooManyRequests;
       case 'network-request-failed':
-        return 'Network error. Please check your connection.';
+        return S.of(context).networkRequestFailed;
       case 'operation-not-allowed':
-        return 'Sign-in method not allowed. Please enable the sign-in method in Firebase console.';
+        return S.of(context).operationNotAllowed;
       default:
-        return 'An unknown error occurred. Please try again.';
+        return S.of(context).unknownError;
     }
   }
 }

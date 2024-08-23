@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
+import 'package:lose_weight_eat_healthy/src/Routes/app_routes.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Login.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/service/UserService.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
@@ -41,7 +43,7 @@ class signup_form extends StatelessWidget {
           username.isEmpty ||
           email.isEmpty ||
           password.isEmpty) {
-        ToastUtil.showToast('Please fill in all required fields');
+        ToastUtil.showToast(S.of(context).forgetfield);
         return;
       }
 
@@ -49,7 +51,7 @@ class signup_form extends StatelessWidget {
       final isUsernameTaken = await userService.isUsernameTaken(username);
 
       if (isUsernameTaken) {
-        ToastUtil.showToast('Username is already taken');
+        ToastUtil.showToast(S.of(context).usernametaken);
         return;
       }
 
@@ -67,11 +69,8 @@ class signup_form extends StatelessWidget {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupSuccess) {
-          ToastUtil.showToast('Signup successful');
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            return const Home();
-          }));
+          ToastUtil.showToast(S.of(context).signupSuccessful);
+          Navigator.pushReplacementNamed(context, AppRoutes.home);
         } else if (state is SignupFailure) {
           ToastUtil.showToast(state.errorMessage);
         }
@@ -90,14 +89,14 @@ class signup_form extends StatelessWidget {
               passwordController: passwordController,
             ),
             SizedBox(height: MediaQuery.of(context).size.height * .01),
-            const account_navigation_prompt(
-              promptText: 'Do you already have an account? ',
-              actionText: 'Log in',
-              targetScreen: Login(),
+            account_navigation_prompt(
+              promptText: S.of(context).promptTextlogin,
+              actionText: S.of(context).actionTextlogin,
+              targetScreen: const Login(),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * .01),
             SignUpAndLoginButton(
-              label: 'Sign up',
+              label: S.of(context).signupbutton,
               icon: Icons.email,
               color: Colors.blue,
               onPressed: validateAndSubmit,

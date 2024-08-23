@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class SignupIntroSection extends StatelessWidget {
   const SignupIntroSection({
@@ -13,7 +14,7 @@ class SignupIntroSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         AutoSizeText(
-          'Discover our app, it\'s',
+          S.of(context).discoverApp,
           maxLines: 1,
           maxFontSize: 30,
           minFontSize: 18,
@@ -31,21 +32,21 @@ class SignupIntroSection extends StatelessWidget {
             ),
             child: AnimatedTextKit(
               animatedTexts: [
-                RotateAnimatedText('PERSONALIZED TRAINING',
+                RotateAnimatedText(S.of(context).personalizedTraining,
                     duration: const Duration(milliseconds: 2200)),
-                RotateAnimatedText('DAILY MOTIVATION',
+                RotateAnimatedText(S.of(context).dailyMotivation,
                     duration: const Duration(milliseconds: 2200)),
-                RotateAnimatedText('HEALTHY RECIPE SUGGESTIONS',
+                RotateAnimatedText(S.of(context).healthyRecipeSuggestions,
                     duration: const Duration(milliseconds: 2200)),
-                RotateAnimatedText('CUSTOM WORKOUT PLANS',
+                RotateAnimatedText(S.of(context).customWorkoutPlans,
                     duration: const Duration(milliseconds: 2200)),
-                RotateAnimatedText('PROGRESS TRACKING',
+                RotateAnimatedText(S.of(context).progressTracking,
                     duration: const Duration(milliseconds: 2200)),
-                RotateAnimatedText('DAILY MOTIVATION',
+                RotateAnimatedText(S.of(context).dailyMotivation,
                     duration: const Duration(milliseconds: 2200)),
-                RotateAnimatedText('MEAL PLANNING',
+                RotateAnimatedText(S.of(context).mealPlanning,
                     duration: const Duration(milliseconds: 2200)),
-                RotateAnimatedText('EXPERT TRAINING TIPS',
+                RotateAnimatedText(S.of(context).expertTrainingTips,
                     duration: const Duration(milliseconds: 2200)),
               ],
               pause: const Duration(seconds: 0),

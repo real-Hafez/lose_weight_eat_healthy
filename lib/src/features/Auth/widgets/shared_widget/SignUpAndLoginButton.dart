@@ -1,5 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart'; // For localization
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/login_cubit/signin_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/shared_widget/BuildSocialButton.dart';
@@ -10,9 +12,9 @@ class SignUpAndLoginButton extends StatelessWidget {
   final Color color;
 
   // Flag to determine if it's for login or signup
-  final bool isLogin; 
-  
-    /// Callback function to be called when the button is pressed.
+  final bool isLogin;
+
+  // Callback function to be called when the button is pressed.
   final VoidCallback onPressed;
 
   const SignUpAndLoginButton({
@@ -59,8 +61,11 @@ class SignUpAndLoginButton extends StatelessWidget {
           thickness: 2.0,
         ),
         SizedBox(height: MediaQuery.of(context).size.height * .01),
-        Text(
-          'Or ${isLogin ? 'login' : 'sign up'} with',
+        AutoSizeText(
+          isLogin ? S.of(context).orLoginWith : S.of(context).orSignupWith,
+          maxLines: 1,
+          maxFontSize: 45,
+          minFontSize: 30,
           style: TextStyle(
             fontSize: MediaQuery.of(context).size.height * .04,
             color: Colors.grey,

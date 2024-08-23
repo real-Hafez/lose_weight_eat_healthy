@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/signup_widgets/SignupIntroSection.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/shared_widget/AuthWelcomeText.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/shared_widget/CustomTextField.dart';
@@ -25,14 +26,16 @@ class SignupFormFields extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SignupIntroSection(),
-        const AuthWelcomeText(text: 'Create a new account'),
+        AuthWelcomeText(
+          text: S.of(context).newAccount,
+        ),
         Row(
           children: [
             Expanded(
               child: CustomTextField(
                 controller: firstNameController,
-                hintText: 'Ahmed',
-                label: 'First name',
+                hintText: S.of(context).firstNameHint,
+                label: S.of(context).firstNameLabel,
                 isRequired: true,
                 isPassword: false,
                 keyboardType: TextInputType.name,
@@ -42,8 +45,8 @@ class SignupFormFields extends StatelessWidget {
             Expanded(
               child: CustomTextField(
                 controller: lastNameController,
-                hintText: 'Hafez',
-                label: 'Last name',
+                hintText: S.of(context).lastNameHint,
+                label: S.of(context).lastNameLabel,
                 isRequired: false, // Not required
                 isPassword: false,
                 keyboardType: TextInputType.name,
@@ -53,24 +56,24 @@ class SignupFormFields extends StatelessWidget {
         ),
         CustomTextField(
           controller: usernameController,
-          hintText: 'ahmed140',
-          label: 'Username',
+          hintText: S.of(context).usernameHint,
+          label: S.of(context).usernameLabel,
           isRequired: true,
           isPassword: false,
           keyboardType: TextInputType.name,
         ),
         CustomTextField(
           controller: emailController,
-          hintText: 'email@example.com',
-          label: 'Email',
+          hintText: S.of(context).emailHint,
+          label: S.of(context).emailLabel,
           isRequired: true,
           isPassword: false,
           keyboardType: TextInputType.emailAddress,
         ),
         CustomTextField(
           controller: passwordController,
-          hintText: 'Ahmed@9510',
-          label: 'Password',
+          hintText: S.of(context).passwordHint,
+          label: S.of(context).passwordLabel,
           isRequired: true,
           isPassword: true,
           // keyboardType: TextInputType.visiblePassword,

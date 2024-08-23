@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/shared_widget/CustomTextField.dart';
 
 class LoginFormFields extends StatelessWidget {
@@ -18,7 +19,7 @@ class LoginFormFields extends StatelessWidget {
         CustomTextField(
           controller: emailController,
           hintText: 'email@example.com',
-          label: 'Email',
+          label: S.of(context).emailLabel,
           isRequired: true,
           isPassword: false,
           keyboardType: TextInputType.emailAddress,
@@ -27,7 +28,7 @@ class LoginFormFields extends StatelessWidget {
         CustomTextField(
           controller: passwordController,
           hintText: '********',
-          label: 'Password',
+          label: S.of(context).passwordLabel,
           isRequired: true,
           isPassword: true,
           keyboardType: TextInputType.visiblePassword,

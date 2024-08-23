@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/service/username_service.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/signup_widgets/UsernameErrorText.dart';
 import 'package:lose_weight_eat_healthy/src/shared/CustomStyles.dart';
+import 'package:intl/intl.dart';
 
 class CustomTextField extends StatefulWidget {
   final String label;
@@ -93,8 +94,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             height: MediaQuery.of(context).size.height * .006,
           ),
           Padding(
-            padding:
-                EdgeInsets.only(left: MediaQuery.of(context).size.height * .01),
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.height * .02,
+              right: isarabic() ? MediaQuery.of(context).size.height * .02 : 0,
+            ),
             child: Row(
               children: [
                 Text(
@@ -145,4 +148,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
     );
   }
+}
+
+bool isarabic() {
+  return Intl.getCurrentLocale() == 'ar';
 }

@@ -22,20 +22,84 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "main_text_FirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
+        "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
+        "Loginsuccessful":
+            MessageLookupByLibrary.simpleMessage(" تم تسجيل الدخول بنجاح "),
+        "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "customWorkoutPlans":
+            MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),
+        "dailyMotivation": MessageLookupByLibrary.simpleMessage("تحفيز يومي"),
+        "discoverApp":
+            MessageLookupByLibrary.simpleMessage("اكتشف تطبيقنا، إنه"),
+        "dontHaveAccount":
+            MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
+        "emailAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+            "عنوان البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر."),
+        "emailHint": MessageLookupByLibrary.simpleMessage("email@example.com"),
+        "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+        "expertTrainingTips":
+            MessageLookupByLibrary.simpleMessage("نصائح تدريبية من خبراء"),
+        "firstNameHint": MessageLookupByLibrary.simpleMessage("احمد"),
+        "firstNameLabel": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
+        "forgetfield": MessageLookupByLibrary.simpleMessage(
+            "يرجى ملء جميع الحقول المطلوبة"),
+        "healthyRecipeSuggestions":
+            MessageLookupByLibrary.simpleMessage("اقتراحات وصفات صحية"),
+        "invalidEmail": MessageLookupByLibrary.simpleMessage(
+            "عنوان البريد الإلكتروني بتنسيق غير صحيح."),
+        "lastNameHint": MessageLookupByLibrary.simpleMessage("حافظ"),
+        "lastNameLabel": MessageLookupByLibrary.simpleMessage("الاسم الأخير"),
+        "mainTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "ابحث عن روتين الكارديو المثالي لك"),
-        "main_text_ThirdOnboardingPage":
-            MessageLookupByLibrary.simpleMessage("مجاناً بالكامل لصحتك"),
-        "main_text_secondOnboardingPage":
+        "mainTextSecondOnboardingPage":
             MessageLookupByLibrary.simpleMessage("وصفات سريعة، نتائج صحية"),
-        "new_account":
-            MessageLookupByLibrary.simpleMessage("انشاء حساب جديد  "),
-        "skipbutton": MessageLookupByLibrary.simpleMessage("تخطي"),
-        "sub_text_FirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "تصفح الفيديوهات التي تناسب مستوى لياقتك وتساعدك على تحقيق أهداف الكارديو الخاصة بك"),
-        "sub_text_ThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
+        "mainTextThirdOnboardingPage":
+            MessageLookupByLibrary.simpleMessage("مجاناً بالكامل لصحتك"),
+        "mealPlanning": MessageLookupByLibrary.simpleMessage("تخطيط الوجبات"),
+        "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
+            "خطأ في الشبكة. يرجى التحقق من اتصالك."),
+        "newAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
+        "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
+            "طريقة تسجيل الدخول غير مسموح بها. يرجى تمكين طريقة تسجيل الدخول في وحدة تحكم Firebase."),
+        "orLoginWith":
+            MessageLookupByLibrary.simpleMessage("أو تسجيل الدخول باستخدام"),
+        "orSignupWith":
+            MessageLookupByLibrary.simpleMessage("أو التسجيل باستخدام"),
+        "passwordHint": MessageLookupByLibrary.simpleMessage("***********"),
+        "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "personalizedTraining":
+            MessageLookupByLibrary.simpleMessage("تدريب مخصص"),
+        "progressTracking": MessageLookupByLibrary.simpleMessage("تتبع التقدم"),
+        "promptTextlogin":
+            MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),
+        "signIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
+        "signupbutton": MessageLookupByLibrary.simpleMessage("أنشاء حساب"),
+        "skipButton": MessageLookupByLibrary.simpleMessage("تخطي"),
+        "subTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
+            "تصفح الفيديوهات التي تناسب مستوى لياقتك وتساعدك على تحقيق أهداف الكارديو الخاصة بك."),
+        "subTextSecondOnboardingPage": MessageLookupByLibrary.simpleMessage(
+            "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك."),
+        "subTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "كل شيء مجاني! نريدك أن تصبح لائقًا وصحيًا، لذا استمتع بمحتوانا دون أي تكلفة."),
-        "sub_text_secondOnboardingPage": MessageLookupByLibrary.simpleMessage(
-            "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك.")
+        "tooManyRequests": MessageLookupByLibrary.simpleMessage(
+            "تعددت الطلبات. حاول مرة أخرى لاحقًا."),
+        "unknownError": MessageLookupByLibrary.simpleMessage(
+            "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى."),
+        "updateUserDetailsFailed": MessageLookupByLibrary.simpleMessage(
+            "فشل في تحديث تفاصيل المستخدم. يرجى المحاولة مرة أخرى."),
+        "userDisabled":
+            MessageLookupByLibrary.simpleMessage("تم تعطيل هذا المستخدم."),
+        "userNotFound": MessageLookupByLibrary.simpleMessage(
+            "لم يتم العثور على مستخدم للبريد الإلكتروني هذا."),
+        "usernameHint": MessageLookupByLibrary.simpleMessage("Ahmed140"),
+        "usernameLabel": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
+        "usernametaken":
+            MessageLookupByLibrary.simpleMessage("اسم المستخدم مأخوذ بالفعل"),
+        "weakPassword": MessageLookupByLibrary.simpleMessage(
+            "كلمة المرور المقدمة ضعيفة جدًا."),
+        "welcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك"),
+        "wrongPassword": MessageLookupByLibrary.simpleMessage(
+            "كلمة المرور المقدمة غير صحيحة لهذا المستخدم.")
       };
 }
