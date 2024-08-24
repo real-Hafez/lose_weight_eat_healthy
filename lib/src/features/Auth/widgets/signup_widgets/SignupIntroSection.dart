@@ -10,6 +10,8 @@ class SignupIntroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -18,7 +20,8 @@ class SignupIntroSection extends StatelessWidget {
           maxLines: 1,
           maxFontSize: 30,
           minFontSize: 18,
-          style: TextStyle(
+          style: theme.headlineMedium?.copyWith(
+            // Use headlineMedium from theme
             fontSize: MediaQuery.of(context).size.height * .04,
           ),
         ),
@@ -26,9 +29,11 @@ class SignupIntroSection extends StatelessWidget {
           width: double.infinity,
           height: MediaQuery.of(context).size.height * .1,
           child: DefaultTextStyle(
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height * .030,
-              color: Colors.green,
+            style: theme.bodyLarge!.copyWith(
+              // Use bodyLarge from theme
+              fontSize: MediaQuery.of(context).size.height * .03,
+              color: theme.bodyLarge?.color ??
+                  Colors.green, // Use the theme's color
             ),
             child: AnimatedTextKit(
               animatedTexts: [

@@ -63,6 +63,9 @@ class LoginTextFields extends StatelessWidget {
                 S().welcomeBack,
                 style: ArabicStyle.arabicRegularStyle(
                   fontSize: 24,
+                ).copyWith(
+                  color: Theme.of(context).textTheme.bodyMedium?.color ??
+                      Colors.grey, // Apply theme color
                 ),
               ),
             ),

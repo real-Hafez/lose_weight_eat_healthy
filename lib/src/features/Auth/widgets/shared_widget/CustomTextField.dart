@@ -127,7 +127,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 obscureText: widget.isPassword ? _obscureText : false,
                 focusNode: _focusNode,
                 onChanged: widget.onChanged,
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyMedium?.color ??
+                        Colors.white),
                 decoration: CustomStyles.inputDecoration(
+                  context: context,
                   hintText: widget.hintText,
                   hasError: widget.hasError,
                   isPassword: widget.isPassword,

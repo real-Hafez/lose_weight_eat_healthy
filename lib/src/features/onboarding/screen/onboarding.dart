@@ -14,7 +14,9 @@ class OnBoarding extends StatelessWidget {
     return OnBoardingSlider(
       centerBackground: true,
       speed: 1,
-      pageBackgroundColor: Colors.teal,
+      pageBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      // pageBackgroundColor: Theme.of(context).colorScheme.surface,
+
       headerBackgroundColor: Colors.transparent,
       finishButtonText: S.of(context).newAccount,
       finishButtonTextStyle: ArabicStyle.arabicMediumStyle(fontSize: 20)

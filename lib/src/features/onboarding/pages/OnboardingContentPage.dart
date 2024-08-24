@@ -27,7 +27,10 @@ class OnboardingContentPage extends StatelessWidget {
             maxLines: 1,
             maxFontSize: 30,
             minFontSize: 18,
-            style: ArabicStyle.arabicSemiBoldStyle(fontSize: 22.5),
+            style: ArabicStyle.arabicSemiBoldStyle(fontSize: 22.5).copyWith(
+              color:
+                  Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+            ),
             textAlign: TextAlign.center,
           ),
         ),

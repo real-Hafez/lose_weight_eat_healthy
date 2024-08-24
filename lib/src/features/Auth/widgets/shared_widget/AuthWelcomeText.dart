@@ -8,8 +8,11 @@ class AuthWelcomeText extends StatelessWidget {
     required this.text,
   });
   final String text;
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: AutoSizeText(
@@ -20,7 +23,10 @@ class AuthWelcomeText extends StatelessWidget {
         style: ArabicStyle.arabicSemiBoldStyle(
           fontSize: MediaQuery.of(context).size.height * .04,
         ).copyWith(
-          color: Colors.grey,
+          color:
+              theme.bodyLarge?.color ?? Colors.grey, // Combine with theme color
+          fontSize: MediaQuery.of(context).size.height *
+              .04, // Ensure dynamic font size
         ),
       ),
     );
