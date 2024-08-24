@@ -41,7 +41,7 @@ class SignUpAndLoginButton extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          width: double.infinity,
+          width: MediaQuery.of(context).size.width * .9,
           height: 50,
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(

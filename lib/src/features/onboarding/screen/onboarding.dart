@@ -3,7 +3,6 @@ import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/Routes/app_routes.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/pages/OnboardingContentPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Signup.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/utils/onboarding_images.dart';
 import 'package:lose_weight_eat_healthy/src/localization/styles/arabic_style.dart';
 
@@ -15,7 +14,7 @@ class OnBoarding extends StatelessWidget {
     return OnBoardingSlider(
       centerBackground: true,
       speed: 1,
-      pageBackgroundColor: Colors.transparent,
+      pageBackgroundColor: Colors.teal,
       headerBackgroundColor: Colors.transparent,
       finishButtonText: S.of(context).newAccount,
       finishButtonTextStyle: ArabicStyle.arabicMediumStyle(fontSize: 20)

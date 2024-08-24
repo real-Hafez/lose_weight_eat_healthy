@@ -71,13 +71,13 @@ class LoginTextFields extends StatelessWidget {
               emailController: emailController,
               passwordController: passwordController,
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * .02),
+            SizedBox(height: MediaQuery.of(context).size.height * .03),
             account_navigation_prompt(
               promptText: S.of(context).dontHaveAccount,
               actionText: S.of(context).signUp,
               targetScreen: const Signup(),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * .01),
+            SizedBox(height: MediaQuery.of(context).size.height * .015),
             SignUpAndLoginButton(
               label: S.of(context).signIn,
               icon: Icons.email,

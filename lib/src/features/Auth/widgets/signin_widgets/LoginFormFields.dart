@@ -24,7 +24,7 @@ class LoginFormFields extends StatelessWidget {
           isPassword: false,
           keyboardType: TextInputType.emailAddress,
         ),
-        SizedBox(height: MediaQuery.of(context).size.height * .03),
+        SizedBox(height: MediaQuery.of(context).size.height * .015),
         CustomTextField(
           controller: passwordController,
           hintText: '********',

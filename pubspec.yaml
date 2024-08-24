@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  adaptive_theme: ^3.6.0
   animated_text_kit: ^4.2.2
   another_flutter_splash_screen: ^1.2.1
   auto_size_text: ^3.0.0
@@ -84,9 +85,7 @@ flutter:
           weight: 600
         - asset: assets/fonts/arabic_font/static/ReadexPro-Bold.ttf
           weight: 700
-  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 flutter_intl:
   enabled: true
-

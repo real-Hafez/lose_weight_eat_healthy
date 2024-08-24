@@ -118,8 +118,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             height: widget.size.height,
             child: Padding(
               padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.height * .004,
-                right: MediaQuery.of(context).size.height * .004,
+                left: MediaQuery.of(context).size.height * .012,
+                right: MediaQuery.of(context).size.height * .012,
               ),
               child: TextField(
                 controller: _controller,
