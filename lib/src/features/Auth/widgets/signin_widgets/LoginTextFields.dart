@@ -84,7 +84,12 @@ class LoginTextFields extends StatelessWidget {
             SignUpAndLoginButton(
               label: S.of(context).signIn,
               icon: Icons.email,
-              color: Colors.blue,
+              color: Theme.of(context)
+                      .elevatedButtonTheme
+                      .style
+                      ?.backgroundColor
+                      ?.resolve({}) ??
+                  Colors.green,
               onPressed: validateAndSignIn,
               isLogin: true,
             ),

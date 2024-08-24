@@ -21,7 +21,6 @@ class SignupIntroSection extends StatelessWidget {
           maxFontSize: 30,
           minFontSize: 18,
           style: theme.headlineMedium?.copyWith(
-            // Use headlineMedium from theme
             fontSize: MediaQuery.of(context).size.height * .04,
           ),
         ),

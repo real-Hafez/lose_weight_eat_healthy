@@ -98,7 +98,12 @@ class signup_form extends StatelessWidget {
             SignUpAndLoginButton(
               label: S.of(context).signupbutton,
               icon: Icons.email,
-              color: Colors.blue,
+              color: Theme.of(context)
+                      .elevatedButtonTheme
+                      .style
+                      ?.backgroundColor
+                      ?.resolve({}) ??
+                  Colors.green,
               onPressed: validateAndSubmit,
             ),
           ],

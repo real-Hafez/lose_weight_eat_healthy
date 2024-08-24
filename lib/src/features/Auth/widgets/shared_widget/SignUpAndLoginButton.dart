@@ -5,17 +5,14 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart'; // For localizatio
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/login_cubit/signin_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/shared_widget/BuildSocialButton.dart';
+import 'package:lose_weight_eat_healthy/src/localization/styles/arabic_style.dart';
 
 class SignUpAndLoginButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color color;
-
-  // Flag to determine if it's for login or signup
-  final bool isLogin;
-
-  // Callback function to be called when the button is pressed.
-  final VoidCallback onPressed;
+  final bool isLogin; // Flag to determine if it's for login or signup
+  final VoidCallback onPressed; // Callback function when button is pressed
 
   const SignUpAndLoginButton({
     super.key,
@@ -45,13 +42,15 @@ class SignUpAndLoginButton extends StatelessWidget {
           height: 50,
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: color,
+              backgroundColor: color, // Customizable button color
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(30), // Rounded corners
               ),
             ),
-            icon: Icon(icon, color: Colors.white),
-            label: Text(label, style: const TextStyle(color: Colors.white)),
+            icon: Icon(icon, color: Colors.white), // Customizable icon
+            label: Text(label,
+                style:
+                    const TextStyle(color: Colors.white)), // Customizable label
             onPressed: onPressed,
           ),
         ),
@@ -66,9 +65,11 @@ class SignUpAndLoginButton extends StatelessWidget {
           maxLines: 1,
           maxFontSize: 45,
           minFontSize: 30,
-          style: TextStyle(
+          style: ArabicStyle.arabicSemiBoldStyle(
             fontSize: MediaQuery.of(context).size.height * .04,
-            color: Colors.grey,
+          ).copyWith(
+            color:
+                Theme.of(context).textTheme.labelMedium?.color ?? Colors.grey,
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * .003),

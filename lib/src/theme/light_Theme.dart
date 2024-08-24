@@ -39,4 +39,20 @@ ThemeData light_theme = ThemeData(
     labelStyle:
         const TextStyle(color: Color(0xFF9145B6)), // Purple for label text
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStateProperty.all<Color>(
+          const Color(0xFF4C3F91)), // Pinkish color for button background
+      foregroundColor:
+          WidgetStateProperty.all<Color>(Colors.white), // White text color
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+        const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      ),
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+      ),
+    ),
+  ),
 );
