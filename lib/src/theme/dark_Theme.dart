@@ -35,4 +35,20 @@ ThemeData dark_theme = ThemeData(
     hintStyle: const TextStyle(color: Color(0xFFD8E9A8)), // Hint text color
     labelStyle: const TextStyle(color: Color(0xFF4E9F3D)), // Label text color
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStateProperty.all<Color>(
+          const Color(0xFF4E9F3D)), // Green color for button background
+      foregroundColor:
+          WidgetStateProperty.all<Color>(Colors.white), // White text color
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+        const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      ),
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+      ),
+    ),
+  ),
 );

@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
             initialRoute: AppRoutes.signUpAndLogin,
             onGenerateRoute: AppRoutes.generateRoute,
             builder: DevicePreview.appBuilder,
-            themeMode: ThemeMode.light,
+            themeMode: ThemeMode.system,
             theme: light_theme,
             darkTheme: dark_theme,
             home: const Splash_Screen(),
