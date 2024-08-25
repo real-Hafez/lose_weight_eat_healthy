@@ -30,7 +30,7 @@ class SignupIntroSection extends StatelessWidget {
           child: DefaultTextStyle(
             style: theme.bodyLarge!.copyWith(
               // Use bodyLarge from theme
-              fontSize: MediaQuery.of(context).size.height * .03,
+              fontSize: MediaQuery.of(context).size.height * .025,
               color: theme.bodyLarge?.color ??
                   Colors.green, // Use the theme's color
             ),

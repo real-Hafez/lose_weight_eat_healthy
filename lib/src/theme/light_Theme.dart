@@ -55,4 +55,5 @@ ThemeData light_theme = ThemeData(
       ),
     ),
   ),
+  // scaffoldBackgroundColor: const Color.fromARGB(255, 255, 1, 124),
 );
