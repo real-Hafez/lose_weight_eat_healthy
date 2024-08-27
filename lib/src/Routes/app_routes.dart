@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/page/setup.dart';
-import 'package:lose_weight_eat_healthy/src/features/home/loginforanother.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
+import 'package:lose_weight_eat_healthy/src/features/home/page/loginforanother.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Signup.dart';
 
 class AppRoutes {
-  static const String home = '/home';
+  static const String setup_screen = '/setup';
   static const String toquthions = '/toquthions';
   static const String signUpAndLogin = '/';
   static const String loginForAnother = '/loginforanother';
-  static const String signup = '/signup'; 
+  static const String signup = '/signup';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case home:
-        return MaterialPageRoute(builder: (_) => const Home());
+      case setup_screen:
+        return MaterialPageRoute(builder: (_) => const setup());
       case toquthions:
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (_) => const setup());
       case signUpAndLogin:
         return MaterialPageRoute(builder: (_) => const Loginforanother());
       case loginForAnother:
@@ -23,7 +23,7 @@ class AppRoutes {
       case signup: // New case for signup
         return MaterialPageRoute(builder: (_) => const Signup());
       default:
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (_) => const setup());
     }
   }
 }

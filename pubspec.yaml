@@ -28,7 +28,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  adaptive_theme: ^3.6.0
   animated_text_kit: ^4.2.2
   another_flutter_splash_screen: ^1.2.1
   auto_size_text: ^3.0.0
@@ -45,6 +44,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   fluttertoast: ^8.2.8
   google_sign_in: ^6.2.1
+  numberpicker: ^2.1.2
+  ruler_scale_picker: ^0.1.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -85,6 +86,9 @@ flutter:
           weight: 600
         - asset: assets/fonts/arabic_font/static/ReadexPro-Bold.ttf
           weight: 700
+    - family: Indie_Flower
+      fonts:
+        - asset: assets/fonts/english-hand_written_font/IndieFlower-Regular.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 flutter_intl:

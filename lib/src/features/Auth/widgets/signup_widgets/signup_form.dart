@@ -5,7 +5,7 @@ import 'package:lose_weight_eat_healthy/src/Routes/app_routes.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Login.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/service/UserService.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/page/setup.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/signup_widgets/SignupFormFields.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/shared_widget/SignUpAndLoginButton.dart';
@@ -70,7 +70,7 @@ class signup_form extends StatelessWidget {
       listener: (context, state) {
         if (state is SignupSuccess) {
           ToastUtil.showToast(S.of(context).signupSuccessful);
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
+          Navigator.pushReplacementNamed(context, AppRoutes.setup_screen);
         } else if (state is SignupFailure) {
           ToastUtil.showToast(state.errorMessage);
         }
