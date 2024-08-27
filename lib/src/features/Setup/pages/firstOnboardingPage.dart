@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/FirstOnboardinggPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/secondOnboardingPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/SecondOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ThirdOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -13,7 +13,7 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController(initialPage: 0);
-  bool _showNextButton = false; // Track if button should be visible
+  bool _showNextButton = false;
 
   @override
   void dispose() {
@@ -23,8 +23,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void _onAnimationFinished() {
     setState(() {
-      _showNextButton = true; // Show the button when animation finishes
+      _showNextButton = true;
     });
+  }
+
+  void _handleNextButtonPress() {
+    final currentPage = _pageController.page?.toInt() ?? 0;
+    if (currentPage < 2) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+      setState(() {
+        _showNextButton = false;
+      });
+    }
   }
 
   @override
@@ -37,10 +50,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
             controller: _pageController,
             children: [
               FirstOnboardingPage(onAnimationFinished: _onAnimationFinished),
-              SecondOnboardingPage(onAnimationFinished: _onAnimationFinished),
+              SecondOnboardingPage(
+                onAnimationFinished: _onAnimationFinished,
+                onNextButtonPressed:
+                    _handleNextButtonPress, // Pass the callback
+              ),
+              ThirdOnboardingPage(
+                onAnimationFinished: _onAnimationFinished,
+                onNextButtonPressed:
+                    _handleNextButtonPress, // Pass the callback
+              ),
             ],
           ),
-          if (_showNextButton) // Show button only when `_showNextButton` is true
+          if (_showNextButton)
             Positioned(
               bottom: 20,
               left: 20,
@@ -48,18 +70,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: NextButton(
-                  onPressed: () {
-                    if (_pageController.page == 0) {
-                      _pageController.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                      setState(() {
-                        _showNextButton = false; // Reset for the next page
-                      });
-                    }
-                    // Handle other pages or actions if needed
-                  },
+                  onPressed: _handleNextButtonPress,
                 ),
               ),
             ),
