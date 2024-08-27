@@ -8,12 +8,12 @@ class FtInchesPicker extends StatelessWidget {
   final void Function(int value) onInchesChanged;
 
   const FtInchesPicker({
-    Key? key,
+    super.key,
     required this.heightFt,
     required this.heightInches,
     required this.onFtChanged,
     required this.onInchesChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,8 @@ class FtInchesPicker extends StatelessWidget {
       children: [
         NumberPicker(
           value: heightFt,
-          minValue: 3,
-          maxValue: 7,
+          minValue: 3, // Minimum height in feet
+          maxValue: 7, // Maximum height in feet
           onChanged: onFtChanged,
           textStyle: const TextStyle(fontSize: 20, color: Colors.grey),
           selectedTextStyle:
@@ -32,8 +32,8 @@ class FtInchesPicker extends StatelessWidget {
         const SizedBox(width: 10),
         NumberPicker(
           value: heightInches,
-          minValue: 0,
-          maxValue: 11,
+          minValue: 0, // Minimum height in inches
+          maxValue: 11, // Maximum height in inches
           onChanged: onInchesChanged,
           textStyle: const TextStyle(fontSize: 20, color: Colors.grey),
           selectedTextStyle:

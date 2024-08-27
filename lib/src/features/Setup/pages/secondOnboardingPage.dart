@@ -10,12 +10,12 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/toggle_button
 
 class SecondOnboardingPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
-  final VoidCallback onNextButtonPressed; // Add this parameter
+  final VoidCallback onNextButtonPressed;
 
   const SecondOnboardingPage({
     super.key,
     required this.onAnimationFinished,
-    required this.onNextButtonPressed, // Initialize the new parameter
+    required this.onNextButtonPressed,
   });
 
   @override
@@ -38,7 +38,7 @@ class _SecondOnboardingPageState extends State<SecondOnboardingPage> {
           ProgressIndicatorWidget(),
           const SizedBox(height: 20),
           const TitleWidget(
-            title: 'what\'s your height ? ',
+            title: 'What\'s your height?',
           ),
           const SizedBox(height: 20),
           ToggleButtonsWidget(
@@ -63,17 +63,26 @@ class _SecondOnboardingPageState extends State<SecondOnboardingPage> {
                   ? CmPicker(
                       heightCm: _heightCm,
                       onHeightChanged: (value) {
-                        setState(() => _heightCm = value);
+                        setState(() {
+                          _heightCm = value;
+                          _updateHeightValues(); // Update feet and inches when cm changes
+                        });
                       },
                     )
                   : FtInchesPicker(
                       heightFt: _heightFt,
                       heightInches: _heightInches,
                       onFtChanged: (value) {
-                        setState(() => _heightFt = value);
+                        setState(() {
+                          _heightFt = value;
+                          _updateHeightValues(); // Update cm when feet changes
+                        });
                       },
                       onInchesChanged: (value) {
-                        setState(() => _heightInches = value);
+                        setState(() {
+                          _heightInches = value;
+                          _updateHeightValues(); // Update cm when inches changes
+                        });
                       },
                     ),
             ),
@@ -88,14 +97,32 @@ class _SecondOnboardingPageState extends State<SecondOnboardingPage> {
 
   void _updateHeightValues() {
     if (_heightUnit == 'ft') {
+      // Convert feet and inches to cm
+      int cmValue = convertFtInchesToCm(_heightFt, _heightInches);
+      // Ensure the cm value is within valid range for CmPicker
+      if (cmValue < 95) cmValue = 95;
+      if (cmValue > 241) cmValue = 241;
+
+      setState(() {
+        _heightCm = cmValue;
+      });
+    } else {
+      // Declare variables with default values
+      int ftValue = 3; // Minimum valid feet value
+      int inchesValue = 0; // Minimum valid inches value
+
       convertCmToFtInches(_heightCm, (feet, inches) {
+        // Ensure values are within valid ranges
+        if (feet < 3) feet = 3;
+        if (feet > 7) feet = 7;
+        if (inches < 0) inches = 0;
+        if (inches > 11) inches = 11;
+
         setState(() {
           _heightFt = feet;
           _heightInches = inches;
         });
       });
-    } else {
-      _heightCm = convertFtInchesToCm(_heightFt, _heightInches);
     }
   }
 }
