@@ -35,7 +35,9 @@ class _SecondOnboardingPageState extends State<SecondOnboardingPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProgressIndicatorWidget(),
+          ProgressIndicatorWidget(
+            value: 0.5,
+          ),
           const SizedBox(height: 20),
           const TitleWidget(
             title: 'What\'s your height?',
