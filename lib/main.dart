@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

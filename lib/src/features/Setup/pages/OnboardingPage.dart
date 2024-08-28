@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/FirstOnboardinggPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/SecondOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ThirdOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/fourthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void _handleNextButtonPress() {
     final currentPage = _pageController.page?.toInt() ?? 0;
-    if (currentPage < 2) {
+    if (currentPage < 3) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
@@ -46,6 +47,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       body: Stack(
         children: [
           PageView(
+            
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
@@ -56,6 +58,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     _handleNextButtonPress, // Pass the callback
               ),
               ThirdOnboardingPage(
+                onAnimationFinished: _onAnimationFinished,
+                onNextButtonPressed:
+                    _handleNextButtonPress, // Pass the callback
+              ),
+              fourthOnboardingPage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed:
                     _handleNextButtonPress, // Pass the callback

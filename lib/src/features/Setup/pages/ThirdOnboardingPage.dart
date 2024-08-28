@@ -33,7 +33,7 @@ class _ThirdOnboardingPageState extends State<ThirdOnboardingPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProgressIndicatorWidget(value: 1),
+          ProgressIndicatorWidget(value: 0.4),
           const SizedBox(height: 20),
           const TitleWidget(title: 'What\'s your weight?'),
           const SizedBox(height: 20),

@@ -36,7 +36,7 @@ class _SecondOnboardingPageState extends State<SecondOnboardingPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ProgressIndicatorWidget(
-            value: 0.5,
+            value: 0.2,
           ),
           const SizedBox(height: 20),
           const TitleWidget(
