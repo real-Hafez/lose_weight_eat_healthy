@@ -1,130 +1,102 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/utils/helper/height_conversion.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/cm_picker.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ft_inches_picker.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/height_display_widget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/toggle_buttons_widget.dart.dart';
 
-class SecondOnboardingPage extends StatefulWidget {
+class Secondonboardingpage extends StatefulWidget {
+  const Secondonboardingpage(
+      {super.key,
+      required this.onAnimationFinished,
+      required this.onNextButtonPressed});
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  const SecondOnboardingPage({
-    super.key,
-    required this.onAnimationFinished,
-    required this.onNextButtonPressed,
-  });
-
   @override
-  State<SecondOnboardingPage> createState() => _SecondOnboardingPageState();
+  State<Secondonboardingpage> createState() => _SecondonboardingpageState();
 }
 
-class _SecondOnboardingPageState extends State<SecondOnboardingPage> {
-  int _heightCm = 165;
-  int _heightFt = 5;
-  int _heightInches = 1;
-  String _heightUnit = 'cm';
+class _SecondonboardingpageState extends State<Secondonboardingpage> {
+  String? selectedGender;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProgressIndicatorWidget(
-            value: 0.2,
-          ),
-          const SizedBox(height: 20),
-          const TitleWidget(
-            title: 'What\'s your height?',
-          ),
-          const SizedBox(height: 20),
-          ToggleButtonsWidget(
-            heightUnit: _heightUnit,
-            onUnitChanged: (unit) {
-              setState(() {
-                _heightUnit = unit;
-                _updateHeightValues();
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          HeightDisplayWidget(
-            heightCm: _heightCm,
-            heightFt: _heightFt,
-            heightInches: _heightInches,
-            heightUnit: _heightUnit,
-          ),
-          Expanded(
-            child: Center(
-              child: _heightUnit == 'cm'
-                  ? CmPicker(
-                      heightCm: _heightCm,
-                      onHeightChanged: (value) {
-                        setState(() {
-                          _heightCm = value;
-                          _updateHeightValues(); // Update feet and inches when cm changes
-                        });
-                      },
-                    )
-                  : FtInchesPicker(
-                      heightFt: _heightFt,
-                      heightInches: _heightInches,
-                      onFtChanged: (value) {
-                        setState(() {
-                          _heightFt = value;
-                          _updateHeightValues(); // Update cm when feet changes
-                        });
-                      },
-                      onInchesChanged: (value) {
-                        setState(() {
-                          _heightInches = value;
-                          _updateHeightValues(); // Update cm when inches changes
-                        });
-                      },
-                    ),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const Spacer(),
+            const Text(
+              'Select Your Gender',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-          ),
-          const SizedBox(height: 20),
-          NextButton(onPressed: widget.onNextButtonPressed),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: _buildGenderBox('Male', Icons.male)),
+                  const SizedBox(width: 20),
+                  Expanded(child: _buildGenderBox('Female', Icons.female)),
+                ],
+              ),
+            ),
+            const Spacer(),
+            if (selectedGender != null)
+              NextButton(
+                userId: FirebaseAuth.instance.currentUser?.uid,
+                // userId: widget.us,
+                onPressed: widget.onNextButtonPressed,
+                dataToSave: {
+                  'selectedGender': selectedGender,
+                },
+                saveData: selectedGender !=
+                    null, // Save data only if gender is selected
+              ),
+            const SizedBox(
+                height: 20), // Spacing between the button and the bottom
+          ],
+        ),
       ),
     );
   }
 
-  void _updateHeightValues() {
-    if (_heightUnit == 'ft') {
-      // Convert feet and inches to cm
-      int cmValue = convertFtInchesToCm(_heightFt, _heightInches);
-      // Ensure the cm value is within valid range for CmPicker
-      if (cmValue < 95) cmValue = 95;
-      if (cmValue > 241) cmValue = 241;
+  Widget _buildGenderBox(String gender, IconData icon) {
+  final bool isSelected = selectedGender == gender;
 
+  return GestureDetector(
+    onTap: () {
       setState(() {
-        _heightCm = cmValue;
+        selectedGender = gender;
+        print('Selected Gender: $selectedGender'); // Debug print
       });
-    } else {
-      // Declare variables with default values
-      int ftValue = 3; // Minimum valid feet value
-      int inchesValue = 0; // Minimum valid inches value
+    },
+    child: Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: isSelected ? Colors.blue : Colors.grey,
+          width: 2,
+        ),
+        color: isSelected ? Colors.blue[50] : Colors.white,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 80, color: isSelected ? Colors.blue : Colors.grey),
+          const SizedBox(height: 10),
+          Text(
+            gender,
+            style: TextStyle(
+              fontSize: 22,
+              color: isSelected ? Colors.blue : Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
-      convertCmToFtInches(_heightCm, (feet, inches) {
-        // Ensure values are within valid ranges
-        if (feet < 3) feet = 3;
-        if (feet > 7) feet = 7;
-        if (inches < 0) inches = 0;
-        if (inches > 11) inches = 11;
-
-        setState(() {
-          _heightFt = feet;
-          _heightInches = inches;
-        });
-      });
-    }
-  }
 }

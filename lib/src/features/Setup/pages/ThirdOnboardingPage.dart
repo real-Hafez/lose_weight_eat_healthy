@@ -1,30 +1,34 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/KgPicker.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/LbPicker.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/utils/helper/height_conversion.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ToggleButtonsWidgetkg.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/WeightDisplayWidget.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/cm_picker.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ft_inches_picker.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/height_display_widget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/toggle_buttons_widget.dart.dart';
 
-class ThirdOnboardingPage extends StatefulWidget {
+class thirdOnboardingPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  const ThirdOnboardingPage({
+  const thirdOnboardingPage({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
   });
 
   @override
-  State<ThirdOnboardingPage> createState() => _ThirdOnboardingPageState();
+  State<thirdOnboardingPage> createState() => _thirdOnboardingPageState();
 }
 
-class _ThirdOnboardingPageState extends State<ThirdOnboardingPage> {
-  double _weightKg = 70.0; // Default weight in kg
-  double _weightLb = 154.0; // Default weight in pounds
-  String _weightUnit = 'kg'; // Default weight unit
+class _thirdOnboardingPageState extends State<thirdOnboardingPage> {
+  int _heightCm = 165;
+  int _heightFt = 5;
+  int _heightInches = 1;
+  String _heightUnit = 'cm';
 
   @override
   Widget build(BuildContext context) {
@@ -33,43 +37,55 @@ class _ThirdOnboardingPageState extends State<ThirdOnboardingPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProgressIndicatorWidget(value: 0.4),
+          ProgressIndicatorWidget(
+            value: 0.2,
+          ),
           const SizedBox(height: 20),
-          const TitleWidget(title: 'What\'s your weight?'),
+          const TitleWidget(
+            title: 'What\'s your height?',
+          ),
           const SizedBox(height: 20),
-          ToggleButtonsWidgetkg(
-            weightUnit: _weightUnit,
+          ToggleButtonsWidget(
+            heightUnit: _heightUnit,
             onUnitChanged: (unit) {
               setState(() {
-                _weightUnit = unit;
-                _updateWeightValues();
+                _heightUnit = unit;
+                _updateHeightValues();
               });
             },
           ),
           const SizedBox(height: 20),
-          WeightDisplayWidget(
-            weightKg: _weightKg,
-            weightLb: _weightLb,
-            weightUnit: _weightUnit,
+          HeightDisplayWidget(
+            heightCm: _heightCm,
+            heightFt: _heightFt,
+            heightInches: _heightInches,
+            heightUnit: _heightUnit,
           ),
           Expanded(
             child: Center(
-              child: _weightUnit == 'kg'
-                  ? KgPicker(
-                      weightKg: _weightKg,
-                      onWeightChanged: (value) {
+              child: _heightUnit == 'cm'
+                  ? CmPicker(
+                      heightCm: _heightCm,
+                      onHeightChanged: (value) {
                         setState(() {
-                          _weightKg = value;
-                          _weightLb = _kgToLb(_weightKg);
+                          _heightCm = value;
+                          _updateHeightValues(); // Update feet and inches when cm changes
                         });
                       },
                     )
-                  : LbPicker(
-                      weightLb: _weightLb,
-                      onWeightChanged: (value) {
+                  : FtInchesPicker(
+                      heightFt: _heightFt,
+                      heightInches: _heightInches,
+                      onFtChanged: (value) {
                         setState(() {
-                          _weightLb = value;
-                          _weightKg = _lbToKg(_weightLb);
+                          _heightFt = value;
+                          _updateHeightValues(); // Update cm when feet changes
+                        });
+                      },
+                      onInchesChanged: (value) {
+                        setState(() {
+                          _heightInches = value;
+                          _updateHeightValues(); // Update cm when inches changes
                         });
                       },
                     ),
@@ -78,6 +94,13 @@ class _ThirdOnboardingPageState extends State<ThirdOnboardingPage> {
           const SizedBox(height: 20),
           NextButton(
             onPressed: widget.onNextButtonPressed,
+            userId: FirebaseAuth.instance.currentUser?.uid,
+            dataToSave: {
+              'heightCm': _heightCm,
+              'heightFt': _heightFt,
+              'heightInches': _heightInches,
+            },
+            saveData: true, // Adjust this based on your validation
           ),
           const SizedBox(height: 20),
         ],
@@ -85,38 +108,31 @@ class _ThirdOnboardingPageState extends State<ThirdOnboardingPage> {
     );
   }
 
-  void _updateWeightValues() {
-    if (_weightUnit == 'lb') {
-      // Convert kg to pounds and round to 1 decimal place
-      _weightLb = double.parse(_kgToLb(_weightKg).toStringAsFixed(1));
+  void _updateHeightValues() {
+    if (_heightUnit == 'ft') {
+      // Convert feet and inches to cm
+      int cmValue = convertFtInchesToCm(_heightFt, _heightInches);
+      // Ensure the cm value is within valid range for CmPicker
+      if (cmValue < 95) cmValue = 95;
+      if (cmValue > 241) cmValue = 241;
 
-      // Check if the converted value is within the valid lb range
-      if (_weightLb < 66) {
-        _weightLb = 66.0; // Set to minimum lb value
-        _weightKg = double.parse(
-            _lbToKg(_weightLb).toStringAsFixed(1)); // Update kg accordingly
-      } else if (_weightLb > 440) {
-        _weightLb = 440.0; // Set to maximum lb value
-        _weightKg = double.parse(
-            _lbToKg(_weightLb).toStringAsFixed(1)); // Update kg accordingly
-      }
+      setState(() {
+        _heightCm = cmValue;
+      });
     } else {
-      // Convert pounds to kg and round to 1 decimal place
-      _weightKg = double.parse(_lbToKg(_weightLb).toStringAsFixed(1));
+      // Convert cm to feet and inches
+      convertCmToFtInches(_heightCm, (feet, inches) {
+        // Ensure values are within valid ranges
+        if (feet < 3) feet = 3;
+        if (feet > 7) feet = 7;
+        if (inches < 0) inches = 0;
+        if (inches > 11) inches = 11;
 
-      // Check if the converted value is within the valid kg range
-      if (_weightKg < 30) {
-        _weightKg = 30.0; // Set to minimum kg value
-        _weightLb = double.parse(
-            _kgToLb(_weightKg).toStringAsFixed(1)); // Update lb accordingly
-      } else if (_weightKg > 165) {
-        _weightKg = 165.0; // Set to maximum kg value
-        _weightLb = double.parse(
-            _kgToLb(_weightKg).toStringAsFixed(1)); // Update lb accordingly
-      }
+        setState(() {
+          _heightFt = feet;
+          _heightInches = inches;
+        });
+      });
     }
   }
-
-  double _kgToLb(double kg) => kg * 2.20462;
-  double _lbToKg(double lb) => lb / 2.20462;
 }

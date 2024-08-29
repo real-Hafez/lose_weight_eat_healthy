@@ -3,6 +3,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/FirstOnboarding
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/SecondOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ThirdOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/fourthOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ffifthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -47,17 +48,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
       body: Stack(
         children: [
           PageView(
-            
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
               FirstOnboardingPage(onAnimationFinished: _onAnimationFinished),
-              SecondOnboardingPage(
+              Secondonboardingpage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed:
                     _handleNextButtonPress, // Pass the callback
               ),
-              ThirdOnboardingPage(
+              thirdOnboardingPage(
+                onAnimationFinished: _onAnimationFinished,
+                onNextButtonPressed:
+                    _handleNextButtonPress, // Pass the callback
+              ),
+              fourthOnboardingPage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed:
                     _handleNextButtonPress, // Pass the callback
