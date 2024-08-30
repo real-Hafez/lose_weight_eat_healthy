@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/KgPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/LbPicker.dart';
@@ -10,11 +11,12 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.d
 class fourthOnboardingPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
-
+  final String heightUnit;
   const fourthOnboardingPage({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
+    required this.heightUnit,
   });
 
   @override
@@ -25,6 +27,19 @@ class _fourthOnboardingPageState extends State<fourthOnboardingPage> {
   double _weightKg = 70.0; // Default weight in kg
   double _weightLb = 154.0; // Default weight in pounds
   String _weightUnit = 'kg'; // Default weight unit
+  @override
+  void initState() {
+    super.initState();
+    // Set default values based on heightUnit
+    _weightUnit = widget.heightUnit == 'ft' ? 'lb' : 'kg';
+    _weightKg = 70.0; // Default weight in kg
+    _weightLb = 154.0; // Default weight in pounds
+    if (_weightUnit == 'lb') {
+      _weightLb = double.parse(_kgToLb(_weightKg).toStringAsFixed(1));
+    } else {
+      _weightKg = double.parse(_lbToKg(_weightLb).toStringAsFixed(1));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +92,18 @@ class _fourthOnboardingPageState extends State<fourthOnboardingPage> {
           ),
           const SizedBox(height: 20),
           NextButton(
+            collectionName: 'weight',
             onPressed: widget.onNextButtonPressed,
-          ),
-          const SizedBox(height: 20),
+            dataToSave: {
+              'weightKg': _weightKg,
+              'weightLb': _weightLb,
+              'weightUnit': _weightUnit,
+              // Include other data as necessary
+            },
+            userId: FirebaseAuth.instance.currentUser?.uid,
+          )
+
+          //  SizedBox(height: 20),
         ],
       ),
     );

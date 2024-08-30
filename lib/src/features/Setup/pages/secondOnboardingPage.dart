@@ -44,6 +44,7 @@ class _SecondonboardingpageState extends State<Secondonboardingpage> {
             const Spacer(),
             if (selectedGender != null)
               NextButton(
+                collectionName: 'gender',
                 userId: FirebaseAuth.instance.currentUser?.uid,
                 // userId: widget.us,
                 onPressed: widget.onNextButtonPressed,
@@ -62,41 +63,40 @@ class _SecondonboardingpageState extends State<Secondonboardingpage> {
   }
 
   Widget _buildGenderBox(String gender, IconData icon) {
-  final bool isSelected = selectedGender == gender;
+    final bool isSelected = selectedGender == gender;
 
-  return GestureDetector(
-    onTap: () {
-      setState(() {
-        selectedGender = gender;
-        print('Selected Gender: $selectedGender'); // Debug print
-      });
-    },
-    child: Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: isSelected ? Colors.blue : Colors.grey,
-          width: 2,
-        ),
-        color: isSelected ? Colors.blue[50] : Colors.white,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 80, color: isSelected ? Colors.blue : Colors.grey),
-          const SizedBox(height: 10),
-          Text(
-            gender,
-            style: TextStyle(
-              fontSize: 22,
-              color: isSelected ? Colors.blue : Colors.grey,
-            ),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedGender = gender;
+          print('Selected Gender: $selectedGender'); // Debug print
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.grey,
+            width: 2,
           ),
-        ],
+          color: isSelected ? Colors.blue[50] : Colors.white,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 80, color: isSelected ? Colors.blue : Colors.grey),
+            const SizedBox(height: 10),
+            Text(
+              gender,
+              style: TextStyle(
+                fontSize: 22,
+                color: isSelected ? Colors.blue : Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 }

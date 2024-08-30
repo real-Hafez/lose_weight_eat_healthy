@@ -16,6 +16,7 @@ class OnboardingPage extends StatefulWidget {
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController(initialPage: 0);
   bool _showNextButton = false;
+  String _heightUnit = 'cm'; // Default value
 
   @override
   void dispose() {
@@ -31,7 +32,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void _handleNextButtonPress() {
     final currentPage = _pageController.page?.toInt() ?? 0;
-    if (currentPage < 3) {
+    if (currentPage < 4) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
@@ -40,6 +41,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
         _showNextButton = false;
       });
     }
+  }
+
+  void _onHeightUnitChanged(String heightUnit) {
+    setState(() {
+      _heightUnit = heightUnit;
+    });
   }
 
   @override
@@ -54,24 +61,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
               FirstOnboardingPage(onAnimationFinished: _onAnimationFinished),
               Secondonboardingpage(
                 onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed:
-                    _handleNextButtonPress, // Pass the callback
+                onNextButtonPressed: _handleNextButtonPress,
               ),
               thirdOnboardingPage(
                 onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed:
-                    _handleNextButtonPress, // Pass the callback
+                onNextButtonPressed: _handleNextButtonPress,
+                onHeightUnitChanged: _onHeightUnitChanged,
               ),
               fourthOnboardingPage(
                 onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed:
-                    _handleNextButtonPress, // Pass the callback
+                onNextButtonPressed: _handleNextButtonPress,
+                heightUnit: _heightUnit,
               ),
-              fourthOnboardingPage(
-                onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed:
-                    _handleNextButtonPress, // Pass the callback
-              ),
+              ffifthOnboardingPage(
+                  onAnimationFinished: _onAnimationFinished,
+                  onNextButtonPressed: _handleNextButtonPress),
             ],
           ),
           if (_showNextButton)
@@ -83,11 +87,27 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 alignment: Alignment.bottomCenter,
                 child: NextButton(
                   onPressed: _handleNextButtonPress,
+                  collectionName:
+                      _getCollectionName(), // Provide collection name
                 ),
               ),
             ),
         ],
       ),
     );
+  }
+
+  String _getCollectionName() {
+    final currentPage = _pageController.page?.toInt() ?? 0;
+    switch (currentPage) {
+      case 1:
+        return 'gender';
+      case 2:
+        return 'height';
+      case 3:
+        return 'weight';
+      default:
+        return '';
+    }
   }
 }
