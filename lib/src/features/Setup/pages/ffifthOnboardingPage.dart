@@ -67,11 +67,11 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
 
         // Title section
         const TitleWidget(title: 'Choose your body fat percentage'),
-        const SizedBox(height: 20),
+        const SizedBox(height: 10),
 
         // Stack for percentage number and pointer
-        Stack(
-          alignment: Alignment.center,
+        Column(
+          // alignment: Alignment.center,
           children: [
             // Display the current percentage dynamically
             Text(
@@ -84,19 +84,21 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
             ),
             // Vertical line and arrow to connect percentage to image
             const SizedBox(
-              height: 200,
               child: Align(
-                alignment: Alignment.bottomCenter,
+                alignment: Alignment.center,
                 child: Column(
                   children: [
-                  
+                    Icon(
+                      Icons.arrow_downward,
+                      size: 40,
+                      color: Colors.white,
+                    ),
                   ],
                 ),
               ),
             ),
           ],
         ),
-        // const SizedBox(height: 40),
 
         // Horizontal scrollable image row
         Expanded(
@@ -109,13 +111,14 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Image.asset(
                     Path,
-
-                    // Make sure the images adjust to available space
                   ),
                 );
               }).toList(),
             ),
           ),
+        ),
+        const SizedBox(
+          height: 300,
         ),
       ],
     );
