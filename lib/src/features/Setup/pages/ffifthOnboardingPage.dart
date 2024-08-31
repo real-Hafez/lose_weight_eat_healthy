@@ -26,7 +26,7 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
     'assets/body_percentage_fat/body_percentage_fat_man/body_percentage_fat_40%.jpg',
   ];
 
-  double currentValue = 22; // Default to 22% body fat
+  double currentValue = 6; // Start with 6% body fat
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -41,18 +41,27 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
   void _updatePercentageBasedOnScroll() {
     double offset = _scrollController.offset;
     double maxScroll = _scrollController.position.maxScrollExtent;
+    double minPercentage = 6;
+    double maxPercentage =
+        40; // Ensure this matches the highest body fat percentage in the images
 
-    double positionFactor = offset / maxScroll; // Normalize to [0, 1] range
-    double minPercentage = 8;
-    double maxPercentage = 40;
+    // Calculate the width of one image including padding
+    double imageWidth = 200; // Width of each image
+    double imageSpacing = 16; // Spacing between images
+    double totalScrollableWidth =
+        (imageWidth + imageSpacing) * (imagePaths.length - 1);
 
-    // Map the position to the corresponding body fat percentage
-    double interpolatedValue =
-        minPercentage + positionFactor * (maxPercentage - minPercentage);
+    // Ensure we do not divide by zero
+    if (maxScroll > 0) {
+      // Calculate percentage based on scroll position
+      double positionFactor = offset / maxScroll;
+      double interpolatedValue =
+          minPercentage + positionFactor * (maxPercentage - minPercentage);
 
-    setState(() {
-      currentValue = interpolatedValue;
-    });
+      setState(() {
+        currentValue = interpolatedValue;
+      });
+    }
   }
 
   @override
@@ -71,7 +80,6 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
 
         // Stack for percentage number and pointer
         Column(
-          // alignment: Alignment.center,
           children: [
             // Display the current percentage dynamically
             Text(
@@ -103,14 +111,15 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
         // Horizontal scrollable image row
         Expanded(
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             controller: _scrollController,
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: imagePaths.map((Path) {
+              children: imagePaths.map((path) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Image.asset(
-                    Path,
+                    path,
                   ),
                 );
               }).toList(),
