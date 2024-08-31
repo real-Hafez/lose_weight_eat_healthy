@@ -73,7 +73,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 onNextButtonPressed: _handleNextButtonPress,
                 heightUnit: _heightUnit,
               ),
-              ffifthOnboardingPage(
+              FifthOnboardingPage(
                   onAnimationFinished: _onAnimationFinished,
                   onNextButtonPressed: _handleNextButtonPress),
             ],
