@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class FifthOnboardingPage extends StatefulWidget {
-  const FifthOnboardingPage(
-      {super.key,
-      required this.onAnimationFinished,
-      required this.onNextButtonPressed});
+  const FifthOnboardingPage({
+    super.key,
+    required this.onAnimationFinished,
+    required this.onNextButtonPressed,
+  });
+
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
@@ -41,9 +45,9 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
   void _updatePercentageBasedOnScroll() {
     double offset = _scrollController.offset;
     double maxScroll = _scrollController.position.maxScrollExtent;
-    double minPercentage = 6;
+    double minPercentage = 9;
     double maxPercentage =
-        40; // Ensure this matches the highest body fat percentage in the images
+        42; // Ensure this matches the highest body fat percentage in the images
 
     // Calculate the width of one image including padding
     double imageWidth = 200; // Width of each image
@@ -91,14 +95,14 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
               ),
             ),
             // Vertical line and arrow to connect percentage to image
-            const SizedBox(
+            SizedBox(
               child: Align(
                 alignment: Alignment.center,
                 child: Column(
                   children: [
                     Icon(
                       Icons.arrow_downward,
-                      size: 40,
+                      size: MediaQuery.of(context).size.height * .1,
                       color: Colors.white,
                     ),
                   ],
@@ -120,6 +124,8 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Image.asset(
                     path,
+                    // height: MediaQuery.of(context).size.height * .39,
+                    // width: MediaQuery.of(context).size.width * .5,
                   ),
                 );
               }).toList(),
@@ -128,6 +134,19 @@ class _FifthOnboardingPageState extends State<FifthOnboardingPage> {
         ),
         const SizedBox(
           height: 300,
+        ),
+        NextButton(
+          saveData: true,
+          onPressed: widget.onNextButtonPressed,
+          collectionName: 'body percentage fat',
+          dataToSave: {
+            'bodyFatPercentage': currentValue.toStringAsFixed(0),
+          },
+          userId: FirebaseAuth
+              .instance.currentUser?.uid, // Provide the actual userId here
+        ),
+        const SizedBox(
+          height: 10,
         ),
       ],
     );
