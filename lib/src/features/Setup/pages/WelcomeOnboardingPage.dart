@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 
-class FirstOnboardingPage extends StatelessWidget {
+class WelcomeOnboardingPage extends StatelessWidget {
   final VoidCallback onAnimationFinished;
 
-  const FirstOnboardingPage({
+  const WelcomeOnboardingPage({
     super.key,
     required this.onAnimationFinished,
   });

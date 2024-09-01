@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/FirstOnboardinggPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/SecondOnboardingPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ThirdOnboardingPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/fourthOnboardingPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ffifthOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/GenderSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WelcomeOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HeightSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/BodyFatPercentagePage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/sixthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
@@ -61,22 +61,22 @@ class _OnboardingPageState extends State<OnboardingPage> {
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: [
-              FirstOnboardingPage(onAnimationFinished: _onAnimationFinished),
-              Secondonboardingpage(
+              WelcomeOnboardingPage(onAnimationFinished: _onAnimationFinished),
+              GenderSelectionPage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed: _handleNextButtonPress,
               ),
-              thirdOnboardingPage(
+              HeightSelectionPage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed: _handleNextButtonPress,
                 onHeightUnitChanged: _onHeightUnitChanged,
               ),
-              fourthOnboardingPage(
+              WeightSelectionPage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed: _handleNextButtonPress,
                 heightUnit: _heightUnit,
               ),
-              FifthOnboardingPage(
+              BodyFatPercentagePage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed: _handleNextButtonPress,
               ),

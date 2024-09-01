@@ -9,13 +9,13 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/height_displa
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/toggle_buttons_widget.dart.dart';
 
-class thirdOnboardingPage extends StatefulWidget {
+class HeightSelectionPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
   final Function(String)
       onHeightUnitChanged; // Callback to pass height unit to the next page
 
-  const thirdOnboardingPage({
+  const HeightSelectionPage({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
@@ -23,10 +23,10 @@ class thirdOnboardingPage extends StatefulWidget {
   });
 
   @override
-  State<thirdOnboardingPage> createState() => _thirdOnboardingPageState();
+  State<HeightSelectionPage> createState() => _HeightSelectionPageState();
 }
 
-class _thirdOnboardingPageState extends State<thirdOnboardingPage> {
+class _HeightSelectionPageState extends State<HeightSelectionPage> {
   int _heightCm = 165;
   int _heightFt = 5;
   int _heightInches = 1;

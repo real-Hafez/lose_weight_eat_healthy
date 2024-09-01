@@ -8,11 +8,11 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ToggleButtons
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/WeightDisplayWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
-class fourthOnboardingPage extends StatefulWidget {
+class WeightSelectionPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
   final String heightUnit;
-  const fourthOnboardingPage({
+  const WeightSelectionPage({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
@@ -20,10 +20,10 @@ class fourthOnboardingPage extends StatefulWidget {
   });
 
   @override
-  State<fourthOnboardingPage> createState() => _fourthOnboardingPageState();
+  State<WeightSelectionPage> createState() => _WeightSelectionPageState();
 }
 
-class _fourthOnboardingPageState extends State<fourthOnboardingPage> {
+class _WeightSelectionPageState extends State<WeightSelectionPage> {
   double _weightKg = 70.0; // Default weight in kg
   double _weightLb = 154.0; // Default weight in pounds
   String _weightUnit = 'kg'; // Default weight unit

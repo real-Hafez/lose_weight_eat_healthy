@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
-class Secondonboardingpage extends StatefulWidget {
-  const Secondonboardingpage(
+class GenderSelectionPage extends StatefulWidget {
+  const GenderSelectionPage(
       {super.key,
       required this.onAnimationFinished,
       required this.onNextButtonPressed});
@@ -12,10 +11,10 @@ class Secondonboardingpage extends StatefulWidget {
   final VoidCallback onNextButtonPressed;
 
   @override
-  State<Secondonboardingpage> createState() => _SecondonboardingpageState();
+  State<GenderSelectionPage> createState() => _GenderSelectionPageState();
 }
 
-class _SecondonboardingpageState extends State<Secondonboardingpage> {
+class _GenderSelectionPageState extends State<GenderSelectionPage> {
   String? selectedGender;
 
   @override

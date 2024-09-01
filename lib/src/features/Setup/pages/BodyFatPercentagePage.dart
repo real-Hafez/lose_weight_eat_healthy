@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/FifthOnboardingPageman.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/Fifthonboardingpagewoman.dart';
 
-class FifthOnboardingPage extends StatelessWidget {
-  const FifthOnboardingPage(
+class BodyFatPercentagePage extends StatelessWidget {
+  const BodyFatPercentagePage(
       {super.key,
       required this.onAnimationFinished,
       required this.onNextButtonPressed});
