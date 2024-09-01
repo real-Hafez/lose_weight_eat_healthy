@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/SecondOnboardin
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ThirdOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/fourthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/ffifthOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/sixthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class OnboardingPage extends StatefulWidget {
@@ -32,7 +33,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   void _handleNextButtonPress() {
     final currentPage = _pageController.page?.toInt() ?? 0;
-    if (currentPage < 4) {
+
+    if (currentPage < 5) {
+      // If we're not yet on the last page, move to the next page
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
@@ -74,8 +77,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 heightUnit: _heightUnit,
               ),
               FifthOnboardingPage(
-                  onAnimationFinished: _onAnimationFinished,
-                  onNextButtonPressed: _handleNextButtonPress),
+                onAnimationFinished: _onAnimationFinished,
+                onNextButtonPressed: _handleNextButtonPress,
+              ),
+              SixthOnboardingPage(
+                onAnimationFinished: _onAnimationFinished,
+                onNextButtonPressed: _handleNextButtonPress,
+              ),
             ],
           ),
           if (_showNextButton)
@@ -106,6 +114,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
         return 'height';
       case 3:
         return 'weight';
+      case 4:
+        return 'body fat percentage';
       default:
         return '';
     }
