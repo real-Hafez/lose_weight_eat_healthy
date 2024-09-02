@@ -24,7 +24,7 @@ class AnimatedTextWidget extends StatelessWidget {
           ),
         ),
       ],
-      onFinished: onFinished,
+      onFinished: onFinished,  // Triggers when the animation completes
       isRepeatingAnimation: false,
       repeatForever: false,
     );

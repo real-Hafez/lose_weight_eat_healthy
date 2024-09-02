@@ -1,143 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/GenderSelection/gender_selection_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_state.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/BodyFatPercentagePage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/GenderSelectionPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightSelectionPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/BodyFatPercentagePage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/mainuseforapp.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/sixthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
-class OnboardingPage extends StatefulWidget {
+class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
 
   @override
-  _OnboardingPageState createState() => _OnboardingPageState();
-}
-
-class _OnboardingPageState extends State<OnboardingPage> {
-  final PageController _pageController = PageController(initialPage: 0);
-  bool _showNextButton = false;
-  String _heightUnit = 'cm'; // Default value
-  String selectedOption = '';
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  void _onAnimationFinished() {
-    setState(() {
-      _showNextButton = true;
-    });
-  }
-
-  void _handleNextButtonPress() {
-    final currentPage = _pageController.page?.toInt() ?? 0;
-
-    if (currentPage < 6) {
-      // If we're not yet on the last page, move to the next page
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-      setState(() {
-        _showNextButton = false;
-      });
-    }
-  }
-
-  void _onHeightUnitChanged(String heightUnit) {
-    setState(() {
-      _heightUnit = heightUnit;
-    });
-  }
-
-  void _onSelectionMade(String option) {
-    setState(() {
-      selectedOption = option;
-    });
-  }
-
-  void _handleSelectionMade(List<String> selections) {
-    // Handle the selections made by the user
-    print('User selected: $selections');
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          PageView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _pageController,
-            children: [
-              WelcomeOnboardingPage(onAnimationFinished: _onAnimationFinished),
-              Mainuseforapp(
-                onSelectionMade: _handleSelectionMade,
-                onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed: _handleNextButtonPress,
-              ),
-              GenderSelectionPage(
-                onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed: _handleNextButtonPress,
-              ),
-              HeightSelectionPage(
-                onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed: _handleNextButtonPress,
-                onHeightUnitChanged: _onHeightUnitChanged,
-              ),
-              WeightSelectionPage(
-                onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed: _handleNextButtonPress,
-                heightUnit: _heightUnit,
-              ),
-              BodyFatPercentagePage(
-                onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed: _handleNextButtonPress,
-              ),
-              SixthOnboardingPage(
-                onAnimationFinished: _onAnimationFinished,
-                onNextButtonPressed: _handleNextButtonPress,
-              ),
-            ],
-          ),
-          if (_showNextButton)
-            Positioned(
-              bottom: 20,
-              left: 20,
-              right: 20,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: NextButton(
-                  onPressed: _handleNextButtonPress,
-                  collectionName:
-                      _getCollectionName(), // Provide collection name
+    return BlocProvider(
+      create: (context) => OnboardingCubit(),
+      child: Scaffold(
+        body: BlocBuilder<OnboardingCubit, OnboardingState>(
+          builder: (context, state) {
+            return Stack(
+              children: [
+                PageView(
+                  controller: context.read<OnboardingCubit>().pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    WelcomeOnboardingPage(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                    BlocProvider(
+                      create: (_) => GenderSelectionCubit(),
+                      child: GenderSelectionPage(
+                        onAnimationFinished: () {
+                          context.read<OnboardingCubit>().showNextButton();
+                        },
+                        onNextButtonPressed: () {
+                          context.read<OnboardingCubit>().nextPage();
+                        },
+                      ),
+                    ),
+                    HeightSelectionPage(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onHeightUnitChanged: (unit) {
+                        context.read<OnboardingCubit>().changeHeightUnit(unit);
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                    WeightSelectionPage(
+                      heightUnit: state.heightUnit,
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                    BodyFatPercentagePage(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                    SixthOnboardingPage(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                  ],
                 ),
-              ),
-            ),
-        ],
+                // BlocBuilder<OnboardingCubit, OnboardingState>(
+                //   builder: (context, state) {
+                //     return Positioned(
+                //       bottom: 20,
+                //       left: 20,
+                //       right: 20,
+                // child: Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: state.showNextButton
+                //       ? NextButton(
+                //           onPressed: () =>
+                //               context.read<OnboardingCubit>().nextPage(),
+                //           collectionName: context
+                //               .read<OnboardingCubit>()
+                //               .getCollectionName(),
+                //         )
+                //       : const SizedBox.shrink(),
+                // ),
+                //     );
+                //   },
+                // ),
+              ],
+            );
+          },
+        ),
       ),
     );
-  }
-
-  String _getCollectionName() {
-    final currentPage = _pageController.page?.toInt() ?? 0;
-    switch (currentPage) {
-      case 1:
-        return 'gender';
-      case 2:
-        return 'height';
-      case 3:
-        return 'weight';
-      case 4:
-        return 'body fat percentage';
-      case 5:
-        return 'weight_loss';
-
-      default:
-        return '';
-    }
   }
 }
