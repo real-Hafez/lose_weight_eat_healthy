@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WelcomeOnboardi
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/BodyFatPercentagePage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/mainuseforapp.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/sixthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
@@ -18,7 +19,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController(initialPage: 0);
   bool _showNextButton = false;
   String _heightUnit = 'cm'; // Default value
-
+  String selectedOption = '';
   @override
   void dispose() {
     _pageController.dispose();
@@ -34,7 +35,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void _handleNextButtonPress() {
     final currentPage = _pageController.page?.toInt() ?? 0;
 
-    if (currentPage < 5) {
+    if (currentPage < 6) {
       // If we're not yet on the last page, move to the next page
       _pageController.nextPage(
         duration: const Duration(milliseconds: 500),
@@ -52,6 +53,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
     });
   }
 
+  void _onSelectionMade(String option) {
+    setState(() {
+      selectedOption = option;
+    });
+  }
+
+  void _handleSelectionMade(List<String> selections) {
+    // Handle the selections made by the user
+    print('User selected: $selections');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +74,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
             controller: _pageController,
             children: [
               WelcomeOnboardingPage(onAnimationFinished: _onAnimationFinished),
+              Mainuseforapp(
+                onSelectionMade: _handleSelectionMade,
+                onAnimationFinished: _onAnimationFinished,
+                onNextButtonPressed: _handleNextButtonPress,
+              ),
               GenderSelectionPage(
                 onAnimationFinished: _onAnimationFinished,
                 onNextButtonPressed: _handleNextButtonPress,
@@ -116,6 +133,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
         return 'weight';
       case 4:
         return 'body fat percentage';
+      case 5:
+        return 'weight_loss';
+
       default:
         return '';
     }

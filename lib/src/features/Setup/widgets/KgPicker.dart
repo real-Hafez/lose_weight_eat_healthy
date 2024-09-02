@@ -37,12 +37,13 @@ class KgPicker extends StatelessWidget {
       child: NumberPicker(
         axis: Axis.horizontal,
         haptics: true,
+
         value: (weightKg * 10).toInt(), // Convert to integer for NumberPicker
         minValue: 300, // 30.0 kg * 10
         maxValue: 1650, // 165.0 kg * 10
         step: 1, // Step by 0.1 kg
-        onChanged: (value) =>
-            onWeightChanged(value / 10.0), // Convert back to double
+        onChanged: (value) => onWeightChanged(value / 10.0),
+        // Convert back to double
         textStyle: TextStyle(
           fontSize: 22,
           color: Colors.grey[500], // Slightly darker gray for unselected items
