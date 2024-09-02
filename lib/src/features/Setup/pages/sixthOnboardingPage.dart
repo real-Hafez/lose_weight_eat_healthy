@@ -90,8 +90,12 @@ class SixthOnboardingPage extends StatefulWidget {
 class _SixthOnboardingPageState extends State<SixthOnboardingPage> {
   double _weightLossKg = 0.0;
   double _weightLossLb = 0.0;
-  double _currentWeightKg = 0.0; // Add this to store the current weight
+  double _currentWeightKg = 0.0; // Store the current weight
   String _weightUnit = 'kg';
+
+  // Define the minimum values for weight loss pickers
+  final double _minWeightLossKg = 5.0; // Min 5kg weight loss
+  final double _minWeightLossLb = 11.0; // Min equivalent in pounds
 
   @override
   void initState() {
@@ -115,13 +119,14 @@ class _SixthOnboardingPageState extends State<SixthOnboardingPage> {
         _weightUnit = userWeightUnit;
         _currentWeightKg = userWeightKg; // Store the current weight
 
+        // Ensure the weight loss is at least the minimum
         if (_weightUnit == 'kg') {
-          _weightLossKg = userWeightKg - 5.0;
-          _weightLossKg = _weightLossKg < 10 ? 10 : _weightLossKg;
+          _weightLossKg = (userWeightKg - _minWeightLossKg)
+              .clamp(_minWeightLossKg, userWeightKg);
           _weightLossLb = _kgToLb(_weightLossKg);
         } else {
-          _weightLossLb = _kgToLb(userWeightKg) - _kgToLb(5.0);
-          _weightLossLb = _weightLossLb < 22 ? 22 : _weightLossLb;
+          _weightLossLb = (_kgToLb(userWeightKg) - _minWeightLossLb)
+              .clamp(_minWeightLossLb, _kgToLb(userWeightKg));
           _weightLossKg = _lbToKg(_weightLossLb);
         }
       });

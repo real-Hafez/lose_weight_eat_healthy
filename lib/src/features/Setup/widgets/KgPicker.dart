@@ -13,6 +13,8 @@ class KgPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int weightValue = (weightKg * 10).toInt().clamp(300, 1650);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
@@ -37,13 +39,11 @@ class KgPicker extends StatelessWidget {
       child: NumberPicker(
         axis: Axis.horizontal,
         haptics: true,
-
-        value: (weightKg * 10).toInt(), // Convert to integer for NumberPicker
+        value: weightValue, // Clamp weight value to be between 300 and 1650
         minValue: 300, // 30.0 kg * 10
         maxValue: 1650, // 165.0 kg * 10
         step: 1, // Step by 0.1 kg
         onChanged: (value) => onWeightChanged(value / 10.0),
-        // Convert back to double
         textStyle: TextStyle(
           fontSize: 22,
           color: Colors.grey[500], // Slightly darker gray for unselected items
