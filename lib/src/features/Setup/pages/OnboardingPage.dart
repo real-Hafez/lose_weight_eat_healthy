@@ -8,8 +8,8 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/GenderSelection
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WelcomeOnboardingPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/sixthOnboardingPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightLossMessageWidget.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/waterpage.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -82,6 +82,14 @@ class OnboardingPage extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
+                    Waterpage(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    )
                   ],
                 ),
                 // BlocBuilder<OnboardingCubit, OnboardingState>(

@@ -37,7 +37,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   int _getTotalPages() {
     // Return the total number of onboarding pages
-    return 6; // Or dynamically calculate based on the number of pages
+    return 7; // Or dynamically calculate based on the number of pages
   }
 
   @override

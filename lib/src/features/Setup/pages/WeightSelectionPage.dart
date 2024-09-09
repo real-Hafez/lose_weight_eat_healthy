@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/pages/sixthOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightLossMessageWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/KgPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/LbPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
