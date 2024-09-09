@@ -1,13 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-     <uses-permission android:name="android.permission.INTERNET" />
-        <application
-           android:label="lose_weight_eat_healthy"
-           android:name="${applicationName}"
-           android:icon="@mipmap/ic_launcher">
-     
-            <!-- <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-            <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/> -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <application
+        android:label="lose_weight_eat_healthy"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher">
+     
+        <!-- Uncomment these meta-data if needed for Facebook SDK -->
+        <!-- 
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/> 
+        -->
 
         <activity
             android:name=".MainActivity"
@@ -31,12 +34,30 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- Don't delete the meta-data below.
-             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+
+        <!-- Flutter-specific metadata -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!-- Home screen widget related receivers -->
+        <receiver
+            android:name=".HomeScreenWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/home_screen_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".WidgetClickReceiver"
+            android:exported="true" />
+
     </application>
+
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
@@ -46,6 +67,10 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <!-- Additional intent for widget updates -->
+        <intent>
+            <action android:name="com.example.fuckin.WIDGET_UPDATED" />
         </intent>
     </queries>
 </manifest>

@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.lose_weight_eat_healthy"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
