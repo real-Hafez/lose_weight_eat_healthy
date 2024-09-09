@@ -69,6 +69,10 @@ class _WaterPageState extends State<WaterPage> {
                     style: const TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
+                const SizedBox(
+                  height: 10,
+                ),
+                
               ],
             );
           }
