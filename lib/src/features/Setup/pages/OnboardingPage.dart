@@ -92,27 +92,6 @@ class OnboardingPage extends StatelessWidget {
                     )
                   ],
                 ),
-                // BlocBuilder<OnboardingCubit, OnboardingState>(
-                //   builder: (context, state) {
-                //     return Positioned(
-                //       bottom: 20,
-                //       left: 20,
-                //       right: 20,
-                // child: Align(
-                //   alignment: Alignment.bottomCenter,
-                //   child: state.showNextButton
-                //       ? NextButton(
-                //           onPressed: () =>
-                //               context.read<OnboardingCubit>().nextPage(),
-                //           collectionName: context
-                //               .read<OnboardingCubit>()
-                //               .getCollectionName(),
-                //         )
-                //       : const SizedBox.shrink(),
-                // ),
-                //     );
-                //   },
-                // ),
               ],
             );
           },
