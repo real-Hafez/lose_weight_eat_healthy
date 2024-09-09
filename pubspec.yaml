@@ -31,7 +31,6 @@ dependencies:
   animated_text_kit: ^4.2.2
   another_flutter_splash_screen: ^1.2.1
   auto_size_text: ^3.0.0
-  board_datetime_picker: ^2.1.2
   cloud_firestore: ^5.2.1
   device_preview: ^1.2.0
   firebase_auth: ^5.1.4
@@ -46,6 +45,7 @@ dependencies:
   fluttertoast: ^8.2.8
   google_sign_in: ^6.2.1
   numberpicker: ^2.1.2
+  progressive_time_picker: ^1.0.1
   ruler_scale_picker: ^0.1.0
 
 dev_dependencies:
