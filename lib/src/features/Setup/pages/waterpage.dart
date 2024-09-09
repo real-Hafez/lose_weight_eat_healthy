@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/timepacker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/water_ToggleButtons.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 
@@ -72,7 +73,7 @@ class _WaterPageState extends State<WaterPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                
+                const Timepacker(),
               ],
             );
           }
