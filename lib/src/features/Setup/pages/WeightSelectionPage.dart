@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/sixthOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/KgPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/LbPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ToggleButtonsWidgetkg.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/WeightDisplayWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class WeightSelectionPage extends StatefulWidget {
@@ -58,11 +58,11 @@ class _WeightSelectionPageState extends State<WeightSelectionPage> {
             },
           ),
           const SizedBox(height: 20),
-          WeightDisplayWidget(
-            weightKg: _weightKg,
-            weightLb: _weightLb,
-            weightUnit: _weightUnit,
-          ),
+          // WeightLossMessageWidget(
+          //   currentWeight: _weightKg,
+          //   targetWeight: _weightLb,
+          //   weightUnit: _weightUnit,
+          // ),
           Expanded(
             child: Center(
               child: _weightUnit == 'kg'

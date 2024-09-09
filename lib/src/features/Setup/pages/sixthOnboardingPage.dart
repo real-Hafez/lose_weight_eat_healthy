@@ -7,87 +7,25 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndic
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ToggleButtonsWidgetkg.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/WeightDisplayWidget.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/WeightLosstarget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
-class WeightLossMessageWidget extends StatelessWidget {
-  final double currentWeight;
-  final double targetWeight;
-  final String weightUnit;
-
-  const WeightLossMessageWidget({
-    super.key,
-    required this.currentWeight,
-    required this.targetWeight,
-    required this.weightUnit,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final weightDifference = currentWeight - targetWeight;
-    final weightLost = weightDifference.toStringAsFixed(1);
-    final isGain = weightDifference < 0;
-    final displayWeight = isGain ? 'gain' : 'lose';
-    final timeEstimate = _estimateTime(weightDifference);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'You are going to $displayWeight $weightLost $weightUnit',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: isGain
-                    ? Colors.red
-                    : Colors.green, // Red for gain, green for loss
-              ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          'This will take approximately $timeEstimate',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: isGain ? Colors.red : Colors.green,
-              ),
-        ),
-      ],
-    );
-  }
-
-  String _estimateTime(double weightDifference) {
-    // Calculate time based on a range of 0.7 to 1.2 kg per week
-    const double minRatePerWeek = 0.7;
-    const double maxRatePerWeek = 1.2;
-
-    final weeksMin = weightDifference / maxRatePerWeek;
-    final weeksMax = weightDifference / minRatePerWeek;
-
-    // Convert weeks to days
-    final minDays = (weeksMin * 7).isNaN || (weeksMin * 7).isInfinite
-        ? 0
-        : (weeksMin * 7).toStringAsFixed(0);
-    final maxDays = (weeksMax * 7).isNaN || (weeksMax * 7).isInfinite
-        ? 0
-        : (weeksMax * 7).toStringAsFixed(0);
-
-    return weightDifference > 0
-        ? '$minDays to $maxDays days'
-        : '0 days'; // Adjust for weight gain or insufficient weight loss
-  }
-}
-
-class SixthOnboardingPage extends StatefulWidget {
+class WeightLossMessageWidget extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  const SixthOnboardingPage({
+  const WeightLossMessageWidget({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
   });
 
   @override
-  State<SixthOnboardingPage> createState() => _SixthOnboardingPageState();
+  State<WeightLossMessageWidget> createState() =>
+      _WeightLossMessageWidgetState();
 }
 
-class _SixthOnboardingPageState extends State<SixthOnboardingPage> {
+class _WeightLossMessageWidgetState extends State<WeightLossMessageWidget> {
   double _weightLossKg = 0.0;
   double _weightLossLb = 0.0;
   double _currentWeightKg = 0.0; // Store the current weight
@@ -160,7 +98,7 @@ class _SixthOnboardingPageState extends State<SixthOnboardingPage> {
             weightUnit: _weightUnit,
           ),
           const SizedBox(height: 20),
-          WeightLossMessageWidget(
+          WeightLosstarget(
             currentWeight: _currentWeightKg,
             targetWeight: _weightLossKg,
             weightUnit: _weightUnit,

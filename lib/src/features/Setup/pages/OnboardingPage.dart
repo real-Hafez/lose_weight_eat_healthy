@@ -66,7 +66,7 @@ class OnboardingPage extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    BodyFatPercentagePage(
+                    WeightLossMessageWidget(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },
@@ -74,7 +74,7 @@ class OnboardingPage extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    SixthOnboardingPage(
+                    BodyFatPercentagePage(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },
