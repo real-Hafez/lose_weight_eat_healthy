@@ -82,7 +82,7 @@ class OnboardingPage extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    Waterpage(
+                    WaterPage(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },
