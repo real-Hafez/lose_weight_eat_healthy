@@ -10,6 +10,7 @@ import 'package:lose_weight_eat_healthy/firebase_options.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart'; // Import your cubit
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/GenderSelection/gender_selection_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/splash/pages/Splash_Screen.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
@@ -55,6 +56,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => GenderSelectionCubit(),
         ),
+        BlocProvider(
+          create: (context) => WaterCubit(),
+        ),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
@@ -74,8 +78,8 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.system,
             theme: light_theme,
             darkTheme: dark_theme,
-            // home: const Splash_Screen(),
-            home: const setup(),
+            home: const Splash_Screen(),
+            // home: const setup(),
           );
         },
       ),

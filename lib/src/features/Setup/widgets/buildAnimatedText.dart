@@ -6,10 +6,10 @@ class AnimatedTextWidget extends StatelessWidget {
   final String text;
 
   const AnimatedTextWidget({
-    Key? key,
+    super.key,
     required this.onFinished,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +17,7 @@ class AnimatedTextWidget extends StatelessWidget {
       animatedTexts: [
         TypewriterAnimatedText(
           text,
+          textAlign: TextAlign.center,
           speed: const Duration(milliseconds: 70),
           textStyle: const TextStyle(
             fontSize: 30,
@@ -24,7 +25,7 @@ class AnimatedTextWidget extends StatelessWidget {
           ),
         ),
       ],
-      onFinished: onFinished,  // Triggers when the animation completes
+      onFinished: onFinished, // Triggers when the animation completes
       isRepeatingAnimation: false,
       repeatForever: false,
     );

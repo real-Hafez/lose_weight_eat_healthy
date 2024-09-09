@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/water_ToggleButtons.dart';
+import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 
 class WaterPage extends StatefulWidget {
   const WaterPage({
@@ -18,53 +23,58 @@ class WaterPage extends StatefulWidget {
 final List<String> _units = ['mL', 'L', 'US oz'];
 
 class _WaterPageState extends State<WaterPage> {
-  String _selectedUnit = 'mL';
-  bool _animationFinished = false;
+  @override
+  void initState() {
+    super.initState();
+    context.read<WaterCubit>().fetchWeight();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AnimatedTextWidget(
-          onFinished: () {
-            setState(() {
-              _animationFinished = true;
-            });
-            widget.onAnimationFinished();
-          },
-          text: 'What water measurement do you use?',
-        ),
-        const SizedBox(height: 24),
-        if (_animationFinished) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text('Select unit:'),
-              const SizedBox(width: 16),
-              Expanded(
-                child: ToggleButtons(
-                  isSelected:
-                      _units.map((unit) => unit == _selectedUnit).toList(),
-                  onPressed: (int index) {
-                    setState(() {
-                      _selectedUnit = _units[index];
-                    });
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: BlocBuilder<WaterCubit, WaterState>(
+        builder: (context, state) {
+          if (state is WaterInitial || state is WaterLoading) {
+            return const AppLoadingIndicator();
+          } else if (state is WaterError) {
+            return Center(child: Text(state.message));
+          } else if (state is WaterLoaded) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AnimatedTextWidget(
+                  onFinished: () {
+                    context.read<WaterCubit>().finishAnimation();
+                    widget.onAnimationFinished();
                   },
-                  children: _units
-                      .map((unit) => Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(unit),
-                          ))
-                      .toList(),
+                  text: 'What water measurement do you use?',
                 ),
-              ),
-            ],
-          ),
-        ],
-      ],
+                const SizedBox(height: 24),
+                if (state.animationFinished)
+                  WaterTogglebuttons(
+                    units: _units,
+                    selectedUnit: state.selectedUnit,
+                    onUnitSelected: (int index) {
+                      final selectedUnit = _units[index];
+                      context
+                          .read<WaterCubit>()
+                          .updateSelectedUnit(selectedUnit);
+                    },
+                  ),
+                const SizedBox(height: 24),
+                if (state.waterNeeded > 0)
+                  Text(
+                    'You will need to drink around: ${state.waterNeeded.toStringAsFixed(1)} ${state.selectedUnit} per day',
+                    style: const TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+              ],
+            );
+          }
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }
