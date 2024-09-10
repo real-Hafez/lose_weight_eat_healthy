@@ -42,6 +42,7 @@
 
         <!-- Home screen widget related receivers -->
         <receiver
+        android:label="Water Reminder" 
             android:name=".HomeScreenWidget"
             android:exported="false">
             <intent-filter>

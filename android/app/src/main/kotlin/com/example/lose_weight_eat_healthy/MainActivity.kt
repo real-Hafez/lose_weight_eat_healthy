@@ -13,6 +13,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import com.example.lose_weight_eat_healthy.HomeScreenWidget
 import android.content.BroadcastReceiver
+import android.content.res.ColorStateList
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.fuckin/widget"
