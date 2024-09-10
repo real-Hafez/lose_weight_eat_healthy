@@ -12,6 +12,7 @@ class _TimepackerState extends State<Timepacker> {
   TimeOfDay? _wakeUpTime;
   TimeOfDay? _sleepTime;
   bool _is24HourFormat = false;
+  static const int _recommendedSleepHours = 8; // Recommended sleep duration
 
   @override
   void initState() {
@@ -20,7 +21,7 @@ class _TimepackerState extends State<Timepacker> {
   }
 
   void _initializeTimeFormat() {
-    // know if devv use 24 or 12 hour
+    // Know if the device uses 24 or 12 hour format
     final String currentTime = DateFormat.jm().format(DateTime.now());
     setState(() {
       _is24HourFormat = !currentTime.contains(RegExp(r'[APMapm]'));
@@ -47,11 +48,27 @@ class _TimepackerState extends State<Timepacker> {
       setState(() {
         if (isWakeUpTime) {
           _wakeUpTime = pickedTime;
+          // Automatically suggest sleep time based on wake-up time
+          _suggestSleepTime(pickedTime);
         } else {
           _sleepTime = pickedTime;
         }
       });
     }
+  }
+
+  void _suggestSleepTime(TimeOfDay wakeUpTime) {
+    // Calculate sleep time (subtract _recommendedSleepHours from wakeUpTime)
+    final int wakeUpHour = wakeUpTime.hour;
+    final int wakeUpMinute = wakeUpTime.minute;
+
+    // Calculate the suggested sleep time (subtract 8 hours)
+    final int sleepHour = (wakeUpHour - _recommendedSleepHours) % 24;
+    final int sleepMinute = wakeUpMinute; // Assuming the same minute as wake-up
+
+    setState(() {
+      _sleepTime = TimeOfDay(hour: sleepHour, minute: sleepMinute);
+    });
   }
 
   @override
@@ -66,14 +83,14 @@ class _TimepackerState extends State<Timepacker> {
           ),
           _buildTimePicker(context, true),
           const SizedBox(height: 16),
-          if (_wakeUpTime != null) 
+          if (_wakeUpTime != null)
             Column(
               children: [
                 const Text(
                   'Sleep Time:',
                   style: TextStyle(fontSize: 18),
                 ),
-                _buildTimePicker(context, false), 
+                _buildTimePicker(context, false),
               ],
             ),
           const SizedBox(height: 24),
@@ -83,8 +100,7 @@ class _TimepackerState extends State<Timepacker> {
   }
 
   Widget _buildTimePicker(BuildContext context, bool isWakeUpTime) {
-    final TimeOfDay? selectedTime =
-        isWakeUpTime ? _wakeUpTime : _sleepTime;
+    final TimeOfDay? selectedTime = isWakeUpTime ? _wakeUpTime : _sleepTime;
 
     return GestureDetector(
       onTap: () => _selectTime(context, isWakeUpTime),
