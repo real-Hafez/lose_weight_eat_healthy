@@ -22,43 +22,26 @@ class HomeScreenWidget : AppWidgetProvider() {
 
         val action = intent.action
 
-        if (action == "com.example.lose_weight_eat_healthy.INCREMENT") {
-            val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-            val waterDrunk = prefs.getInt("water_drunk", 0) + 300 // Increment by 300 mL
-
-            prefs.edit().putInt("water_drunk", waterDrunk).apply()
-
-            val appWidgetManager = AppWidgetManager.getInstance(context)
-            val widgetComponent = ComponentName(context, HomeScreenWidget::class.java)
-            val appWidgetIds = appWidgetManager.getAppWidgetIds(widgetComponent)
-
-            onUpdate(context, appWidgetManager, appWidgetIds)
-
-            val appIntent = Intent("com.example.lose_weight_eat_healthy.WIDGET_UPDATED").apply {
-                putExtra("water_drunk", waterDrunk)
+        if (action == "com.example.lose_weight_eat_healthy.INCREMENT" || action == "com.example.lose_weight_eat_healthy.DECREMENT") {
+            val widgetClickIntent = Intent(context, WidgetClickReceiver::class.java).apply {
+                this.action = action
             }
-            context.sendBroadcast(appIntent)
+            context.sendBroadcast(widgetClickIntent)
         }
     }
 
     companion object {
-        private const val TOTAL_MILLILITERS = 3000.0
+        private const val TOTAL_CUPS = 10
+        private const val LITERS_PER_CUP = 0.3
 
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-            val waterDrunk = prefs.getInt("water_drunk", 0)
-            val selectedUnit = prefs.getString("selected_unit", "mL") ?: "mL"
-            val unitConversion = when (selectedUnit) {
-                "L" -> 1000.0
-                "US oz" -> 29.5735
-                else -> 1.0 // mL
-            }
+            val cupsDrunk = prefs.getInt("cups_drunk", 0)
+            val litersDrunk = cupsDrunk * LITERS_PER_CUP
+            val totalLiters = TOTAL_CUPS * LITERS_PER_CUP
+            val percentage = ((litersDrunk / totalLiters) * 100).toInt().coerceIn(0, 100)
 
-            val convertedWaterDrunk = waterDrunk / unitConversion
-            val convertedTotal = TOTAL_MILLILITERS / unitConversion
-            val percentage = ((waterDrunk / TOTAL_MILLILITERS) * 100).toInt().coerceIn(0, 100)
-
-            val widgetText = String.format("%.1f %s / %.1f %s", convertedWaterDrunk, selectedUnit, convertedTotal, selectedUnit)
+            val widgetText = String.format("%.1f L / %.1f L", litersDrunk, totalLiters)
             val views = RemoteViews(context.packageName, R.layout.home_screen_widget)
             views.setTextViewText(R.id.appwidget_text, widgetText)
             views.setTextViewText(R.id.water_percentage, "$percentage%")

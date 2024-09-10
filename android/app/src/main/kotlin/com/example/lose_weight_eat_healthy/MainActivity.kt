@@ -6,6 +6,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
 import android.widget.RemoteViews
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -36,7 +37,7 @@ class MainActivity : FlutterActivity() {
                     }
                     "getWidgetCounter" -> {
                         val waterDrunk = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-                            .getInt("water_drunk", 0)
+                            .getInt("cups_drunk", 0)
                         result.success(waterDrunk)
                     }
                     "updateWidgetUnit" -> {
@@ -71,7 +72,7 @@ class MainActivity : FlutterActivity() {
     private fun updateHomeScreenWidget(waterDrunk: Int, unit: String) {
         val prefs = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
         prefs.edit()
-            .putInt("water_drunk", waterDrunk)
+            .putInt("cups_drunk", waterDrunk)
             .putString("selected_unit", unit)
             .apply()
 
@@ -108,11 +109,35 @@ class MainActivity : FlutterActivity() {
         val myProvider = ComponentName(this, HomeScreenWidget::class.java)
 
         if (appWidgetManager.isRequestPinAppWidgetSupported) {
-            // Create the PendingIntent to launch the configuration activity when the widget is added
-            val intent = Intent(this, MainActivity::class.java)
-            val successCallback = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            // Create a preview of the widget
+            val remoteViews = RemoteViews(packageName, R.layout.home_screen_widget)
+            
+            // Set initial values for the widget preview
+            val prefs = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
+            val cupsDrunk = prefs.getInt("cups_drunk", 0)
+            val litersDrunk = cupsDrunk * 0.3 // Assuming 1 cup is 0.3 liters
+            val totalLiters = 3.0 // Assuming the total goal is 3 liters
+            val percentage = ((litersDrunk / totalLiters) * 100).toInt().coerceIn(0, 100)
 
-            appWidgetManager.requestPinAppWidget(myProvider, null, successCallback)
+            remoteViews.setTextViewText(R.id.widget_title, "Water Tracker")
+            remoteViews.setTextViewText(R.id.appwidget_text, "%.1f L / %.1f L".format(litersDrunk, totalLiters))
+            remoteViews.setTextViewText(R.id.water_percentage, "$percentage%")
+            remoteViews.setProgressBar(R.id.water_progress, 100, percentage, false)
+
+            // Create the configuration Activity PendingIntent
+            val configIntent = Intent(this, MainActivity::class.java)
+            val configPendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                configIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            // Request to pin the widget with the preview
+            appWidgetManager.requestPinAppWidget(myProvider, Bundle().apply {
+                putParcelable(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW, remoteViews)
+            }, configPendingIntent)
+            
             return true
         }
         return false
