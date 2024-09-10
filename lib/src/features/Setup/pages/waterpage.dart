@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +9,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.d
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/timepacker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/water_ToggleButtons.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WaterPage extends StatefulWidget {
   const WaterPage({
@@ -31,6 +33,13 @@ class _WaterPageState extends State<WaterPage> {
   void initState() {
     super.initState();
     context.read<WaterCubit>().fetchWeight();
+  }
+
+  Future<void> _saveWaterIntakeToPrefs(double waterNeeded, String unit) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('water_needed', waterNeeded);
+    await prefs.setString('water_unit', unit);
+    print(waterNeeded);
   }
 
   Future<void> _addWidgetToHomeScreen() async {
@@ -93,9 +102,15 @@ class _WaterPageState extends State<WaterPage> {
                 if (state.selectedUnit != null && state.waterNeeded > 0)
                   Column(
                     children: [
-                      Text(
+                      AutoSizeText(
                         'You will need to drink around: ${state.waterNeeded.toStringAsFixed(1)} ${state.selectedUnit} per day',
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.red,
+                        ),
+                        maxLines: 1,
+                        maxFontSize: 24,
+                        minFontSize: 14,
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -108,14 +123,19 @@ class _WaterPageState extends State<WaterPage> {
 
                 const SizedBox(height: 24),
 
-                if (state.wakeUpTimeSelected && state.sleepTimeSelected)
+                if (state.wakeUpTimeSelected)
                   NextButton(
-                      onPressed: widget.onNextButtonPressed,
+                      onPressed: () async {
+                        widget.onNextButtonPressed();
+                        await _saveWaterIntakeToPrefs(
+                          state.waterNeeded,
+                          state.selectedUnit!,
+                        );
+                      },
                       collectionName: ''),
 
                 // const SizedBox(height: 24),
 
-                // // Step 6: Add the widget to home screen
                 // if (state.wakeUpTimeSelected && state.sleepTimeSelected)
                 //   Column(
                 //     children: [

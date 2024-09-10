@@ -10,6 +10,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightSelection
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightLossMessageWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/waterpage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/water_widget.dart';
 
 class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
@@ -89,7 +90,15 @@ class OnboardingPage extends StatelessWidget {
                       onNextButtonPressed: () {
                         context.read<OnboardingCubit>().nextPage();
                       },
-                    )
+                    ),
+                    WaterWidget(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
                   ],
                 ),
               ],
