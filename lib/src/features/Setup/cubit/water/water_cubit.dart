@@ -24,6 +24,7 @@ class WaterCubit extends Cubit<WaterState> {
           waterNeeded: 0.0,
           selectedUnit: null,
           animationFinished: false,
+          wakeUpTimeSelected: false, // Initialize as false
         ));
       } catch (e) {
         emit(WaterError('Failed to fetch weight'));
@@ -36,7 +37,8 @@ class WaterCubit extends Cubit<WaterState> {
   void calculateWaterIntake() {
     if (state is WaterLoaded) {
       final loadedState = state as WaterLoaded;
-      if (loadedState.selectedUnit == null || loadedState.currentWeightKg == 0) return;
+      if (loadedState.selectedUnit == null || loadedState.currentWeightKg == 0)
+        return;
 
       double waterNeeded = 0.0;
       if (loadedState.selectedUnit == 'mL') {
@@ -63,6 +65,14 @@ class WaterCubit extends Cubit<WaterState> {
     if (state is WaterLoaded) {
       final loadedState = state as WaterLoaded;
       emit(loadedState.copyWith(animationFinished: true));
+    }
+  }
+
+  // New method to handle wake-up time selection
+  void selectWakeUpTime(bool isSelected) {
+    if (state is WaterLoaded) {
+      final loadedState = state as WaterLoaded;
+      emit(loadedState.copyWith(wakeUpTimeSelected: isSelected));
     }
   }
 }
