@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_state.dart';
@@ -21,13 +22,35 @@ class WaterPage extends StatefulWidget {
   _WaterPageState createState() => _WaterPageState();
 }
 
-final List<String> _units = ['mL', 'L', 'US oz'];
-
 class _WaterPageState extends State<WaterPage> {
+  static const platform = MethodChannel('com.example.fuckin/widget');
+  final List<String> _units = ['mL', 'L', 'US oz'];
+
   @override
   void initState() {
     super.initState();
     context.read<WaterCubit>().fetchWeight();
+  }
+
+  Future<void> _addWidgetToHomeScreen() async {
+    try {
+      final bool result = await platform.invokeMethod('addWidgetToHomeScreen');
+      if (result) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Widget added to home screen!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to add widget to home screen.')),
+        );
+      }
+    } on PlatformException catch (e) {
+      print("Failed to add widget to home screen: '${e.message}'.");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('An error occurred while adding the widget.')),
+      );
+    }
   }
 
   @override
@@ -84,7 +107,11 @@ class _WaterPageState extends State<WaterPage> {
                     widget.onAnimationFinished();
                   },
                   text:
-                      'that\'s why u need to add that widget to your homescreen to keep saing u activment',
+                      'That\'s why you need to add this widget to your home screen to keep yourself motivated.',
+                ),
+                ElevatedButton(
+                  onPressed: _addWidgetToHomeScreen,
+                  child: const Text('Add Widget to Home Screen'),
                 ),
               ],
             );
