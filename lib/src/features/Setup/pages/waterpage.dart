@@ -36,15 +36,13 @@ class _WaterPageState extends State<WaterPage> {
   Future<void> _addWidgetToHomeScreen() async {
     try {
       final bool result = await platform.invokeMethod('addWidgetToHomeScreen');
-      if (result) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Widget added to home screen!')),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to add widget to home screen.')),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result
+              ? 'Widget added to home screen!'
+              : 'Failed to add widget to home screen.'),
+        ),
+      );
     } on PlatformException catch (e) {
       print("Failed to add widget to home screen: '${e.message}'.");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -92,6 +90,7 @@ class _WaterPageState extends State<WaterPage> {
 
                 const SizedBox(height: 24),
 
+                if (state.selectedUnit != null && state.waterNeeded > 0)
                   Column(
                     children: [
                       Text(
@@ -105,52 +104,40 @@ class _WaterPageState extends State<WaterPage> {
                 const SizedBox(height: 24),
 
                 if (state.selectedUnit != null && state.waterNeeded > 0)
-                  const Column(
-                    children: [
-                      Text("Select your wake-up time:"),
-                      SizedBox(height: 8),
-                      Timepacker(),
-                    ],
-                  ),
+                  const Timepacker(),
 
                 const SizedBox(height: 24),
 
-                if (state.selectedUnit != null &&
-                    state.waterNeeded > 0 &&
-                    state.wakeUpTimeSelected)
-                  Column(
-                    children: [
-                      NextButton(
-                        onPressed: widget.onNextButtonPressed,
-                        collectionName: '',
-                      ),
-                    ],
-                  ),
+                if (state.wakeUpTimeSelected && state.sleepTimeSelected)
+                  NextButton(
+                      onPressed: widget.onNextButtonPressed,
+                      collectionName: ''),
 
-                const SizedBox(height: 24),
+                // const SizedBox(height: 24),
 
-                // Step 6: Add the widget to home screen
-                if (state.animationFinished && state.wakeUpTimeSelected)
-                  Column(
-                    children: [
-                      AnimatedTextWidget(
-                        onFinished: () {
-                          context.read<WaterCubit>().finishAnimation();
-                          widget.onAnimationFinished();
-                        },
-                        text:
-                            'That\'s why you need to add this widget to your home screen to keep yourself motivated.',
-                      ),
-                      ElevatedButton(
-                        onPressed: _addWidgetToHomeScreen,
-                        child: const Text('Add Widget to Home Screen'),
-                      ),
-                    ],
-                  ),
+                // // Step 6: Add the widget to home screen
+                // if (state.wakeUpTimeSelected && state.sleepTimeSelected)
+                //   Column(
+                //     children: [
+                //       AnimatedTextWidget(
+                //         onFinished: () {
+                //           context.read<WaterCubit>().finishAnimation();
+                //           widget.onAnimationFinished();
+                //         },
+                //         text:
+                //             'That\'s why you need a reminder to drink water',
+                //       ),
+                //       const SizedBox(height: 24),
+                //       ElevatedButton(
+                //         onPressed: _addWidgetToHomeScreen,
+                //         child: const Text('Add to Home Screen'),
+                //       ),
+                // ],
+                // ),
               ],
             );
           }
-          return const SizedBox.shrink();
+          return const SizedBox();
         },
       ),
     );

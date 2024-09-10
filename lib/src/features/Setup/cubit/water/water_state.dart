@@ -1,6 +1,5 @@
 import 'package:meta/meta.dart';
 
-
 @immutable
 sealed class WaterState {}
 
@@ -13,14 +12,16 @@ final class WaterLoaded extends WaterState {
   final double waterNeeded;
   final String? selectedUnit;
   final bool animationFinished;
-  final bool wakeUpTimeSelected; // Add this field
+  final bool wakeUpTimeSelected;
+  final bool sleepTimeSelected;
 
   WaterLoaded({
     required this.currentWeightKg,
     required this.waterNeeded,
     required this.selectedUnit,
     required this.animationFinished,
-    required this.wakeUpTimeSelected, // Include in the constructor
+    required this.wakeUpTimeSelected,
+    required this.sleepTimeSelected,
   });
 
   WaterLoaded copyWith({
@@ -28,18 +29,19 @@ final class WaterLoaded extends WaterState {
     double? waterNeeded,
     String? selectedUnit,
     bool? animationFinished,
-    bool? wakeUpTimeSelected, // Allow updates to this field
+    bool? wakeUpTimeSelected,
+    bool? sleepTimeSelected,
   }) {
     return WaterLoaded(
       currentWeightKg: currentWeightKg ?? this.currentWeightKg,
       waterNeeded: waterNeeded ?? this.waterNeeded,
       selectedUnit: selectedUnit ?? this.selectedUnit,
       animationFinished: animationFinished ?? this.animationFinished,
-      wakeUpTimeSelected: wakeUpTimeSelected ?? this.wakeUpTimeSelected, // Copy
+      wakeUpTimeSelected: wakeUpTimeSelected ?? this.wakeUpTimeSelected,
+      sleepTimeSelected: sleepTimeSelected ?? this.sleepTimeSelected,
     );
   }
 }
-
 
 final class WaterError extends WaterState {
   final String message;

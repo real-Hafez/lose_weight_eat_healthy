@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart'; // Import for DateFormat
 
 class Timepacker extends StatefulWidget {
   const Timepacker({super.key});
@@ -12,7 +14,7 @@ class _TimepackerState extends State<Timepacker> {
   TimeOfDay? _wakeUpTime;
   TimeOfDay? _sleepTime;
   bool _is24HourFormat = false;
-  static const int _recommendedSleepHours = 8; // Recommended sleep duration
+  static const int _recommendedSleepHours = 8;
 
   @override
   void initState() {
@@ -21,7 +23,6 @@ class _TimepackerState extends State<Timepacker> {
   }
 
   void _initializeTimeFormat() {
-    // Know if the device uses 24 or 12 hour format
     final String currentTime = DateFormat.jm().format(DateTime.now());
     setState(() {
       _is24HourFormat = !currentTime.contains(RegExp(r'[APMapm]'));
@@ -48,23 +49,22 @@ class _TimepackerState extends State<Timepacker> {
       setState(() {
         if (isWakeUpTime) {
           _wakeUpTime = pickedTime;
-          // Automatically suggest sleep time based on wake-up time
           _suggestSleepTime(pickedTime);
+          context.read<WaterCubit>().selectWakeUpTime(true);
         } else {
           _sleepTime = pickedTime;
+          context.read<WaterCubit>().selectSleepTime(true);
         }
       });
     }
   }
 
   void _suggestSleepTime(TimeOfDay wakeUpTime) {
-    // Calculate sleep time (subtract _recommendedSleepHours from wakeUpTime)
     final int wakeUpHour = wakeUpTime.hour;
     final int wakeUpMinute = wakeUpTime.minute;
 
-    // Calculate the suggested sleep time (subtract 8 hours)
     final int sleepHour = (wakeUpHour - _recommendedSleepHours) % 24;
-    final int sleepMinute = wakeUpMinute; // Assuming the same minute as wake-up
+    final int sleepMinute = wakeUpMinute;
 
     setState(() {
       _sleepTime = TimeOfDay(hour: sleepHour, minute: sleepMinute);
@@ -82,7 +82,6 @@ class _TimepackerState extends State<Timepacker> {
             style: TextStyle(fontSize: 18),
           ),
           _buildTimePicker(context, true),
-
 
           if (_wakeUpTime != null)
             Column(
