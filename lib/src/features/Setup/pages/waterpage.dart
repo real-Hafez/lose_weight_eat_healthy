@@ -26,7 +26,6 @@ class WaterPage extends StatefulWidget {
 }
 
 class _WaterPageState extends State<WaterPage> {
-  static const platform = MethodChannel('com.example.fuckin/widget');
   final List<String> _units = ['mL', 'L', 'US oz'];
 
   @override
@@ -40,25 +39,6 @@ class _WaterPageState extends State<WaterPage> {
     await prefs.setDouble('water_needed', waterNeeded);
     await prefs.setString('water_unit', unit);
     print(waterNeeded);
-  }
-
-  Future<void> _addWidgetToHomeScreen() async {
-    try {
-      final bool result = await platform.invokeMethod('addWidgetToHomeScreen');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result
-              ? 'Widget added to home screen!'
-              : 'Failed to add widget to home screen.'),
-        ),
-      );
-    } on PlatformException catch (e) {
-      print("Failed to add widget to home screen: '${e.message}'.");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('An error occurred while adding the widget.')),
-      );
-    }
   }
 
   @override
@@ -82,9 +62,7 @@ class _WaterPageState extends State<WaterPage> {
                   },
                   text: 'What water measurement do you use?',
                 ),
-
                 const SizedBox(height: 24),
-
                 if (state.animationFinished)
                   WaterTogglebuttons(
                     units: _units,
@@ -96,9 +74,7 @@ class _WaterPageState extends State<WaterPage> {
                           .updateSelectedUnit(selectedUnit);
                     },
                   ),
-
                 const SizedBox(height: 24),
-
                 if (state.selectedUnit != null && state.waterNeeded > 0)
                   Column(
                     children: [
@@ -115,14 +91,10 @@ class _WaterPageState extends State<WaterPage> {
                       ),
                     ],
                   ),
-
                 const SizedBox(height: 24),
-
                 if (state.selectedUnit != null && state.waterNeeded > 0)
                   const Timepacker(),
-
                 const SizedBox(height: 24),
-
                 if (state.wakeUpTimeSelected)
                   NextButton(
                       onPressed: () async {
@@ -133,27 +105,6 @@ class _WaterPageState extends State<WaterPage> {
                         );
                       },
                       collectionName: ''),
-
-                // const SizedBox(height: 24),
-
-                // if (state.wakeUpTimeSelected && state.sleepTimeSelected)
-                //   Column(
-                //     children: [
-                //       AnimatedTextWidget(
-                //         onFinished: () {
-                //           context.read<WaterCubit>().finishAnimation();
-                //           widget.onAnimationFinished();
-                //         },
-                //         text:
-                //             'That\'s why you need a reminder to drink water',
-                //       ),
-                //       const SizedBox(height: 24),
-                //       ElevatedButton(
-                //         onPressed: _addWidgetToHomeScreen,
-                //         child: const Text('Add to Home Screen'),
-                //       ),
-                // ],
-                // ),
               ],
             );
           }

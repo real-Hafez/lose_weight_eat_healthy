@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 
 class WaterWidget extends StatefulWidget {
@@ -17,6 +18,11 @@ class WaterWidget extends StatefulWidget {
 
 class _WaterWidgetState extends State<WaterWidget> {
   bool _showAuthor = false;
+  bool _showSecondQuote = false;
+  bool _showImage = false;
+  bool _showbutton = false;
+
+  static const platform = MethodChannel('com.example.fuckin/widget');
 
   @override
   void initState() {
@@ -28,6 +34,49 @@ class _WaterWidgetState extends State<WaterWidget> {
         });
       }
     });
+
+    // Delay for the second quote (5 seconds after the first animation)
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted) {
+        setState(() {
+          _showSecondQuote = true;
+        });
+      }
+    });
+
+    Future.delayed(const Duration(seconds: 14), () {
+      if (mounted) {
+        setState(() {
+          _showImage = true;
+        });
+      }
+    });
+    Future.delayed(const Duration(seconds: 15), () {
+      if (mounted) {
+        setState(() {
+          _showbutton = true;
+        });
+      }
+    });
+  }
+
+  Future<void> _addWidgetToHomeScreen() async {
+    try {
+      final bool result = await platform.invokeMethod('addWidgetToHomeScreen');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result
+              ? 'Widget added to home screen!'
+              : 'Failed to add widget to home screen.'),
+        ),
+      );
+    } on PlatformException catch (e) {
+      print("Failed to add widget to home screen: '${e.message}'.");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('An error occurred while adding the widget.')),
+      );
+    }
   }
 
   @override
@@ -56,6 +105,32 @@ class _WaterWidgetState extends State<WaterWidget> {
               textAlign: TextAlign.right,
             ),
           ),
+          const SizedBox(height: 16),
+          if (_showSecondQuote)
+            AnimatedTextWidget(
+              onFinished: widget.onAnimationFinished,
+              text:
+                  'The best way to achieve your dreams is to keep them in sight. That\'s why you need to add this widget to your home screen.',
+            ),
+          const SizedBox(height: 16),
+          if (_showImage)
+            InkWell(
+              onTap: _addWidgetToHomeScreen,
+              child: Image.asset(
+                'assets/on-boarding-assets/widget_preview.png',
+              ),
+            ),
+          const SizedBox(height: 24),
+          if (_showbutton)
+            ElevatedButton(
+              onPressed: _addWidgetToHomeScreen,
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                textStyle: const TextStyle(fontSize: 18),
+              ),
+              child: const Text('Add the widget'),
+            ),
         ],
       ),
     );
