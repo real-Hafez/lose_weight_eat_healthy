@@ -82,7 +82,8 @@ class _TimepackerState extends State<Timepacker> {
             style: TextStyle(fontSize: 18),
           ),
           _buildTimePicker(context, true),
-          const SizedBox(height: 16),
+
+
           if (_wakeUpTime != null)
             Column(
               children: [
@@ -93,7 +94,6 @@ class _TimepackerState extends State<Timepacker> {
                 _buildTimePicker(context, false),
               ],
             ),
-          const SizedBox(height: 24),
         ],
       ),
     );

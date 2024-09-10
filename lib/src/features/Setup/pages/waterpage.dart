@@ -33,7 +33,7 @@ class _WaterPageState extends State<WaterPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(8.0),
       child: BlocBuilder<WaterCubit, WaterState>(
         builder: (context, state) {
           if (state is WaterInitial || state is WaterLoading) {
@@ -63,17 +63,29 @@ class _WaterPageState extends State<WaterPage> {
                           .updateSelectedUnit(selectedUnit);
                     },
                   ),
-                const SizedBox(height: 24),
                 if (state.waterNeeded > 0)
                   Text(
                     'You will need to drink around: ${state.waterNeeded.toStringAsFixed(1)} ${state.selectedUnit} per day',
                     style: const TextStyle(fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
-                const SizedBox(
-                  height: 10,
-                ),
                 const Timepacker(),
+                AnimatedTextWidget(
+                  onFinished: () {
+                    context.read<WaterCubit>().finishAnimation();
+                    widget.onAnimationFinished();
+                  },
+                  text:
+                      '"To achieve your dreams, keep them in front of you always."',
+                ),
+                AnimatedTextWidget(
+                  onFinished: () {
+                    context.read<WaterCubit>().finishAnimation();
+                    widget.onAnimationFinished();
+                  },
+                  text:
+                      'that\'s why u need to add that widget to your homescreen to keep saing u activment',
+                ),
               ],
             );
           }
