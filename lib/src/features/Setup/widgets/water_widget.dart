@@ -21,6 +21,7 @@ class _WaterWidgetState extends State<WaterWidget> {
   bool _showSecondQuote = false;
   bool _showImage = false;
   bool _showbutton = false;
+  bool _skip = false;
 
   static const platform = MethodChannel('com.example.fuckin/widget');
 
@@ -55,6 +56,7 @@ class _WaterWidgetState extends State<WaterWidget> {
       if (mounted) {
         setState(() {
           _showbutton = true;
+          _skip = true;
         });
       }
     });
@@ -82,10 +84,8 @@ class _WaterWidgetState extends State<WaterWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        padding: const EdgeInsets.all(16),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           AnimatedTextWidget(
             onFinished: widget.onAnimationFinished,
             text: '"Water is the driving force of all nature."',
@@ -131,8 +131,10 @@ class _WaterWidgetState extends State<WaterWidget> {
               ),
               child: const Text('Add the widget'),
             ),
-        ],
-      ),
-    );
+          const SizedBox(
+            height: 10,
+          ),
+          if (_showbutton) const Text("Skip")
+        ]));
   }
 }
