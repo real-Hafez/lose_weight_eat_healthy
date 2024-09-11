@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
@@ -27,18 +27,47 @@ class WaterPage extends StatefulWidget {
 
 class _WaterPageState extends State<WaterPage> {
   final List<String> _units = ['mL', 'L', 'US oz'];
+  TimeOfDay? _wakeUpTime;
+  TimeOfDay? _sleepTime;
 
   @override
   void initState() {
     super.initState();
     context.read<WaterCubit>().fetchWeight();
+    _loadSavedPreferences();
   }
 
-  Future<void> _saveWaterIntakeToPrefs(double waterNeeded, String unit) async {
+  Future<void> _loadSavedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _wakeUpTime = _getTimeOfDayFromString(prefs.getString('wake_up_time'));
+      _sleepTime = _getTimeOfDayFromString(prefs.getString('sleep_time'));
+    });
+  }
+
+  Future<void> _savePreferences(double waterNeeded, String unit) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('water_needed', waterNeeded);
     await prefs.setString('water_unit', unit);
-    print(waterNeeded);
+    if (_wakeUpTime != null) {
+      await prefs.setString('wake_up_time', _wakeUpTime!.format(context));
+    }
+    if (_sleepTime != null) {
+      await prefs.setString('sleep_time', _sleepTime!.format(context));
+    }
+
+    print('Water Needed: $waterNeeded');
+    print('Unit: $unit');
+    print('Wake-up Time: ${_wakeUpTime?.format(context)}');
+    print('Sleep Time: ${_sleepTime?.format(context)}');
+  }
+
+  TimeOfDay? _getTimeOfDayFromString(String? time) {
+    if (time != null) {
+      const format = TimeOfDayFormat.h_colon_mm_space_a;
+      return TimeOfDay.fromDateTime(DateFormat.jm().parse(time));
+    }
+    return null;
   }
 
   @override
@@ -93,18 +122,32 @@ class _WaterPageState extends State<WaterPage> {
                   ),
                 const SizedBox(height: 24),
                 if (state.selectedUnit != null && state.waterNeeded > 0)
-                  const Timepacker(),
+                  Timepacker(
+                    onWakeUpTimeSelected: (time) {
+                      setState(() {
+                        _wakeUpTime = time;
+                      });
+                      context.read<WaterCubit>().selectWakeUpTime(true);
+                    },
+                    onSleepTimeSelected: (time) {
+                      setState(() {
+                        _sleepTime = time;
+                      });
+                      context.read<WaterCubit>().selectSleepTime(true);
+                    },
+                  ),
                 const SizedBox(height: 24),
                 if (state.wakeUpTimeSelected)
                   NextButton(
-                      onPressed: () async {
-                        widget.onNextButtonPressed();
-                        await _saveWaterIntakeToPrefs(
-                          state.waterNeeded,
-                          state.selectedUnit!,
-                        );
-                      },
-                      collectionName: ''),
+                    onPressed: () async {
+                      widget.onNextButtonPressed();
+                      await _savePreferences(
+                        state.waterNeeded,
+                        state.selectedUnit!,
+                      );
+                    },
+                    collectionName: '',
+                  ),
               ],
             );
           }

@@ -65,19 +65,9 @@ class _WaterWidgetState extends State<WaterWidget> {
   Future<void> _addWidgetToHomeScreen() async {
     try {
       final bool result = await platform.invokeMethod('addWidgetToHomeScreen');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result
-              ? 'Widget added to home screen!'
-              : 'Failed to add widget to home screen.'),
-        ),
-      );
+      print(result);
     } on PlatformException catch (e) {
-      print("Failed to add widget to home screen: '${e.message}'.");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('An error occurred while adding the widget.')),
-      );
+      print(e);
     }
   }
 

@@ -4,7 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart'; // Import for DateFormat
 
 class Timepacker extends StatefulWidget {
-  const Timepacker({super.key});
+  final Function(TimeOfDay) onWakeUpTimeSelected;
+  final Function(TimeOfDay) onSleepTimeSelected;
+
+  const Timepacker({
+    super.key,
+    required this.onWakeUpTimeSelected,
+    required this.onSleepTimeSelected,
+  });
 
   @override
   _TimepackerState createState() => _TimepackerState();
@@ -49,11 +56,11 @@ class _TimepackerState extends State<Timepacker> {
       setState(() {
         if (isWakeUpTime) {
           _wakeUpTime = pickedTime;
+          widget.onWakeUpTimeSelected(pickedTime);
           _suggestSleepTime(pickedTime);
-          context.read<WaterCubit>().selectWakeUpTime(true);
         } else {
           _sleepTime = pickedTime;
-          context.read<WaterCubit>().selectSleepTime(true);
+          widget.onSleepTimeSelected(pickedTime);
         }
       });
     }
@@ -82,7 +89,6 @@ class _TimepackerState extends State<Timepacker> {
             style: TextStyle(fontSize: 18),
           ),
           _buildTimePicker(context, true),
-
           if (_wakeUpTime != null)
             Column(
               children: [
@@ -99,24 +105,12 @@ class _TimepackerState extends State<Timepacker> {
   }
 
   Widget _buildTimePicker(BuildContext context, bool isWakeUpTime) {
-    final TimeOfDay? selectedTime = isWakeUpTime ? _wakeUpTime : _sleepTime;
-
-    return GestureDetector(
-      onTap: () => _selectTime(context, isWakeUpTime),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          selectedTime != null
-              ? selectedTime.format(context)
-              : isWakeUpTime
-                  ? 'Select Wake-up Time'
-                  : 'Select Sleep Time',
-          style: const TextStyle(fontSize: 18),
-        ),
+    return ElevatedButton(
+      onPressed: () => _selectTime(context, isWakeUpTime),
+      child: Text(
+        isWakeUpTime
+            ? (_wakeUpTime != null ? _wakeUpTime!.format(context) : 'Select')
+            : (_sleepTime != null ? _sleepTime!.format(context) : 'Select'),
       ),
     );
   }
