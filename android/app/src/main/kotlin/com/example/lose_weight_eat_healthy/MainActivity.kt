@@ -16,6 +16,8 @@ import android.content.BroadcastReceiver
 import android.content.res.ColorStateList
 import android.app.AlarmManager
 import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.fuckin/widget"
@@ -136,20 +138,20 @@ class MainActivity : FlutterActivity() {
         )
     
         val calendar = Calendar.getInstance()
-        val timeParts = wakeUpTime.split(":")
-        calendar.set(Calendar.HOUR_OF_DAY, timeParts[0].toInt())
-        calendar.set(Calendar.MINUTE, timeParts[1].toInt())
-        calendar.set(Calendar.SECOND, 0)
-    
-        if (calendar.timeInMillis <= System.currentTimeMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        val sdf = SimpleDateFormat("h:mm a", Locale.US)
+        val date = sdf.parse(wakeUpTime)
+        date?.let {
+            calendar.time = it
+            if (calendar.timeInMillis <= System.currentTimeMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1)
+            }
+        
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent
+            )
         }
-    
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            pendingIntent
-        )
     }
 }

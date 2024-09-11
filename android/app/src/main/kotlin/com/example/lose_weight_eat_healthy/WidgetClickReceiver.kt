@@ -8,46 +8,43 @@ import android.content.Intent
 import android.widget.RemoteViews
 
 class WidgetClickReceiver : BroadcastReceiver() {
-    private val TOTAL_CUPS = 10 // Total cups (internal representation)
-    private val LITERS_PER_CUP = 0.3 // Convert cups to liters
-
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action
         val appWidgetManager = AppWidgetManager.getInstance(context)
         val widgetComponent = ComponentName(context, HomeScreenWidget::class.java)
-        var cupsDrunk = getCounterFromPreferences(context)
 
-        // Handle button actions (increment)
         when (action) {
             "com.example.lose_weight_eat_healthy.INCREMENT" -> {
-                if (cupsDrunk < TOTAL_CUPS) cupsDrunk++
+                incrementWaterDrunk(context)
             }
         }
 
-        // Calculate new values
-        val litersDrunk = cupsDrunk * LITERS_PER_CUP
-        val percentage = (litersDrunk / (TOTAL_CUPS * LITERS_PER_CUP) * 100).toInt()
-
-        // Update the widget UI
-        val remoteViews = RemoteViews(context.packageName, R.layout.home_screen_widget)
-        remoteViews.setTextViewText(R.id.appwidget_text, "%.1f L / %.1f L".format(litersDrunk, TOTAL_CUPS * LITERS_PER_CUP))
-        remoteViews.setTextViewText(R.id.water_percentage, "$percentage%")
-        remoteViews.setProgressBar(R.id.water_progress, 100, percentage, false)
-
-        // Immediate widget refresh
-        appWidgetManager.updateAppWidget(widgetComponent, remoteViews)
-
-        // Save the updated state (cups drunk)
-        saveCounterToPreferences(context, cupsDrunk)
+        // Update the widget
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(widgetComponent)
+        for (appWidgetId in appWidgetIds) {
+            HomeScreenWidget.updateAppWidget(context, appWidgetManager, appWidgetId)
+        }
     }
 
-    private fun getCounterFromPreferences(context: Context): Int {
-        val sharedPreferences = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getInt("cups_drunk", 0)
-    }
+    private fun incrementWaterDrunk(context: Context) {
+        val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
+        val waterDrunk = prefs.getFloat("water_drunk", 0f)
+        val waterNeeded = prefs.getFloat("water_needed", 2500f)
+        val selectedUnit = prefs.getString("selected_unit", "mL") ?: "mL"
 
-    private fun saveCounterToPreferences(context: Context, cupsDrunk: Int) {
-        val sharedPreferences = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-        sharedPreferences.edit().putInt("cups_drunk", cupsDrunk).apply()
+        val incrementAmount = when (selectedUnit) {
+            "L" -> 0.3f
+            "mL" -> 300f
+            "US oz" -> 10f
+            else -> 300f
+        }
+
+        val newWaterDrunk = (waterDrunk + incrementAmount).coerceAtMost(waterNeeded)
+        prefs.edit().putFloat("water_drunk", newWaterDrunk).apply()
+
+        // Notify the app about the update
+        val updateIntent = Intent("com.example.fuckin.WIDGET_UPDATED")
+        updateIntent.putExtra("water_drunk", newWaterDrunk)
+        context.sendBroadcast(updateIntent)
     }
 }
