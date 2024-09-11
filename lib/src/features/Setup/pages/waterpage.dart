@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
@@ -60,6 +61,22 @@ class _WaterPageState extends State<WaterPage> {
     print('Unit: $unit');
     print('Wake-up Time: ${_wakeUpTime?.format(context)}');
     print('Sleep Time: ${_sleepTime?.format(context)}');
+
+    // Update the widget with the new data
+    await _updateHomeScreenWidget(waterNeeded, unit);
+  }
+
+  Future<void> _updateHomeScreenWidget(double waterNeeded, String unit) async {
+    const platform = MethodChannel('com.example.fuckin/widget');
+    try {
+      await platform.invokeMethod('updateWidget', {
+        'water': waterNeeded,
+        'unit': unit,
+        'wake_up_time': _wakeUpTime?.format(context),
+      });
+    } catch (e) {
+      print('Failed to update widget: $e');
+    }
   }
 
   TimeOfDay? _getTimeOfDayFromString(String? time) {

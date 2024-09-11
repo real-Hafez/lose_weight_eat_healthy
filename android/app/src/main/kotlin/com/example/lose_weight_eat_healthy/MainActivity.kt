@@ -17,7 +17,6 @@ import android.content.res.ColorStateList
 import android.app.AlarmManager
 import java.util.Calendar
 
-
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.fuckin/widget"
     private lateinit var dataUpdateReceiver: BroadcastReceiver
@@ -34,20 +33,19 @@ class MainActivity : FlutterActivity() {
                     }
                     "updateWidget" -> {
                         val args = call.arguments as? Map<String, Any> ?: throw IllegalArgumentException("Invalid arguments")
-                        val waterDrunk = args["water"] as? Int ?: throw IllegalArgumentException("Invalid water value")
+                        val waterNeeded = args["water"] as? Double ?: throw IllegalArgumentException("Invalid water value")
                         val unit = args["unit"] as? String ?: throw IllegalArgumentException("Invalid unit")
-                        updateHomeScreenWidget(waterDrunk, unit)
+                        val wakeUpTime = args["wake_up_time"] as? String
+                        updateHomeScreenWidget(waterNeeded, unit)
+                        if (wakeUpTime != null) {
+                            scheduleWidgetReset(wakeUpTime)
+                        }
                         result.success(null)
                     }
                     "getWidgetCounter" -> {
                         val waterDrunk = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-                            .getInt("cups_drunk", 0)
+                            .getFloat("water_drunk", 0f)
                         result.success(waterDrunk)
-                    }
-                    "updateWidgetUnit" -> {
-                        val unit = call.arguments as? String ?: throw IllegalArgumentException("Invalid unit")
-                        updateWidgetUnit(unit)
-                        result.success(null)
                     }
                     else -> result.notImplemented()
                 }
@@ -59,7 +57,7 @@ class MainActivity : FlutterActivity() {
         dataUpdateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.action == "com.example.fuckin.WIDGET_UPDATED") {
-                    val waterDrunk = intent.getIntExtra("water_drunk", 0)
+                    val waterDrunk = intent.getFloatExtra("water_drunk", 0f)
                     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
                         .invokeMethod("updateAppState", waterDrunk)
                 }
@@ -73,27 +71,10 @@ class MainActivity : FlutterActivity() {
         unregisterReceiver(dataUpdateReceiver)
     }
 
-    private fun updateHomeScreenWidget(waterDrunk: Int, unit: String) {
+    private fun updateHomeScreenWidget(waterNeeded: Double, unit: String) {
         val prefs = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
         prefs.edit()
-            .putInt("cups_drunk", waterDrunk)
-            .putString("selected_unit", unit)
-            .apply()
-
-        val appWidgetManager = AppWidgetManager.getInstance(this)
-        val widgetComponent = ComponentName(this, HomeScreenWidget::class.java)
-        val appWidgetIds = appWidgetManager.getAppWidgetIds(widgetComponent)
-
-        val updateIntent = Intent(this, HomeScreenWidget::class.java).apply {
-            action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-        }
-        sendBroadcast(updateIntent)
-    }
-
-    private fun updateWidgetUnit(unit: String) {
-        val prefs = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-        prefs.edit()
+            .putFloat("water_needed", waterNeeded.toFloat())
             .putString("selected_unit", unit)
             .apply()
 
@@ -113,22 +94,19 @@ class MainActivity : FlutterActivity() {
         val myProvider = ComponentName(this, HomeScreenWidget::class.java)
 
         if (appWidgetManager.isRequestPinAppWidgetSupported) {
-            // Create a preview of the widget
             val remoteViews = RemoteViews(packageName, R.layout.home_screen_widget)
             
-            // Set initial values for the widget preview
             val prefs = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-            val cupsDrunk = prefs.getInt("cups_drunk", 0)
-            val litersDrunk = cupsDrunk * 0.3 // Assuming 1 cup is 0.3 liters
-            val totalLiters = 3.0 // Assuming the total goal is 3 liters
-            val percentage = ((litersDrunk / totalLiters) * 100).toInt().coerceIn(0, 100)
+            val waterDrunk = prefs.getFloat("water_drunk", 0f)
+            val waterNeeded = prefs.getFloat("water_needed", 2500f)
+            val unit = prefs.getString("selected_unit", "mL") ?: "mL"
+            val percentage = ((waterDrunk / waterNeeded) * 100).toInt().coerceIn(0, 100)
 
             remoteViews.setTextViewText(R.id.widget_title, "Water Tracker")
-            remoteViews.setTextViewText(R.id.appwidget_text, "%.1f L / %.1f L".format(litersDrunk, totalLiters))
+            remoteViews.setTextViewText(R.id.appwidget_text, "%.1f %s / %.1f %s".format(waterDrunk, unit, waterNeeded, unit))
             remoteViews.setTextViewText(R.id.water_percentage, "$percentage%")
             remoteViews.setProgressBar(R.id.water_progress, 100, percentage, false)
 
-            // Create the configuration Activity PendingIntent
             val configIntent = Intent(this, MainActivity::class.java)
             val configPendingIntent = PendingIntent.getActivity(
                 this,
@@ -137,7 +115,6 @@ class MainActivity : FlutterActivity() {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
-            // Request to pin the widget with the preview
             appWidgetManager.requestPinAppWidget(myProvider, Bundle().apply {
                 putParcelable(AppWidgetManager.EXTRA_APPWIDGET_PREVIEW, remoteViews)
             }, configPendingIntent)
@@ -146,6 +123,7 @@ class MainActivity : FlutterActivity() {
         }
         return false
     }
+
     private fun scheduleWidgetReset(wakeUpTime: String) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, HomeScreenWidget::class.java)

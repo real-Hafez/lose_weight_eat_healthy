@@ -7,36 +7,50 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeScreenWidget : AppWidgetProvider() {
-
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
     }
 
-    companion object {
-        private const val TOTAL_WATER_LITERS = 2.5 // Example total water needed
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+        if (intent.action == "com.example.lose_weight_eat_healthy.RESET_WIDGET") {
+            resetWidget(context)
+        } else if (intent.action == AppWidgetManager.ACTION_APPWIDGET_UPDATE) {
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            val thisWidget = ComponentName(context, HomeScreenWidget::class.java)
+            val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
+            onUpdate(context, appWidgetManager, appWidgetIds)
+        }
+    }
 
+    private fun resetWidget(context: Context) {
+        val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putFloat("water_drunk", 0f).apply()
+
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val thisWidget = ComponentName(context, HomeScreenWidget::class.java)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget)
+        onUpdate(context, appWidgetManager, appWidgetIds)
+    }
+
+    companion object {
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-            val cupsDrunk = prefs.getInt("cups_drunk", 0)
-            val selectedUnit = prefs.getString("selected_unit", "L") ?: "L"
+            val waterDrunk = prefs.getFloat("water_drunk", 0f)
+            val waterNeeded = prefs.getFloat("water_needed", 2500f)
+            val selectedUnit = prefs.getString("selected_unit", "mL") ?: "mL"
 
-            // Convert cupsDrunk to liters or other unit
-            val litersDrunk = when (selectedUnit) {
-                "L" -> cupsDrunk * 0.3
-                "mL" -> cupsDrunk * 300.0
-                "US oz" -> cupsDrunk * 10.0
-                else -> cupsDrunk * 0.3
-            }
+            val widgetText = String.format("%.1f %s / %.1f %s", waterDrunk, selectedUnit, waterNeeded, selectedUnit)
+            val percentage = ((waterDrunk / waterNeeded) * 100).toInt().coerceIn(0, 100)
 
-            val totalLiters = TOTAL_WATER_LITERS
-            val percentage = ((litersDrunk / totalLiters) * 100).toInt().coerceIn(0, 100)
-
-            val widgetText = String.format("%.1f %s / %.1f %s", litersDrunk, selectedUnit, totalLiters, selectedUnit)
             val views = RemoteViews(context.packageName, R.layout.home_screen_widget)
+            views.setTextViewText(R.id.widget_title, "Water Tracker")
             views.setTextViewText(R.id.appwidget_text, widgetText)
             views.setTextViewText(R.id.water_percentage, "$percentage%")
             views.setProgressBar(R.id.water_progress, 100, percentage, false)
@@ -51,8 +65,6 @@ class HomeScreenWidget : AppWidgetProvider() {
             }
             val incrementPendingIntent = PendingIntent.getBroadcast(context, 0, incrementIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             views.setOnClickPendingIntent(R.id.btn_increment, incrementPendingIntent)
-
-            // Remove decrement button handling
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
