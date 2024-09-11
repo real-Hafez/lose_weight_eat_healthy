@@ -7,7 +7,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.example.lose_weight_eat_healthy.MainActivity
 
 class HomeScreenWidget : AppWidgetProvider() {
 
@@ -17,57 +16,43 @@ class HomeScreenWidget : AppWidgetProvider() {
         }
     }
 
-    override fun onReceive(context: Context, intent: Intent) {
-        super.onReceive(context, intent)
-
-        val action = intent.action
-
-        if (action == "com.example.lose_weight_eat_healthy.INCREMENT" || action == "com.example.lose_weight_eat_healthy.DECREMENT") {
-            val widgetClickIntent = Intent(context, WidgetClickReceiver::class.java).apply {
-                this.action = action
-            }
-            context.sendBroadcast(widgetClickIntent)
-        }
-    }
-
     companion object {
-        private const val TOTAL_CUPS = 10
-        private const val LITERS_PER_CUP = 0.3
+        private const val TOTAL_WATER_LITERS = 2.5 // Example total water needed
 
         fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
             val cupsDrunk = prefs.getInt("cups_drunk", 0)
-            val litersDrunk = cupsDrunk * LITERS_PER_CUP
-            val totalLiters = TOTAL_CUPS * LITERS_PER_CUP
+            val selectedUnit = prefs.getString("selected_unit", "L") ?: "L"
+
+            // Convert cupsDrunk to liters or other unit
+            val litersDrunk = when (selectedUnit) {
+                "L" -> cupsDrunk * 0.3
+                "mL" -> cupsDrunk * 300.0
+                "US oz" -> cupsDrunk * 10.0
+                else -> cupsDrunk * 0.3
+            }
+
+            val totalLiters = TOTAL_WATER_LITERS
             val percentage = ((litersDrunk / totalLiters) * 100).toInt().coerceIn(0, 100)
 
-            val widgetText = String.format("%.1f L / %.1f L", litersDrunk, totalLiters)
+            val widgetText = String.format("%.1f %s / %.1f %s", litersDrunk, selectedUnit, totalLiters, selectedUnit)
             val views = RemoteViews(context.packageName, R.layout.home_screen_widget)
             views.setTextViewText(R.id.appwidget_text, widgetText)
             views.setTextViewText(R.id.water_percentage, "$percentage%")
             views.setProgressBar(R.id.water_progress, 100, percentage, false)
 
-            // Intent to open the app
+            // Setup intents
             val openAppIntent = Intent(context, MainActivity::class.java)
-            val openAppPendingIntent = PendingIntent.getActivity(
-                context, 
-                0, 
-                openAppIntent, 
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+            val openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             views.setOnClickPendingIntent(R.id.widget_layout, openAppPendingIntent)
 
-            // Intent for increment action
-            val incrementIntent = Intent(context, HomeScreenWidget::class.java).apply {
+            val incrementIntent = Intent(context, WidgetClickReceiver::class.java).apply {
                 action = "com.example.lose_weight_eat_healthy.INCREMENT"
             }
-            val incrementPendingIntent = PendingIntent.getBroadcast(
-                context, 
-                0, 
-                incrementIntent, 
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+            val incrementPendingIntent = PendingIntent.getBroadcast(context, 0, incrementIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             views.setOnClickPendingIntent(R.id.btn_increment, incrementPendingIntent)
+
+            // Remove decrement button handling
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }

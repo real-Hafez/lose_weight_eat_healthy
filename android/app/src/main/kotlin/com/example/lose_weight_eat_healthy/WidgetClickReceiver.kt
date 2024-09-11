@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import com.example.lose_weight_eat_healthy.HomeScreenWidget
 
 class WidgetClickReceiver : BroadcastReceiver() {
     private val TOTAL_CUPS = 10 // Total cups (internal representation)
@@ -18,11 +17,8 @@ class WidgetClickReceiver : BroadcastReceiver() {
         val widgetComponent = ComponentName(context, HomeScreenWidget::class.java)
         var cupsDrunk = getCounterFromPreferences(context)
 
-        // Handle button actions (increment/decrement)
+        // Handle button actions (increment)
         when (action) {
-            "com.example.lose_weight_eat_healthy.DECREMENT" -> {
-                if (cupsDrunk > 0) cupsDrunk--
-            }
             "com.example.lose_weight_eat_healthy.INCREMENT" -> {
                 if (cupsDrunk < TOTAL_CUPS) cupsDrunk++
             }

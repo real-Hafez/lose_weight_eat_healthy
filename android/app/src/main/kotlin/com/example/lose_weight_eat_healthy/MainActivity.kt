@@ -14,6 +14,9 @@ import io.flutter.plugin.common.MethodChannel
 import com.example.lose_weight_eat_healthy.HomeScreenWidget
 import android.content.BroadcastReceiver
 import android.content.res.ColorStateList
+import android.app.AlarmManager
+import java.util.Calendar
+
 
 class MainActivity : FlutterActivity() {
     private val CHANNEL = "com.example.fuckin/widget"
@@ -142,5 +145,33 @@ class MainActivity : FlutterActivity() {
             return true
         }
         return false
+    }
+    private fun scheduleWidgetReset(wakeUpTime: String) {
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, HomeScreenWidget::class.java)
+        intent.action = "com.example.lose_weight_eat_healthy.RESET_WIDGET"
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    
+        val calendar = Calendar.getInstance()
+        val timeParts = wakeUpTime.split(":")
+        calendar.set(Calendar.HOUR_OF_DAY, timeParts[0].toInt())
+        calendar.set(Calendar.MINUTE, timeParts[1].toInt())
+        calendar.set(Calendar.SECOND, 0)
+    
+        if (calendar.timeInMillis <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+    
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            pendingIntent
+        )
     }
 }
