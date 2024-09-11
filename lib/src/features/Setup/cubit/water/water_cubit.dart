@@ -24,8 +24,8 @@ class WaterCubit extends Cubit<WaterState> {
           waterNeeded: 0.0,
           selectedUnit: null,
           animationFinished: false,
-          wakeUpTimeSelected: false, 
-          sleepTimeSelected: false, 
+          wakeUpTimeSelected: false,
+          sleepTimeSelected: false,
         ));
       } catch (e) {
         emit(WaterError('Failed to fetch weight'));
@@ -42,12 +42,16 @@ class WaterCubit extends Cubit<WaterState> {
         return;
 
       double waterNeeded = 0.0;
+
       if (loadedState.selectedUnit == 'mL') {
         waterNeeded = loadedState.currentWeightKg * 35;
+        waterNeeded = (waterNeeded / 100).round() * 100;
       } else if (loadedState.selectedUnit == 'L') {
         waterNeeded = loadedState.currentWeightKg * 0.035;
+        waterNeeded = double.parse(waterNeeded.toStringAsFixed(1));
       } else if (loadedState.selectedUnit == 'US oz') {
         waterNeeded = loadedState.currentWeightKg * 35 / 29.5735;
+        waterNeeded = waterNeeded.roundToDouble();
       }
 
       emit(loadedState.copyWith(waterNeeded: waterNeeded));
