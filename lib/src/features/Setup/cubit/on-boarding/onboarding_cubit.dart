@@ -12,7 +12,6 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   void nextPage() {
     final nextPage = state.currentPage + 1;
     if (nextPage < _getTotalPages()) {
-      // Move to the next page and hide the "Next" button initially
       emit(state.copyWith(currentPage: nextPage, showNextButton: false));
       _pageController.animateToPage(
         nextPage,
@@ -31,12 +30,11 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   }
 
   String getCollectionName() {
-    // Implement your logic to get the collection name
     return 'collection_name';
   }
 
   int _getTotalPages() {
-    return 8;
+    return 9;
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class WaterWidget extends StatefulWidget {
   const WaterWidget({
@@ -20,8 +21,9 @@ class _WaterWidgetState extends State<WaterWidget> {
   bool _showAuthor = false;
   bool _showSecondQuote = false;
   bool _showImage = false;
-  bool _showbutton = false;
-  bool _skip = false;
+  bool _showAddWidgetButton = false;
+  bool _showNextButton = false;
+  bool _showSkip = false;
 
   static const platform = MethodChannel('com.example.fuckin/widget');
 
@@ -55,8 +57,8 @@ class _WaterWidgetState extends State<WaterWidget> {
     Future.delayed(const Duration(seconds: 15), () {
       if (mounted) {
         setState(() {
-          _showbutton = true;
-          _skip = true;
+          _showAddWidgetButton = true;
+          _showSkip = true;
         });
       }
     });
@@ -66,6 +68,14 @@ class _WaterWidgetState extends State<WaterWidget> {
     try {
       final bool result = await platform.invokeMethod('addWidgetToHomeScreen');
       print(result);
+
+      if (mounted) {
+        // When user clicks "Add the widget", show "Next" button and hide "Skip"
+        setState(() {
+          _showNextButton = true;
+          _showSkip = false;
+        });
+      }
     } on PlatformException catch (e) {
       print(e);
     }
@@ -111,7 +121,7 @@ class _WaterWidgetState extends State<WaterWidget> {
               ),
             ),
           const SizedBox(height: 24),
-          if (_showbutton)
+          if (_showAddWidgetButton)
             ElevatedButton(
               onPressed: _addWidgetToHomeScreen,
               style: ElevatedButton.styleFrom(
@@ -121,10 +131,20 @@ class _WaterWidgetState extends State<WaterWidget> {
               ),
               child: const Text('Add the widget'),
             ),
-          const SizedBox(
-            height: 10,
-          ),
-          if (_showbutton) const Text("Skip")
+          const SizedBox(height: 10),
+          if (_showNextButton)
+            NextButton(
+              onPressed: widget.onNextButtonPressed,
+              collectionName: '',
+            ),
+          if (_showSkip)
+            const Text(
+              "Skip",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
         ]));
   }
 }

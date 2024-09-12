@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/GenderSelection
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/BodyFatPercentagePage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/Finishpage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/GenderSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightSelectionPage.dart';
@@ -92,6 +93,14 @@ class OnboardingPage extends StatelessWidget {
                       },
                     ),
                     WaterWidget(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                    Finishpage(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },

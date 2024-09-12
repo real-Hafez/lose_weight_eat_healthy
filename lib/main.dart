@@ -11,7 +11,6 @@ import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/sig
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/GenderSelection/gender_selection_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/splash/pages/Splash_Screen.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 import 'package:lose_weight_eat_healthy/src/theme/dark_Theme.dart';

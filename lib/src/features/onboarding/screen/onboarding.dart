@@ -61,6 +61,7 @@ class OnBoarding extends StatelessWidget {
             main_text: S.of(context).mainTextThirdOnboardingPage,
             sub_text: S.of(context).subTextThirdOnboardingPage,
           ),
+          
         ],
         controllerColor: Colors.orange,
         onFinish: () {
