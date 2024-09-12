@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'dart:async';
@@ -19,9 +20,9 @@ class Finishpage extends StatefulWidget {
 
 class _FinishpageState extends State<Finishpage> {
   final List<String> steps = [
-    'Making your workout Routines...',
-    'Making your Nutrition ...',
-    'Set Up Your water reminders ',
+    S().setp1,
+    S().step2,
+    S().step2,
   ];
 
   int currentStep = 0;
@@ -77,13 +78,13 @@ class _FinishpageState extends State<Finishpage> {
           if (areAllStepsCompleted) ...[
             AnimatedTextWidget(
               onFinished: () {},
-              text: 'Just 30 days to reach your goal try to active our dream ',
+              text: S().motivationalText,
             ),
             const SizedBox(height: 20),
             if (showButton)
               ElevatedButton(
                 onPressed: widget.onNextButtonPressed,
-                child: const Text('Start activating your dream'),
+                child: Text(S().buttonText),
               ),
           ],
         ],

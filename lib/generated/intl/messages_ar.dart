@@ -41,6 +41,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اختر نسبة الدهون في جسمك"),
         "bodyfatwoman":
             MessageLookupByLibrary.simpleMessage("اختاري نسبة الدهون في جسمك"),
+        "buttonText":
+            MessageLookupByLibrary.simpleMessage("ابدأ في تحقيق حلمك"),
         "cm": MessageLookupByLibrary.simpleMessage("سم"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),
@@ -87,6 +89,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مجاناً بالكامل لصحتك"),
         "man": MessageLookupByLibrary.simpleMessage("ذكر"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("تخطيط الوجبات"),
+        "motivationalText": MessageLookupByLibrary.simpleMessage(
+            "فقط 30 يومًا للوصول إلى هدفك، حاول تحقيق حلمنا"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
             "خطأ في الشبكة. يرجى التحقق من اتصالك."),
         "newAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
@@ -109,11 +113,17 @@ class MessageLookup extends MessageLookupByLibrary {
             "الماء هو القوة الدافعة لكل الطبيعة."),
         "quotesaider":
             MessageLookupByLibrary.simpleMessage("- ليوناردو دافنشي"),
+        "setp1": MessageLookupByLibrary.simpleMessage(
+            "إعداد روتين التمارين الخاص بك..."),
         "signIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "signupbutton": MessageLookupByLibrary.simpleMessage("أنشاء حساب"),
         "skipButton": MessageLookupByLibrary.simpleMessage("تخطي"),
         "sleepingclock": MessageLookupByLibrary.simpleMessage("اختر وقت النوم"),
+        "step2":
+            MessageLookupByLibrary.simpleMessage("إعداد التغذية الخاصة بك..."),
+        "step3": MessageLookupByLibrary.simpleMessage(
+            "ضبط تذكيرات المياه الخاصة بك"),
         "subTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "تصفح الفيديوهات التي تناسب مستوى لياقتك وتساعدك على تحقيق أهداف الكارديو الخاصة بك."),
         "subTextSecondOnboardingPage": MessageLookupByLibrary.simpleMessage(

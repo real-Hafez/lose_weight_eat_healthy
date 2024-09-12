@@ -909,6 +909,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Making your workout Routines...`
+  String get setp1 {
+    return Intl.message(
+      'Making your workout Routines...',
+      name: 'setp1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Making your Nutrition...`
+  String get step2 {
+    return Intl.message(
+      'Making your Nutrition...',
+      name: 'step2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set Up Your water reminders`
+  String get step3 {
+    return Intl.message(
+      'Set Up Your water reminders',
+      name: 'step3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Just 30 days to reach your goal, try to achieve our dream`
+  String get motivationalText {
+    return Intl.message(
+      'Just 30 days to reach your goal, try to achieve our dream',
+      name: 'motivationalText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start activating your dream`
+  String get buttonText {
+    return Intl.message(
+      'Start activating your dream',
+      name: 'buttonText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Choose your body fat percentage"),
         "bodyfatwoman": MessageLookupByLibrary.simpleMessage(
             "Choose your body fat percentage"),
+        "buttonText":
+            MessageLookupByLibrary.simpleMessage("Start activating your dream"),
         "cm": MessageLookupByLibrary.simpleMessage("cm"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("CUSTOM WORKOUT PLANS"),
@@ -88,6 +90,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Absolutely Free for Your Health"),
         "man": MessageLookupByLibrary.simpleMessage("Male"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("MEAL PLANNING"),
+        "motivationalText": MessageLookupByLibrary.simpleMessage(
+            "Just 30 days to reach your goal, try to achieve our dream"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
             "Network error. Please check your connection."),
         "newAccount":
@@ -110,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Water is the driving force of all nature."),
         "quotesaider":
             MessageLookupByLibrary.simpleMessage("- Leonardo da Vinci"),
+        "setp1": MessageLookupByLibrary.simpleMessage(
+            "Making your workout Routines..."),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
         "signupSuccessful":
@@ -117,6 +123,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "signupbutton": MessageLookupByLibrary.simpleMessage("Sign up"),
         "skipButton": MessageLookupByLibrary.simpleMessage("Skip"),
         "sleepingclock": MessageLookupByLibrary.simpleMessage("sleeping time"),
+        "step2":
+            MessageLookupByLibrary.simpleMessage("Making your Nutrition..."),
+        "step3":
+            MessageLookupByLibrary.simpleMessage("Set Up Your water reminders"),
         "subTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Browse videos that match your fitness level and help you reach your cardio goals."),
         "subTextSecondOnboardingPage": MessageLookupByLibrary.simpleMessage(
