@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class ToggleButtonsWidget extends StatelessWidget {
   final String heightUnit;
   final void Function(String unit) onUnitChanged;
 
   const ToggleButtonsWidget({
-    Key? key,
+    super.key,
     required this.heightUnit,
     required this.onUnitChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +24,14 @@ class ToggleButtonsWidget extends StatelessWidget {
         selectedColor: Colors.white,
         fillColor: Colors.green,
         borderRadius: BorderRadius.circular(8),
-        children: const [
+        children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text('cm'),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(S().cm),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Text('ft'),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(S().ft),
           ),
         ],
       ),

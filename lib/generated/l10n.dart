@@ -559,6 +559,186 @@ class S {
       args: [],
     );
   }
+
+  /// `Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly.`
+  String get welcomeonboarding {
+    return Intl.message(
+      'Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly.',
+      name: 'welcomeonboarding',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get next {
+    return Intl.message(
+      'Next',
+      name: 'next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Your Gender`
+  String get genderselect {
+    return Intl.message(
+      'Select Your Gender',
+      name: 'genderselect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get man {
+    return Intl.message(
+      'Male',
+      name: 'man',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get female {
+    return Intl.message(
+      'Female',
+      name: 'female',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What's your height?`
+  String get heigh {
+    return Intl.message(
+      'What\'s your height?',
+      name: 'heigh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cm`
+  String get cm {
+    return Intl.message(
+      'cm',
+      name: 'cm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ft`
+  String get ft {
+    return Intl.message(
+      'ft',
+      name: 'ft',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What's your weight?`
+  String get weight {
+    return Intl.message(
+      'What\'s your weight?',
+      name: 'weight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `kg`
+  String get kg {
+    return Intl.message(
+      'kg',
+      name: 'kg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `lb`
+  String get lb {
+    return Intl.message(
+      'lb',
+      name: 'lb',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How much weight do you want to lose?`
+  String get WeightLoss {
+    return Intl.message(
+      'How much weight do you want to lose?',
+      name: 'WeightLoss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `gain`
+  String get gain {
+    return Intl.message(
+      'gain',
+      name: 'gain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `lose`
+  String get lose {
+    return Intl.message(
+      'lose',
+      name: 'lose',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are going to`
+  String get loseorgainweight {
+    return Intl.message(
+      'You are going to',
+      name: 'loseorgainweight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This will take approximately`
+  String get approximately {
+    return Intl.message(
+      'This will take approximately',
+      name: 'approximately',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `to`
+  String get to {
+    return Intl.message(
+      'to',
+      name: 'to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days`
+  String get days {
+    return Intl.message(
+      'days',
+      name: 'days',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -25,11 +25,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" Login successful"),
+        "WeightLoss": MessageLookupByLibrary.simpleMessage(
+            "How much weight do you want to lose?"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
+        "approximately": MessageLookupByLibrary.simpleMessage(
+            "This will take approximately"),
+        "cm": MessageLookupByLibrary.simpleMessage("cm"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("CUSTOM WORKOUT PLANS"),
         "dailyMotivation":
             MessageLookupByLibrary.simpleMessage("DAILY MOTIVATION"),
+        "days": MessageLookupByLibrary.simpleMessage("days"),
         "discoverApp":
             MessageLookupByLibrary.simpleMessage("Discover our app, it’s"),
         "dontHaveAccount":
@@ -40,27 +46,40 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("EXPERT TRAINING TIPS"),
+        "female": MessageLookupByLibrary.simpleMessage("Female"),
         "firstNameHint": MessageLookupByLibrary.simpleMessage("Ahmed"),
         "firstNameLabel": MessageLookupByLibrary.simpleMessage("First name"),
         "forgetfield": MessageLookupByLibrary.simpleMessage(
             "Please fill in all required fields"),
+        "ft": MessageLookupByLibrary.simpleMessage("ft"),
+        "gain": MessageLookupByLibrary.simpleMessage("gain"),
+        "genderselect":
+            MessageLookupByLibrary.simpleMessage("Select Your Gender"),
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("HEALTHY RECIPE SUGGESTIONS"),
+        "heigh": MessageLookupByLibrary.simpleMessage("What\'s your height?"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "The email address is badly formatted."),
+        "kg": MessageLookupByLibrary.simpleMessage("kg"),
         "lastNameHint": MessageLookupByLibrary.simpleMessage("Hafez"),
         "lastNameLabel": MessageLookupByLibrary.simpleMessage("Last name"),
+        "lb": MessageLookupByLibrary.simpleMessage("lb"),
+        "lose": MessageLookupByLibrary.simpleMessage("lose"),
+        "loseorgainweight":
+            MessageLookupByLibrary.simpleMessage("You are going to"),
         "mainTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Find Your Perfect Cardio Routine"),
         "mainTextSecondOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Quick Recipes, Healthy Results"),
         "mainTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Absolutely Free for Your Health"),
+        "man": MessageLookupByLibrary.simpleMessage("Male"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("MEAL PLANNING"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
             "Network error. Please check your connection."),
         "newAccount":
             MessageLookupByLibrary.simpleMessage("Create New Account"),
+        "next": MessageLookupByLibrary.simpleMessage("Next"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Sign-in method not allowed. Please enable the sign-in method in Firebase console."),
         "orLoginWith": MessageLookupByLibrary.simpleMessage("Or login with"),
@@ -85,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Discover the quickest way to nutritious meals that help you stay fit and healthy."),
         "subTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "It’s all free! We want you to get fit and healthy, so enjoy our content at no cost."),
+        "to": MessageLookupByLibrary.simpleMessage("to"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "Too many requests. Try again later."),
         "unknownError": MessageLookupByLibrary.simpleMessage(
@@ -101,7 +121,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Username is already taken"),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "The password provided is too weak."),
+        "weight": MessageLookupByLibrary.simpleMessage("What\'s your weight?"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back"),
+        "welcomeonboarding": MessageLookupByLibrary.simpleMessage(
+            "Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly."),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
             "Wrong password provided for that user.")
       };

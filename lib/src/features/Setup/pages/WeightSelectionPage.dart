@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightLossMessageWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/KgPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/LbPicker.dart';
@@ -33,7 +34,7 @@ class _WeightSelectionPageState extends State<WeightSelectionPage> {
   void initState() {
     super.initState();
     // Set default values based on heightUnit
-    _weightUnit = widget.heightUnit == 'ft' ? 'lb' : 'kg';
+    _weightUnit = widget.heightUnit == 'ft' ? S().lb : S().kg;
     _updateWeightValues(); // Ensure values are updated based on the initial unit
   }
 
@@ -46,7 +47,7 @@ class _WeightSelectionPageState extends State<WeightSelectionPage> {
         children: [
           ProgressIndicatorWidget(value: 0.4),
           const SizedBox(height: 20),
-          const TitleWidget(title: 'What\'s your weight?'),
+          TitleWidget(title: S().weight),
           const SizedBox(height: 20),
           ToggleButtonsWidgetkg(
             weightUnit: _weightUnit,

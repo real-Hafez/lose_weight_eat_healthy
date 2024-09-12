@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class WeightLosstarget extends StatelessWidget {
   final double currentWeight;
@@ -17,23 +18,21 @@ class WeightLosstarget extends StatelessWidget {
     final weightDifference = currentWeight - targetWeight;
     final weightLost = weightDifference.toStringAsFixed(1);
     final isGain = weightDifference < 0;
-    final displayWeight = isGain ? 'gain' : 'lose';
+    final displayWeight = isGain ? S().gain : S().lose;
     final timeEstimate = _estimateTime(weightDifference);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'You are going to $displayWeight $weightLost $weightUnit',
+          '${S().loseorgainweight} $displayWeight $weightLost $weightUnit',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: isGain
-                    ? Colors.red
-                    : Colors.green, // Red for gain, green for loss
+                color: isGain ? Colors.red : Colors.green,
               ),
         ),
         const SizedBox(height: 10),
         Text(
-          'This will take approximately $timeEstimate',
+          '${S().approximately} $timeEstimate',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: isGain ? Colors.red : Colors.green,
               ),
@@ -43,14 +42,12 @@ class WeightLosstarget extends StatelessWidget {
   }
 
   String _estimateTime(double weightDifference) {
-    // Calculate time based on a range of 0.7 to 1.2 kg per week
     const double minRatePerWeek = 0.7;
     const double maxRatePerWeek = 1.2;
 
     final weeksMin = weightDifference / maxRatePerWeek;
     final weeksMax = weightDifference / minRatePerWeek;
 
-    // Convert weeks to days
     final minDays = (weeksMin * 7).isNaN || (weeksMin * 7).isInfinite
         ? 0
         : (weeksMin * 7).toStringAsFixed(0);
@@ -59,7 +56,7 @@ class WeightLosstarget extends StatelessWidget {
         : (weeksMax * 7).toStringAsFixed(0);
 
     return weightDifference > 0
-        ? '$minDays to $maxDays days'
-        : '0 days'; // Adjust for weight gain or insufficient weight loss
+        ? '$minDays ${S().to} $maxDays ${S().days}'
+        : '0 ${S().days}';
   }
 }

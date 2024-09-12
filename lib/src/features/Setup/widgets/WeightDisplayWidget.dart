@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class WeightDisplayWidget extends StatelessWidget {
   final double weightKg;
@@ -16,7 +17,7 @@ class WeightDisplayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        weightUnit == 'kg' ? '$weightKg kg' : '$weightLb lb',
+        weightUnit == 'kg' ? '$weightKg ${S().kg}' : '$weightLb ${S().lb}',
         style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
       ),
     );

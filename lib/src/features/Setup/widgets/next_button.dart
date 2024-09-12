@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class NextButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -52,9 +53,9 @@ class NextButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(24),
           ),
         ),
-        child: const Text(
-          'NEXT',
-          style: TextStyle(fontSize: 18),
+        child: Text(
+          S.of(context).next,
+          style: const TextStyle(fontSize: 18),
         ),
       ),
     );

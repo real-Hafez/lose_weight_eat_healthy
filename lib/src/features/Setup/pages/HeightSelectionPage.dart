@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/utils/helper/height_conversion.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
@@ -12,8 +13,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/toggle_button
 class HeightSelectionPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
-  final Function(String)
-      onHeightUnitChanged; // Callback to pass height unit to the next page
+  final Function(String) onHeightUnitChanged;
 
   const HeightSelectionPage({
     super.key,
@@ -41,7 +41,7 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
         children: [
           ProgressIndicatorWidget(value: 0.2),
           const SizedBox(height: 20),
-          const TitleWidget(title: 'What\'s your height?'),
+          TitleWidget(title: S().heigh),
           const SizedBox(height: 20),
           ToggleButtonsWidget(
             heightUnit: _heightUnit,
@@ -49,8 +49,7 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
               setState(() {
                 _heightUnit = unit;
                 _updateHeightValues();
-                widget.onHeightUnitChanged(
-                    unit); // Notify parent about the height unit change
+                widget.onHeightUnitChanged(unit);
               });
             },
           ),
@@ -102,7 +101,7 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
               'heightInches': _heightInches,
               'heightUnit': _heightUnit,
             },
-            saveData: true, // Adjust this based on your validation
+            saveData: true,
           ),
           const SizedBox(height: 20),
         ],

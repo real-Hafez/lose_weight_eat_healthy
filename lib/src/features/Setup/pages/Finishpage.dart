@@ -64,27 +64,30 @@ class _FinishpageState extends State<Finishpage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (currentStep < steps.length)
-          FinishWidget(
-            text: steps[currentStep],
-            isCompleted: isCurrentStepCompleted,
-          ),
-        if (areAllStepsCompleted) ...[
-          AnimatedTextWidget(
-            onFinished: () {},
-            text: 'Just 30 days to reach your goal try to active our dream ',
-          ),
-          const SizedBox(height: 20),
-          if (showButton)
-            ElevatedButton(
-              onPressed: widget.onNextButtonPressed,
-              child: const Text('Start activating your dream'),
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (currentStep < steps.length)
+            FinishWidget(
+              text: steps[currentStep],
+              isCompleted: isCurrentStepCompleted,
             ),
+          if (areAllStepsCompleted) ...[
+            AnimatedTextWidget(
+              onFinished: () {},
+              text: 'Just 30 days to reach your goal try to active our dream ',
+            ),
+            const SizedBox(height: 20),
+            if (showButton)
+              ElevatedButton(
+                onPressed: widget.onNextButtonPressed,
+                child: const Text('Start activating your dream'),
+              ),
+          ],
         ],
-      ],
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/KgPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/LbPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
@@ -28,12 +29,11 @@ class WeightLossMessageWidget extends StatefulWidget {
 class _WeightLossMessageWidgetState extends State<WeightLossMessageWidget> {
   double _weightLossKg = 0.0;
   double _weightLossLb = 0.0;
-  double _currentWeightKg = 0.0; // Store the current weight
+  double _currentWeightKg = 0.0;
   String _weightUnit = 'kg';
 
-  // Define the minimum values for weight loss pickers
-  final double _minWeightLossKg = 5.0; // Min 5kg weight loss
-  final double _minWeightLossLb = 11.0; // Min equivalent in pounds
+  final double _minWeightLossKg = 5.0;
+  final double _minWeightLossLb = 11.0;
 
   @override
   void initState() {
@@ -55,9 +55,8 @@ class _WeightLossMessageWidgetState extends State<WeightLossMessageWidget> {
 
       setState(() {
         _weightUnit = userWeightUnit;
-        _currentWeightKg = userWeightKg; // Store the current weight
+        _currentWeightKg = userWeightKg;
 
-        // Ensure the weight loss is at least the minimum
         if (_weightUnit == 'kg') {
           _weightLossKg = (userWeightKg - _minWeightLossKg)
               .clamp(_minWeightLossKg, userWeightKg);
@@ -80,7 +79,7 @@ class _WeightLossMessageWidgetState extends State<WeightLossMessageWidget> {
         children: [
           ProgressIndicatorWidget(value: 0.8),
           const SizedBox(height: 20),
-          const TitleWidget(title: 'How much weight do you want to lose?'),
+          TitleWidget(title: S().WeightLoss),
           const SizedBox(height: 20),
           ToggleButtonsWidgetkg(
             weightUnit: _weightUnit,

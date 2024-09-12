@@ -15,10 +15,11 @@ class CmPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return NumberPicker(
       value: heightCm,
-      minValue: 95, // Minimum height in cm
-      maxValue: 241, // Maximum height in cm
+      minValue: 95,
+      maxValue: 241,
       onChanged: onHeightChanged,
-      textStyle: const TextStyle(fontSize: 20, color: Colors.grey),
+      textStyle: const TextStyle(
+          fontSize: 20, color: Colors.grey, ),
       selectedTextStyle:
           const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
     );

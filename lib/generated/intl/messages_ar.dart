@@ -25,10 +25,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" تم تسجيل الدخول بنجاح "),
+        "WeightLoss": MessageLookupByLibrary.simpleMessage(
+            "ما مقدار الوزن الذي تريد أن تخسره؟"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "approximately":
+            MessageLookupByLibrary.simpleMessage("سوف يستغرق هذا حوالي"),
+        "cm": MessageLookupByLibrary.simpleMessage("سم"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),
         "dailyMotivation": MessageLookupByLibrary.simpleMessage("تحفيز يومي"),
+        "days": MessageLookupByLibrary.simpleMessage("ايام"),
         "discoverApp":
             MessageLookupByLibrary.simpleMessage("اكتشف تطبيقنا، إنه"),
         "dontHaveAccount":
@@ -39,26 +45,38 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("نصائح تدريبية من خبراء"),
+        "female": MessageLookupByLibrary.simpleMessage("انثي"),
         "firstNameHint": MessageLookupByLibrary.simpleMessage("احمد"),
         "firstNameLabel": MessageLookupByLibrary.simpleMessage("الاسم الأول"),
         "forgetfield": MessageLookupByLibrary.simpleMessage(
             "يرجى ملء جميع الحقول المطلوبة"),
+        "ft": MessageLookupByLibrary.simpleMessage("قدم"),
+        "gain": MessageLookupByLibrary.simpleMessage("زيادة "),
+        "genderselect": MessageLookupByLibrary.simpleMessage("حدد جنسك"),
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("اقتراحات وصفات صحية"),
+        "heigh": MessageLookupByLibrary.simpleMessage("ما هو طولك ؟ "),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "عنوان البريد الإلكتروني بتنسيق غير صحيح."),
+        "kg": MessageLookupByLibrary.simpleMessage("كجم"),
         "lastNameHint": MessageLookupByLibrary.simpleMessage("حافظ"),
         "lastNameLabel": MessageLookupByLibrary.simpleMessage("الاسم الأخير"),
+        "lb": MessageLookupByLibrary.simpleMessage("رطل"),
+        "lose": MessageLookupByLibrary.simpleMessage("فقدان "),
+        "loseorgainweight":
+            MessageLookupByLibrary.simpleMessage("سوف يكون هناك"),
         "mainTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "ابحث عن روتين الكارديو المثالي لك"),
         "mainTextSecondOnboardingPage":
             MessageLookupByLibrary.simpleMessage("وصفات سريعة، نتائج صحية"),
         "mainTextThirdOnboardingPage":
             MessageLookupByLibrary.simpleMessage("مجاناً بالكامل لصحتك"),
+        "man": MessageLookupByLibrary.simpleMessage("ذكر"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("تخطيط الوجبات"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
             "خطأ في الشبكة. يرجى التحقق من اتصالك."),
         "newAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
+        "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "طريقة تسجيل الدخول غير مسموح بها. يرجى تمكين طريقة تسجيل الدخول في وحدة تحكم Firebase."),
         "orLoginWith":
@@ -82,6 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك."),
         "subTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "كل شيء مجاني! نريدك أن تصبح لائقًا وصحيًا، لذا استمتع بمحتوانا دون أي تكلفة."),
+        "to": MessageLookupByLibrary.simpleMessage("الي"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "تعددت الطلبات. حاول مرة أخرى لاحقًا."),
         "unknownError": MessageLookupByLibrary.simpleMessage(
@@ -98,7 +117,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اسم المستخدم مأخوذ بالفعل"),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "كلمة المرور المقدمة ضعيفة جدًا."),
+        "weight": MessageLookupByLibrary.simpleMessage("ما هو وزنك؟"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك"),
+        "welcomeonboarding": MessageLookupByLibrary.simpleMessage(
+            "مرحبًا بك في رحلتك نحو حياة أكثر صحة وسعادة! تطبيقنا هنا لدعمك في كل خطوة مع مجموعة من الميزات المجانية المصممة لمساعدتك في تحقيق أهدافك بسهولة."),
         "wrongPassword": MessageLookupByLibrary.simpleMessage(
             "كلمة المرور المقدمة غير صحيحة لهذا المستخدم.")
       };

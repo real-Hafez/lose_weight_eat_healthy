@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/GenderSelection/gender_selection_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/GenderBox.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
@@ -23,19 +24,19 @@ class GenderSelectionPage extends StatelessWidget {
         child: Column(
           children: [
             const Spacer(),
-            const Text(
-              'Select Your Gender',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(
+              S().genderselect,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            const Expanded(
+            Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: GenderBox(gender: 'Male', icon: Icons.male)),
-                  SizedBox(width: 20),
+                  Expanded(child: GenderBox(gender: S().man, icon: Icons.male)),
+                  const SizedBox(width: 20),
                   Expanded(
-                      child: GenderBox(gender: 'Female', icon: Icons.female)),
+                      child: GenderBox(gender: S().female, icon: Icons.female)),
                 ],
               ),
             ),

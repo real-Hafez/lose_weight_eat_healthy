@@ -50,10 +50,26 @@
     "welcomeBack": "Welcome back" , 
     "dontHaveAccount": "Don't have an account?",
     "signUp": "Sign up",
-    "signIn": "Sign in"
-  
+    "signIn": "Sign in",
+    "welcomeonboarding": "Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly.",
+    "next":"Next",
+    "genderselect": "Select Your Gender",
+    "man":"Male",
+    "female": "Female",
+    "heigh":"What's your height?",
+    "cm": "cm",
+    "ft": "ft",
+    "weight": "What's your weight?",
+    "kg":"kg",
+    "lb":"lb",
+    "WeightLoss":"How much weight do you want to lose?" ,
+    "gain":"gain",
+    "lose": "lose",
+    "loseorgainweight": "You are going to", 
+    "approximately":"This will take approximately",
+    "to":"to",
+    "days":"days"
 
-       
     
     
 
