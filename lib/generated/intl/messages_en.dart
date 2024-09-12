@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeightLoss": MessageLookupByLibrary.simpleMessage(
             "How much weight do you want to lose?"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
+        "addwidget": MessageLookupByLibrary.simpleMessage("Add the widget"),
         "approximately": MessageLookupByLibrary.simpleMessage(
             "This will take approximately"),
         "bodyfatman": MessageLookupByLibrary.simpleMessage(
@@ -105,6 +106,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("PROGRESS TRACKING"),
         "promptTextlogin": MessageLookupByLibrary.simpleMessage(
             "Do you already have an account?"),
+        "quote": MessageLookupByLibrary.simpleMessage(
+            "Water is the driving force of all nature."),
+        "quotesaider":
+            MessageLookupByLibrary.simpleMessage("- Leonardo da Vinci"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
         "signupSuccessful":
@@ -136,6 +141,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Username is already taken"),
         "wakeup": MessageLookupByLibrary.simpleMessage("Wake-up Time:"),
         "wakeupclock": MessageLookupByLibrary.simpleMessage("waking time"),
+        "waterwidget": MessageLookupByLibrary.simpleMessage(
+            "The best way to achieve your dreams is to keep them in sight. That\'s why you need to add this widget to your home screen."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "The password provided is too weak."),
         "weight": MessageLookupByLibrary.simpleMessage("What\'s your weight?"),

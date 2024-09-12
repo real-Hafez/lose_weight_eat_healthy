@@ -869,6 +869,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Water is the driving force of all nature.`
+  String get quote {
+    return Intl.message(
+      'Water is the driving force of all nature.',
+      name: 'quote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `- Leonardo da Vinci`
+  String get quotesaider {
+    return Intl.message(
+      '- Leonardo da Vinci',
+      name: 'quotesaider',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The best way to achieve your dreams is to keep them in sight. That's why you need to add this widget to your home screen.`
+  String get waterwidget {
+    return Intl.message(
+      'The best way to achieve your dreams is to keep them in sight. That\'s why you need to add this widget to your home screen.',
+      name: 'waterwidget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add the widget`
+  String get addwidget {
+    return Intl.message(
+      'Add the widget',
+      name: 'addwidget',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

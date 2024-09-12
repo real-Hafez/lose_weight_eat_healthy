@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeightLoss": MessageLookupByLibrary.simpleMessage(
             "ما مقدار الوزن الذي تريد أن تخسره؟"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "addwidget":
+            MessageLookupByLibrary.simpleMessage("اضفها الي شاشاتك الرئيسية"),
         "approximately":
             MessageLookupByLibrary.simpleMessage("سوف يستغرق هذا حوالي"),
         "bodyfatman":
@@ -103,6 +105,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "progressTracking": MessageLookupByLibrary.simpleMessage("تتبع التقدم"),
         "promptTextlogin":
             MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),
+        "quote": MessageLookupByLibrary.simpleMessage(
+            "الماء هو القوة الدافعة لكل الطبيعة."),
+        "quotesaider":
+            MessageLookupByLibrary.simpleMessage("- ليوناردو دافنشي"),
         "signIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "signupbutton": MessageLookupByLibrary.simpleMessage("أنشاء حساب"),
@@ -133,6 +139,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "wakeup": MessageLookupByLibrary.simpleMessage("وقت الاستيقاظ:"),
         "wakeupclock":
             MessageLookupByLibrary.simpleMessage("اختر وقت الاستيقاظ"),
+        "waterwidget": MessageLookupByLibrary.simpleMessage(
+            "أفضل طريقة لتحقيق أحلامك هي إبقائها في الأفق. لهذا السبب تحتاج إلى إضافة هذه الأداة إلى شاشتك الرئيسية."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "كلمة المرور المقدمة ضعيفة جدًا."),
         "weight": MessageLookupByLibrary.simpleMessage("ما هو وزنك؟"),

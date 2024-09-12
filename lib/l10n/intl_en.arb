@@ -81,7 +81,11 @@
     "wakeup":"Wake-up Time:",
     "SleepTime":"Sleep Time:",
     "wakeupclock":"waking time",
-    "sleepingclock":"sleeping time"
+    "sleepingclock":"sleeping time",
+    "quote":"Water is the driving force of all nature.",
+    "quotesaider":"- Leonardo da Vinci",
+    "waterwidget":"The best way to achieve your dreams is to keep them in sight. That's why you need to add this widget to your home screen.",
+    "addwidget":"Add the widget"
     
     
 

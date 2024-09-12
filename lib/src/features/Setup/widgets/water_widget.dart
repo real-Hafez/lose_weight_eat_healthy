@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
@@ -38,7 +39,6 @@ class _WaterWidgetState extends State<WaterWidget> {
       }
     });
 
-    // Delay for the second quote (5 seconds after the first animation)
     Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
         setState(() {
@@ -88,14 +88,14 @@ class _WaterWidgetState extends State<WaterWidget> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           AnimatedTextWidget(
             onFinished: widget.onAnimationFinished,
-            text: '"Water is the driving force of all nature."',
+            text: S().quote,
           ),
           const SizedBox(height: 8),
           AnimatedOpacity(
             opacity: _showAuthor ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 500),
             child: Text(
-              '- Leonardo da Vinci',
+              S().quotesaider,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w500,
@@ -109,8 +109,7 @@ class _WaterWidgetState extends State<WaterWidget> {
           if (_showSecondQuote)
             AnimatedTextWidget(
               onFinished: widget.onAnimationFinished,
-              text:
-                  'The best way to achieve your dreams is to keep them in sight. That\'s why you need to add this widget to your home screen.',
+              text: S().waterwidget,
             ),
           const SizedBox(height: 16),
           if (_showImage)
@@ -129,7 +128,7 @@ class _WaterWidgetState extends State<WaterWidget> {
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 textStyle: const TextStyle(fontSize: 18),
               ),
-              child: const Text('Add the widget'),
+              child: Text(S().addwidget),
             ),
           const SizedBox(height: 10),
           if (_showNextButton)
@@ -138,9 +137,9 @@ class _WaterWidgetState extends State<WaterWidget> {
               collectionName: '',
             ),
           if (_showSkip)
-            const Text(
-              "Skip",
-              style: TextStyle(
+            Text(
+              S().skipButton,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
