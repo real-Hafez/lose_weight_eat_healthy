@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart'; // Import for DateFormat
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class Timepacker extends StatefulWidget {
   final Function(TimeOfDay) onWakeUpTimeSelected;
@@ -26,13 +25,16 @@ class _TimepackerState extends State<Timepacker> {
   @override
   void initState() {
     super.initState();
-    _initializeTimeFormat();
+
+    // Use post frame callback to delay the MediaQuery usage
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeTimeFormat();
+    });
   }
 
   void _initializeTimeFormat() {
-    final String currentTime = DateFormat.jm().format(DateTime.now());
     setState(() {
-      _is24HourFormat = !currentTime.contains(RegExp(r'[APMapm]'));
+      _is24HourFormat = MediaQuery.of(context).alwaysUse24HourFormat;
     });
   }
 
@@ -84,17 +86,17 @@ class _TimepackerState extends State<Timepacker> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Wake-up Time:',
-            style: TextStyle(fontSize: 18),
+          Text(
+            S.of(context).wakeup,
+            style: const TextStyle(fontSize: 18),
           ),
           _buildTimePicker(context, true),
           if (_wakeUpTime != null)
             Column(
               children: [
-                const Text(
-                  'Sleep Time:',
-                  style: TextStyle(fontSize: 18),
+                Text(
+                  S.of(context).SleepTime,
+                  style: const TextStyle(fontSize: 18),
                 ),
                 _buildTimePicker(context, false),
               ],
@@ -109,8 +111,12 @@ class _TimepackerState extends State<Timepacker> {
       onPressed: () => _selectTime(context, isWakeUpTime),
       child: Text(
         isWakeUpTime
-            ? (_wakeUpTime != null ? _wakeUpTime!.format(context) : 'Select')
-            : (_sleepTime != null ? _sleepTime!.format(context) : 'Select'),
+            ? (_wakeUpTime != null
+                ? _wakeUpTime!.format(context)
+                : S.of(context).wakeupclock)
+            : (_sleepTime != null
+                ? _sleepTime!.format(context)
+                : S.of(context).sleepingclock),
       ),
     );
   }

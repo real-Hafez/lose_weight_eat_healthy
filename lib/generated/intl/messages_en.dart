@@ -22,14 +22,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" Login successful"),
+        "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
+        "USoz": MessageLookupByLibrary.simpleMessage("US oz"),
+        "Water": MessageLookupByLibrary.simpleMessage(
+            "What Water Measurement Units do you use"),
         "WeightLoss": MessageLookupByLibrary.simpleMessage(
             "How much weight do you want to lose?"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
         "approximately": MessageLookupByLibrary.simpleMessage(
             "This will take approximately"),
+        "bodyfatman": MessageLookupByLibrary.simpleMessage(
+            "Choose your body fat percentage"),
+        "bodyfatwoman": MessageLookupByLibrary.simpleMessage(
+            "Choose your body fat percentage"),
         "cm": MessageLookupByLibrary.simpleMessage("cm"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("CUSTOM WORKOUT PLANS"),
@@ -58,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("HEALTHY RECIPE SUGGESTIONS"),
         "heigh": MessageLookupByLibrary.simpleMessage("What\'s your height?"),
+        "howmanywater": MessageLookupByLibrary.simpleMessage(
+            "You will need to drink around:"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "The email address is badly formatted."),
         "kg": MessageLookupByLibrary.simpleMessage("kg"),
@@ -67,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "lose": MessageLookupByLibrary.simpleMessage("lose"),
         "loseorgainweight":
             MessageLookupByLibrary.simpleMessage("You are going to"),
+        "mL": MessageLookupByLibrary.simpleMessage("mL"),
         "mainTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Find Your Perfect Cardio Routine"),
         "mainTextSecondOnboardingPage": MessageLookupByLibrary.simpleMessage(
@@ -86,6 +98,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "orSignupWith": MessageLookupByLibrary.simpleMessage("Or sign up with"),
         "passwordHint": MessageLookupByLibrary.simpleMessage("*********"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
+        "perday": MessageLookupByLibrary.simpleMessage("per day"),
         "personalizedTraining":
             MessageLookupByLibrary.simpleMessage("PERSONALIZED TRAINING"),
         "progressTracking":
@@ -98,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Signup successful"),
         "signupbutton": MessageLookupByLibrary.simpleMessage("Sign up"),
         "skipButton": MessageLookupByLibrary.simpleMessage("Skip"),
+        "sleepingclock": MessageLookupByLibrary.simpleMessage("sleeping time"),
         "subTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Browse videos that match your fitness level and help you reach your cardio goals."),
         "subTextSecondOnboardingPage": MessageLookupByLibrary.simpleMessage(
@@ -107,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("to"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "Too many requests. Try again later."),
+        "unit": MessageLookupByLibrary.simpleMessage("Select unit:"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "An unknown error occurred. Please try again."),
         "updateUserDetailsFailed": MessageLookupByLibrary.simpleMessage(
@@ -119,6 +134,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "usernameLabel": MessageLookupByLibrary.simpleMessage("Username"),
         "usernametaken":
             MessageLookupByLibrary.simpleMessage("Username is already taken"),
+        "wakeup": MessageLookupByLibrary.simpleMessage("Wake-up Time:"),
+        "wakeupclock": MessageLookupByLibrary.simpleMessage("waking time"),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "The password provided is too weak."),
         "weight": MessageLookupByLibrary.simpleMessage("What\'s your weight?"),

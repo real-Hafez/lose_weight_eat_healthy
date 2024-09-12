@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
@@ -30,7 +31,7 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
     'assets/body_percentage_fat/body_percentage_fat_man/body_percentage_fat_40%.jpg',
   ];
 
-  double currentValue = 6; // Start with 6% body fat
+  double currentValue = 22;
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -41,23 +42,18 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
     });
   }
 
-  // Update percentage dynamically based on the scroll position
   void _updatePercentageBasedOnScroll() {
     double offset = _scrollController.offset;
     double maxScroll = _scrollController.position.maxScrollExtent;
     double minPercentage = 9;
-    double maxPercentage =
-        42; // Ensure this matches the highest body fat percentage in the images
+    double maxPercentage = 42;
 
-    // Calculate the width of one image including padding
-    double imageWidth = 200; // Width of each image
-    double imageSpacing = 16; // Spacing between images
+    double imageWidth = 200;
+    double imageSpacing = 16;
     double totalScrollableWidth =
         (imageWidth + imageSpacing) * (imagePaths.length - 1);
 
-    // Ensure we do not divide by zero
     if (maxScroll > 0) {
-      // Calculate percentage based on scroll position
       double positionFactor = offset / maxScroll;
       double interpolatedValue =
           minPercentage + positionFactor * (maxPercentage - minPercentage);
@@ -72,29 +68,22 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Progress Indicator (can be customized to reflect the user's journey)
         ProgressIndicatorWidget(
           value: 0.6,
         ),
         const SizedBox(height: 20),
-
-        // Title section
-        const TitleWidget(title: 'Choose your body fat percentage'),
+        TitleWidget(title: S().bodyfatman),
         const SizedBox(height: 10),
-
-        // Stack for percentage number and pointer
         Column(
           children: [
-            // Display the current percentage dynamically
             Text(
-              "${currentValue.toStringAsFixed(0)}%", // Display as a whole number
+              "${currentValue.toStringAsFixed(0)}%",
               style: const TextStyle(
                 color: Colors.yellow,
-                fontSize: 28, // Slightly larger font size for better visibility
+                fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // Vertical line and arrow to connect percentage to image
             SizedBox(
               child: Align(
                 alignment: Alignment.center,
@@ -111,8 +100,6 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
             ),
           ],
         ),
-
-        // Horizontal scrollable image row
         Expanded(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

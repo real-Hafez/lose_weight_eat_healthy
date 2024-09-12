@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class WaterTogglebuttons extends StatelessWidget {
   final List<String> units;
@@ -19,8 +20,8 @@ class WaterTogglebuttons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            'Select unit:',
+          Text(
+            S().unit,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),

@@ -15,12 +15,10 @@ class BodyFatPercentagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot>(
-      future: _getUserGender(), // Fetch user's gender from Firestore
+      future: _getUserGender(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-              // Show loading indicator while fetching
-              );
+          return const Scaffold();
         } else if (snapshot.hasError) {
           return Scaffold(
             body: Center(child: Text('Error: ${snapshot.error}')),
@@ -31,12 +29,12 @@ class BodyFatPercentagePage extends StatelessWidget {
           );
         } else {
           final gender = snapshot.data!['selectedGender'];
-          if (gender == 'Male') {
+          if (gender == 'Male ' || gender == 'ذكر') {
             return Fifthonboardingpageman(
               onAnimationFinished: onAnimationFinished,
               onNextButtonPressed: onNextButtonPressed,
             );
-          } else if (gender == 'Female') {
+          } else if (gender == 'Female' || gender == 'انثي') {
             return Fifthonboardingpagewoman(
               onAnimationFinished: onAnimationFinished,
               onNextButtonPressed: onNextButtonPressed,
@@ -57,13 +55,11 @@ class BodyFatPercentagePage extends StatelessWidget {
       throw Exception('User not logged in');
     }
 
-    // Reference to the user's gender document
     final genderDoc = FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
-        .collection('gender') // Access the 'gender' subcollection
-        .doc(
-            'data'); // Access the 'data' document inside the 'gender' subcollection
+        .collection('gender')
+        .doc('data');
 
     return genderDoc.get();
   }

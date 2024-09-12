@@ -22,14 +22,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" تم تسجيل الدخول بنجاح "),
+        "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
+        "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),
+        "Water": MessageLookupByLibrary.simpleMessage(
+            "ما هي وحدات قياس المياه التي تستخدمها؟"),
         "WeightLoss": MessageLookupByLibrary.simpleMessage(
             "ما مقدار الوزن الذي تريد أن تخسره؟"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "approximately":
             MessageLookupByLibrary.simpleMessage("سوف يستغرق هذا حوالي"),
+        "bodyfatman":
+            MessageLookupByLibrary.simpleMessage("اختر نسبة الدهون في جسمك"),
+        "bodyfatwoman":
+            MessageLookupByLibrary.simpleMessage("اختاري نسبة الدهون في جسمك"),
         "cm": MessageLookupByLibrary.simpleMessage("سم"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),
@@ -56,6 +65,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("اقتراحات وصفات صحية"),
         "heigh": MessageLookupByLibrary.simpleMessage("ما هو طولك ؟ "),
+        "howmanywater":
+            MessageLookupByLibrary.simpleMessage("سوف تحتاج إلى شرب حول:"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "عنوان البريد الإلكتروني بتنسيق غير صحيح."),
         "kg": MessageLookupByLibrary.simpleMessage("كجم"),
@@ -65,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "lose": MessageLookupByLibrary.simpleMessage("فقدان "),
         "loseorgainweight":
             MessageLookupByLibrary.simpleMessage("سوف يكون هناك"),
+        "mL": MessageLookupByLibrary.simpleMessage("مل"),
         "mainTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "ابحث عن روتين الكارديو المثالي لك"),
         "mainTextSecondOnboardingPage":
@@ -85,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أو التسجيل باستخدام"),
         "passwordHint": MessageLookupByLibrary.simpleMessage("***********"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+        "perday": MessageLookupByLibrary.simpleMessage("يوميا"),
         "personalizedTraining":
             MessageLookupByLibrary.simpleMessage("تدريب مخصص"),
         "progressTracking": MessageLookupByLibrary.simpleMessage("تتبع التقدم"),
@@ -94,6 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "signupbutton": MessageLookupByLibrary.simpleMessage("أنشاء حساب"),
         "skipButton": MessageLookupByLibrary.simpleMessage("تخطي"),
+        "sleepingclock": MessageLookupByLibrary.simpleMessage("اختر وقت النوم"),
         "subTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "تصفح الفيديوهات التي تناسب مستوى لياقتك وتساعدك على تحقيق أهداف الكارديو الخاصة بك."),
         "subTextSecondOnboardingPage": MessageLookupByLibrary.simpleMessage(
@@ -103,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("الي"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "تعددت الطلبات. حاول مرة أخرى لاحقًا."),
+        "unit": MessageLookupByLibrary.simpleMessage("اختر الوحدة:"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى."),
         "updateUserDetailsFailed": MessageLookupByLibrary.simpleMessage(
@@ -115,6 +130,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "usernameLabel": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "usernametaken":
             MessageLookupByLibrary.simpleMessage("اسم المستخدم مأخوذ بالفعل"),
+        "wakeup": MessageLookupByLibrary.simpleMessage("وقت الاستيقاظ:"),
+        "wakeupclock":
+            MessageLookupByLibrary.simpleMessage("اختر وقت الاستيقاظ"),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "كلمة المرور المقدمة ضعيفة جدًا."),
         "weight": MessageLookupByLibrary.simpleMessage("ما هو وزنك؟"),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
@@ -27,7 +28,7 @@ class WaterPage extends StatefulWidget {
 }
 
 class _WaterPageState extends State<WaterPage> {
-  final List<String> _units = ['mL', 'L', 'US oz'];
+  final List<String> _units = [(S().mL), (S().Litres), (S().USoz)];
   TimeOfDay? _wakeUpTime;
   TimeOfDay? _sleepTime;
 
@@ -62,7 +63,6 @@ class _WaterPageState extends State<WaterPage> {
     print('Wake-up Time: ${_wakeUpTime?.format(context)}');
     print('Sleep Time: ${_sleepTime?.format(context)}');
 
-    // Update the widget with the new data
     await _updateHomeScreenWidget(waterNeeded, unit);
   }
 
@@ -106,7 +106,7 @@ class _WaterPageState extends State<WaterPage> {
                     context.read<WaterCubit>().finishAnimation();
                     widget.onAnimationFinished();
                   },
-                  text: 'What water measurement do you use?',
+                  text: S().Water,
                 ),
                 const SizedBox(height: 24),
                 if (state.animationFinished)
@@ -125,7 +125,7 @@ class _WaterPageState extends State<WaterPage> {
                   Column(
                     children: [
                       AutoSizeText(
-                        'You will need to drink around: ${state.waterNeeded.toStringAsFixed(1)} ${state.selectedUnit} per day',
+                        '${S().howmanywater} ${state.waterNeeded.toStringAsFixed(1)} ${state.selectedUnit} ${S().perday}',
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.red,

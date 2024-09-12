@@ -739,6 +739,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose your body fat percentage`
+  String get bodyfatwoman {
+    return Intl.message(
+      'Choose your body fat percentage',
+      name: 'bodyfatwoman',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose your body fat percentage`
+  String get bodyfatman {
+    return Intl.message(
+      'Choose your body fat percentage',
+      name: 'bodyfatman',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What Water Measurement Units do you use`
+  String get Water {
+    return Intl.message(
+      'What Water Measurement Units do you use',
+      name: 'Water',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select unit:`
+  String get unit {
+    return Intl.message(
+      'Select unit:',
+      name: 'unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `mL`
+  String get mL {
+    return Intl.message(
+      'mL',
+      name: 'mL',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `L`
+  String get Litres {
+    return Intl.message(
+      'L',
+      name: 'Litres',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `US oz`
+  String get USoz {
+    return Intl.message(
+      'US oz',
+      name: 'USoz',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You will need to drink around:`
+  String get howmanywater {
+    return Intl.message(
+      'You will need to drink around:',
+      name: 'howmanywater',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `per day`
+  String get perday {
+    return Intl.message(
+      'per day',
+      name: 'perday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wake-up Time:`
+  String get wakeup {
+    return Intl.message(
+      'Wake-up Time:',
+      name: 'wakeup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sleep Time:`
+  String get SleepTime {
+    return Intl.message(
+      'Sleep Time:',
+      name: 'SleepTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `waking time`
+  String get wakeupclock {
+    return Intl.message(
+      'waking time',
+      name: 'wakeupclock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `sleeping time`
+  String get sleepingclock {
+    return Intl.message(
+      'sleeping time',
+      name: 'sleepingclock',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

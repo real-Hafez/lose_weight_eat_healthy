@@ -68,8 +68,20 @@
     "loseorgainweight": "You are going to", 
     "approximately":"This will take approximately",
     "to":"to",
-    "days":"days"
-
+    "days":"days",
+    "bodyfatwoman":"Choose your body fat percentage",
+    "bodyfatman":"Choose your body fat percentage" ,
+    "Water":"What Water Measurement Units do you use",
+    "unit":"Select unit:" , 
+    "mL":"mL" ,
+    "Litres":"L",
+    "USoz":"US oz",
+    "howmanywater":"You will need to drink around:",
+    "perday":"per day" ,
+    "wakeup":"Wake-up Time:",
+    "SleepTime":"Sleep Time:",
+    "wakeupclock":"waking time",
+    "sleepingclock":"sleeping time"
     
     
 

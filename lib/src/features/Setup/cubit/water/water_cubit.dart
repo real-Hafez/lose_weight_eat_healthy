@@ -43,13 +43,16 @@ class WaterCubit extends Cubit<WaterState> {
 
       double waterNeeded = 0.0;
 
-      if (loadedState.selectedUnit == 'mL') {
+      if (loadedState.selectedUnit == 'mL' ||
+          loadedState.selectedUnit == 'مل') {
         waterNeeded = loadedState.currentWeightKg * 35;
         waterNeeded = (waterNeeded / 100).round() * 100;
-      } else if (loadedState.selectedUnit == 'L') {
+      } else if (loadedState.selectedUnit == 'L' ||
+          loadedState.selectedUnit == 'لتر') {
         waterNeeded = loadedState.currentWeightKg * 0.035;
         waterNeeded = double.parse(waterNeeded.toStringAsFixed(1));
-      } else if (loadedState.selectedUnit == 'US oz') {
+      } else if (loadedState.selectedUnit == 'US oz' ||
+          loadedState.selectedUnit == 'أونصة') {
         waterNeeded = loadedState.currentWeightKg * 35 / 29.5735;
         waterNeeded = waterNeeded.roundToDouble();
       }
