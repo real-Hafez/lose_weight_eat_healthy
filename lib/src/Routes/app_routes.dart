@@ -9,6 +9,7 @@ class AppRoutes {
   static const String signUpAndLogin = '/';
   static const String loginForAnother = '/loginforanother';
   static const String signup = '/signup';
+  static const String home = '/home';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -17,10 +18,10 @@ class AppRoutes {
       case toquthions:
         return MaterialPageRoute(builder: (_) => const setup());
       case signUpAndLogin:
-        return MaterialPageRoute(builder: (_) => const Loginforanother());
+        return MaterialPageRoute(builder: (_) => const Home());
       case loginForAnother:
-        return MaterialPageRoute(builder: (_) => const Loginforanother());
-      case signup: // New case for signup
+        return MaterialPageRoute(builder: (_) => const Home());
+      case signup: 
         return MaterialPageRoute(builder: (_) => const Signup());
       default:
         return MaterialPageRoute(builder: (_) => const setup());

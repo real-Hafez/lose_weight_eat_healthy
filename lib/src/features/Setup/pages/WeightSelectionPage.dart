@@ -26,16 +26,15 @@ class WeightSelectionPage extends StatefulWidget {
 }
 
 class _WeightSelectionPageState extends State<WeightSelectionPage> {
-  double _weightKg = 70.0; // Default weight in kg
-  double _weightLb = 154.0; // Default weight in pounds
-  String _weightUnit = 'kg'; // Default weight unit
-
+  double _weightKg = 70.0;
+  double _weightLb = 154.0;
+  String _weightUnit = 'kg';
   @override
   void initState() {
     super.initState();
-    // Set default values based on heightUnit
-    _weightUnit = widget.heightUnit == 'ft' ? S().lb : S().kg;
-    _updateWeightValues(); // Ensure values are updated based on the initial unit
+    _weightUnit =
+        widget.heightUnit == 'ft' || widget.heightUnit == 'رطل' ? 'lb' : 'kg';
+    _updateWeightValues();
   }
 
   @override

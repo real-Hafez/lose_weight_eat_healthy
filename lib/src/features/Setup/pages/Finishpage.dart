@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
+import 'package:lose_weight_eat_healthy/src/Routes/app_routes.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'dart:async';
@@ -83,7 +84,11 @@ class _FinishpageState extends State<Finishpage> {
             const SizedBox(height: 20),
             if (showButton)
               ElevatedButton(
-                onPressed: widget.onNextButtonPressed,
+                style: const ButtonStyle(enableFeedback: true),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, AppRoutes.loginForAnother);
+                },
                 child: Text(S().buttonText),
               ),
           ],
