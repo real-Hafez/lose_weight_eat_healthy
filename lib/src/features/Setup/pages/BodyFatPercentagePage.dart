@@ -29,7 +29,7 @@ class BodyFatPercentagePage extends StatelessWidget {
           );
         } else {
           final gender = snapshot.data!['selectedGender'];
-          if (gender == 'Male ' || gender == 'ذكر') {
+          if (gender == 'Male' || gender == 'ذكر') {
             return Fifthonboardingpageman(
               onAnimationFinished: onAnimationFinished,
               onNextButtonPressed: onNextButtonPressed,
