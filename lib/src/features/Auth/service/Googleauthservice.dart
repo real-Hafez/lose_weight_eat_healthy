@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/service/UserService.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
@@ -9,6 +10,7 @@ class Googleauthservice {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final UserService userService = UserService();
+    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
     try {
       final GoogleSignInAccount? googleSignInAccount =
@@ -41,6 +43,7 @@ class Googleauthservice {
           lastName: lastName,
           username: username,
         );
+        await secureStorage.write(key: 'userUID', value: user.uid);
       }
 
       return user;

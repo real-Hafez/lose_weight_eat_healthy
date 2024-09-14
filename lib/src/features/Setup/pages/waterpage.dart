@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_state.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/timepacker.dart';
@@ -101,6 +102,7 @@ class _WaterPageState extends State<WaterPage> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                ProgressIndicatorWidget(value: 0.7),
                 AnimatedTextWidget(
                   onFinished: () {
                     context.read<WaterCubit>().finishAnimation();

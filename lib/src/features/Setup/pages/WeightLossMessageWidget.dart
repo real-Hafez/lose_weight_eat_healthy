@@ -77,7 +77,7 @@ class _WeightLossMessageWidgetState extends State<WeightLossMessageWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProgressIndicatorWidget(value: 0.8),
+          ProgressIndicatorWidget(value: 0.5),
           const SizedBox(height: 20),
           TitleWidget(title: S().WeightLoss),
           const SizedBox(height: 20),

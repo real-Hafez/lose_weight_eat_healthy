@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/Routes/app_routes.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'dart:async';
@@ -71,6 +72,7 @@ class _FinishpageState extends State<Finishpage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          ProgressIndicatorWidget(value: 0.9),
           if (currentStep < steps.length)
             FinishWidget(
               text: steps[currentStep],

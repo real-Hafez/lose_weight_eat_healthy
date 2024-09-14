@@ -39,7 +39,7 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProgressIndicatorWidget(value: 0.2),
+          ProgressIndicatorWidget(value: 0.3),
           const SizedBox(height: 20),
           TitleWidget(title: S().heigh),
           const SizedBox(height: 20),
