@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
-import 'package:lose_weight_eat_healthy/src/features/home/page/loginforanother.dart';
+import 'package:lose_weight_eat_healthy/src/features/home/page/Home.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Signup.dart';
 
 class AppRoutes {

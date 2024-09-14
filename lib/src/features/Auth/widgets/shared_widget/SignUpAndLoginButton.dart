@@ -11,8 +11,8 @@ class SignUpAndLoginButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final Color color;
-  final bool isLogin; // Flag to determine if it's for login or signup
-  final VoidCallback onPressed; // Callback function when button is pressed
+  final bool isLogin;
+  final VoidCallback onPressed;
 
   const SignUpAndLoginButton({
     super.key,
@@ -42,15 +42,13 @@ class SignUpAndLoginButton extends StatelessWidget {
           height: 50,
           child: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: color, // Customizable button color
+              backgroundColor: color,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30), // Rounded corners
+                borderRadius: BorderRadius.circular(30),
               ),
             ),
-            icon: Icon(icon, color: Colors.white), // Customizable icon
-            label: Text(label,
-                style:
-                    const TextStyle(color: Colors.white)), // Customizable label
+            icon: Icon(icon, color: Colors.white),
+            label: Text(label, style: const TextStyle(color: Colors.white)),
             onPressed: onPressed,
           ),
         ),

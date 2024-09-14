@@ -8,7 +8,7 @@ class Home extends StatelessWidget {
     return const Scaffold(
       backgroundColor: Colors.green,
       body: Center(
-        child: Text('Login for Another',
+        child: Text('Login for Anotherr',
             style: TextStyle(fontSize: 24, color: Colors.white)),
       ),
     );
