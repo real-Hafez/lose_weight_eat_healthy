@@ -3,10 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FlutterSecureStorage _secureStorage =
+      const FlutterSecureStorage(); 
 
   Future<void> signup({
     required String email,
@@ -23,16 +26,23 @@ class AuthService {
         password: password,
       );
 
-      await _firestore.collection('users').doc(userCredential.user?.uid).set({
+      String? userUID = userCredential.user?.uid;
+
+      await _firestore.collection('users').doc(userUID).set({
+        'uid': userUID, 
         'firstName': firstName,
         'lastName': lastName,
         'username': username,
         'email': email,
       });
+
+      if (userUID != null) {
+        await _secureStorage.write(key: 'userUID', value: userUID);
+      }
     } on FirebaseAuthException catch (e) {
       String errorMessage = _getFirebaseAuthErrorMessage(e, context);
       ToastUtil.showToast(errorMessage);
-      throw errorMessage; // Ensure specific error messages are propagated
+      throw errorMessage;
     } catch (e) {
       ToastUtil.showToast(S.of(context).unknownError);
       throw S.of(context).unknownError;
