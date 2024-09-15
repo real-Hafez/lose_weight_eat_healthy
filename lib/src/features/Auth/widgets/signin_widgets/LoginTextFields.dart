@@ -82,6 +82,7 @@ class LoginTextFields extends StatelessWidget {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * .015),
             SignUpAndLoginButton(
+              
               label: S.of(context).signIn,
               icon: Icons.email,
               color: Theme.of(context)

@@ -8,8 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FlutterSecureStorage _secureStorage =
-      const FlutterSecureStorage(); 
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   Future<void> signup({
     required String email,
@@ -29,7 +28,7 @@ class AuthService {
       String? userUID = userCredential.user?.uid;
 
       await _firestore.collection('users').doc(userUID).set({
-        'uid': userUID, 
+        'uid': userUID,
         'firstName': firstName,
         'lastName': lastName,
         'username': username,
@@ -93,10 +92,13 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      String? userUID = userCredential.user?.uid;
+      await _secureStorage.write(key: 'userUID', value: userUID);
     } on FirebaseAuthException catch (e) {
       String errorMessage = _getFirebaseAuthErrorMessageForSignin(e, context);
       ToastUtil.showToast(errorMessage);
