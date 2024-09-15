@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
-import 'package:lose_weight_eat_healthy/src/features/home/page/Home.dart';
+import 'package:lose_weight_eat_healthy/src/features/Navigator_Bar/page/BottomNavBar_main.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Signup.dart';
 
 class AppRoutes {
@@ -18,10 +18,10 @@ class AppRoutes {
       case toquthions:
         return MaterialPageRoute(builder: (_) => const setup());
       case signUpAndLogin:
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (_) => const BottomNavBar_main());
       case loginForAnother:
-        return MaterialPageRoute(builder: (_) => const Home());
-      case signup: 
+        return MaterialPageRoute(builder: (_) => const BottomNavBar_main());
+      case signup:
         return MaterialPageRoute(builder: (_) => const Signup());
       default:
         return MaterialPageRoute(builder: (_) => const setup());

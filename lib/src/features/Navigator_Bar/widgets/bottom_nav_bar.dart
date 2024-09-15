@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/src/features/home/widgets/nav_bar_items.dart';
-import 'package:lose_weight_eat_healthy/src/features/home/widgets/screens.dart';
+import 'package:lose_weight_eat_healthy/src/features/Navigator_Bar/widgets/nav_bar_items.dart';
+import 'package:lose_weight_eat_healthy/src/features/Navigator_Bar/widgets/screens.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class BottomNavBar extends StatefulWidget {

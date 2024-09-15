@@ -10,14 +10,15 @@ List<PersistentBottomNavBarItem> navBarsItems() {
       inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
-      icon: const Icon(Icons.home),
-      title: ("Homee"),
+      icon: const Icon(Icons.water),
+      title: ("water"),
       activeColorPrimary: Colors.white,
       inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
+      
       icon: const Icon(Icons.settings),
-      title: ("Settings"),
+      title: ("setting"),
       activeColorPrimary: Colors.white,
       inactiveColorPrimary: Colors.grey,
     ),
