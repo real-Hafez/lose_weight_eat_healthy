@@ -16,7 +16,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 0);
+    //change that to change openss tab
+    _controller = PersistentTabController(initialIndex: 1);
   }
 
   @override
@@ -32,19 +33,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
               animateTabTransition: true,
               screenTransitionAnimationType:
                   ScreenTransitionAnimationType.slide,
-              curve: Curves.bounceIn)),
+              curve: Curves.ease)),
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       hideNavigationBarWhenKeyboardAppears: true,
       // popAllScreensOnTapOfSelectedTab: true,
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: const Color.fromARGB(0, 255, 255, 255),
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(1.0),
       ),
       confineToSafeArea: false,
       navBarHeight: kBottomNavigationBarHeight,
-      navBarStyle: NavBarStyle.style8,
+      navBarStyle: NavBarStyle.style4,
     );
   }
 }

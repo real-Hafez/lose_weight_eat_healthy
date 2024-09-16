@@ -14,8 +14,8 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/water_ToggleB
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class WaterPage extends StatefulWidget {
-  const WaterPage({
+class WaterPage_setup extends StatefulWidget {
+  const WaterPage_setup({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
@@ -25,10 +25,10 @@ class WaterPage extends StatefulWidget {
   final VoidCallback onNextButtonPressed;
 
   @override
-  _WaterPageState createState() => _WaterPageState();
+  _WaterPage_setupState createState() => _WaterPage_setupState();
 }
 
-class _WaterPageState extends State<WaterPage> {
+class _WaterPage_setupState extends State<WaterPage_setup> {
   final List<String> _units = [(S().mL), (S().Litres), (S().USoz)];
   TimeOfDay? _wakeUpTime;
   TimeOfDay? _sleepTime;

@@ -6,7 +6,7 @@ import 'package:lose_weight_eat_healthy/src/features/water/pages/water.dart';
 List<Widget> buildScreens() {
   return [
     const HomeScreen(),
-    const water(),
-    const settingscreen(),
+    const Water(),
+    const SettingsScreen(),
   ];
 }
