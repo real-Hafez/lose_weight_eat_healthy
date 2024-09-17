@@ -30,8 +30,19 @@ class WidgetClickReceiver : BroadcastReceiver() {
 
     private fun incrementWaterDrunk(context: Context) {
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-        val waterDrunk = prefs.getFloat("water_drunk", 0f) + 250f  // Increment by 250 mL (example)
-        prefs.edit().putFloat("water_drunk", waterDrunk).apply()
+        val currentWaterDrunk = prefs.getFloat("water_drunk", 0f)
+        val selectedUnit = prefs.getString("selected_unit", "mL") ?: "mL"
+
+        // Determine increment value based on selected unit
+        val incrementValue = when (selectedUnit) {
+            "L" -> 0.3f  // Increment by 0.3 L
+            "US oz" -> 10.1f  // Increment by 10.1 US oz
+            else -> 250f  // Default to mL increment
+        }
+
+        // Update the water drunk value
+        val newWaterDrunk = currentWaterDrunk + incrementValue
+        prefs.edit().putFloat("water_drunk", newWaterDrunk).apply()
     }
 
     private fun notifyFlutterApp(context: Context) {
