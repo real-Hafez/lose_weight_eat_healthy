@@ -7,10 +7,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import java.text.SimpleDateFormat
-import java.util.*
 
 class HomeScreenWidget : AppWidgetProvider() {
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
@@ -55,11 +54,12 @@ class HomeScreenWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.water_percentage, "$percentage%")
             views.setProgressBar(R.id.water_progress, 100, percentage, false)
 
-            // Setup intents
+            // Setup intent to open app
             val openAppIntent = Intent(context, MainActivity::class.java)
             val openAppPendingIntent = PendingIntent.getActivity(context, 0, openAppIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             views.setOnClickPendingIntent(R.id.widget_layout, openAppPendingIntent)
 
+            // Setup intent to increment water intake
             val incrementIntent = Intent(context, WidgetClickReceiver::class.java).apply {
                 action = "com.example.lose_weight_eat_healthy.INCREMENT"
             }
@@ -70,4 +70,3 @@ class HomeScreenWidget : AppWidgetProvider() {
         }
     }
 }
-

@@ -57,14 +57,30 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
           incrementAmount = 300.0; // Increment by 300 mL
           break;
       }
+
       _currentIntake =
           (_currentIntake + incrementAmount).clamp(0, widget.totalTarget);
       widget.onIntakeChange(
           _currentIntake); // Call the callback function to update intake
+
+      // Provide feedback
+      HapticFeedback
+          .lightImpact(); // Trigger vibration feedback when incrementing
+
+      // Optionally, show a message if the target is reached
+      if (_currentIntake >= widget.totalTarget) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('You’ve reached your daily target!')),
+        );
+      }
     });
 
     // Optionally, send the updated value to the native platform or widget if needed
-    platform.invokeMethod('updateWidgetIntake', _currentIntake);
+    try {
+      platform.invokeMethod('updateWidgetIntake', _currentIntake);
+    } on PlatformException catch (e) {
+      print("Failed to update widget: '${e.message}'");
+    }
   }
 
   // Format the double value for display

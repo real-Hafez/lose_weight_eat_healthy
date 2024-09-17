@@ -36,9 +36,9 @@ class _WaterState extends State<Water> {
   void _setupWidgetListener() {
     platform.setMethodCallHandler((call) async {
       if (call.method == 'updateAppState') {
-        final waterDrunk = call.arguments as double;
+        final waterDrunkInMl = call.arguments as double;
         setState(() {
-          _currentIntake = waterDrunk;
+          _currentIntake = waterDrunkInMl;
         });
       }
     });
@@ -47,34 +47,42 @@ class _WaterState extends State<Water> {
   Future<void> _updateWidget() async {
     try {
       await platform.invokeMethod('updateWidget', {
-        'water': _waterNeeded,
-        'water_drunk': _currentIntake,
+        'water': _convertFromMl(_waterNeeded, _savedUnit!),
+        'water_drunk': _convertFromMl(_currentIntake, _savedUnit!),
         'unit': _savedUnit,
       });
     } on PlatformException catch (e) {
-      print("Failed to update widget: '${e.message}'.");
+      print("Failed to update widget: '${e.message}'");
     }
   }
 
-  double _convertToUnit(double valueInMl) {
-    double convertedValue;
-    switch (_savedUnit) {
+  double _convertFromMl(double valueInMl, String toUnit) {
+    switch (toUnit) {
       case 'L':
-        convertedValue = valueInMl / 1000.0;
-        break;
+        return valueInMl / 1000.0; // Convert mL to liters
       case 'US oz':
-        convertedValue = valueInMl * 0.033814;
-        break;
+        return valueInMl * 0.033814; // Convert mL to US ounces
       default:
-        convertedValue = valueInMl;
-        break;
+        return valueInMl; // Keep in mL
     }
-    return double.parse(convertedValue.toStringAsFixed(1));
   }
 
-  void _handleIntakeChange(double newIntake) {
+  double _convertToMl(double value, String fromUnit) {
+    switch (fromUnit) {
+      case 'L':
+        return value * 1000.0; // Convert liters to mL
+      case 'US oz':
+        return value / 0.033814; // Convert US ounces to mL
+      default:
+        return value; // Keep in mL
+    }
+  }
+
+  void _handleUnitChange(String newUnit) {
     setState(() {
-      _currentIntake = newIntake;
+      _currentIntake =
+          _convertFromMl(_convertToMl(_currentIntake, _savedUnit!), newUnit);
+      _savedUnit = newUnit;
     });
     _updateWidget();
   }
@@ -87,8 +95,8 @@ class _WaterState extends State<Water> {
       );
     }
 
-    final convertedWaterNeeded = _convertToUnit(_waterNeeded);
-    final convertedCurrentIntake = _convertToUnit(_currentIntake);
+    final convertedWaterNeeded = _convertFromMl(_waterNeeded, _savedUnit!);
+    final convertedCurrentIntake = _convertFromMl(_currentIntake, _savedUnit!);
 
     return Scaffold(
       body: Column(
@@ -97,7 +105,13 @@ class _WaterState extends State<Water> {
             initialIntake: convertedCurrentIntake,
             totalTarget: convertedWaterNeeded,
             unit: _savedUnit!,
-            onIntakeChange: _handleIntakeChange,
+            onIntakeChange: (newIntake) {
+              setState(() {
+                _currentIntake = _convertToMl(newIntake, _savedUnit!);
+              });
+              _updateWidget();
+            },
+            // onUnitChange: _handleUnitChange,
           ),
         ],
       ),
