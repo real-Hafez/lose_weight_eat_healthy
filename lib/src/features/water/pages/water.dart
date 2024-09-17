@@ -1,4 +1,3 @@
-// water.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/WaterIntakeWidget.dart';
@@ -15,7 +14,8 @@ class _WaterState extends State<Water> {
   String? _savedUnit;
   final double _waterNeeded = 2500.0;
   double _currentIntake = 0.0;
-  static const platform = MethodChannel('com.example.lose_weight_eat_healthy/widget');
+  static const platform =
+      MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
   @override
   void initState() {
@@ -58,7 +58,6 @@ class _WaterState extends State<Water> {
 
   double _convertToUnit(double valueInMl) {
     double convertedValue;
-
     switch (_savedUnit) {
       case 'L':
         convertedValue = valueInMl / 1000.0;
@@ -70,7 +69,6 @@ class _WaterState extends State<Water> {
         convertedValue = valueInMl;
         break;
     }
-
     return double.parse(convertedValue.toStringAsFixed(1));
   }
 
@@ -106,4 +104,3 @@ class _WaterState extends State<Water> {
     );
   }
 }
-

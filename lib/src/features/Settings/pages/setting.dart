@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -12,7 +12,8 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final List<String> _units = ['L', 'mL', 'US oz'];
   int _selectedIndex = 0;
-  static const platform = MethodChannel('com.example.lose_weight_eat_healthy/widget');
+  static const platform =
+      MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
   @override
   void initState() {
@@ -40,7 +41,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final prefs = await SharedPreferences.getInstance();
       final waterNeeded = prefs.getDouble('water_needed') ?? 2500.0;
       final waterDrunk = prefs.getDouble('water_drunk') ?? 0.0;
-      
       await platform.invokeMethod('updateWidget', {
         'water': waterNeeded,
         'water_drunk': waterDrunk,
@@ -68,7 +68,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 20),
             ToggleButtons(
               isSelected: List.generate(
-                  _units.length, (index) => index == _selectedIndex),
+                _units.length,
+                (index) => index == _selectedIndex,
+              ),
               onPressed: (index) {
                 setState(() {
                   _selectedIndex = index;

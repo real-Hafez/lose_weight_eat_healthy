@@ -64,6 +64,7 @@ class MainActivity : FlutterActivity() {
                 }
             }
         }
+
         registerReceiver(dataUpdateReceiver, IntentFilter("com.example.lose_weight_eat_healthy.WIDGET_UPDATED"))
     }
 

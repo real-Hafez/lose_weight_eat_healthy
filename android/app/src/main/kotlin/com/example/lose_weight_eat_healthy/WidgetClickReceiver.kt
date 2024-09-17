@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import io.flutter.plugin.common.MethodChannel
 
 class WidgetClickReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -15,6 +17,7 @@ class WidgetClickReceiver : BroadcastReceiver() {
         when (action) {
             "com.example.lose_weight_eat_healthy.INCREMENT" -> {
                 incrementWaterDrunk(context)
+                notifyFlutterApp(context)
             }
         }
 
@@ -27,23 +30,19 @@ class WidgetClickReceiver : BroadcastReceiver() {
 
     private fun incrementWaterDrunk(context: Context) {
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
-        val waterDrunk = prefs.getFloat("water_drunk", 0f)
-        val waterNeeded = prefs.getFloat("water_needed", 2500f)
-        val selectedUnit = prefs.getString("selected_unit", "mL") ?: "mL"
+        val waterDrunk = prefs.getFloat("water_drunk", 0f) + 250f  // Increment by 250 mL (example)
+        prefs.edit().putFloat("water_drunk", waterDrunk).apply()
+    }
 
-        val incrementAmount = when (selectedUnit) {
-            "L" -> 0.3f
-            "mL" -> 300f
-            "US oz" -> 10f
-            else -> 300f
-        }
+    private fun notifyFlutterApp(context: Context) {
+        // Notify Flutter app using a broadcast intent
+        val intent = Intent("com.example.lose_weight_eat_healthy.WIDGET_UPDATED")
+        intent.putExtra("water_drunk", getWaterDrunk(context))
+        context.sendBroadcast(intent)
+    }
 
-        val newWaterDrunk = (waterDrunk + incrementAmount).coerceAtMost(waterNeeded)
-        prefs.edit().putFloat("water_drunk", newWaterDrunk).apply()
-
-        // Notify the app about the update
-        val updateIntent = Intent("com.example.lose_weight_eat_healthy.WIDGET_UPDATED")
-        updateIntent.putExtra("water_drunk", newWaterDrunk)
-        context.sendBroadcast(updateIntent)
+    private fun getWaterDrunk(context: Context): Float {
+        val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
+        return prefs.getFloat("water_drunk", 0f)
     }
 }

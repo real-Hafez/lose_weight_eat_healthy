@@ -1,7 +1,7 @@
-// WaterIntakeWidget.dart
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
+import 'package:flutter/services.dart'; // for MethodChannel
 
 class WaterIntakeWidget extends StatefulWidget {
   final double initialIntake;
@@ -23,35 +23,52 @@ class WaterIntakeWidget extends StatefulWidget {
 
 class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
   late double _currentIntake;
+  static const platform =
+      MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
   @override
   void initState() {
     super.initState();
     _currentIntake = widget.initialIntake;
-  }
 
-  void _incrementIntake() {
-    setState(() {
-      double incrementAmount = 300.0;
-      switch (widget.unit) {
-        case 'L':
-          incrementAmount = 0.3;
-          break;
-        case 'US oz':
-          incrementAmount = 10.0;
-          break;
-        default:
-          incrementAmount = 300.0;
-          break;
+    // Listen for updates from the home widget via MethodChannel
+    platform.setMethodCallHandler((call) async {
+      if (call.method == "updateAppState") {
+        setState(() {
+          _currentIntake = (call.arguments as double);
+        });
+        widget.onIntakeChange(_currentIntake); // Notify the parent widget
       }
-
-      _currentIntake =
-          (_currentIntake + incrementAmount).clamp(0, widget.totalTarget);
-      widget.onIntakeChange(_currentIntake);
     });
   }
 
-  String _formatValue(double value) {
+  // Increment the water intake based on the selected unit
+  void incrementIntake() {
+    setState(() {
+      double incrementAmount;
+      switch (widget.unit) {
+        case 'L':
+          incrementAmount = 0.3; // Increment by 0.3 liters
+          break;
+        case 'US oz':
+          incrementAmount = 10.0; // Increment by 10 US ounces
+          break;
+        default: // mL
+          incrementAmount = 300.0; // Increment by 300 mL
+          break;
+      }
+      _currentIntake =
+          (_currentIntake + incrementAmount).clamp(0, widget.totalTarget);
+      widget.onIntakeChange(
+          _currentIntake); // Call the callback function to update intake
+    });
+
+    // Optionally, send the updated value to the native platform or widget if needed
+    platform.invokeMethod('updateWidgetIntake', _currentIntake);
+  }
+
+  // Format the double value for display
+  String formatValue(double value) {
     return value.toStringAsFixed(1);
   }
 
@@ -92,7 +109,7 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
                     height: MediaQuery.of(context).size.height * .01,
                   ),
                   Text(
-                    "${_formatValue(_currentIntake)} ${widget.unit} / ${_formatValue(widget.totalTarget)} ${widget.unit}",
+                    "${formatValue(_currentIntake)} ${widget.unit} / ${formatValue(widget.totalTarget)} ${widget.unit}",
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
@@ -109,7 +126,7 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
                       color: Colors.black,
                       size: MediaQuery.of(context).size.height * .1,
                     ),
-                    onPressed: _incrementIntake,
+                    onPressed: incrementIntake,
                   ),
                 ],
               ),
