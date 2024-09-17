@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // List of units to choose from
-  final List<String> _units = ['L', 'ml', 'US oz'];
-  int _selectedIndex = 0; // Index for the selected unit
+  final List<String> _units = ['L', 'mL', 'US oz'];
+  int _selectedIndex = 0;
+  static const platform = MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
   @override
   void initState() {
@@ -19,20 +20,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _loadSelectedUnit();
   }
 
-  // Load the selected unit from SharedPreferences
   Future<void> _loadSelectedUnit() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedUnit = prefs.getString('water_unit') ?? 'ml';
+    final savedUnit = prefs.getString('water_unit') ?? 'mL';
     setState(() {
       _selectedIndex = _units.indexOf(savedUnit);
     });
   }
 
-  // Save the selected unit to SharedPreferences
   Future<void> _saveSelectedUnit(int index) async {
     final prefs = await SharedPreferences.getInstance();
     final selectedUnit = _units[index];
     await prefs.setString('water_unit', selectedUnit);
+    _updateWidget(selectedUnit);
+  }
+
+  Future<void> _updateWidget(String unit) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final waterNeeded = prefs.getDouble('water_needed') ?? 2500.0;
+      final waterDrunk = prefs.getDouble('water_drunk') ?? 0.0;
+      
+      await platform.invokeMethod('updateWidget', {
+        'water': waterNeeded,
+        'water_drunk': waterDrunk,
+        'unit': unit,
+      });
+    } on PlatformException catch (e) {
+      print("Failed to update widget: '${e.message}'.");
+    }
   }
 
   @override

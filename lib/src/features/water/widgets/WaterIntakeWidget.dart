@@ -1,3 +1,4 @@
+// WaterIntakeWidget.dart
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
@@ -6,12 +7,14 @@ class WaterIntakeWidget extends StatefulWidget {
   final double initialIntake;
   final double totalTarget;
   final String unit;
+  final Function(double) onIntakeChange;
 
   const WaterIntakeWidget({
     super.key,
     required this.initialIntake,
     required this.totalTarget,
     required this.unit,
+    required this.onIntakeChange,
   });
 
   @override
@@ -32,16 +35,19 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
       double incrementAmount = 300.0;
       switch (widget.unit) {
         case 'L':
-          incrementAmount = 300.0 / 1000.0;
+          incrementAmount = 0.3;
           break;
         case 'US oz':
-          incrementAmount = 300.0 * 0.033814;
+          incrementAmount = 10.0;
           break;
         default:
+          incrementAmount = 300.0;
           break;
       }
 
-      _currentIntake += incrementAmount;
+      _currentIntake =
+          (_currentIntake + incrementAmount).clamp(0, widget.totalTarget);
+      widget.onIntakeChange(_currentIntake);
     });
   }
 

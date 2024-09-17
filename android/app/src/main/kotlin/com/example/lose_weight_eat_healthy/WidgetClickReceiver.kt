@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.widget.RemoteViews
 
 class WidgetClickReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -43,7 +42,7 @@ class WidgetClickReceiver : BroadcastReceiver() {
         prefs.edit().putFloat("water_drunk", newWaterDrunk).apply()
 
         // Notify the app about the update
-        val updateIntent = Intent("com.example.fuckin.WIDGET_UPDATED")
+        val updateIntent = Intent("com.example.lose_weight_eat_healthy.WIDGET_UPDATED")
         updateIntent.putExtra("water_drunk", newWaterDrunk)
         context.sendBroadcast(updateIntent)
     }

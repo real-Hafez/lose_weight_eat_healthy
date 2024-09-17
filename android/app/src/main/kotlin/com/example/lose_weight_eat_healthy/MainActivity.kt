@@ -11,16 +11,14 @@ import android.widget.RemoteViews
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import com.example.lose_weight_eat_healthy.HomeScreenWidget
 import android.content.BroadcastReceiver
-import android.content.res.ColorStateList
 import android.app.AlarmManager
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.example.fuckin/widget"
+    private val CHANNEL = "com.example.lose_weight_eat_healthy/widget"
     private lateinit var dataUpdateReceiver: BroadcastReceiver
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -37,8 +35,9 @@ class MainActivity : FlutterActivity() {
                         val args = call.arguments as? Map<String, Any> ?: throw IllegalArgumentException("Invalid arguments")
                         val waterNeeded = args["water"] as? Double ?: throw IllegalArgumentException("Invalid water value")
                         val unit = args["unit"] as? String ?: throw IllegalArgumentException("Invalid unit")
+                        val waterDrunk = args["water_drunk"] as? Double ?: throw IllegalArgumentException("Invalid water_drunk value")
                         val wakeUpTime = args["wake_up_time"] as? String
-                        updateHomeScreenWidget(waterNeeded, unit)
+                        updateHomeScreenWidget(waterNeeded, waterDrunk, unit)
                         if (wakeUpTime != null) {
                             scheduleWidgetReset(wakeUpTime)
                         }
@@ -58,14 +57,14 @@ class MainActivity : FlutterActivity() {
 
         dataUpdateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                if (intent.action == "com.example.fuckin.WIDGET_UPDATED") {
+                if (intent.action == "com.example.lose_weight_eat_healthy.WIDGET_UPDATED") {
                     val waterDrunk = intent.getFloatExtra("water_drunk", 0f)
                     MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
                         .invokeMethod("updateAppState", waterDrunk)
                 }
             }
         }
-        registerReceiver(dataUpdateReceiver, IntentFilter("com.example.fuckin.WIDGET_UPDATED"))
+        registerReceiver(dataUpdateReceiver, IntentFilter("com.example.lose_weight_eat_healthy.WIDGET_UPDATED"))
     }
 
     override fun onDestroy() {
@@ -73,10 +72,11 @@ class MainActivity : FlutterActivity() {
         unregisterReceiver(dataUpdateReceiver)
     }
 
-    private fun updateHomeScreenWidget(waterNeeded: Double, unit: String) {
+    private fun updateHomeScreenWidget(waterNeeded: Double, waterDrunk: Double, unit: String) {
         val prefs = getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)
         prefs.edit()
             .putFloat("water_needed", waterNeeded.toFloat())
+            .putFloat("water_drunk", waterDrunk.toFloat())
             .putString("selected_unit", unit)
             .apply()
 
@@ -155,3 +155,4 @@ class MainActivity : FlutterActivity() {
         }
     }
 }
+
