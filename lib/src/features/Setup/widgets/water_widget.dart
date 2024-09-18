@@ -27,7 +27,8 @@ class _WaterWidgetState extends State<WaterWidget> {
   bool _showNextButton = false;
   bool _showSkip = false;
 
-  static const platform = MethodChannel('com.example.fuckin/widget');
+  static const platform =
+      MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
   @override
   void initState() {

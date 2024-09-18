@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lose_weight_eat_healthy/src/features/Home/widgets/calender_for_training_water.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/WaterIntakeWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -111,8 +112,8 @@ class _WaterState extends State<Water> {
               });
               _updateWidget();
             },
-            // onUnitChange: _handleUnitChange,
           ),
+          const calender_for_training_water()
         ],
       ),
     );

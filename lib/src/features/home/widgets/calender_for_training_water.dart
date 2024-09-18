@@ -8,11 +8,11 @@ class calender_for_training_water extends StatelessWidget {
   Widget build(BuildContext context) {
     return TableCalendar(
       firstDay: DateTime.now(),
-      lastDay: DateTime.now().add(const Duration(days: 13)),
+      lastDay: DateTime.now().add(const Duration(days: 0)),
       focusedDay: DateTime.now(),
       sixWeekMonthsEnforced: false,
       headerVisible: false,
-      calendarFormat: CalendarFormat.twoWeeks,
+      calendarFormat: CalendarFormat.week,
     );
   }
 }
