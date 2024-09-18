@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
-import 'package:flutter/services.dart'; // for MethodChannel
+import 'package:flutter/services.dart';
 
 class WaterIntakeWidget extends StatefulWidget {
   final double initialIntake;
@@ -31,43 +31,37 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
     super.initState();
     _currentIntake = widget.initialIntake;
 
-    // Listen for updates from the home widget via MethodChannel
     platform.setMethodCallHandler((call) async {
       if (call.method == "updateAppState") {
         setState(() {
           _currentIntake = (call.arguments as double);
         });
-        widget.onIntakeChange(_currentIntake); // Notify the parent widget
+        widget.onIntakeChange(_currentIntake);
       }
     });
   }
 
-  // Increment the water intake based on the selected unit
   void incrementIntake() {
     setState(() {
       double incrementAmount;
       switch (widget.unit) {
         case 'L':
-          incrementAmount = 0.3; // Increment by 0.3 liters
+          incrementAmount = 0.3;
           break;
         case 'US oz':
-          incrementAmount = 10.0; // Increment by 10 US ounces
+          incrementAmount = 10.0;
           break;
         default: // mL
-          incrementAmount = 300.0; // Increment by 300 mL
+          incrementAmount = 300.0;
           break;
       }
 
       _currentIntake =
           (_currentIntake + incrementAmount).clamp(0, widget.totalTarget);
-      widget.onIntakeChange(
-          _currentIntake); // Call the callback function to update intake
+      widget.onIntakeChange(_currentIntake);
 
-      // Provide feedback
-      HapticFeedback
-          .lightImpact(); // Trigger vibration feedback when incrementing
+      HapticFeedback.heavyImpact();
 
-      // Optionally, show a message if the target is reached
       if (_currentIntake >= widget.totalTarget) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('You’ve reached your daily target!')),
@@ -75,7 +69,6 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
       }
     });
 
-    // Optionally, send the updated value to the native platform or widget if needed
     try {
       platform.invokeMethod('updateWidgetIntake', _currentIntake);
     } on PlatformException catch (e) {
@@ -83,7 +76,6 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
     }
   }
 
-  // Format the double value for display
   String formatValue(double value) {
     return value.toStringAsFixed(1);
   }

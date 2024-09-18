@@ -17,12 +17,21 @@ class _WaterState extends State<Water> {
   double _currentIntake = 0.0;
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
+  final Set<DateTime> _goalReachedDays = {};
 
   @override
   void initState() {
     super.initState();
     _loadSavedPreferences();
     _setupWidgetListener();
+  }
+
+  void _handleGoalReached() {
+    final today = DateTime.now();
+    setState(() {
+      _goalReachedDays
+          .add(DateTime(today.year, today.month, today.day)); // Save the day
+    });
   }
 
   Future<void> _loadSavedPreferences() async {
@@ -60,22 +69,22 @@ class _WaterState extends State<Water> {
   double _convertFromMl(double valueInMl, String toUnit) {
     switch (toUnit) {
       case 'L':
-        return valueInMl / 1000.0; // Convert mL to liters
+        return valueInMl / 1000.0;
       case 'US oz':
-        return valueInMl * 0.033814; // Convert mL to US ounces
+        return valueInMl * 0.033814;
       default:
-        return valueInMl; // Keep in mL
+        return valueInMl;
     }
   }
 
   double _convertToMl(double value, String fromUnit) {
     switch (fromUnit) {
       case 'L':
-        return value * 1000.0; // Convert liters to mL
+        return value * 1000.0;
       case 'US oz':
-        return value / 0.033814; // Convert US ounces to mL
+        return value / 0.033814;
       default:
-        return value; // Keep in mL
+        return value;
     }
   }
 
@@ -109,11 +118,14 @@ class _WaterState extends State<Water> {
             onIntakeChange: (newIntake) {
               setState(() {
                 _currentIntake = _convertToMl(newIntake, _savedUnit!);
+                if (_currentIntake >= _waterNeeded) {
+                  _handleGoalReached();
+                }
               });
               _updateWidget();
             },
           ),
-          const calender_for_training_water()
+          calender_for_training_water(goalReachedDays: _goalReachedDays),
         ],
       ),
     );
