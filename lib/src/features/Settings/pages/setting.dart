@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _updateWidget(String unit) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final waterNeeded = prefs.getDouble('water_needed') ?? 2500.0;
+      final waterNeeded = prefs.getDouble('water_needed') ?? 3000.0;
       final waterDrunk = prefs.getDouble('water_drunk') ?? 0.0;
       await platform.invokeMethod('updateWidget', {
         'water': waterNeeded,

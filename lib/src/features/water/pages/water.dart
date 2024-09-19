@@ -13,7 +13,7 @@ class Water extends StatefulWidget {
 
 class _WaterState extends State<Water> {
   String? _savedUnit;
-  final double _waterNeeded = 2500.0;
+  double _waterNeeded = 5000.0; // Mutable now
   double _currentIntake = 0.0;
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
@@ -24,6 +24,7 @@ class _WaterState extends State<Water> {
     super.initState();
     _loadSavedPreferences();
     _setupWidgetListener();
+    get_water_need_and_unit();
   }
 
   void _handleGoalReached() {
@@ -32,6 +33,26 @@ class _WaterState extends State<Water> {
       _goalReachedDays
           .add(DateTime(today.year, today.month, today.day)); // Save the day
     });
+  }
+
+  Future<void> get_water_need_and_unit() async {
+    // Get a reference to SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Retrieve the stored water needed value
+    double? value = prefs.getDouble('water_needed');
+    String? waterUnit = prefs.getString('water_unit');
+
+    // Check if the value is not null and update _waterNeeded
+    if (value != null) {
+      setState(() {
+        _waterNeeded = _convertToMl(value, waterUnit ?? 'mL');
+        _savedUnit = waterUnit ?? 'mL'; // Ensure unit is set
+      });
+      print('Retrieved value: $_waterNeeded $_savedUnit');
+    } else {
+      print('No value found for the key.');
+    }
   }
 
   Future<void> _loadSavedPreferences() async {
@@ -128,127 +149,8 @@ class _WaterState extends State<Water> {
           calender_for_training_water(
             goalReachedDays: _goalReachedDays,
           ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const ResponsiveRow(
-                  children: [
-                    WaterIntakeCard(
-                      icon: Icons.water_drop,
-                      amount: 250,
-                      backgroundColor: Colors.blueAccent,
-                    ),
-                    WaterIntakeCard(
-                      icon: Icons.local_drink,
-                      amount: 500,
-                      backgroundColor: Colors.lightBlue,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .02,
-                ),
-                const ResponsiveRow(
-                  children: [
-                    WaterIntakeCard(
-                      icon: Icons.local_cafe,
-                      amount: 180,
-                      backgroundColor: Colors.orangeAccent,
-                    ),
-                    WaterIntakeCard(
-                      icon: Icons.local_bar,
-                      amount: 250,
-                      backgroundColor: Colors.purpleAccent,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
         ],
       ),
-    );
-  }
-}
-
-class WaterIntakeCard extends StatelessWidget {
-  final IconData icon;
-  final int amount;
-  final Color backgroundColor;
-
-  const WaterIntakeCard({
-    super.key,
-    required this.icon,
-    required this.amount,
-    required this.backgroundColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final iconSize = MediaQuery.of(context).size.height * .04;
-    final textSize = MediaQuery.of(context).size.height * .02;
-    final padding = MediaQuery.of(context).size.width * .03;
-
-    return Container(
-      padding: EdgeInsets.all(padding),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(
-          10,
-        ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: iconSize,
-            color: Colors.blue[900],
-          ),
-          SizedBox(
-            width: padding,
-          ),
-          Text(
-            '$amount ml',
-            style: TextStyle(
-              fontSize: textSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ResponsiveRow extends StatelessWidget {
-  final List<Widget> children;
-
-  const ResponsiveRow({super.key, required this.children});
-
-  @override
-  Widget build(BuildContext context) {
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: children
-          .map((child) => Expanded(
-                child: Padding(
-                  padding: isSmallScreen
-                      ? const EdgeInsets.symmetric(
-                          horizontal: 4.0,
-                        )
-                      : const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                        ),
-                  child: child,
-                ),
-              ))
-          .toList(),
     );
   }
 }
