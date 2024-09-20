@@ -32,22 +32,80 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _saveSelectedUnit(int index) async {
     final prefs = await SharedPreferences.getInstance();
     final selectedUnit = _units[index];
+
+    // Retrieve the current values
+    final currentWaterNeeded = prefs.getDouble('water_needed') ?? 3000.0;
+    final currentWaterDrunk = prefs.getDouble('water_drunk') ?? 0.0;
+
+    // Convert values to the new unit
+    final currentUnit = prefs.getString('water_unit') ?? 'mL';
+    final newWaterNeeded =
+        _convertToUnit(currentWaterNeeded, currentUnit, selectedUnit);
+    final newWaterDrunk =
+        _convertToUnit(currentWaterDrunk, currentUnit, selectedUnit);
+
+    // Save new values and unit
+    await prefs.setDouble('water_needed', newWaterNeeded);
+    await prefs.setDouble('water_drunk', newWaterDrunk);
     await prefs.setString('water_unit', selectedUnit);
-    _updateWidget(selectedUnit);
+
+    _updateWidget(newWaterNeeded, newWaterDrunk, selectedUnit);
   }
 
-  Future<void> _updateWidget(String unit) async {
+  double _convertToUnit(double value, String fromUnit, String toUnit) {
+    switch (toUnit) {
+      case 'L':
+        return _convertToL(value, fromUnit);
+      case 'US oz':
+        return _convertToOz(value, fromUnit);
+      default:
+        return _convertToMl(value, fromUnit);
+    }
+  }
+
+  double _convertToL(double value, String fromUnit) {
+    switch (fromUnit) {
+      case 'mL':
+        return value / 1000.0;
+      case 'US oz':
+        return value * 0.0295735;
+      default:
+        return value;
+    }
+  }
+
+  double _convertToOz(double value, String fromUnit) {
+    switch (fromUnit) {
+      case 'mL':
+        return value * 0.033814;
+      case 'L':
+        return value * 33.814;
+      default:
+        return value;
+    }
+  }
+
+  double _convertToMl(double value, String fromUnit) {
+    switch (fromUnit) {
+      case 'L':
+        return value * 1000.0;
+      case 'US oz':
+        return value / 0.033814;
+      default:
+        return value;
+    }
+  }
+
+  Future<void> _updateWidget(
+      double waterNeeded, double waterDrunk, String unit) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final waterNeeded = prefs.getDouble('water_needed') ?? 3000.0;
-      final waterDrunk = prefs.getDouble('water_drunk') ?? 0.0;
       await platform.invokeMethod('updateWidget', {
         'water': waterNeeded,
         'water_drunk': waterDrunk,
         'unit': unit,
       });
     } on PlatformException catch (e) {
-      print("Failed to update widget: '${e.message}'.");
+      print("Failed to update widget: '${e.message}'");
     }
   }
 

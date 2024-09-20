@@ -13,7 +13,7 @@ class Water extends StatefulWidget {
 
 class _WaterState extends State<Water> {
   String? _savedUnit;
-  double _waterNeeded = 5000.0; // Mutable now
+  double _waterNeeded = 6000.0;
   double _currentIntake = 0.0;
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
@@ -42,13 +42,14 @@ class _WaterState extends State<Water> {
     // Retrieve the stored water needed value
     double? value = prefs.getDouble('water_needed');
     String? waterUnit = prefs.getString('water_unit');
-
+    print(value);
     // Check if the value is not null and update _waterNeeded
     if (value != null) {
       setState(() {
         _waterNeeded = _convertToMl(value, waterUnit ?? 'mL');
         _savedUnit = waterUnit ?? 'mL'; // Ensure unit is set
       });
+
       print('Retrieved value: $_waterNeeded $_savedUnit');
     } else {
       print('No value found for the key.');
