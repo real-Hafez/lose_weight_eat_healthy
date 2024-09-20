@@ -30,26 +30,19 @@ class _WaterState extends State<Water> {
   void _handleGoalReached() {
     final today = DateTime.now();
     setState(() {
-      _goalReachedDays
-          .add(DateTime(today.year, today.month, today.day)); // Save the day
+      _goalReachedDays.add(DateTime(today.year, today.month, today.day));
     });
   }
 
   Future<void> get_water_need_and_unit() async {
-    // Get a reference to SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Retrieve the stored water needed value
     double? value = prefs.getDouble('water_needed');
     String? waterUnit = prefs.getString('water_unit');
-    print(value);
-    // Check if the value is not null and update _waterNeeded
     if (value != null) {
       setState(() {
-        _waterNeeded = _convertToMl(value, waterUnit ?? 'mL');
-        _savedUnit = waterUnit ?? 'mL'; // Ensure unit is set
+        _waterNeeded = value;
+        _savedUnit = waterUnit ?? 'mL';
       });
-
       print('Retrieved value: $_waterNeeded $_savedUnit');
     } else {
       print('No value found for the key.');
@@ -72,6 +65,7 @@ class _WaterState extends State<Water> {
         setState(() {
           _currentIntake = waterDrunkInMl;
         });
+        _saveWaterIntake();
       }
     });
   }
@@ -79,8 +73,8 @@ class _WaterState extends State<Water> {
   Future<void> _updateWidget() async {
     try {
       await platform.invokeMethod('updateWidget', {
-        'water': _convertFromMl(_waterNeeded, _savedUnit!),
-        'water_drunk': _convertFromMl(_currentIntake, _savedUnit!),
+        'water': _waterNeeded,
+        'water_drunk': _currentIntake,
         'unit': _savedUnit,
       });
     } on PlatformException catch (e) {
@@ -88,35 +82,57 @@ class _WaterState extends State<Water> {
     }
   }
 
-  double _convertFromMl(double valueInMl, String toUnit) {
-    switch (toUnit) {
-      case 'L':
-        return valueInMl / 1000.0;
-      case 'US oz':
-        return valueInMl * 0.033814;
-      default:
-        return valueInMl;
+  Future<void> _saveWaterIntake() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('water_drunk', _currentIntake);
+    _updateWidget();
+  }
+
+  void _handleUnitChange(String newUnit) async {
+    if (_savedUnit != newUnit) {
+      final convertedIntake =
+          _convertWaterIntake(_currentIntake, _savedUnit!, newUnit);
+      final convertedNeeded =
+          _convertWaterIntake(_waterNeeded, _savedUnit!, newUnit);
+
+      setState(() {
+        _currentIntake = convertedIntake;
+        _waterNeeded = convertedNeeded;
+        _savedUnit = newUnit;
+      });
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('water_unit', newUnit);
+      await prefs.setDouble('water_drunk', _currentIntake);
+      await prefs.setDouble('water_needed', _waterNeeded);
+
+      _updateWidget();
     }
   }
 
-  double _convertToMl(double value, String fromUnit) {
+  double _convertWaterIntake(double amount, String fromUnit, String toUnit) {
+    if (fromUnit == toUnit) return amount;
+
+    double mlAmount;
     switch (fromUnit) {
       case 'L':
-        return value * 1000.0;
+        mlAmount = amount * 1000;
+        break;
       case 'US oz':
-        return value / 0.033814;
-      default:
-        return value;
+        mlAmount = amount * 29.5735;
+        break;
+      default: // mL
+        mlAmount = amount;
     }
-  }
 
-  void _handleUnitChange(String newUnit) {
-    setState(() {
-      _currentIntake =
-          _convertFromMl(_convertToMl(_currentIntake, _savedUnit!), newUnit);
-      _savedUnit = newUnit;
-    });
-    _updateWidget();
+    switch (toUnit) {
+      case 'L':
+        return mlAmount / 1000;
+      case 'US oz':
+        return mlAmount / 29.5735;
+      default: // mL
+        return mlAmount;
+    }
   }
 
   @override
@@ -127,25 +143,23 @@ class _WaterState extends State<Water> {
       );
     }
 
-    final convertedWaterNeeded = _convertFromMl(_waterNeeded, _savedUnit!);
-    final convertedCurrentIntake = _convertFromMl(_currentIntake, _savedUnit!);
-
     return Scaffold(
       body: Column(
         children: [
           WaterIntakeWidget(
-            initialIntake: convertedCurrentIntake,
-            totalTarget: convertedWaterNeeded,
+            initialIntake: _currentIntake,
+            totalTarget: _waterNeeded,
             unit: _savedUnit!,
             onIntakeChange: (newIntake) {
               setState(() {
-                _currentIntake = _convertToMl(newIntake, _savedUnit!);
+                _currentIntake = newIntake;
                 if (_currentIntake >= _waterNeeded) {
                   _handleGoalReached();
                 }
               });
-              _updateWidget();
+              _saveWaterIntake();
             },
+            // onUnitChange: _handleUnitChange,
           ),
           calender_for_training_water(
             goalReachedDays: _goalReachedDays,

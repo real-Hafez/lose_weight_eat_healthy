@@ -33,18 +33,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final prefs = await SharedPreferences.getInstance();
     final selectedUnit = _units[index];
 
-    // Retrieve the current values
     final currentWaterNeeded = prefs.getDouble('water_needed') ?? 3000.0;
     final currentWaterDrunk = prefs.getDouble('water_drunk') ?? 0.0;
 
-    // Convert values to the new unit
     final currentUnit = prefs.getString('water_unit') ?? 'mL';
     final newWaterNeeded =
         _convertToUnit(currentWaterNeeded, currentUnit, selectedUnit);
     final newWaterDrunk =
         _convertToUnit(currentWaterDrunk, currentUnit, selectedUnit);
 
-    // Save new values and unit
     await prefs.setDouble('water_needed', newWaterNeeded);
     await prefs.setDouble('water_drunk', newWaterDrunk);
     await prefs.setString('water_unit', selectedUnit);
@@ -53,46 +50,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   double _convertToUnit(double value, String fromUnit, String toUnit) {
+    if (fromUnit == toUnit) return value;
+
+    double mlValue;
+    switch (fromUnit) {
+      case 'L':
+        mlValue = value * 1000;
+        break;
+      case 'US oz':
+        mlValue = value * 29.5735;
+        break;
+      default: // mL
+        mlValue = value;
+    }
+
     switch (toUnit) {
       case 'L':
-        return _convertToL(value, fromUnit);
+        return mlValue / 1000;
       case 'US oz':
-        return _convertToOz(value, fromUnit);
-      default:
-        return _convertToMl(value, fromUnit);
-    }
-  }
-
-  double _convertToL(double value, String fromUnit) {
-    switch (fromUnit) {
-      case 'mL':
-        return value / 1000.0;
-      case 'US oz':
-        return value * 0.0295735;
-      default:
-        return value;
-    }
-  }
-
-  double _convertToOz(double value, String fromUnit) {
-    switch (fromUnit) {
-      case 'mL':
-        return value * 0.033814;
-      case 'L':
-        return value * 33.814;
-      default:
-        return value;
-    }
-  }
-
-  double _convertToMl(double value, String fromUnit) {
-    switch (fromUnit) {
-      case 'L':
-        return value * 1000.0;
-      case 'US oz':
-        return value / 0.033814;
-      default:
-        return value;
+        return mlValue / 29.5735;
+      default: // mL
+        return mlValue;
     }
   }
 
