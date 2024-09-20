@@ -27,10 +27,37 @@ class _WaterState extends State<Water> {
     get_water_need_and_unit();
   }
 
-  void _handleGoalReached() {
+  void _handleGoalReached() async {
     final today = DateTime.now();
+    final formattedDate = "${today.year}-${today.month}-${today.day}";
+
     setState(() {
       _goalReachedDays.add(DateTime(today.year, today.month, today.day));
+    });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> goalReachedDates =
+        prefs.getStringList('goal_reached_dates') ?? [];
+    if (!goalReachedDates.contains(formattedDate)) {
+      goalReachedDates.add(formattedDate);
+      await prefs.setStringList('goal_reached_dates', goalReachedDates);
+    }
+  }
+
+  Future<void> _loadGoalCompletionDays() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> goalReachedDates =
+        prefs.getStringList('goal_reached_dates') ?? [];
+
+    setState(() {
+      _goalReachedDays.clear();
+      for (String dateStr in goalReachedDates) {
+        final parts = dateStr.split("-");
+        final year = int.parse(parts[0]);
+        final month = int.parse(parts[1]);
+        final day = int.parse(parts[2]);
+        _goalReachedDays.add(DateTime(year, month, day));
+      }
     });
   }
 
@@ -55,6 +82,7 @@ class _WaterState extends State<Water> {
       _savedUnit = prefs.getString('water_unit') ?? 'mL';
       _currentIntake = prefs.getDouble('water_drunk') ?? 0.0;
     });
+    _loadGoalCompletionDays(); // Load goal completion data
     _updateWidget();
   }
 
