@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 import 'package:flutter/services.dart';
-import 'package:lose_weight_eat_healthy/src/features/water/pages/water.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/respontiveRow.dart';
 
 class WaterIntakeWidget extends StatefulWidget {
@@ -43,26 +42,27 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
     });
   }
 
-  void incrementIntake() {
+  void incrementWaterIntake() {
+    double incrementAmount;
+    switch (widget.unit) {
+      case 'L':
+        incrementAmount = 0.3; // 300 mL in liters
+        break;
+      case 'US oz':
+        incrementAmount = 300 / 29.5735; // 300 mL in US ounces
+        break;
+      case 'mL':
+      default:
+        incrementAmount = 300; // 300 mL
+        break;
+    }
+    addWaterIntake(incrementAmount);
+  }
+
+  void addWaterIntake(double amount) {
     setState(() {
-      double incrementAmount;
-      switch (widget.unit) {
-        case 'L':
-          incrementAmount = 0.3;
-          break;
-        case 'US oz':
-          incrementAmount = 10.0;
-          break;
-        default: // mL
-          incrementAmount = 300.0;
-          break;
-      }
-
-      _currentIntake =
-          (_currentIntake + incrementAmount).clamp(0, widget.totalTarget);
+      _currentIntake = (_currentIntake + amount).clamp(0, widget.totalTarget);
       widget.onIntakeChange(_currentIntake);
-
-      HapticFeedback.heavyImpact();
 
       if (_currentIntake >= widget.totalTarget) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -132,14 +132,13 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
                         height: MediaQuery.of(context).size.height * .06,
                       ),
                       IconButton(
-                        icon: Icon(
-                          Ionicons.add,
-                          weight: 100,
-                          color: Colors.black,
-                          size: MediaQuery.of(context).size.height * .1,
-                        ),
-                        onPressed: incrementIntake,
-                      ),
+                          icon: Icon(
+                            Ionicons.add,
+                            weight: 100,
+                            color: Colors.black,
+                            size: MediaQuery.of(context).size.height * .1,
+                          ),
+                          onPressed: incrementWaterIntake),
                     ],
                   ),
                 ),
@@ -154,18 +153,16 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
                 ResponsiveRow(
                   children: [
                     WaterIntakeCard(
-                      onTap: (p0) {
-                        print('object');
-                      },
+                      onTap: (amount) => addWaterIntake(amount),
                       icon: Icons.water_drop,
                       backgroundColor: Colors.blueAccent,
+                      amount: getAmountForUnit(100, widget.unit),
                     ),
                     WaterIntakeCard(
-                      onTap: (p0) {
-                        print('object');
-                      },
+                      onTap: (amount) => addWaterIntake(amount),
                       icon: Icons.local_drink,
                       backgroundColor: Colors.lightBlue,
+                      amount: getAmountForUnit(200, widget.unit),
                     ),
                   ],
                 ),
@@ -175,18 +172,16 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
                 ResponsiveRow(
                   children: [
                     WaterIntakeCard(
-                      onTap: (p0) {
-                        print('object');
-                      },
+                      onTap: (amount) => addWaterIntake(amount),
                       icon: Icons.local_cafe,
                       backgroundColor: Colors.orangeAccent,
+                      amount: getAmountForUnit(400, widget.unit),
                     ),
                     WaterIntakeCard(
-                      onTap: (p0) {
-                        print('object');
-                      },
+                      onTap: (amount) => addWaterIntake(amount),
                       icon: Icons.local_bar,
                       backgroundColor: Colors.purpleAccent,
+                      amount: getAmountForUnit(500, widget.unit),
                     ),
                   ],
                 ),
@@ -197,18 +192,32 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
       ),
     );
   }
+
+  double getAmountForUnit(double baseAmount, String unit) {
+    switch (unit) {
+      case 'L':
+        return baseAmount / 1000;
+      case 'US oz':
+        return baseAmount / 29.5735;
+      case 'mL':
+      default:
+        return baseAmount;
+    }
+  }
 }
 
 class WaterIntakeCard extends StatefulWidget {
   final IconData icon;
   final Color backgroundColor;
-  final Function(int) onTap;
+  final Function(double) onTap;
+  final double amount;
 
   const WaterIntakeCard({
     super.key,
     required this.icon,
     required this.backgroundColor,
     required this.onTap,
+    required this.amount,
   });
 
   @override
@@ -219,7 +228,9 @@ class _WaterIntakeCardState extends State<WaterIntakeCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        widget.onTap(widget.amount);
+      },
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -236,9 +247,9 @@ class _WaterIntakeCardState extends State<WaterIntakeCard> {
                 color: Colors.white,
               ),
               const SizedBox(height: 10),
-              const Text(
-                "100 mL",
-                style: TextStyle(
+              Text(
+                widget.amount.toStringAsFixed(2),
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
