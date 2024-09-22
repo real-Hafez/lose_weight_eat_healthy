@@ -18,6 +18,7 @@ class _WaterState extends State<Water> {
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
   final Set<DateTime> _goalReachedDays = {};
+  final Map<DateTime, bool> _goalCompletionStatus = {};
 
   @override
   void initState() {
@@ -25,23 +26,29 @@ class _WaterState extends State<Water> {
     _loadSavedPreferences();
     _setupWidgetListener();
     get_water_need_and_unit();
+    _checkPreviousDayGoal();
   }
 
-  void _handleGoalReached() async {
+  void _handleGoalStatus(bool reached) async {
     final today = DateTime.now();
     final formattedDate = "${today.year}-${today.month}-${today.day}";
 
     setState(() {
-      _goalReachedDays.add(DateTime(today.year, today.month, today.day));
+      _goalCompletionStatus[DateTime(today.year, today.month, today.day)] =
+          reached;
     });
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> goalReachedDates =
-        prefs.getStringList('goal_reached_dates') ?? [];
-    if (!goalReachedDates.contains(formattedDate)) {
-      goalReachedDates.add(formattedDate);
-      await prefs.setStringList('goal_reached_dates', goalReachedDates);
-    }
+    Map<String, bool> goalStatusMap = Map.fromEntries(
+        (prefs.getStringList('goal_status_dates') ?? []).map((e) {
+      final parts = e.split(':');
+      return MapEntry(parts[0], parts[1] == 'true');
+    }));
+
+    goalStatusMap[formattedDate] = reached;
+
+    await prefs.setStringList('goal_status_dates',
+        goalStatusMap.entries.map((e) => "${e.key}:${e.value}").toList());
   }
 
   Future<void> _loadGoalCompletionDays() async {
@@ -59,6 +66,46 @@ class _WaterState extends State<Water> {
         _goalReachedDays.add(DateTime(year, month, day));
       }
     });
+  }
+
+  Future<void> _loadGoalCompletionStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> goalStatusDates =
+        prefs.getStringList('goal_status_dates') ?? [];
+
+    setState(() {
+      _goalCompletionStatus.clear();
+      for (String dateStr in goalStatusDates) {
+        final parts = dateStr.split(":");
+        final dateParts = parts[0].split("-");
+        final year = int.parse(dateParts[0]);
+        final month = int.parse(dateParts[1]);
+        final day = int.parse(dateParts[2]);
+        final status = parts[1] == 'true';
+        _goalCompletionStatus[DateTime(year, month, day)] = status;
+      }
+    });
+  }
+
+  Future<void> _checkPreviousDayGoal() async {
+    final yesterday = DateTime.now().subtract(const Duration(days: 1));
+    final formattedYesterday =
+        "${yesterday.year}-${yesterday.month}-${yesterday.day}";
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map<String, bool> goalStatusMap = Map.fromEntries(
+        (prefs.getStringList('goal_status_dates') ?? []).map((e) {
+      final parts = e.split(':');
+      return MapEntry(parts[0], parts[1] == 'true');
+    }));
+
+    if (!goalStatusMap.containsKey(formattedYesterday)) {
+      goalStatusMap[formattedYesterday] = false;
+      await prefs.setStringList('goal_status_dates',
+          goalStatusMap.entries.map((e) => "${e.key}:${e.value}").toList());
+    }
+
+    _loadGoalCompletionStatus();
   }
 
   Future<void> get_water_need_and_unit() async {
@@ -172,28 +219,91 @@ class _WaterState extends State<Water> {
     }
 
     return Scaffold(
-      body: Column(
-        children: [
-          WaterIntakeWidget(
-            initialIntake: _currentIntake,
-            totalTarget: _waterNeeded,
-            unit: _savedUnit!,
-            onIntakeChange: (newIntake) {
-              setState(() {
-                _currentIntake = newIntake;
-                if (_currentIntake >= _waterNeeded) {
-                  _handleGoalReached();
-                }
-              });
-              _saveWaterIntake();
-            },
-            // onUnitChange: _handleUnitChange,
-          ),
-          calender_for_training_water(
-            goalReachedDays: _goalReachedDays,
-          ),
-        ],
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            WaterIntakeWidget(
+              initialIntake: _currentIntake,
+              totalTarget: _waterNeeded,
+              unit: _savedUnit!,
+              onIntakeChange: (newIntake) {
+                setState(() {
+                  _currentIntake = newIntake;
+                  if (_currentIntake >= _waterNeeded) {
+                    _handleGoalStatus(true);
+                  } else {
+                    _handleGoalStatus(false);
+                  }
+                });
+                _saveWaterIntake();
+              },
+            ),
+            calender_for_training_water(
+              goalCompletionStatus: _goalCompletionStatus,
+            ),
+            const SizedBox(
+              height: 45,
+            ),
+            const History(),
+            const SizedBox(
+              height: 102,
+            ),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class History extends StatelessWidget {
+  const History({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'History',
+          style: TextStyle(
+            fontSize: MediaQuery.of(context).size.height * .06,
+          ),
+        ),
+        Row(
+          children: [
+            Text(
+              '11-9-2024',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height * .03,
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .03,
+            ),
+            Icon(
+              Icons.water_drop_outlined,
+              size: MediaQuery.of(context).size.height * .03,
+            ),
+            Text(
+              'Water',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height * .03,
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * .1,
+            ),
+            Text(
+              '300 ml',
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.height * .03,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
