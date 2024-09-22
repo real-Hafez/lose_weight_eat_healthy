@@ -28,11 +28,31 @@ class _WaterState extends State<Water> {
     _loadSavedPreferences();
     _setupWidgetListener();
     get_water_need_and_unit();
-    // _checkPreviousDayGoal();
+    _checkPreviousDayGoal();
     _resetWaterIntakeIfNewDay();
     // _startDailyResetTimer();
   }
-Future<void> _checkPreviousDayGoal() async {
+
+  Future<void> _loadGoalCompletionStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> goalStatusDates =
+        prefs.getStringList('goal_status_dates') ?? [];
+
+    setState(() {
+      _goalCompletionStatus.clear();
+      for (String dateStr in goalStatusDates) {
+        final parts = dateStr.split(":");
+        final dateParts = parts[0].split("-");
+        final year = int.parse(dateParts[0]);
+        final month = int.parse(dateParts[1]);
+        final day = int.parse(dateParts[2]);
+        final status = parts[1] == 'true';
+        _goalCompletionStatus[DateTime(year, month, day)] = status;
+      }
+    });
+  }
+
+  Future<void> _checkPreviousDayGoal() async {
     final yesterday = DateTime.now().subtract(const Duration(days: 1));
     final formattedYesterday =
         "${yesterday.year}-${yesterday.month}-${yesterday.day}";
@@ -52,25 +72,27 @@ Future<void> _checkPreviousDayGoal() async {
 
     _loadGoalCompletionStatus();
   }
+
   Future<void> _resetWaterIntakeIfNewDay() async {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    print('Checking if a new day: Today is $today');
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final lastResetDateString = prefs.getString('last_reset_date');
-    print('Last reset date from preferences: $lastResetDateString');
 
+    final lastResetDateString = prefs.getString('last_reset_date');
     if (lastResetDateString != null) {
       _lastResetDate = DateTime.parse(lastResetDateString);
-    } else {
-      // If there's no stored date, consider it's a new day and reset the intake.
-      _lastResetDate = today
-          .subtract(const Duration(days: 1)); // Force reset on the first run
-      await prefs.setString('last_reset_date', today.toIso8601String());
     }
 
     if (today.isAfter(_lastResetDate)) {
+      final yesterday = today.subtract(const Duration(days: 1));
+
+      // Check if yesterday's goal was reached, if not, mark it as failed (X)
+      if (_goalCompletionStatus[yesterday] == null) {
+        _handleGoalStatusForDate(
+            yesterday, false); // Mark as failed if no status
+      }
+
+      // Reset intake for the new day
       setState(() {
         _currentIntake = 0.0;
         _lastResetDate = today;
@@ -78,19 +100,13 @@ Future<void> _checkPreviousDayGoal() async {
       await prefs.setDouble('water_drunk', 0.0);
       await prefs.setString('last_reset_date', today.toIso8601String());
 
-      // Update the widget and notify of the reset
       _updateWidget();
-      print('New day detected. Water intake reset to 0.');
     }
   }
 
-  void _handleGoalStatus(bool reached) async {
-    final today = DateTime.now();
-    final formattedDate = "${today.year}-${today.month}-${today.day}";
-    print('Goal status for $formattedDate: $reached');
-
+  void _handleGoalStatusForDate(DateTime date, bool reached) async {
     setState(() {
-      _goalCompletionStatus[DateTime(today.year, today.month, today.day)] =
+      _goalCompletionStatus[DateTime(date.year, date.month, date.day)] =
           reached;
     });
 
@@ -101,10 +117,25 @@ Future<void> _checkPreviousDayGoal() async {
       return MapEntry(parts[0], parts[1] == 'true');
     }));
 
+    final formattedDate = "${date.year}-${date.month}-${date.day}";
     goalStatusMap[formattedDate] = reached;
 
-    await prefs.setStringList('goal_status_dates',
-        goalStatusMap.entries.map((e) => "${e.key}:${e.value}").toList());
+    await prefs.setStringList(
+      'goal_status_dates',
+      goalStatusMap.entries.map((e) => "${e.key}:${e.value}").toList(),
+    );
+  }
+
+  void _handleGoalStatus(bool reached) {
+    final today = DateTime.now();
+
+    // Only update the checkmark or X at the end of the day, or if the goal is reached
+    if (reached) {
+      _handleGoalStatusForDate(today, true); // Mark as reached if goal is met
+    } else if (today.hour == 23 && today.minute == 59) {
+      // At the end of the day, mark as not reached if the goal is not achieved
+      _handleGoalStatusForDate(today, false);
+    }
   }
 
   Future<void> get_water_need_and_unit() async {
