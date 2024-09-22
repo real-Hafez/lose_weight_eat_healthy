@@ -24,16 +24,12 @@ class calender_for_training_water extends StatelessWidget {
               goalCompletionStatus[DateTime(date.year, date.month, date.day)];
 
           if (status == null && DateTime.now().day == date.day) {
-            // Show waiting icon for the current day
             return const Icon(Icons.hourglass_empty, color: Colors.orange);
           } else if (status == true) {
-            // Show checkmark for success
             return const Icon(Icons.check_circle, color: Colors.green);
           } else if (status == false) {
-            // Show X for failure
             return const Icon(Icons.close, color: Colors.red);
           } else {
-            // Future dates should show nothing or default behavior
             return null;
           }
         },

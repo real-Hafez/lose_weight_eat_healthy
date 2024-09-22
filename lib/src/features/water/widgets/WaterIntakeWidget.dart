@@ -142,13 +142,14 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
                         height: MediaQuery.of(context).size.height * .06,
                       ),
                       IconButton(
-                          icon: Icon(
-                            Ionicons.add,
-                            weight: 100,
-                            color: Colors.black,
-                            size: MediaQuery.of(context).size.height * .1,
-                          ),
-                          onPressed: incrementWaterIntake),
+                        icon: Icon(
+                          Ionicons.add,
+                          weight: 100,
+                          color: Colors.black,
+                          size: MediaQuery.of(context).size.height * .1,
+                        ),
+                        onPressed: incrementWaterIntake,
+                      ),
                     ],
                   ),
                 )
