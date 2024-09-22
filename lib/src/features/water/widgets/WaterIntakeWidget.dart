@@ -42,6 +42,16 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
     });
   }
 
+  @override
+  void didUpdateWidget(WaterIntakeWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialIntake != oldWidget.initialIntake) {
+      setState(() {
+        _currentIntake = widget.initialIntake;
+      });
+    }
+  }
+
   void incrementWaterIntake() {
     double incrementAmount;
     switch (widget.unit) {
@@ -141,7 +151,7 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
                           onPressed: incrementWaterIntake),
                     ],
                   ),
-                ),
+                )
               ],
             ),
           ),
