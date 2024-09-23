@@ -8,7 +8,7 @@ class WaterIntakeWidget extends StatefulWidget {
   final double initialIntake;
   final double totalTarget;
   final String unit;
-  final Function(double) onIntakeChange;
+  final Function(double, double) onIntakeChange;
 
   const WaterIntakeWidget({
     super.key,
@@ -37,7 +37,7 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
         setState(() {
           _currentIntake = (call.arguments as double);
         });
-        widget.onIntakeChange(_currentIntake);
+        widget.onIntakeChange(_currentIntake, _currentIntake);
       }
     });
   }
@@ -49,6 +49,31 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
       setState(() {
         _currentIntake = widget.initialIntake;
       });
+    }
+  }
+
+  void addWaterIntake(double amount) {
+    setState(() {
+      double newIntake = (_currentIntake + amount).clamp(0, widget.totalTarget);
+      double actualIncrement =
+          newIntake - _currentIntake; // Define the increment
+      _currentIntake = newIntake;
+      widget.onIntakeChange(
+          _currentIntake, actualIncrement); // Pass the actual increment
+
+      if (_currentIntake >= widget.totalTarget) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('You\'ve reached your daily target!')),
+        );
+      }
+    });
+
+    // Send the incremented amount to the widget
+    try {
+      platform.invokeMethod(
+          'updateWidgetIntake', amount); // Use amount instead of _currentIntake
+    } on PlatformException catch (e) {
+      print("Failed to update widget: '${e.message}'");
     }
   }
 
@@ -67,25 +92,6 @@ class _WaterIntakeWidgetState extends State<WaterIntakeWidget> {
         break;
     }
     addWaterIntake(incrementAmount);
-  }
-
-  void addWaterIntake(double amount) {
-    setState(() {
-      _currentIntake = (_currentIntake + amount).clamp(0, widget.totalTarget);
-      widget.onIntakeChange(_currentIntake);
-
-      if (_currentIntake >= widget.totalTarget) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('You’ve reached your daily target!')),
-        );
-      }
-    });
-
-    try {
-      platform.invokeMethod('updateWidgetIntake', _currentIntake);
-    } on PlatformException catch (e) {
-      print("Failed to update widget: '${e.message}'");
-    }
   }
 
   String formatValue(double value) {

@@ -21,6 +21,7 @@ class _WaterState extends State<Water> {
   final Set<DateTime> _goalReachedDays = {};
   final Map<DateTime, bool> _goalCompletionStatus = {};
   DateTime _lastResetDate = DateTime.now();
+  final List<Map<String, dynamic>> _intakeHistory = [];
 
   @override
   void initState() {
@@ -32,6 +33,57 @@ class _WaterState extends State<Water> {
     _resetWaterIntakeIfNewDay();
     // _startDailyResetTimer();
     _loadGoalCompletionStatus();
+    _loadIntakeHistoryForDay(DateTime.now());
+  }
+
+  void _addToIntakeHistory(double amount) async {
+    final DateTime today = DateTime.now();
+    final String todayKey = "${today.year}-${today.month}-${today.day}";
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Get the current day's history
+    List<String>? historyList = prefs.getStringList(todayKey) ?? [];
+
+    // Add the new intake record to the list
+    historyList.add('$amount:${DateTime.now().toIso8601String()}');
+
+    // Save the updated history back to SharedPreferences
+    await prefs.setStringList(todayKey, historyList);
+
+    // Update in-memory list (optional, to show it in the UI)
+    setState(() {
+      _intakeHistory.add({
+        'date': today,
+        'amount': amount,
+      });
+    });
+  }
+
+  Future<void> _loadIntakeHistoryForDay(DateTime selectedDay) async {
+    final String selectedDayKey =
+        "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Get the history for the selected day
+    List<String>? historyList = prefs.getStringList(selectedDayKey);
+
+    // Clear the current in-memory history and load the new one
+    setState(() {
+      _intakeHistory.clear();
+      if (historyList != null) {
+        for (String record in historyList) {
+          final parts = record.split(":");
+          final amount = double.parse(parts[0]);
+          final dateTime = DateTime.parse(parts[1]);
+
+          _intakeHistory.add({
+            'date': dateTime,
+            'amount': amount,
+          });
+        }
+      }
+    });
   }
 
   Future<void> _loadGoalCompletionStatus() async {
@@ -219,30 +271,39 @@ class _WaterState extends State<Water> {
               initialIntake: _currentIntake,
               totalTarget: _waterNeeded,
               unit: _savedUnit!,
-              onIntakeChange: (newIntake) {
+              onIntakeChange: (newIntake, incrementAmount) {
                 setState(() {
                   _currentIntake = newIntake;
+
+                  // Add only the incremented amount to the history
+                  _addToIntakeHistory(incrementAmount);
+
+                  // Check if the goal is reached
                   if (_currentIntake >= _waterNeeded) {
                     _handleGoalStatus(true);
-                    print('Goal reached: $_currentIntake mL');
+                    print('Goal reached: $_currentIntake $_savedUnit');
                   } else {
                     _handleGoalStatus(false);
-                    print('Goal not reached: $_currentIntake mL');
+                    print('Goal not reached: $_currentIntake $_savedUnit');
                   }
                 });
+
+                // Save the current water intake
                 _saveWaterIntake();
               },
             ),
             calender_for_training_water(
               goalCompletionStatus: _goalCompletionStatus,
+              onDaySelected: (selectedDay) {
+                _loadIntakeHistoryForDay(selectedDay);
+              },
             ),
-            const SizedBox(
-              height: 45,
+            const SizedBox(height: 45),
+            History(
+              intakeHistory: _intakeHistory,
+              savedUnit: _savedUnit!,
             ),
-            const History(),
-            const SizedBox(
-              height: 102,
-            ),
+            const SizedBox(height: 102),
           ],
         ),
       ),
@@ -251,7 +312,11 @@ class _WaterState extends State<Water> {
 }
 
 class History extends StatelessWidget {
-  const History({super.key});
+  final List<Map<String, dynamic>> intakeHistory;
+  final String savedUnit;
+
+  const History(
+      {super.key, required this.intakeHistory, required this.savedUnit});
 
   @override
   Widget build(BuildContext context) {
@@ -264,38 +329,49 @@ class History extends StatelessWidget {
             fontSize: MediaQuery.of(context).size.height * .06,
           ),
         ),
-        Row(
-          children: [
-            Text(
-              '11-9-2024',
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height * .03,
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .03,
-            ),
-            Icon(
-              Icons.water_drop_outlined,
-              size: MediaQuery.of(context).size.height * .03,
-            ),
-            Text(
-              'Water',
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height * .03,
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * .1,
-            ),
-            Text(
-              '300 ml',
-              style: TextStyle(
-                fontSize: MediaQuery.of(context).size.height * .03,
-              ),
-            ),
-          ],
-        ),
+        if (intakeHistory.isEmpty)
+          const Text('No history for this day')
+        else
+          ...intakeHistory.map((entry) {
+            String date =
+                "${entry['date'].day}-${entry['date'].month}-${entry['date'].year}";
+            String time = "${entry['date'].hour}:${entry['date'].minute}";
+            return Row(
+              children: [
+                Text(
+                  date,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .03,
+                  ),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * .02),
+                Icon(
+                  Icons.water_drop_outlined,
+                  size: MediaQuery.of(context).size.height * .02,
+                ),
+                Text(
+                  'Water',
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .02,
+                  ),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * .05),
+                Text(
+                  '${entry['amount'].toStringAsFixed(1)} $savedUnit',
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .02,
+                  ),
+                ),
+                SizedBox(width: MediaQuery.of(context).size.width * .05),
+                Text(
+                  time,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .02,
+                  ),
+                ),
+              ],
+            );
+          }),
       ],
     );
   }
