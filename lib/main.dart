@@ -12,6 +12,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/GenderSelection
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/splash/pages/Splash_Screen.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 import 'package:lose_weight_eat_healthy/src/theme/dark_Theme.dart';
 import 'package:lose_weight_eat_healthy/src/theme/light_Theme.dart';
@@ -57,6 +58,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => WaterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => WaterBloc(),
         ),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(

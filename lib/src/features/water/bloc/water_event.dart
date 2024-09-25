@@ -10,7 +10,6 @@ abstract class WaterEvent extends Equatable {
 
 class LoadInitialData extends WaterEvent {}
 
-//  water intake
 class AddWaterIntake extends WaterEvent {
   final double amount;
 
@@ -20,7 +19,6 @@ class AddWaterIntake extends WaterEvent {
   List<Object?> get props => [amount];
 }
 
-// Update water goal status
 class UpdateGoalStatus extends WaterEvent {
   final bool goalReached;
 
@@ -30,10 +28,8 @@ class UpdateGoalStatus extends WaterEvent {
   List<Object?> get props => [goalReached];
 }
 
-// Reset water intake for a new day
 class ResetWaterIntake extends WaterEvent {}
 
-// Load intake history for a selected day
 class LoadIntakeHistory extends WaterEvent {
   final DateTime selectedDay;
 

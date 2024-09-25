@@ -4,12 +4,14 @@ class WaterIntakeCard extends StatelessWidget {
   final IconData icon;
   final int amount;
   final Color backgroundColor;
+  final Function(double) onTap;
 
   const WaterIntakeCard({
     super.key,
     required this.icon,
     required this.amount,
     required this.backgroundColor,
+    required this.onTap,
   });
 
   @override

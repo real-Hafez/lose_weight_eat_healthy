@@ -1,310 +1,39 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lose_weight_eat_healthy/src/features/Home/widgets/calender_for_training_water.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/WaterIntakeWidget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class Water extends StatefulWidget {
+class Water extends StatelessWidget {
   const Water({super.key});
 
   @override
-  _WaterState createState() => _WaterState();
-}
-
-class _WaterState extends State<Water> {
-  String? _savedUnit;
-  double _waterNeeded = 6000.0;
-  double _currentIntake = 0.0;
-  static const platform =
-      MethodChannel('com.example.lose_weight_eat_healthy/widget');
-  final Set<DateTime> _goalReachedDays = {};
-  final Map<DateTime, bool> _goalCompletionStatus = {};
-  DateTime _lastResetDate = DateTime.now();
-  final List<Map<String, dynamic>> _intakeHistory = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSavedPreferences();
-    _setupWidgetListener();
-    get_water_need_and_unit();
-    _checkPreviousDayGoal();
-    _resetWaterIntakeIfNewDay();
-    // _startDailyResetTimer();
-    _loadGoalCompletionStatus();
-    _loadIntakeHistoryForDay(DateTime.now());
-  }
-
-  void _addToIntakeHistory(double amount) async {
-    final DateTime today = DateTime.now();
-    final String todayKey = "${today.year}-${today.month}-${today.day}";
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Get the current day's history
-    List<String>? historyList = prefs.getStringList(todayKey) ?? [];
-
-    // Add the new intake record to the list
-    historyList.add('$amount:${DateTime.now().toIso8601String()}');
-
-    // Save the updated history back to SharedPreferences
-    await prefs.setStringList(todayKey, historyList);
-
-    // Update in-memory list (optional, to show it in the UI)
-    setState(() {
-      _intakeHistory.add({
-        'date': today,
-        'amount': amount,
-      });
-    });
-  }
-
-  Future<void> _loadIntakeHistoryForDay(DateTime selectedDay) async {
-    final String selectedDayKey =
-        "${selectedDay.year}-${selectedDay.month}-${selectedDay.day}";
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Get the history for the selected day
-    List<String>? historyList = prefs.getStringList(selectedDayKey);
-
-    // Clear the current in-memory history and load the new one
-    setState(() {
-      _intakeHistory.clear();
-      if (historyList != null) {
-        for (String record in historyList) {
-          final parts = record.split(":");
-          final amount = double.parse(parts[0]);
-          final dateTime = DateTime.parse(parts[1]);
-
-          _intakeHistory.add({
-            'date': dateTime,
-            'amount': amount,
-          });
-        }
-      }
-    });
-  }
-
-  Future<void> _loadGoalCompletionStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> goalStatusDates =
-        prefs.getStringList('goal_status_dates') ?? [];
-
-    setState(() {
-      _goalCompletionStatus.clear();
-      for (String dateStr in goalStatusDates) {
-        final parts = dateStr.split(":");
-        final dateParts = parts[0].split("-");
-        final year = int.parse(dateParts[0]);
-        final month = int.parse(dateParts[1]);
-        final day = int.parse(dateParts[2]);
-        final status = parts[1] == 'true';
-        _goalCompletionStatus[DateTime(year, month, day)] = status;
-      }
-    });
-  }
-
-  Future<void> _checkPreviousDayGoal() async {
-    final yesterday = DateTime.now().subtract(const Duration(days: 1));
-    final formattedYesterday =
-        "${yesterday.year}-${yesterday.month}-${yesterday.day}";
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, bool> goalStatusMap = Map.fromEntries(
-        (prefs.getStringList('goal_status_dates') ?? []).map((e) {
-      final parts = e.split(':');
-      return MapEntry(parts[0], parts[1] == 'true');
-    }));
-
-    if (!goalStatusMap.containsKey(formattedYesterday)) {
-      goalStatusMap[formattedYesterday] = false;
-      await prefs.setStringList('goal_status_dates',
-          goalStatusMap.entries.map((e) => "${e.key}:${e.value}").toList());
-    }
-
-    _loadGoalCompletionStatus();
-  }
-
-  Future<void> _resetWaterIntakeIfNewDay() async {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    print('Checking if a new day: Today is $today');
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final lastResetDateString = prefs.getString('last_reset_date');
-    print('Last reset date from preferences: $lastResetDateString');
-
-    if (lastResetDateString != null) {
-      _lastResetDate = DateTime.parse(lastResetDateString);
-    } else {
-      // If there's no stored date, consider it's a new day and reset the intake.
-      _lastResetDate = today
-          .subtract(const Duration(days: 1)); // Force reset on the first run
-      await prefs.setString('last_reset_date', today.toIso8601String());
-    }
-
-    if (today.isAfter(_lastResetDate)) {
-      setState(() {
-        _currentIntake = 0.0;
-        _lastResetDate = today;
-      });
-      await prefs.setDouble('water_drunk', 0.0);
-      await prefs.setString('last_reset_date', today.toIso8601String());
-
-      // Update the widget and notify of the reset
-      _updateWidget();
-      print('New day detected. Water intake reset to 0.');
-    }
-  }
-
-  void _handleGoalStatusForDate(DateTime date, bool reached) async {
-    setState(() {
-      _goalCompletionStatus[DateTime(date.year, date.month, date.day)] =
-          reached;
-    });
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, bool> goalStatusMap = Map.fromEntries(
-        (prefs.getStringList('goal_status_dates') ?? []).map((e) {
-      final parts = e.split(':');
-      return MapEntry(parts[0], parts[1] == 'true');
-    }));
-
-    final formattedDate = "${date.year}-${date.month}-${date.day}";
-    goalStatusMap[formattedDate] = reached;
-
-    await prefs.setStringList(
-      'goal_status_dates',
-      goalStatusMap.entries.map((e) => "${e.key}:${e.value}").toList(),
-    );
-  }
-
-  void _handleGoalStatus(bool reached) {
-    final today = DateTime.now();
-
-    if (reached) {
-      _handleGoalStatusForDate(today, true); // Mark as reached if goal is met
-    } else if (today.hour == 23 && today.minute == 59) {
-      _handleGoalStatusForDate(today, false);
-    }
-  }
-
-  Future<void> get_water_need_and_unit() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    double? value = prefs.getDouble('water_needed');
-    String? waterUnit = prefs.getString('water_unit');
-    print('Retrieved water needs: $value, unit: $waterUnit');
-    if (value != null) {
-      setState(() {
-        _waterNeeded = value;
-        _savedUnit = waterUnit ?? 'mL';
-      });
-      print('Water needed is $_waterNeeded $_savedUnit');
-    } else {
-      print('No value found for the key.');
-    }
-  }
-
-  Future<void> _loadSavedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _savedUnit = prefs.getString('water_unit') ?? 'mL';
-      _currentIntake = prefs.getDouble('water_drunk') ?? 0.0;
-    });
-    print(
-        'Saved preferences loaded: $_savedUnit, water drunk: $_currentIntake');
-    await _resetWaterIntakeIfNewDay();
-    _updateWidget();
-  }
-
-  void _setupWidgetListener() {
-    platform.setMethodCallHandler((call) async {
-      print('Platform method call: ${call.method}');
-      if (call.method == 'updateAppState') {
-        final waterDrunkInMl = call.arguments as double;
-        setState(() {
-          _currentIntake = waterDrunkInMl;
-        });
-        print('Updated app state with water drunk: $_currentIntake');
-        _saveWaterIntake();
-      }
-    });
-  }
-
-  Future<void> _updateWidget() async {
-    try {
-      await platform.invokeMethod('updateWidget', {
-        'water': _waterNeeded,
-        'water_drunk': _currentIntake,
-        'unit': _savedUnit,
-      });
-      print(
-          'Widget updated with water needed: $_waterNeeded, water drunk: $_currentIntake');
-    } on PlatformException catch (e) {
-      print("Failed to update widget: '${e.message}'");
-    }
-  }
-
-  Future<void> _saveWaterIntake() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('water_drunk', _currentIntake);
-    print('Water intake saved: $_currentIntake');
-    _updateWidget();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (_savedUnit == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    return Scaffold(
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            WaterIntakeWidget(
-              initialIntake: _currentIntake,
-              totalTarget: _waterNeeded,
-              unit: _savedUnit!,
-              onIntakeChange: (newIntake, incrementAmount) {
-                setState(() {
-                  _currentIntake = newIntake;
-
-                  // Add only the incremented amount to the history
-                  _addToIntakeHistory(incrementAmount);
-
-                  // Check if the goal is reached
-                  if (_currentIntake >= _waterNeeded) {
-                    _handleGoalStatus(true);
-                    print('Goal reached: $_currentIntake $_savedUnit');
-                  } else {
-                    _handleGoalStatus(false);
-                    print('Goal not reached: $_currentIntake $_savedUnit');
-                  }
-                });
-
-                // Save the current water intake
-                _saveWaterIntake();
-              },
-            ),
-            calender_for_training_water(
-              goalCompletionStatus: _goalCompletionStatus,
-              onDaySelected: (selectedDay) {
-                _loadIntakeHistoryForDay(selectedDay);
-              },
-            ),
-            const SizedBox(height: 45),
-            History(
-              intakeHistory: _intakeHistory,
-              savedUnit: _savedUnit!,
-            ),
-            const SizedBox(height: 102),
-          ],
+    return BlocProvider(
+      create: (context) => WaterBloc()..add(LoadInitialData()),
+      child: Scaffold(
+        body: BlocBuilder<WaterBloc, WaterState>(
+          builder: (context, state) {
+            if (state is WaterLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is WaterLoaded) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    const WaterIntakeWidget(),
+                    History(
+                        intakeHistory: state.intakeHistory,
+                        savedUnit: state.unit)
+                  ],
+                ),
+              );
+            } else if (state is WaterError) {
+              return Center(child: Text(state.message));
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );

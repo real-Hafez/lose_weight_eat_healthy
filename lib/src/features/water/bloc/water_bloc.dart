@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class WaterBloc extends Bloc<WaterEvent, WaterState> {
   WaterBloc() : super(WaterInitial()) {
     on<LoadInitialData>(_onLoadInitialData);
@@ -16,6 +17,23 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     emit(WaterLoading());
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Fetch last reset date
+      final String? lastResetDateStr = prefs.getString('last_reset_date');
+      final DateTime now = DateTime.now();
+      DateTime? lastResetDate;
+
+      // Check if the last reset date is stored
+      if (lastResetDateStr != null) {
+        lastResetDate = DateTime.parse(lastResetDateStr);
+      }
+
+      // If it's a new day, reset water intake
+      if (lastResetDate == null || !_isSameDay(lastResetDate, now)) {
+        add(ResetWaterIntake());
+      }
+
+      // Load waterNeeded and unit
       double waterNeeded = prefs.getDouble('water_needed') ?? 6000.0;
       String unit = prefs.getString('water_unit') ?? 'mL';
       double currentIntake = prefs.getDouble('water_drunk') ?? 0.0;
@@ -158,5 +176,12 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         intakeHistory: selectedDayHistory,
       ));
     }
+  }
+
+  // Helper method to check if two dates are on the same day
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 }
