@@ -70,7 +70,7 @@ class WaterIntakeWidget extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      if (isEditMode) 
+                      if (isEditMode)
                         IconButton(
                           icon: const Icon(Icons.edit, color: Colors.black),
                           onPressed: () async {
@@ -118,7 +118,10 @@ class WaterIntakeWidget extends StatelessWidget {
                 ]))
               ]),
             ),
-            water_cards(cardAmounts: cardAmounts),
+            water_cards(
+              cardAmounts: cardAmounts,
+              isEditMode: isEditMode,
+            ),
           ],
         ));
       }
