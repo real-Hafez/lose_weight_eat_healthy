@@ -8,6 +8,7 @@ import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart'
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/water_cards.dart';
+import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 
 class WaterIntakeWidget extends StatelessWidget {
   const WaterIntakeWidget({super.key});
@@ -16,7 +17,7 @@ class WaterIntakeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WaterBloc, WaterState>(builder: (context, state) {
       if (state is WaterLoading) {
-        return const Center(child: CircularProgressIndicator());
+        const AppLoadingIndicator();
       }
       if (state is WaterLoaded) {
         double percentage = state.currentIntake / state.waterNeeded;

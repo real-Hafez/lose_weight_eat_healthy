@@ -6,6 +6,7 @@ import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/History.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/WaterIntakeWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/water_calendar_widget.dart';
+import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 
 class Water extends StatelessWidget {
   const Water({super.key});
@@ -18,15 +19,13 @@ class Water extends StatelessWidget {
         body: BlocListener<WaterBloc, WaterState>(
           listener: (context, state) {
             if (state is WaterLoading) {
-              // Show loading spinner instantly
+              const AppLoadingIndicator();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Loading...')),
               );
             } else if (state is WaterLoaded) {
-              // Remove any existing SnackBar when data is loaded
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
             } else if (state is WaterError) {
-              // Show an error message if there is a failure
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );
@@ -35,7 +34,7 @@ class Water extends StatelessWidget {
           child: BlocBuilder<WaterBloc, WaterState>(
             builder: (context, state) {
               if (state is WaterLoading) {
-                return const Center(child: CircularProgressIndicator());
+                const AppLoadingIndicator();
               } else if (state is WaterLoaded) {
                 return SingleChildScrollView(
                   scrollDirection: Axis.vertical,
@@ -63,7 +62,9 @@ class Water extends StatelessWidget {
                   ),
                 );
               } else if (state is WaterError) {
-                return Center(child: Text(state.message));
+                return const Center(
+                  child: Text('Ohh there is error try to relogin '),
+                );
               }
               return const SizedBox();
             },
