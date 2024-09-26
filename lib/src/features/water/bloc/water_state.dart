@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:equatable/equatable.dart';
+
 abstract class WaterState extends Equatable {
   const WaterState();
 
@@ -15,7 +17,7 @@ class WaterLoaded extends WaterState {
   final double currentIntake;
   final double waterNeeded;
   final String unit;
-  final Map<DateTime, bool> goalCompletionStatus;
+  final Map<DateTime, bool?> goalCompletionStatus; // Updated to include null
   final List<Map<String, dynamic>> intakeHistory;
 
   const WaterLoaded({

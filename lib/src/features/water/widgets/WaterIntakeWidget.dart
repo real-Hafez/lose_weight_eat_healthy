@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
-import 'package:lose_weight_eat_healthy/src/features/Home/widgets/calender_for_training_water.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/widgets/calender_for_training_water.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
@@ -23,6 +23,18 @@ class WaterIntakeWidget extends StatelessWidget {
 
       if (state is WaterLoaded) {
         double percentage = state.currentIntake / state.waterNeeded;
+
+        // Define the card values based on the unit
+        List<double> cardAmounts;
+        if (state.unit == 'mL') {
+          cardAmounts = [100, 200, 400, 500];
+        } else if (state.unit == 'L') {
+          cardAmounts = [0.1, 0.2, 0.4, 0.5];
+        } else if (state.unit == 'US oz') {
+          cardAmounts = [3.38, 6.76, 13.53, 16.91]; // Equivalent in US oz
+        } else {
+          cardAmounts = [100, 200, 400, 500]; // Fallback to mL
+        }
 
         return Center(
           child: Column(
@@ -102,20 +114,14 @@ class WaterIntakeWidget extends StatelessWidget {
                     ResponsiveRow(
                       children: [
                         WaterIntakeCard(
-                          onTap: (amount) => context
-                              .read<WaterBloc>()
-                              .add(const AddWaterIntake(100)),
                           icon: Icons.water_drop,
                           backgroundColor: Colors.blueAccent,
-                          amount: 100,
+                          amount: cardAmounts[0],
                         ),
                         WaterIntakeCard(
-                          onTap: (amount) => context
-                              .read<WaterBloc>()
-                              .add(const AddWaterIntake(200)),
                           icon: Icons.local_drink,
                           backgroundColor: Colors.lightBlue,
-                          amount: 200,
+                          amount: cardAmounts[1],
                         ),
                       ],
                     ),
@@ -123,20 +129,14 @@ class WaterIntakeWidget extends StatelessWidget {
                     ResponsiveRow(
                       children: [
                         WaterIntakeCard(
-                          onTap: (amount) => context
-                              .read<WaterBloc>()
-                              .add(const AddWaterIntake(400)),
                           icon: Icons.local_cafe,
                           backgroundColor: Colors.orangeAccent,
-                          amount: 400,
+                          amount: cardAmounts[2],
                         ),
                         WaterIntakeCard(
-                          onTap: (amount) => context
-                              .read<WaterBloc>()
-                              .add(const AddWaterIntake(500)),
                           icon: Icons.local_bar,
                           backgroundColor: Colors.purpleAccent,
-                          amount: 500,
+                          amount: cardAmounts[3],
                         ),
                       ],
                     ),
@@ -147,8 +147,8 @@ class WaterIntakeWidget extends StatelessWidget {
               // Calendar to show goal completion status
               Padding(
                 padding: const EdgeInsets.all(12),
-                child: calender_for_training_water(
-                  goalCompletionStatus: state.goalCompletionStatus,
+                child: CalendarForTrainingWater(
+                  // goalCompletionStatus: state.goalCompletionStatus,
                   onDaySelected: (selectedDay) {
                     context
                         .read<WaterBloc>()

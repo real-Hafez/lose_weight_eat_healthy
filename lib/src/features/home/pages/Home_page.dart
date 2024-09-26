@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/src/features/Home/widgets/calender_for_training_water.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/widgets/calender_for_training_water.dart';
 import 'package:lose_weight_eat_healthy/src/features/Home/widgets/streak.dart';
 import 'package:lose_weight_eat_healthy/src/features/Home/widgets/water_home_page.dart';
 

@@ -18,27 +18,39 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      // Fetch last reset date
       final String? lastResetDateStr = prefs.getString('last_reset_date');
       final DateTime now = DateTime.now();
       DateTime? lastResetDate;
-
-      // Check if the last reset date is stored
       if (lastResetDateStr != null) {
         lastResetDate = DateTime.parse(lastResetDateStr);
       }
 
-      // If it's a new day, reset water intake
       if (lastResetDate == null || !_isSameDay(lastResetDate, now)) {
+        // Before resetting, check if previous day's goal was not reached and mark it as false
+        if (lastResetDate != null && !_isSameDay(lastResetDate, now)) {
+          final yesterdayKey =
+              "${lastResetDate.year}-${lastResetDate.month}-${lastResetDate.day}";
+          final goalCompletionStatus =
+              prefs.getStringList('goal_status_dates') ?? [];
+
+          bool isGoalReached = goalCompletionStatus
+              .any((date) => date.startsWith('$yesterdayKey:true'));
+          if (!isGoalReached) {
+            goalCompletionStatus
+                .removeWhere((date) => date.startsWith(yesterdayKey));
+            goalCompletionStatus.add('$yesterdayKey:false'); // Mark as X
+            await prefs.setStringList(
+                'goal_status_dates', goalCompletionStatus);
+          }
+        }
         add(ResetWaterIntake());
       }
 
-      // Load waterNeeded and unit
+      // Load other data (water needed, intake, etc.)
       double waterNeeded = prefs.getDouble('water_needed') ?? 6000.0;
       String unit = prefs.getString('water_unit') ?? 'mL';
       double currentIntake = prefs.getDouble('water_drunk') ?? 0.0;
 
-      // Load goal completion status
       List<String> goalStatusDates =
           prefs.getStringList('goal_status_dates') ?? [];
       Map<DateTime, bool> goalCompletionStatus = {};
@@ -52,7 +64,6 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         goalCompletionStatus[DateTime(year, month, day)] = status;
       }
 
-      // Load intake history for the current day
       final String todayKey =
           "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
       List<String> historyList = prefs.getStringList(todayKey) ?? [];
@@ -81,29 +92,48 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     if (currentState is WaterLoaded) {
       double newIntake = (currentState.currentIntake + event.amount)
           .clamp(0, currentState.waterNeeded);
-      List<Map<String, dynamic>> updatedHistory =
-          List.from(currentState.intakeHistory)
-            ..add({
-              'date': DateTime.now(),
-              'amount': event.amount,
-            });
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String todayKey =
-          "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
-      List<String>? historyList = prefs.getStringList(todayKey) ?? [];
-      historyList.add('${event.amount}:${DateTime.now().toIso8601String()}');
-      await prefs.setStringList(todayKey, historyList);
       await prefs.setDouble('water_drunk', newIntake);
+
+      final today = DateTime.now();
+      final todayKey = "${today.year}-${today.month}-${today.day}";
+      List<String> historyList = prefs.getStringList(todayKey) ?? [];
+      historyList.add('${event.amount}:${today.toIso8601String()}');
+      await prefs.setStringList(todayKey, historyList);
+
+      // Update goal status
+      bool goalReached = newIntake >= currentState.waterNeeded;
+      await _updateGoalStatus(prefs, today, goalReached);
+
+      Map<DateTime, bool?> updatedGoalCompletionStatus =
+          Map.from(currentState.goalCompletionStatus);
+      updatedGoalCompletionStatus[
+          DateTime(today.year, today.month, today.day)] = goalReached;
+
+      List<Map<String, dynamic>> updatedHistory =
+          _loadIntakeHistory(prefs, today);
 
       emit(WaterLoaded(
         currentIntake: newIntake,
         waterNeeded: currentState.waterNeeded,
         unit: currentState.unit,
-        goalCompletionStatus: currentState.goalCompletionStatus,
+        goalCompletionStatus: updatedGoalCompletionStatus,
         intakeHistory: updatedHistory,
       ));
     }
+  }
+
+  Future<void> _updateGoalStatus(
+      SharedPreferences prefs, DateTime date, bool goalReached) async {
+    List<String> goalStatusDates =
+        prefs.getStringList('goal_status_dates') ?? [];
+    final formattedDate = "${date.year}-${date.month}-${date.day}";
+
+    goalStatusDates.removeWhere((entry) => entry.startsWith(formattedDate));
+    goalStatusDates.add('$formattedDate:$goalReached');
+
+    await prefs.setStringList('goal_status_dates', goalStatusDates);
   }
 
   Future<void> _onUpdateGoalStatus(
@@ -119,7 +149,15 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
           prefs.getStringList('goal_status_dates') ?? [];
       final formattedDate =
           "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}";
-      goalStatusDates.add('$formattedDate:${event.goalReached}');
+
+      if (event.goalReached) {
+        goalStatusDates.removeWhere((date) => date.startsWith(formattedDate));
+        goalStatusDates.add('$formattedDate:true');
+      } else {
+        goalStatusDates.removeWhere((date) => date.startsWith(formattedDate));
+        goalStatusDates.add('$formattedDate:false');
+      }
+
       await prefs.setStringList('goal_status_dates', goalStatusDates);
 
       emit(WaterLoaded(
@@ -132,6 +170,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     }
   }
 
+  // Ensure the daily reset logic is triggered correctly.
   Future<void> _onResetWaterIntake(
       ResetWaterIntake event, Emitter<WaterState> emit) async {
     final currentState = state;
@@ -155,18 +194,9 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
       LoadIntakeHistory event, Emitter<WaterState> emit) async {
     final currentState = state;
     if (currentState is WaterLoaded) {
-      final String selectedDayKey =
-          "${event.selectedDay.year}-${event.selectedDay.month}-${event.selectedDay.day}";
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      List<String>? historyList = prefs.getStringList(selectedDayKey);
       List<Map<String, dynamic>> selectedDayHistory =
-          historyList?.map((record) {
-                final parts = record.split(":");
-                final amount = double.parse(parts[0]);
-                final dateTime = DateTime.parse(parts[1]);
-                return {'date': dateTime, 'amount': amount};
-              }).toList() ??
-              [];
+          _loadIntakeHistory(prefs, event.selectedDay);
 
       emit(WaterLoaded(
         currentIntake: currentState.currentIntake,
@@ -178,7 +208,19 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     }
   }
 
-  // Helper method to check if two dates are on the same day
+  List<Map<String, dynamic>> _loadIntakeHistory(
+      SharedPreferences prefs, DateTime date) {
+    final dateKey = "${date.year}-${date.month}-${date.day}";
+    List<String>? historyList = prefs.getStringList(dateKey);
+    return historyList?.map((record) {
+          final parts = record.split(":");
+          final amount = double.parse(parts[0]);
+          final dateTime = DateTime.parse(parts[1]);
+          return {'date': dateTime, 'amount': amount};
+        }).toList() ??
+        [];
+  }
+
   bool _isSameDay(DateTime date1, DateTime date2) {
     return date1.year == date2.year &&
         date1.month == date2.month &&

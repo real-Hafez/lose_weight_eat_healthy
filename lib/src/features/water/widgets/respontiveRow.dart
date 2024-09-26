@@ -1,53 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 
 class WaterIntakeCard extends StatelessWidget {
   final IconData icon;
-  final int amount;
+  final double amount;
   final Color backgroundColor;
-  final Function(double) onTap;
 
   const WaterIntakeCard({
     super.key,
     required this.icon,
     required this.amount,
     required this.backgroundColor,
-    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final iconSize = MediaQuery.of(context).size.height * .04;
-    final textSize = MediaQuery.of(context).size.height * .02;
-    final padding = MediaQuery.of(context).size.width * .03;
-
-    return Container(
-      padding: EdgeInsets.all(padding),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(
-          10,
+    return GestureDetector(
+      onTap: () {
+        context.read<WaterBloc>().add(AddWaterIntake(amount));
+      },
+      child: Card(
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: iconSize,
-            color: Colors.blue[900],
+        color: backgroundColor,
+        child: SizedBox(
+          height: 120,
+          width: 140,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 30,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                amount.toStringAsFixed(1),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
-          SizedBox(
-            width: padding,
-          ),
-          Text(
-            '$amount ml',
-            style: TextStyle(
-              fontSize: textSize,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue[900],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
