@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 
-class WaterIntakeCard extends StatelessWidget {
+class hydration_card_widget extends StatelessWidget {
   final IconData icon;
   final double amount;
   final Color backgroundColor;
 
-  const WaterIntakeCard({
+  const hydration_card_widget({
     super.key,
     required this.icon,
     required this.amount,
@@ -55,35 +55,6 @@ class WaterIntakeCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ResponsiveRow extends StatelessWidget {
-  final List<Widget> children;
-
-  const ResponsiveRow({super.key, required this.children});
-
-  @override
-  Widget build(BuildContext context) {
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: children
-          .map((child) => Expanded(
-                child: Padding(
-                  padding: isSmallScreen
-                      ? const EdgeInsets.symmetric(
-                          horizontal: 4.0,
-                        )
-                      : const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                        ),
-                  child: child,
-                ),
-              ))
-          .toList(),
     );
   }
 }

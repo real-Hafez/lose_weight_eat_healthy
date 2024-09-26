@@ -47,10 +47,10 @@ class WidgetClickReceiver : BroadcastReceiver() {
 
     private fun notifyFlutterApp(context: Context) {
         // Notify Flutter app using a broadcast intent
-        Intent intent = new Intent("com.example.lose_weight_eat_healthy.WIDGET_UPDATED");
-        intent.putExtra("water_drunk", getWaterDrunk(context));
-        context.sendBroadcast(intent);
-        }
+        val intent = Intent("com.example.lose_weight_eat_healthy.WIDGET_UPDATED")
+        intent.putExtra("water_drunk", getWaterDrunk(context))
+        context.sendBroadcast(intent)
+            }
 
     private fun getWaterDrunk(context: Context): Float {
         val prefs = context.getSharedPreferences("widget_prefs", Context.MODE_PRIVATE)

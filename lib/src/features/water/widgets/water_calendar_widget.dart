@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
 
-class CalendarForTrainingWater extends StatelessWidget {
+class water_calendar_widget extends StatelessWidget {
   final Function(DateTime) onDaySelected;
 
-  const CalendarForTrainingWater({
+  const water_calendar_widget({
     super.key,
     required this.onDaySelected,
   });

@@ -93,7 +93,6 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
   Future<void> _listenToWidgetUpdates() async {
   platform.setMethodCallHandler((call) async {
     if (call.method == "updateAppState") {
-      // Determine the intake amount based on the unit
       final currentState = state;
       double intakeAmount = 0;
 
