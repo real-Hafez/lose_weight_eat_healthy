@@ -1,5 +1,3 @@
-// water_intake_widget.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
@@ -7,11 +5,16 @@ import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/widgets/EditWaterGoalDialog.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/water_cards.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WaterIntakeWidget extends StatelessWidget {
-  const WaterIntakeWidget({super.key});
+  final bool isEditMode;
+
+  const WaterIntakeWidget(
+      {super.key, required this.isEditMode}); // Accept isEditMode
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +59,39 @@ class WaterIntakeWidget extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
-                  Text(
-                    "${state.currentIntake.toStringAsFixed(1)} ${state.unit} / ${state.waterNeeded.toStringAsFixed(1)} ${state.unit}",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${state.currentIntake.toStringAsFixed(1)} ${state.unit} / ${state.waterNeeded.toStringAsFixed(1)} ${state.unit}",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                      ),
+                      if (isEditMode) 
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.black),
+                          onPressed: () async {
+                            final newWaterNeeded = await showDialog<double>(
+                              context: context,
+                              builder: (_) => EditWaterGoalDialog(
+                                currentWaterGoal: state.waterNeeded,
+                              ),
+                            );
+                            if (newWaterNeeded != null) {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.setDouble(
+                                  'water_needed', newWaterNeeded);
+
+                              // Reload the water data with the updated value
+                              context.read<WaterBloc>().add(LoadInitialData());
+                            }
+                          },
+                        ),
+                    ],
                   ),
                   IconButton(
                       icon: Icon(
