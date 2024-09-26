@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +11,10 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     on<UpdateGoalStatus>(_onUpdateGoalStatus);
     on<ResetWaterIntake>(_onResetWaterIntake);
     on<LoadIntakeHistory>(_onLoadIntakeHistory);
+    _listenToWidgetUpdates();
   }
+  static const platform =
+      MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
   Future<void> _onLoadInitialData(
       LoadInitialData event, Emitter<WaterState> emit) async {
@@ -86,6 +90,30 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     }
   }
 
+  Future<void> _listenToWidgetUpdates() async {
+  platform.setMethodCallHandler((call) async {
+    if (call.method == "updateAppState") {
+      // Determine the intake amount based on the unit
+      final currentState = state;
+      double intakeAmount = 0;
+
+      if (currentState is WaterLoaded) {
+        if (currentState.unit == 'mL') {
+          intakeAmount = 300.0;
+        } else if (currentState.unit == 'L') {
+          intakeAmount = 0.3;
+        } else if (currentState.unit == 'US oz') {
+          intakeAmount = 10.14;
+        }
+
+        // Trigger event to update water intake in the app
+        add(AddWaterIntake(intakeAmount));
+      }
+    }
+  });
+}
+
+
   Future<void> _onAddWaterIntake(
       AddWaterIntake event, Emitter<WaterState> emit) async {
     final currentState = state;
@@ -121,6 +149,23 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         goalCompletionStatus: updatedGoalCompletionStatus,
         intakeHistory: updatedHistory,
       ));
+
+      // Send update to widget
+      await _updateWidget(
+          newIntake, currentState.waterNeeded, currentState.unit);
+    }
+  }
+
+  Future<void> _updateWidget(
+      double waterDrunk, double waterNeeded, String unit) async {
+    try {
+      await platform.invokeMethod('updateWidget', {
+        'water': waterNeeded,
+        'water_drunk': waterDrunk,
+        'unit': unit,
+      });
+    } on PlatformException catch (e) {
+      print("Failed to update widget: '${e.message}'");
     }
   }
 
