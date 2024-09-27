@@ -8,8 +8,8 @@ class water_cards extends StatelessWidget {
     required this.cardAmounts,
     required this.isEditMode,
   });
-  final bool isEditMode;
 
+  final bool isEditMode;
   final List<double> cardAmounts;
 
   @override
@@ -26,12 +26,14 @@ class water_cards extends StatelessWidget {
                 icon: Icons.water_drop,
                 backgroundColor: Colors.blueAccent,
                 amount: cardAmounts[0],
+                cardIndex: 0,  // Unique index for the first card
               ),
               hydration_card_widget(
                 isEditMode: isEditMode,
                 icon: Icons.local_drink,
                 backgroundColor: Colors.lightBlue,
                 amount: cardAmounts[1],
+                cardIndex: 1,  // Unique index for the second card
               ),
             ],
           ),
@@ -43,12 +45,14 @@ class water_cards extends StatelessWidget {
                 icon: Icons.local_cafe,
                 backgroundColor: Colors.orangeAccent,
                 amount: cardAmounts[2],
+                cardIndex: 2,  // Unique index for the third card
               ),
               hydration_card_widget(
                 isEditMode: isEditMode,
                 icon: Icons.local_bar,
                 backgroundColor: Colors.purpleAccent,
                 amount: cardAmounts[3],
+                cardIndex: 3,  // Unique index for the fourth card
               ),
             ],
           ),
