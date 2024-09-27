@@ -16,11 +16,29 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
+  final Map<String, List<double>> defaultCardAmounts = {
+    'mL': [100, 200, 400, 500],
+    'L': [0.1, 0.2, 0.4, 0.5],
+    'US oz': [3.38, 6.76, 13.53, 16.91],
+  };
+
   Future<void> _onLoadInitialData(
       LoadInitialData event, Emitter<WaterState> emit) async {
     emit(WaterLoading());
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Load the unit
+      String unit = prefs.getString('water_unit') ?? 'mL';
+      List<double> cardAmounts =
+          defaultCardAmounts[unit] ?? defaultCardAmounts['mL']!;
+
+      // Load custom card amounts if available
+      List<double> customCardAmounts = [];
+      for (int i = 0; i < 4; i++) {
+        double? savedAmount = prefs.getDouble('card_$i');
+        customCardAmounts.add(savedAmount ?? defaultCardAmounts[unit]![i]);
+      }
 
       final String? lastResetDateStr = prefs.getString('last_reset_date');
       final DateTime now = DateTime.now();
@@ -52,7 +70,6 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
 
       // Load other data (water needed, intake, etc.)
       double waterNeeded = prefs.getDouble('water_needed') ?? 6000.0;
-      String unit = prefs.getString('water_unit') ?? 'mL';
       double currentIntake = prefs.getDouble('water_drunk') ?? 0.0;
 
       List<String> goalStatusDates =
@@ -82,6 +99,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         currentIntake: currentIntake,
         waterNeeded: waterNeeded,
         unit: unit,
+        cardAmounts: cardAmounts,
         goalCompletionStatus: goalCompletionStatus,
         intakeHistory: intakeHistory,
       ));
@@ -91,27 +109,26 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
   }
 
   Future<void> _listenToWidgetUpdates() async {
-  platform.setMethodCallHandler((call) async {
-    if (call.method == "updateAppState") {
-      final currentState = state;
-      double intakeAmount = 0;
+    platform.setMethodCallHandler((call) async {
+      if (call.method == "updateAppState") {
+        final currentState = state;
+        double intakeAmount = 0;
 
-      if (currentState is WaterLoaded) {
-        if (currentState.unit == 'mL') {
-          intakeAmount = 300.0;
-        } else if (currentState.unit == 'L') {
-          intakeAmount = 0.3;
-        } else if (currentState.unit == 'US oz') {
-          intakeAmount = 10.14;
+        if (currentState is WaterLoaded) {
+          if (currentState.unit == 'mL') {
+            intakeAmount = 300.0;
+          } else if (currentState.unit == 'L') {
+            intakeAmount = 0.3;
+          } else if (currentState.unit == 'US oz') {
+            intakeAmount = 10.14;
+          }
+
+          // Trigger event to update water intake in the app
+          add(AddWaterIntake(intakeAmount));
         }
-
-        // Trigger event to update water intake in the app
-        add(AddWaterIntake(intakeAmount));
       }
-    }
-  });
-}
-
+    });
+  }
 
   Future<void> _onAddWaterIntake(
       AddWaterIntake event, Emitter<WaterState> emit) async {
@@ -145,6 +162,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         currentIntake: newIntake,
         waterNeeded: currentState.waterNeeded,
         unit: currentState.unit,
+        cardAmounts: const [],
         goalCompletionStatus: updatedGoalCompletionStatus,
         intakeHistory: updatedHistory,
       ));
@@ -208,6 +226,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         currentIntake: currentState.currentIntake,
         waterNeeded: currentState.waterNeeded,
         unit: currentState.unit,
+        cardAmounts: const [],
         goalCompletionStatus: updatedGoalCompletionStatus,
         intakeHistory: currentState.intakeHistory,
       ));
@@ -230,6 +249,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         unit: currentState.unit,
         goalCompletionStatus: currentState.goalCompletionStatus,
         intakeHistory: const [],
+        cardAmounts: const [],
       ));
     }
   }
@@ -248,6 +268,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         unit: currentState.unit,
         goalCompletionStatus: currentState.goalCompletionStatus,
         intakeHistory: selectedDayHistory,
+        cardAmounts: const [],
       ));
     }
   }

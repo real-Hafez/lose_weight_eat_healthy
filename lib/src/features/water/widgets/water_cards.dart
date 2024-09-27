@@ -14,6 +14,10 @@ class water_cards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (cardAmounts.isEmpty) {
+      return const Text("No water intake recorded.");
+    }
+
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -25,15 +29,15 @@ class water_cards extends StatelessWidget {
                 isEditMode: isEditMode,
                 icon: Icons.water_drop,
                 backgroundColor: Colors.blueAccent,
-                amount: cardAmounts[0],
-                cardIndex: 0,  // Unique index for the first card
+                amount: cardAmounts.isNotEmpty ? cardAmounts[0] : 0,
+                cardIndex: 0,
               ),
               hydration_card_widget(
                 isEditMode: isEditMode,
                 icon: Icons.local_drink,
                 backgroundColor: Colors.lightBlue,
-                amount: cardAmounts[1],
-                cardIndex: 1,  // Unique index for the second card
+                amount: cardAmounts.length > 1 ? cardAmounts[1] : 0,
+                cardIndex: 1,
               ),
             ],
           ),
@@ -44,15 +48,15 @@ class water_cards extends StatelessWidget {
                 isEditMode: isEditMode,
                 icon: Icons.local_cafe,
                 backgroundColor: Colors.orangeAccent,
-                amount: cardAmounts[2],
-                cardIndex: 2,  // Unique index for the third card
+                amount: cardAmounts.length > 2 ? cardAmounts[2] : 0,
+                cardIndex: 2,
               ),
               hydration_card_widget(
                 isEditMode: isEditMode,
                 icon: Icons.local_bar,
                 backgroundColor: Colors.purpleAccent,
-                amount: cardAmounts[3],
-                cardIndex: 3,  // Unique index for the fourth card
+                amount: cardAmounts.length > 3 ? cardAmounts[3] : 0,
+                cardIndex: 3,
               ),
             ],
           ),

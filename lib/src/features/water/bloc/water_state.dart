@@ -19,13 +19,14 @@ class WaterLoaded extends WaterState {
   final String unit;
   final Map<DateTime, bool?> goalCompletionStatus; // Updated to include null
   final List<Map<String, dynamic>> intakeHistory;
-
+  final List<double> cardAmounts;
   const WaterLoaded({
     required this.currentIntake,
     required this.waterNeeded,
     required this.unit,
     required this.goalCompletionStatus,
     required this.intakeHistory,
+    required this.cardAmounts,
   });
 
   @override
@@ -35,6 +36,7 @@ class WaterLoaded extends WaterState {
         unit,
         goalCompletionStatus,
         intakeHistory,
+        cardAmounts,
       ];
 }
 
