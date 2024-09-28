@@ -27,17 +27,17 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     emit(WaterLoading());
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-      // Load the unit
       String unit = prefs.getString('water_unit') ?? 'mL';
       List<double> cardAmounts =
           defaultCardAmounts[unit] ?? defaultCardAmounts['mL']!;
-
-      // Load custom card amounts if available
       List<double> customCardAmounts = [];
+
       for (int i = 0; i < 4; i++) {
         double? savedAmount = prefs.getDouble('card_$i');
-        customCardAmounts.add(savedAmount ?? defaultCardAmounts[unit]![i]);
+        String cardUnit = prefs.getString('card_unit_$i') ?? 'mL';
+        double convertedAmount =
+            _convertToUnit(savedAmount ?? cardAmounts[i], cardUnit, unit);
+        customCardAmounts.add(convertedAmount);
       }
 
       final String? lastResetDateStr = prefs.getString('last_reset_date');
@@ -48,7 +48,6 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
       }
 
       if (lastResetDate == null || !_isSameDay(lastResetDate, now)) {
-        // Before resetting, check if previous day's goal was not reached and mark it as false
         if (lastResetDate != null && !_isSameDay(lastResetDate, now)) {
           final yesterdayKey =
               "${lastResetDate.year}-${lastResetDate.month}-${lastResetDate.day}";
@@ -60,16 +59,14 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
           if (!isGoalReached) {
             goalCompletionStatus
                 .removeWhere((date) => date.startsWith(yesterdayKey));
-            goalCompletionStatus.add('$yesterdayKey:false'); // Mark as X
+            goalCompletionStatus.add('$yesterdayKey:false');
             await prefs.setStringList(
                 'goal_status_dates', goalCompletionStatus);
           }
         }
         add(ResetWaterIntake());
       }
-
-      // Load other data (water needed, intake, etc.)
-      double waterNeeded = prefs.getDouble('water_needed') ?? 6000.0;
+      double waterNeeded = prefs.getDouble('water_needed') ?? 3200.0;
       double currentIntake = prefs.getDouble('water_drunk') ?? 0.0;
 
       List<String> goalStatusDates =
@@ -122,8 +119,6 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
           } else if (currentState.unit == 'US oz') {
             intakeAmount = 10.14;
           }
-
-          // Trigger event to update water intake in the app
           add(AddWaterIntake(intakeAmount));
         }
       }
@@ -145,8 +140,6 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
       List<String> historyList = prefs.getStringList(todayKey) ?? [];
       historyList.add('${event.amount}:${today.toIso8601String()}');
       await prefs.setStringList(todayKey, historyList);
-
-      // Update goal status
       bool goalReached = newIntake >= currentState.waterNeeded;
       await _updateGoalStatus(prefs, today, goalReached);
 
@@ -157,19 +150,81 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
 
       List<Map<String, dynamic>> updatedHistory =
           _loadIntakeHistory(prefs, today);
+      List<double> updatedCardAmounts = await _loadCardAmounts();
 
       emit(WaterLoaded(
         currentIntake: newIntake,
         waterNeeded: currentState.waterNeeded,
         unit: currentState.unit,
-        cardAmounts: const [],
+        cardAmounts: updatedCardAmounts,
         goalCompletionStatus: updatedGoalCompletionStatus,
         intakeHistory: updatedHistory,
       ));
-
-      // Send update to widget
       await _updateWidget(
           newIntake, currentState.waterNeeded, currentState.unit);
+    }
+  }
+
+  Future<List<double>> _loadCardAmounts() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String unit = prefs.getString('water_unit') ?? 'mL';
+    List<double> cardAmounts =
+        defaultCardAmounts[unit] ?? defaultCardAmounts['mL']!;
+    List<double> customCardAmounts = [];
+    for (int i = 0; i < 4; i++) {
+      double? savedAmount = prefs.getDouble('card_$i');
+      customCardAmounts.add(savedAmount ?? cardAmounts[i]);
+    }
+
+    return customCardAmounts;
+  }
+
+  Future<void> updateWaterUnit(String newUnit) async {
+    final currentState = state;
+    if (currentState is WaterLoaded) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<double> currentCardAmounts = await _loadCardAmounts();
+      List<double> newCardAmounts = currentCardAmounts.map((amount) {
+        return _convertToUnit(amount, currentState.unit, newUnit);
+      }).toList();
+
+      await prefs.setString('water_unit', newUnit);
+      for (int i = 0; i < newCardAmounts.length; i++) {
+        await prefs.setDouble('card_$i', newCardAmounts[i]);
+      }
+      emit(WaterLoaded(
+        currentIntake: currentState.currentIntake,
+        waterNeeded: currentState.waterNeeded,
+        unit: newUnit,
+        cardAmounts: newCardAmounts,
+        goalCompletionStatus: currentState.goalCompletionStatus,
+        intakeHistory: currentState.intakeHistory,
+      ));
+    }
+  }
+
+  double _convertToUnit(double value, String fromUnit, String toUnit) {
+    if (fromUnit == toUnit) return value;
+
+    double mlValue;
+    switch (fromUnit) {
+      case 'L':
+        mlValue = value * 1000;
+        break;
+      case 'US oz':
+        mlValue = value * 29.5735;
+        break;
+      default:
+        mlValue = value;
+    }
+
+    switch (toUnit) {
+      case 'L':
+        return mlValue / 1000;
+      case 'US oz':
+        return mlValue / 29.5735;
+      default:
+        return mlValue;
     }
   }
 
@@ -233,7 +288,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     }
   }
 
-  // Ensure the daily reset logic is triggered correctly.
+  // Ensure the daily reset logic is triggered correctly.(make sure when it's  come 12 at night to be reset auto)
   Future<void> _onResetWaterIntake(
       ResetWaterIntake event, Emitter<WaterState> emit) async {
     final currentState = state;

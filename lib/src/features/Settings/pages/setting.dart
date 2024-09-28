@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -44,6 +46,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     await prefs.setDouble('water_needed', newWaterNeeded);
     await prefs.setDouble('water_drunk', newWaterDrunk);
+    context.read<WaterBloc>().updateWaterUnit(selectedUnit);
+
     await prefs.setString('water_unit', selectedUnit);
 
     _updateWidget(newWaterNeeded, newWaterDrunk, selectedUnit);
@@ -60,7 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       case 'US oz':
         mlValue = value * 29.5735;
         break;
-      default: // mL
+      default: 
         mlValue = value;
     }
 
@@ -69,7 +73,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return mlValue / 1000;
       case 'US oz':
         return mlValue / 29.5735;
-      default: // mL
+      default: 
         return mlValue;
     }
   }

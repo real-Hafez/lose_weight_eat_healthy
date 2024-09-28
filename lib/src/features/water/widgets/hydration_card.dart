@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class hydration_card_widget extends StatefulWidget {
@@ -9,7 +10,7 @@ class hydration_card_widget extends StatefulWidget {
   final double amount;
   final Color backgroundColor;
   final bool isEditMode;
-  final int cardIndex; // Card index for storing unique values.
+  final int cardIndex; 
 
   const hydration_card_widget({
     super.key,
@@ -31,33 +32,74 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
   @override
   void initState() {
     super.initState();
-    _loadSavedAmount(); // Load the saved amount for this card.
+    _loadSavedAmount();
     _controller = TextEditingController(text: widget.amount.toStringAsFixed(1));
     _currentAmount = widget.amount;
   }
 
-  // Load saved card amount from SharedPreferences
   Future<void> _loadSavedAmount() async {
     final prefs = await SharedPreferences.getInstance();
-    double? savedAmount = prefs.getDouble('card_${widget.cardIndex}');
-    if (savedAmount != null) {
+    double? savedAmountInMl = prefs.getDouble('card_${widget.cardIndex}');
+
+    if (savedAmountInMl != null) {
+      String currentUnit = _getCurrentUnit();
+      double convertedAmount = convertWaterAmount(savedAmountInMl, 'mL',
+          currentUnit);  
       setState(() {
-        _currentAmount = savedAmount;
-        _controller.text = savedAmount.toStringAsFixed(1);
+        _currentAmount = convertedAmount;
+        _controller.text = convertedAmount.toStringAsFixed(1);
       });
     }
   }
 
-  // Save card amount to SharedPreferences
+  double convertWaterAmount(double amount, String fromUnit, String toUnit) {
+    if (fromUnit == toUnit) {
+      return amount;
+    }
+
+    if (fromUnit == 'mL') {
+      if (toUnit == 'L') {
+        return amount / 1000;
+      } else if (toUnit == 'US oz') {
+        return amount * 0.033814;
+      }
+    } else if (fromUnit == 'L') {
+      if (toUnit == 'mL') {
+        return amount * 1000;
+      } else if (toUnit == 'US oz') {
+        return amount * 33.814;
+      }
+    } else if (fromUnit == 'US oz') {
+      if (toUnit == 'mL') {
+        return amount / 0.033814;
+      } else if (toUnit == 'L') {
+        return amount / 33.814;
+      }
+    }
+
+    return amount;
+  }
+
+  String _getCurrentUnit() {
+    final state = context.read<WaterBloc>().state;
+
+    if (state is WaterLoaded) {
+      return state.unit;
+    } else {
+      return 'mL';
+    }
+  }
+
   Future<void> _saveAmount(double newAmount) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('card_${widget.cardIndex}', newAmount);
+    String currentUnit = _getCurrentUnit();
+    double amountInMl = convertWaterAmount(newAmount, currentUnit, 'mL');
+    await prefs.setDouble('card_${widget.cardIndex}', amountInMl);
     setState(() {
       _currentAmount = newAmount;
     });
   }
 
-  // Triggered when edit mode is turned off to save the latest value
   Future<void> _saveOnExit() async {
     double? newAmount = double.tryParse(_controller.text);
     if (newAmount != null) {
@@ -67,7 +109,6 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
 
   @override
   Widget build(BuildContext context) {
-    // When edit mode is turned off, save the current amount
     if (!widget.isEditMode) {
       _saveOnExit();
     }
@@ -102,27 +143,31 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: TextField(
-                        controller: _controller,
-                        keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          fillColor: Colors.black,
-                        ),
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        onSubmitted: (value) {
-                          double? newAmount = double.tryParse(value);
-                          if (newAmount != null) {
-                            _saveAmount(
-                                newAmount); // Save the new amount when user submits
-                          }
-                        },
-                      ),
+                          controller: _controller,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            fillColor: Colors.black,
+                          ),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          onSubmitted: (value) {
+                            double? newAmount = double.tryParse(value);
+                            if (newAmount != null) {
+                              String currentUnit = _getCurrentUnit();
+                              double convertedAmount = convertWaterAmount(
+                                  newAmount,
+                                  currentUnit,
+                                  _getCurrentUnit());  
+                              _saveAmount(
+                                  convertedAmount); // Save the converted amount (based on new card )
+                            }
+                          }),
                     )
                   : Text(
                       _currentAmount.toStringAsFixed(1),

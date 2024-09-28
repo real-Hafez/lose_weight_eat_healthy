@@ -14,7 +14,7 @@ class WaterIntakeWidget extends StatelessWidget {
   final bool isEditMode;
 
   const WaterIntakeWidget(
-      {super.key, required this.isEditMode}); // Accept isEditMode
+      {super.key, required this.isEditMode});  
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +34,29 @@ class WaterIntakeWidget extends StatelessWidget {
         } else {
           cardAmounts = [100, 200, 400, 500];
         }
+        double convertWaterAmount(
+            double amount, String oldUnit, String newUnit) {
+          if (oldUnit == newUnit) {
+            return amount;
+          }
+
+          double amountInMl;
+          if (oldUnit == 'L') {
+            amountInMl = amount * 1000;
+          } else if (oldUnit == 'US oz') {
+            amountInMl = amount * 29.5735;
+          } else {
+            amountInMl = amount;
+          }
+          if (newUnit == 'L') {
+            return amountInMl / 1000;
+          } else if (newUnit == 'US oz') {
+            return amountInMl / 29.5735;
+          } else {
+            return amountInMl; 
+          }
+        }
+
         return Center(
             child: Column(
           children: [
@@ -85,8 +108,6 @@ class WaterIntakeWidget extends StatelessWidget {
                                   await SharedPreferences.getInstance();
                               await prefs.setDouble(
                                   'water_needed', newWaterNeeded);
-
-                              // Reload the water data with the updated value
                               context.read<WaterBloc>().add(LoadInitialData());
                             }
                           },
