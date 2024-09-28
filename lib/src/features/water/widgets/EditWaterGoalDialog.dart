@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
+import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
 
 class EditWaterGoalDialog extends StatelessWidget {
   final double currentWaterGoal;
+  static const double maxWaterGoalML = 8000.0;
+  static const double maxWaterGoalL = 8.0;
+  static const double maxWaterGoalUSoz = 271.0;
 
   const EditWaterGoalDialog({
     super.key,
@@ -21,12 +28,22 @@ class EditWaterGoalDialog extends StatelessWidget {
         decoration: const InputDecoration(
           labelText: "Enter new water goal",
         ),
+        onChanged: (value) {
+          double? enteredValue = double.tryParse(value);
+          if (enteredValue != null) {
+            String currentUnit = _getCurrentUnit(context);
+            if (!_validateWaterGoal(enteredValue, currentUnit)) {
+              ToastUtil.showToast(
+                  "Water goal cannot exceed the limit of $maxWaterGoalML mL / $maxWaterGoalL L / $maxWaterGoalUSoz US oz");
+            }
+          }
+        },
       ),
       actions: [
         TextButton(
           child: const Text("Cancel"),
           onPressed: () {
-            Navigator.of(context).pop(null); // Close the dialog without changes
+            Navigator.of(context).pop(null); 
           },
         ),
         TextButton(
@@ -34,14 +51,40 @@ class EditWaterGoalDialog extends StatelessWidget {
           onPressed: () {
             double? newWaterGoal = double.tryParse(controller.text);
             if (newWaterGoal != null && newWaterGoal > 0) {
-              Navigator.of(context)
-                  .pop(newWaterGoal); // Return the new water goal
+              String currentUnit = _getCurrentUnit(context);
+              if (_validateWaterGoal(newWaterGoal, currentUnit)) {
+                Navigator.of(context)
+                    .pop(newWaterGoal); 
+              } else {
+                ToastUtil.showToast(
+                    "Water goal cannot exceed the limit of $maxWaterGoalML mL / $maxWaterGoalL L / $maxWaterGoalUSoz US oz");
+              }
             } else {
-              // Handle invalid input (e.g., show error message)
+              ToastUtil.showToast("Invalid water goal entered");
             }
           },
         ),
       ],
     );
+  }
+//make sure that uiser not put more that 8 L
+  bool _validateWaterGoal(double waterGoal, String unit) {
+    if (unit == 'mL') {
+      return waterGoal <= maxWaterGoalML;
+    } else if (unit == 'L') {
+      return waterGoal <= maxWaterGoalL;
+    } else if (unit == 'US oz') {
+      return waterGoal <= maxWaterGoalUSoz;
+    }
+    return false;
+  }
+
+  String _getCurrentUnit(BuildContext context) {
+    final state = context.read<WaterBloc>().state;
+    if (state is WaterLoaded) {
+      return state.unit;
+    } else {
+      return 'mL';
+    }
   }
 }

@@ -18,7 +18,7 @@ class Water extends StatefulWidget {
 }
 
 class _WaterState extends State<Water> {
-  bool isEditMode = false; // Track whether edit mode is active
+  bool isEditMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +48,10 @@ class _WaterState extends State<Water> {
                 return Scaffold(
                   appBar: AppBar(
                     leading: IconButton(
-                      icon: Icon(isEditMode
-                          ? Icons.close
-                          : Icons.edit), 
+                      icon: Icon(isEditMode ? Icons.close : Icons.edit),
                       onPressed: () {
                         setState(() {
-                          isEditMode = !isEditMode; 
+                          isEditMode = !isEditMode;
                         });
                       },
                     ),
@@ -62,8 +60,7 @@ class _WaterState extends State<Water> {
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
-                        WaterIntakeWidget(
-                            isEditMode: isEditMode), 
+                        WaterIntakeWidget(isEditMode: isEditMode),
                         Padding(
                           padding: const EdgeInsets.all(12),
                           child: water_calendar_widget(
@@ -81,7 +78,7 @@ class _WaterState extends State<Water> {
                             savedUnit: state.unit,
                           ),
                         ),
-                        if (isEditMode) // Show edit option only in edit mode
+                        if (isEditMode)
                           Padding(
                             padding: const EdgeInsets.all(12),
                             child: IconButton(
@@ -95,13 +92,11 @@ class _WaterState extends State<Water> {
                                   ),
                                 );
                                 if (newWaterNeeded != null) {
-                                  // Update SharedPreferences with the new waterNeeded value
                                   final prefs =
                                       await SharedPreferences.getInstance();
                                   await prefs.setDouble(
                                       'water_needed', newWaterNeeded);
 
-                                  // Reload the water data with the updated value
                                   context
                                       .read<WaterBloc>()
                                       .add(LoadInitialData());
