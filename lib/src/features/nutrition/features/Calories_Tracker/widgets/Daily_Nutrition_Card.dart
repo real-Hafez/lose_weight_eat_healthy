@@ -25,7 +25,9 @@ class Daily_Nutrition_Card extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20),
-          Calorie_Progress_Indicator(),
+          Calorie_Progress_Indicator(
+            age: 22,
+          ),
           SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
