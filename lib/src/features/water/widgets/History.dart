@@ -123,9 +123,9 @@ class _HistoryState extends State<History> {
           color: Colors.orange); // In-progress
     } else if (status) {
       return const Icon(Icons.check_circle,
-          color: Colors.green); // Goal reached
+          color: Colors.green); 
     } else {
-      return const Icon(Icons.close, color: Colors.red); // Goal missed
+      return const Icon(Icons.close, color: Colors.red); 
     }
   }
 }

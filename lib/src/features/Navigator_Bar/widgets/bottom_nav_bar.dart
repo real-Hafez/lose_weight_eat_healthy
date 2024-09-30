@@ -16,8 +16,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   void initState() {
     super.initState();
-    //change that to change openss tab
-    _controller = PersistentTabController(initialIndex: 1);
+    _controller = PersistentTabController(initialIndex: 2);
   }
 
   @override

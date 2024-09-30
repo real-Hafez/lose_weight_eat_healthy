@@ -16,7 +16,12 @@ List<PersistentBottomNavBarItem> navBarsItems() {
       inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
-      
+      icon: const Icon(Icons.food_bank_outlined),
+      title: ("nutrition"),
+      activeColorPrimary: Colors.white,
+      inactiveColorPrimary: Colors.grey,
+    ),
+    PersistentBottomNavBarItem(
       icon: const Icon(Icons.settings),
       title: ("setting"),
       activeColorPrimary: Colors.white,
