@@ -36,6 +36,7 @@ dependencies:
   equatable: ^2.0.5
   firebase_auth: ^5.1.4
   firebase_core: ^3.3.0
+  firebase_storage: ^12.3.2
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
@@ -55,6 +56,7 @@ dependencies:
   persistent_bottom_nav_bar: ^6.2.1
   ruler_scale_picker: ^0.1.0
   shared_preferences: ^2.3.2
+  supabase_flutter: ^2.7.0
   table_calendar: ^3.1.2
 
 dev_dependencies:

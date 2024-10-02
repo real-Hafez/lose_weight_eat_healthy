@@ -17,6 +17,7 @@ import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart'
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 import 'package:lose_weight_eat_healthy/src/theme/dark_Theme.dart';
 import 'package:lose_weight_eat_healthy/src/theme/light_Theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,7 +27,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  await Supabase.initialize(
+      url: 'https://icobobugrotssbzwnilc.supabase.co',
+      anonKey:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imljb2JvYnVncm90c3NienduaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4NjU2NzQsImV4cCI6MjA0MzQ0MTY3NH0.xmV_dP0nTiCVppIGwr5CLPo5Ln_QVbMbnoGaUDtZHN4');
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
