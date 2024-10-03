@@ -11,16 +11,13 @@ class FoodService {
           )
           .select();
 
-      // Check if the data is empty
       if (data.isEmpty) {
         print("No foods found matching the criteria.");
         return [];
       }
 
-      // Print the number of documents retrieved
       print("Documents found: ${data.length}");
 
-      // Print each food item found
       for (var food in data) {
         print("Food Item: $food");
       }

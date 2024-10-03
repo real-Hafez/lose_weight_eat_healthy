@@ -12,48 +12,20 @@ class Nutrition extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      physics: const BouncingScrollPhysics(),
-      child: FutureBuilder<List<Map<String, dynamic>>>(
-        future: foodService.getFoods(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No food items available'));
-          } else {
-            List<Map<String, dynamic>> eggFoods = snapshot.data!.where((food) {
-              return food['Tags']?.contains('Foul') ?? false;
-            }).toList();
-
-            return Column(
-              children: [
-                const SizedBox(height: 25),
-                const nutrition_calender(),
-                const SizedBox(height: 25),
-                const CalorieTrackerWidget(),
-                const SizedBox(height: 25),
-                const Meal_Type_Display(food: "Breakfast"),
-                ...eggFoods.map((food) {
-                  return Food_Card(
-                    foodName: food['food_Name'] ?? 'Unknown',
-                    foodImage:
-                        food['food_Image'] ?? 'https://via.placeholder.com/150',
-                    calories: food['calories'] ?? 0,
-                    weight: food['weight'] ?? 0,
-                    fat: food['fat'] ?? 0,
-                    carbs: food['carbs'] ?? 0,
-                    protein: food['protein'] ?? 0,
-                  );
-                }),
-                const SizedBox(height: 120),
-              ],
-            );
-          }
-        },
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          SizedBox(height: 25),
+          nutrition_calender(),
+          SizedBox(height: 25),
+          CalorieTrackerWidget(),
+          SizedBox(height: 25),
+          Meal_Type_Display(food: "Breakfast"),
+          SizedBox(height: 1),
+          Food_days(),
+        ],
       ),
     );
   }
