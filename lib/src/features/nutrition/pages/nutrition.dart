@@ -25,6 +25,10 @@ class Nutrition extends StatelessWidget {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No food items available'));
           } else {
+            List<Map<String, dynamic>> eggFoods = snapshot.data!.where((food) {
+              return food['Tags']?.contains('Foul') ?? false;
+            }).toList();
+
             return Column(
               children: [
                 const SizedBox(height: 25),
@@ -33,14 +37,12 @@ class Nutrition extends StatelessWidget {
                 const CalorieTrackerWidget(),
                 const SizedBox(height: 25),
                 const Meal_Type_Display(food: "Breakfast"),
-                ...snapshot.data!.map((food) {
-                  print(food); // Log the food data for debugging
+                ...eggFoods.map((food) {
                   return Food_Card(
-                    foodName: food['food_Name'] ??
-                        'Unknown', // Fallback if foodName is null
-                    foodImage: food['food_Image'] ??
-                        'https://via.placeholder.com/150', // Default image
-                    calories: food['calories'] ?? 0, // Default to 0 if null
+                    foodName: food['food_Name'] ?? 'Unknown',
+                    foodImage:
+                        food['food_Image'] ?? 'https://via.placeholder.com/150',
+                    calories: food['calories'] ?? 0,
                     weight: food['weight'] ?? 0,
                     fat: food['fat'] ?? 0,
                     carbs: food['carbs'] ?? 0,
