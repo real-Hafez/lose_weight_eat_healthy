@@ -31,6 +31,7 @@ class _FinishpageState extends State<Finishpage> {
   bool isCurrentStepCompleted = false;
   bool areAllStepsCompleted = false;
   bool showButton = false;
+  Timer? _timer; // Declare a Timer variable
 
   @override
   void initState() {
@@ -39,7 +40,8 @@ class _FinishpageState extends State<Finishpage> {
   }
 
   void _startStepAnimation() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) return; // Check if the widget is still mounted
       if (currentStep < steps.length) {
         setState(() {
           if (isCurrentStepCompleted) {
@@ -50,19 +52,26 @@ class _FinishpageState extends State<Finishpage> {
           }
         });
       } else {
-        timer.cancel();
+        timer.cancel(); // Cancel the timer when all steps are completed
         setState(() {
           areAllStepsCompleted = true;
         });
         widget.onAnimationFinished();
 
         Future.delayed(const Duration(seconds: 3), () {
+          if (!mounted) return; 
           setState(() {
             showButton = true;
           });
         });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer in dispose
+    super.dispose(); // Call the superclass dispose method
   }
 
   @override

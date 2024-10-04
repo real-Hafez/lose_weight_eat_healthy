@@ -83,7 +83,7 @@ class _WaterState extends State<Water> {
                             padding: const EdgeInsets.all(12),
                             child: IconButton(
                               icon: const Icon(
-                                  Icons.edit), // Secondary edit button
+                                  Icons.edit), 
                               onPressed: () async {
                                 final newWaterNeeded = await showDialog<double>(
                                   context: context,

@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
+import 'dart:async';
 
 class WaterWidget extends StatefulWidget {
   const WaterWidget({
@@ -30,40 +31,41 @@ class _WaterWidgetState extends State<WaterWidget> {
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
 
+  final List<Timer> _timers = [];
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 4), () {
-      if (mounted) {
-        setState(() {
-          _showAuthor = true;
-        });
-      }
-    });
+    _startDelays();
+  }
 
-    Future.delayed(const Duration(seconds: 5), () {
+  void _startDelays() {
+    _timers.add(Timer(const Duration(seconds: 4), () {
       if (mounted) {
-        setState(() {
-          _showSecondQuote = true;
-        });
+        setState(() => _showAuthor = true);
       }
-    });
+    }));
 
-    Future.delayed(const Duration(seconds: 14), () {
+    _timers.add(Timer(const Duration(seconds: 5), () {
       if (mounted) {
-        setState(() {
-          _showImage = true;
-        });
+        setState(() => _showSecondQuote = true);
       }
-    });
-    Future.delayed(const Duration(seconds: 15), () {
+    }));
+
+    _timers.add(Timer(const Duration(seconds: 14), () {
+      if (mounted) {
+        setState(() => _showImage = true);
+      }
+    }));
+
+    _timers.add(Timer(const Duration(seconds: 15), () {
       if (mounted) {
         setState(() {
           _showAddWidgetButton = true;
           _showSkip = true;
         });
       }
-    });
+    }));
   }
 
   Future<void> _addWidgetToHomeScreen() async {
@@ -72,7 +74,6 @@ class _WaterWidgetState extends State<WaterWidget> {
       print(result);
 
       if (mounted) {
-        // When user clicks "Add the widget", show "Next" button and hide "Skip"
         setState(() {
           _showNextButton = true;
           _showSkip = false;
@@ -84,10 +85,20 @@ class _WaterWidgetState extends State<WaterWidget> {
   }
 
   @override
+  void dispose() {
+    for (var timer in _timers) {
+      timer.cancel();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
           ProgressIndicatorWidget(value: 0.8),
           AnimatedTextWidget(
             onFinished: widget.onAnimationFinished,
@@ -147,6 +158,8 @@ class _WaterWidgetState extends State<WaterWidget> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-        ]));
+        ],
+      ),
+    );
   }
 }

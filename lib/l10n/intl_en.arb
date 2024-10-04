@@ -51,7 +51,9 @@
     "dontHaveAccount": "Don't have an account?",
     "signUp": "Sign up",
     "signIn": "Sign in",
-    "welcomeonboarding": "Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly.",
+    "welcomeonboarding": 
+    "Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly."
+    ,
     "next":"Next",
     "genderselect": "Select Your Gender",
     "man":"Male",

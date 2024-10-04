@@ -64,9 +64,7 @@ class _Splash_ScreenState extends State<Splash_Screen> {
             gifHeight: 474,
             duration: const Duration(milliseconds: 6000),
             nextScreen: const SizedBox.shrink(),
-            onInit: () {
-              if (mounted) {}
-            },
+            onInit: () {},
           );
         }
 

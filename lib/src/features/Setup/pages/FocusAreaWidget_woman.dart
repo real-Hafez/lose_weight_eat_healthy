@@ -24,7 +24,7 @@ class _FocusAreaWidget_womanState extends State<FocusAreaWidget_woman> {
     false,
     false,
     false
-  ]; // Updated to 4 elements
+  ]; 
   List<String> selectedOptions = [];
 
   void toggleSelection(int index) {
