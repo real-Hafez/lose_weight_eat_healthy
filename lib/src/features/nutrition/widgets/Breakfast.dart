@@ -24,14 +24,12 @@ class Breakfast extends StatelessWidget {
             return food['Tags']?.contains('Foul') ?? false;
           }).toList();
 
-          // Check if there is at least one item to display
           if (eggFoods.isEmpty) {
             return const Center(
                 child: Text('No "Foul" tagged food items found'));
           }
 
-          // Display the first food item
-          var food = eggFoods[0]; // Access the first item directly
+          var food = eggFoods[0];
 
           return Nutrition_Info_Card(
             foodName: food['food_Name'] ?? 'Unknown',

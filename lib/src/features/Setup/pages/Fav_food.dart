@@ -1,6 +1,6 @@
+import 'package:auto_animated/auto_animated.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/dietDishes.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
@@ -42,7 +42,7 @@ class _FavFoodState extends State<FavFood> {
     setState(() {
       if (_selectedDishes.contains(dish)) {
         _selectedDishes.remove(dish);
-      } else if (_selectedDishes.length < 5) {
+      } else if (_selectedDishes.length < 32) {
         _selectedDishes.add(dish);
       }
     });
@@ -63,8 +63,12 @@ class _FavFoodState extends State<FavFood> {
               title: 'What\'s Your Favourite Dishes?',
             ),
             Expanded(
-              child: GridView.builder(
-                physics: const BouncingScrollPhysics(),
+              child: LiveGrid.options(
+                options: const LiveOptions(
+                  showItemDuration: Duration(milliseconds: 250),
+                  showItemInterval: Duration(milliseconds: 80),
+                  visibleFraction: 0.1,
+                ),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 1,
@@ -72,10 +76,10 @@ class _FavFoodState extends State<FavFood> {
                   mainAxisSpacing: 10,
                 ),
                 itemCount: _dishesToShow.length,
-                itemBuilder: (context, index) {
+                itemBuilder: (context, index, animation) {
                   final dish = _dishesToShow[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  return FadeTransition(
+                    opacity: animation,
                     child: FavFoodCard(
                       isSelected: _selectedDishes.contains(dish),
                       ontap: () => _selectDish(dish),
@@ -85,7 +89,6 @@ class _FavFoodState extends State<FavFood> {
                 },
               ),
             ),
-            // Validation message
             if (_selectedDishes.length < 3)
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -105,7 +108,7 @@ class _FavFoodState extends State<FavFood> {
           bottom: 0,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: _selectedDishes.length >= 3 // Control visibility here
+            child: _selectedDishes.length >= 3
                 ? NextButton(
                     onPressed: () async {
                       await _saveSelectedDishes();
@@ -113,13 +116,12 @@ class _FavFoodState extends State<FavFood> {
                     },
                     collectionName: "Dish",
                     dataToSave: {
-                      'selectedGender': _selectedDishes,
+                      'selectedDishes': _selectedDishes,
                     },
                     saveData: true,
                     userId: FirebaseAuth.instance.currentUser?.uid,
                   )
-                : const SizedBox
-                    .shrink(), // Hide the button if less than 3 selected
+                : const SizedBox.shrink(),
           ),
         ),
       ],

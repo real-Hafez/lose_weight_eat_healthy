@@ -22,7 +22,6 @@ class FoodService {
         print("Food Item: $food");
       }
 
-      // Map the response data to List<Map<String, dynamic>>
       return List<Map<String, dynamic>>.from(data.cast());
     } catch (e) {
       print("Error fetching foods: $e");

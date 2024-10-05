@@ -39,10 +39,16 @@ class Calorie_Progress_Indicator extends StatelessWidget {
             style: const TextStyle(color: Colors.red),
           );
         } else if (state is CalorieCubitSuccess) {
+          double consumedCalories =
+              state.dailyCalories; 
+          double dailyCalories = state.dailyCalories;
+          double percent = (consumedCalories / dailyCalories).clamp(0.0, 1.0);
+
           return CircularPercentIndicator(
-            radius: 100.0,
+            radius: 120.0,
             lineWidth: 13.0,
-            percent: state.dailyCalories > 0 ? 3000 / state.dailyCalories : 0,
+            animation: true,
+            percent: percent,
             center: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -74,7 +80,8 @@ class Calorie_Progress_Indicator extends StatelessWidget {
             circularStrokeCap: CircularStrokeCap.round,
           );
         }
-        return const SizedBox.shrink();
+        return const SizedBox
+            .shrink(); // Return an empty widget if none of the states match
       },
     );
   }

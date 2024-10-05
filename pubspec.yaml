@@ -30,6 +30,7 @@ environment:
 dependencies:
   animated_text_kit: ^4.2.2
   another_flutter_splash_screen: ^1.2.1
+  auto_animated: ^3.2.0
   auto_size_text: ^3.0.0
   cloud_firestore: ^5.2.1
   device_preview: ^1.2.0
