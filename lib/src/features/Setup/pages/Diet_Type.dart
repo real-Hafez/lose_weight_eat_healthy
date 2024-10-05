@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DietType extends StatefulWidget {
   const DietType(
@@ -26,12 +27,18 @@ class _DietTypeState extends State<DietType> {
     print('User chose: $diet');
   }
 
+  Future<void> _saveSelectedDiet(String diet) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedDiet', diet);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           ListView(
+            physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * .01),
@@ -109,27 +116,24 @@ class _DietTypeState extends State<DietType> {
               ),
             ],
           ),
-          // Inside the build method
           Positioned(
             left: 0,
             right: 0,
             bottom: 0,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Visibility(
-                visible: _selectedDiet !=
-                    null, // Show button only when a diet is selected
-                child: NextButton(
-                  onPressed: () {
-                    widget.onNextButtonPressed();
-                  },
-                  collectionName: "Diet",
-                  dataToSave: {
-                    'selectedGender': _selectedDiet,
-                  },
-                  saveData: true,
-                  userId: FirebaseAuth.instance.currentUser?.uid,
-                ),
+              child: NextButton(
+                onPressed: () async {
+                  await _saveSelectedDiet(_selectedDiet);
+
+                  widget.onNextButtonPressed();
+                },
+                collectionName: "Diet",
+                dataToSave: {
+                  'selectedGender': _selectedDiet,
+                },
+                saveData: true,
+                userId: FirebaseAuth.instance.currentUser?.uid,
               ),
             ),
           ),
@@ -147,7 +151,7 @@ class Diet_Type_card extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.ontap,
-    required this.isSelected, // Add selection state
+    required this.isSelected,
   });
   final String text;
   final String exclude;

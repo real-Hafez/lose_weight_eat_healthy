@@ -7,7 +7,7 @@ class NextButton extends StatelessWidget {
   final Map<String, dynamic>? dataToSave;
   final bool saveData;
   final String? userId;
-  final String collectionName; // Added for collection name
+  final String collectionName; 
 
   const NextButton({
     super.key,
@@ -15,7 +15,7 @@ class NextButton extends StatelessWidget {
     this.dataToSave,
     this.saveData = true,
     this.userId,
-    required this.collectionName, // Added for collection name
+    required this.collectionName, 
   });
 
   Future<void> _saveDataToFirestore(BuildContext context) async {
@@ -24,11 +24,9 @@ class NextButton extends StatelessWidget {
         final userDocRef =
             FirebaseFirestore.instance.collection('users').doc(userId!);
 
-        // Reference to the specific document within the subcollection
         final subcollectionDocRef =
             userDocRef.collection(collectionName).doc('data');
 
-        // Use set() with merge: true to update fields without overwriting existing data
         await subcollectionDocRef.set(dataToSave!, SetOptions(merge: true));
 
         print('User data successfully updated in $collectionName.');

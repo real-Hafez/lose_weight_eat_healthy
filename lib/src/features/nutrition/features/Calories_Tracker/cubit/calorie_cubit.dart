@@ -22,7 +22,6 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
     emit(CalorieCubitLoading());
 
     try {
-      // Check for locally saved data in SharedPreferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? gender = prefs.getString('gender_$userId');
       double weightKg = prefs.getDouble('weight_$userId') ?? 0.0;
