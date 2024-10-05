@@ -85,6 +85,18 @@ class _FavFoodState extends State<FavFood> {
                 },
               ),
             ),
+            // Validation message
+            if (_selectedDishes.length < 3)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  'Please select at least 3 dishes',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
           ],
         ),
         Positioned(
@@ -93,18 +105,21 @@ class _FavFoodState extends State<FavFood> {
           bottom: 0,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: NextButton(
-              onPressed: () async {
-                await _saveSelectedDishes();
-                widget.onNextButtonPressed();
-              },
-              collectionName: "Dish",
-              dataToSave: {
-                'selectedGender': _selectedDishes,
-              },
-              saveData: true,
-              userId: FirebaseAuth.instance.currentUser?.uid,
-            ),
+            child: _selectedDishes.length >= 3 // Control visibility here
+                ? NextButton(
+                    onPressed: () async {
+                      await _saveSelectedDishes();
+                      widget.onNextButtonPressed();
+                    },
+                    collectionName: "Dish",
+                    dataToSave: {
+                      'selectedGender': _selectedDishes,
+                    },
+                    saveData: true,
+                    userId: FirebaseAuth.instance.currentUser?.uid,
+                  )
+                : const SizedBox
+                    .shrink(), // Hide the button if less than 3 selected
           ),
         ),
       ],
