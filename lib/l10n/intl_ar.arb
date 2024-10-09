@@ -1,0 +1,121 @@
+{
+    "skipButton": "تخطي",
+    "newAccount": "إنشاء حساب جديد",
+    "mainTextFirstOnboardingPage": "ابحث عن روتين الكارديو المثالي لك",
+    "subTextFirstOnboardingPage": "تصفح الفيديوهات التي تناسب مستوى لياقتك وتساعدك على تحقيق أهداف الكارديو الخاصة بك.",
+    "mainTextSecondOnboardingPage": "وصفات سريعة، نتائج صحية",
+    "subTextSecondOnboardingPage": "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك.",
+    "mainTextThirdOnboardingPage": "مجاناً بالكامل لصحتك",
+    "subTextThirdOnboardingPage": "كل شيء مجاني! نريدك أن تصبح لائقًا وصحيًا، لذا استمتع بمحتوانا دون أي تكلفة.",
+    "firstNameHint": "احمد",
+    "firstNameLabel": "الاسم الأول",
+    "lastNameHint": "حافظ",
+    "lastNameLabel": "الاسم الأخير",
+    "usernameHint": "Ahmed140",
+    "usernameLabel": "اسم المستخدم",
+    "emailHint": "email@example.com",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordHint": "***********",
+    "passwordLabel": "كلمة المرور",
+    "forgetfield": "يرجى ملء جميع الحقول المطلوبة" ,
+    "usernametaken": "اسم المستخدم مأخوذ بالفعل" ,
+    "promptTextlogin": "هل لديك حساب بالفعل؟",
+    "actionTextlogin": "تسجيل الدخول" , 
+    "signupbutton" : "أنشاء حساب" , 
+    "emailAlreadyInUse": "عنوان البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر.",
+    "invalidEmail": "عنوان البريد الإلكتروني بتنسيق غير صحيح.",
+    "weakPassword": "كلمة المرور المقدمة ضعيفة جدًا.",
+    "unknownError": "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى.",
+    "updateUserDetailsFailed": "فشل في تحديث تفاصيل المستخدم. يرجى المحاولة مرة أخرى.",
+    "userNotFound": "لم يتم العثور على مستخدم للبريد الإلكتروني هذا.",
+    "wrongPassword": "كلمة المرور المقدمة غير صحيحة لهذا المستخدم.",
+    "userDisabled": "تم تعطيل هذا المستخدم.",
+    "tooManyRequests": "تعددت الطلبات. حاول مرة أخرى لاحقًا.",
+    "networkRequestFailed": "خطأ في الشبكة. يرجى التحقق من اتصالك.",
+    "operationNotAllowed": "طريقة تسجيل الدخول غير مسموح بها. يرجى تمكين طريقة تسجيل الدخول في وحدة تحكم Firebase.",
+    "discoverApp": "اكتشف تطبيقنا، إنه",
+    "personalizedTraining": "تدريب مخصص",
+    "dailyMotivation": "تحفيز يومي",
+    "healthyRecipeSuggestions": "اقتراحات وصفات صحية",
+    "customWorkoutPlans": "خطط تمرين مخصصة",
+    "progressTracking": "تتبع التقدم",
+    "mealPlanning": "تخطيط الوجبات",
+    "expertTrainingTips": "نصائح تدريبية من خبراء" ,
+    "orLoginWith": "أو تسجيل الدخول باستخدام",
+    "orSignupWith": "أو التسجيل باستخدام" , 
+    "Loginsuccessful": " تم تسجيل الدخول بنجاح " , 
+    "Login" : "تسجيل الدخول " , 
+    "welcomeBack": "مرحبًا بعودتك" ,
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "signUp": "إنشاء حساب",
+    "signIn": "تسجيل الدخول",
+    "welcomeonboarding": "مرحبًا بك في رحلتك نحو حياة أكثر صحة وسعادة! تطبيقنا هنا لدعمك في كل خطوة مع مجموعة من الميزات المجانية المصممة لمساعدتك في تحقيق أهدافك بسهولة.",
+    "next":"التالي",
+    "genderselect": "حدد جنسك" ,
+    "man":"ذكر",
+    "female": "انثي" ,
+    "heigh":"ما هو طولك ؟ ",
+     "cm": "سم",
+    "ft": "قدم" ,
+    "weight": "ما هو وزنك؟",
+    "kg":"كجم" ,
+    "lb":"رطل",
+    "WeightLoss":"ما مقدار الوزن الذي تريد أن تخسره؟",
+    "gain":"زيادة ",
+    "lose": "فقدان ", 
+    "loseorgainweight": "سوف يكون هناك" , 
+    "approximately":"سوف يستغرق هذا حوالي",
+    "to":"الي", 
+    "days":"ايام",
+    "bodyfatwoman":"اختاري نسبة الدهون في جسمك",
+    "bodyfatman":"اختر نسبة الدهون في جسمك",
+    "Water":"ما هي وحدات قياس المياه التي تستخدمها؟" , 
+    "unit":"اختر الوحدة:", 
+    "mL":"مل" ,
+    "Litres":"لتر",
+    "USoz":"أونصة",
+    "howmanywater":"سوف تحتاج إلى شرب حول:" ,
+    "perday":"يوميا" , 
+    "wakeup":"وقت الاستيقاظ:",
+    "SleepTime":"وقت النوم:" ,
+    "wakeupclock":"اختر وقت الاستيقاظ",
+    "sleepingclock":"اختر وقت النوم",
+    "quote":"الماء هو القوة الدافعة لكل الطبيعة.",
+    "quotesaider":"- ليوناردو دافنشي",
+    "waterwidget":"أفضل طريقة لتحقيق أحلامك هي إبقائها في الأفق. لهذا السبب تحتاج إلى إضافة هذه الأداة إلى شاشتك الرئيسية.",
+    "addwidget":"اضفها الي شاشاتك الرئيسية",
+    "setp1": "إعداد روتين التمارين الخاص بك...",
+    "step2": "إعداد التغذية الخاصة بك...",
+    "step3": "ضبط تذكيرات المياه الخاصة بك",
+    "motivationalText": "فقط 30 يومًا للوصول إلى هدفك، حاول تحقيق حلمنا",
+    "buttonText": "ابدأ في تحقيق حلمك"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+}

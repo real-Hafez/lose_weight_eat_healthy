@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="widget_background">#E3F2FD</color>
+    <color name="widget_title_color">#1565C0</color>
+    <color name="widget_text_color">#0288D1</color>
+    <color name="widget_percentage_color">#0097A7</color>
+    <color name="widget_progress_color">#29B6F6</color>
+    <color name="widget_progress_background_color">#BBDEFB</color>
+    <color name="widget_button_tint">#FFFFFF</color>
+</resources>
