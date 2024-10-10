@@ -7,10 +7,10 @@ class GenderBox extends StatelessWidget {
   final IconData icon;
 
   const GenderBox({
-    Key? key,
+    super.key,
     required this.gender,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,8 @@ class GenderBox extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, size: 80, color: isSelected ? Colors.blue : Colors.grey),
+                Icon(icon,
+                    size: 80, color: isSelected ? Colors.blue : Colors.grey),
                 const SizedBox(height: 10),
                 Text(
                   gender,

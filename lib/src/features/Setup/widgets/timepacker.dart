@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class Timepacker extends StatefulWidget {

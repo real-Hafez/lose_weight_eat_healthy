@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class UsernameErrorText extends StatelessWidget {
   final bool isUsernameTaken;
 
-  const UsernameErrorText({Key? key, required this.isUsernameTaken})
-      : super(key: key);
+  const UsernameErrorText({super.key, required this.isUsernameTaken});
 
   @override
   Widget build(BuildContext context) {

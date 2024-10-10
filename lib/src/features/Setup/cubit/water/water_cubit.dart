@@ -38,8 +38,10 @@ class WaterCubit extends Cubit<WaterState> {
   void calculateWaterIntake() {
     if (state is WaterLoaded) {
       final loadedState = state as WaterLoaded;
-      if (loadedState.selectedUnit == null || loadedState.currentWeightKg == 0)
+      if (loadedState.selectedUnit == null ||
+          loadedState.currentWeightKg == 0) {
         return;
+      }
 
       double waterNeeded = 0.0;
 

@@ -6,10 +6,10 @@ class PasswordVisibilityToggle extends StatelessWidget {
   final VoidCallback onToggle;
 
   const PasswordVisibilityToggle({
-    Key? key,
+    super.key,
     required this.isObscured,
     required this.onToggle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

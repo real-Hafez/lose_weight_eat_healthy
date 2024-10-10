@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/FocusAreaWidget_woman.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/FocusAreaWidgetman.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
-import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 
 class FocusAreaWidget extends StatefulWidget {
   const FocusAreaWidget(
