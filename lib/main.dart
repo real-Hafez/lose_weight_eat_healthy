@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
-              //test 
+              //test
             ],
             supportedLocales: S.delegate.supportedLocales,
             locale: locale,
