@@ -33,7 +33,7 @@ void main() async {
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imljb2JvYnVncm90c3NienduaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4NjU2NzQsImV4cCI6MjA0MzQ0MTY3NH0.xmV_dP0nTiCVppIGwr5CLPo5Ln_QVbMbnoGaUDtZHN4');
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: kDebugMode,
       builder: (context) => const MyApp(),
     ),
   );
