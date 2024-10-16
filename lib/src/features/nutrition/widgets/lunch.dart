@@ -1,16 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
-import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
+import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Breakfast extends StatelessWidget {
-  final FoodService_breakfast foodService = FoodService_breakfast();
+class lunch extends StatelessWidget {
+  lunch({super.key});
+  final FoodService_launch foodService = FoodService_launch();
   final SupabaseClient supabase = Supabase.instance.client;
-
-  Breakfast({super.key});
 
   // Get the current user's ID from Firebase
   Future<String> getUserId() async {
@@ -29,10 +28,10 @@ class Breakfast extends StatelessWidget {
 
       return dietSnapshot.exists
           ? dietSnapshot['selectedGender']
-          : 'Everything'; // Default diet
+          : 'Everything';
     } catch (e) {
       print('Error fetching user diet: $e');
-      return 'Everything'; // Default in case of error
+      return 'Everything';
     }
   }
 

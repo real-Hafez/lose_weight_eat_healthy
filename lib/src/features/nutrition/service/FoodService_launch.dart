@@ -1,13 +1,13 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class FoodService {
+class FoodService_launch {
   final supabase = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> getFoods() async {
     try {
       final data = await supabase
           .from(
-            'breakfast_meals',
+            'Launch_meals',
           )
           .select();
 

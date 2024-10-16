@@ -1,12 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Week_page/pages/Week_Page.dart';
-import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService.dart';
 
 import '../features/Day_page/Pages/Dayview.dart';
 
 class Nutrition extends StatefulWidget {
-  final FoodService foodService = FoodService();
+  // final FoodService_breakfast foodService = FoodService();
 
   Nutrition({super.key});
 

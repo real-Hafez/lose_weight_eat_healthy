@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -36,14 +37,21 @@ class Nutrition_Info_Card extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                foodImage,
-                width: screenWidth * 0.25,
-                height: screenWidth * 0.40,
-                fit: BoxFit.fill,
-              ),
-            ),
+                borderRadius: BorderRadius.circular(10),
+                child:
+                    //  Image.network(
+                    //   foodImage,
+                    //   width: screenWidth * 0.25,
+                    //   height: screenWidth * 0.40,
+                    //   fit: BoxFit.fill,
+                    // ),
+                    CachedNetworkImage(
+                  imageUrl: foodImage,
+                  width: screenWidth * 0.40,
+                  height: screenWidth * 0.50,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                )),
             const SizedBox(width: 10),
             Expanded(
               child: Column(
