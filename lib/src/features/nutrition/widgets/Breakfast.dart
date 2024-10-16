@@ -21,7 +21,7 @@ class Breakfast extends StatelessWidget {
           return const Center(child: Text('No food items available'));
         } else {
           List<Map<String, dynamic>> eggFoods = snapshot.data!.where((food) {
-            return food['Tags']?.contains('Foul') ?? false;
+            // return food['Tags']?.contains('Foul') ?? true;
           }).toList();
 
           if (eggFoods.isEmpty) {

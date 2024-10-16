@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-class WeekPage extends StatelessWidget {
-  const WeekPage({super.key});
+class WeekView extends StatelessWidget {
+  const WeekView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      children: [],
-    );
+    return const Text('Week view content');
   }
 }

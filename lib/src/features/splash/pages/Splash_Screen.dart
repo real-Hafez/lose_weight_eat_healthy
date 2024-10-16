@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Signup.dart';
-import 'package:lose_weight_eat_healthy/src/features/Auth/widgets/signup_widgets/signup_form.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/Navigator_Bar/page/BottomNavBar_main.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/screen/onboarding.dart';
