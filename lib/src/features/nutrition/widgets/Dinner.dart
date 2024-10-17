@@ -11,12 +11,10 @@ class Dinner extends StatelessWidget {
   final FoodService_Dinner foodService = FoodService_Dinner();
   final SupabaseClient supabase = Supabase.instance.client;
 
-  // Get the current user's ID from Firebase
   Future<String> getUserId() async {
     return FirebaseAuth.instance.currentUser?.uid ?? '';
   }
 
-  // Fetch the user's diet preference from Firestore
   Future<String> getUserDietFromFirebase() async {
     try {
       final userId = await getUserId();
@@ -35,7 +33,6 @@ class Dinner extends StatelessWidget {
     }
   }
 
-  // Fetch the user's disliked foods from Firestore
   Future<List<String>> getUserDislikedFoodsFromFirebase() async {
     try {
       final userId = await getUserId();
@@ -90,7 +87,6 @@ class Dinner extends StatelessWidget {
 
                   List<String> dislikedFoods = dislikedFoodsSnapshot.data ?? [];
 
-                  // Filter foods based on diet and dislikes so for ex if user like vegan food only then get vegaan and if user hate egg for example never show egg
                   List<Map<String, dynamic>> filteredFoods =
                       snapshot.data!.where((food) {
                     bool isSuitableForDiet =
@@ -106,7 +102,7 @@ class Dinner extends StatelessWidget {
 
                   var food = filteredFoods[0];
 
-                  return Nutrition_Info_Card(
+                  return NutritionInfoCard(
                     foodName: food['food_Name'] ?? 'Unknown',
                     foodImage:
                         food['food_Image'] ?? 'https://via.placeholder.com/150',

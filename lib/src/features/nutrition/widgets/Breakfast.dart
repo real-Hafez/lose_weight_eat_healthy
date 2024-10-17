@@ -107,7 +107,7 @@ class Breakfast extends StatelessWidget {
 
                   var food = filteredFoods[0];
 
-                  return Nutrition_Info_Card(
+                  return NutritionInfoCard(
                     foodName: food['food_Name'] ?? 'Unknown',
                     foodImage:
                         food['food_Image'] ?? 'https://via.placeholder.com/150',

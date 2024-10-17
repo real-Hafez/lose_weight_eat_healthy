@@ -1,17 +1,48 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:convert'; // To handle JSON encoding/decoding
 
-class lunch extends StatelessWidget {
-  lunch({super.key});
+class Lunch extends StatefulWidget {
+  const Lunch({super.key});
+
+  @override
+  _LunchState createState() => _LunchState();
+}
+
+class _LunchState extends State<Lunch> {
   final FoodService_launch foodService = FoodService_launch();
   final SupabaseClient supabase = Supabase.instance.client;
 
-  // Get the current user's ID from Firebase
+  @override
+  void initState() {
+    super.initState();
+    clearFoodDataAtEndOfDay(); // Clear food data at the start of the day.
+  }
+
+  // Method to clear food data if it's a new day
+  Future<void> clearFoodDataAtEndOfDay() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? lastSavedDate = prefs.getString('lastSavedDate');
+    String todayDate = DateTime.now()
+        .toIso8601String()
+        .split('T')
+        .first; // Get only the date part
+
+    if (lastSavedDate != todayDate) {
+      // It's a new day, clear food data
+      await prefs.remove('savedFoodData');
+      await prefs.setString('lastSavedDate', todayDate);
+      print("Cleared food data for a new day.");
+    }
+  }
+
+  // Fetch user ID
   Future<String> getUserId() async {
     return FirebaseAuth.instance.currentUser?.uid ?? '';
   }
@@ -54,10 +85,35 @@ class lunch extends StatelessWidget {
     }
   }
 
+  // Fetch food data from SharedPreferences or Supabase
+  // Fetch food data from SharedPreferences or Supabase
+  Future<List<Map<String, dynamic>>> getFoodData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? savedFoodData = prefs.getString('savedFoodData');
+
+    if (savedFoodData != null) {
+      print("Get from SharedPreferences");
+      List<Map<String, dynamic>> foodData =
+          List<Map<String, dynamic>>.from(json.decode(savedFoodData));
+      print("Retrieved food data: $foodData");
+      return foodData;
+    } else {
+      print("Fetch from Supabase");
+      List<Map<String, dynamic>> foods = await foodService.getFoods();
+      if (foods.isNotEmpty) {
+        await prefs.setString('savedFoodData', json.encode(foods));
+        print("Data fetched from Supabase and saved to SharedPreferences");
+      } else {
+        print("No food data fetched from Supabase");
+      }
+      return foods;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: foodService.getFoods(),
+      future: getFoodData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: AppLoadingIndicator());
@@ -90,7 +146,6 @@ class lunch extends StatelessWidget {
 
                   List<String> dislikedFoods = dislikedFoodsSnapshot.data ?? [];
 
-                  // Filter foods based on diet and dislikes so for ex if user like vegan food only then get vegaan and if user hate egg for example never show egg
                   List<Map<String, dynamic>> filteredFoods =
                       snapshot.data!.where((food) {
                     bool isSuitableForDiet =
@@ -106,7 +161,7 @@ class lunch extends StatelessWidget {
 
                   var food = filteredFoods[0];
 
-                  return Nutrition_Info_Card(
+                  return NutritionInfoCard(
                     foodName: food['food_Name'] ?? 'Unknown',
                     foodImage:
                         food['food_Image'] ?? 'https://via.placeholder.com/150',

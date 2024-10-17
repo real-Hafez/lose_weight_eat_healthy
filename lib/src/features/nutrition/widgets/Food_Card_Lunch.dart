@@ -6,6 +6,6 @@ class Food_Card_Lunch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return lunch();
+    return Lunch();
   }
 }
