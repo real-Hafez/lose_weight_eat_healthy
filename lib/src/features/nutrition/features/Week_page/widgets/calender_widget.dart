@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
-class calender_widget_Week extends StatefulWidget {
-  const calender_widget_Week({super.key});
+class CalendarWidgetWeek extends StatefulWidget {
+  const CalendarWidgetWeek({super.key});
 
   @override
-  _calender_view_widgetState createState() => _calender_view_widgetState();
+  _CalendarViewWidgetState createState() => _CalendarViewWidgetState();
 }
 
-class _calender_view_widgetState extends State<calender_widget_Week> {
+class _CalendarViewWidgetState extends State<CalendarWidgetWeek> {
   late DateTime focusedDay;
   late DateTime selectedDay;
   late List<DateTime> weekDates;
@@ -47,54 +47,37 @@ class _calender_view_widgetState extends State<calender_widget_Week> {
                       focusedDay = date;
                     });
                   },
-                  child: _buildDayCell(date,
-                      isSelected: isSameDay(selectedDay, date)),
+                  child: DayCell(
+                    date: date,
+                    isSelected: isSameDay(selectedDay, date),
+                  ),
                 );
               }).toList(),
             ),
           ),
         ),
-        // const SizedBox(width: 50), //  space between calendar and food items
         const Expanded(
           flex: 15,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Breakfast',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    Text(
-                      'Lunch',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    Text(
-                      'Dinner',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          child: FoodMenu(),
         ),
       ],
     );
   }
+}
 
-  Widget _buildDayCell(DateTime date,
-      {bool isToday = false, bool isSelected = false}) {
+class DayCell extends StatelessWidget {
+  final DateTime date;
+  final bool isSelected;
+
+  const DayCell({
+    Key? key,
+    required this.date,
+    this.isSelected = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool isToday = isSameDay(date, DateTime.now());
     bool isTodayOrSelected = isToday || isSelected;
 
     return Padding(
@@ -109,38 +92,97 @@ class _calender_view_widgetState extends State<calender_widget_Week> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Text(
-                  DateFormat('EEE').format(date),
-                  style: TextStyle(
-                    fontWeight:
-                        isTodayOrSelected ? FontWeight.w900 : FontWeight.w100,
-                    color: isTodayOrSelected ? Colors.blue : Colors.grey,
-                  ),
-                ),
-                Text(
-                  DateFormat('d').format(date),
-                  style: TextStyle(
-                    fontWeight:
-                        isTodayOrSelected ? FontWeight.w900 : FontWeight.w100,
-                    color: isTodayOrSelected ? Colors.blue : Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            if (isTodayOrSelected)
-              Container(
-                width: 15,
-                height: 15,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
-                ),
-              ),
+            DayText(date: date, isTodayOrSelected: isTodayOrSelected),
+            if (isTodayOrSelected) const TodayIndicator(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class DayText extends StatelessWidget {
+  final DateTime date;
+  final bool isTodayOrSelected;
+
+  const DayText({
+    Key? key,
+    required this.date,
+    required this.isTodayOrSelected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 10),
+        Text(
+          DateFormat('EEE').format(date),
+          style: TextStyle(
+            fontWeight: isTodayOrSelected ? FontWeight.w900 : FontWeight.w100,
+            color: isTodayOrSelected ? Colors.blue : Colors.grey,
+          ),
+        ),
+        Text(
+          DateFormat('d').format(date),
+          style: TextStyle(
+            fontWeight: isTodayOrSelected ? FontWeight.w900 : FontWeight.w100,
+            color: isTodayOrSelected ? Colors.blue : Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class TodayIndicator extends StatelessWidget {
+  const TodayIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 15,
+      height: 15,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.red,
+      ),
+    );
+  }
+}
+
+class FoodMenu extends StatelessWidget {
+  const FoodMenu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Breakfast',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              Text(
+                'Lunch',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              Text(
+                'Dinner',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

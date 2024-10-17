@@ -8,7 +8,7 @@ class WeekView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: const calender_widget_Week()),
+        Expanded(child: const CalendarWidgetWeek()),
       ],
     );
   }
