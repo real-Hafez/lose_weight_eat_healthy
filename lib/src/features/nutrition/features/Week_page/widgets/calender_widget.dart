@@ -56,7 +56,7 @@ class _calender_view_widgetState extends State<calender_widget_Week> {
         ),
         // const SizedBox(width: 50), //  space between calendar and food items
         const Expanded(
-          flex: 10,
+          flex: 15,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -115,7 +115,7 @@ class _calender_view_widgetState extends State<calender_widget_Week> {
                   DateFormat('EEE').format(date),
                   style: TextStyle(
                     fontWeight:
-                        isTodayOrSelected ? FontWeight.bold : FontWeight.normal,
+                        isTodayOrSelected ? FontWeight.w900 : FontWeight.w100,
                     color: isTodayOrSelected ? Colors.blue : Colors.grey,
                   ),
                 ),
@@ -123,16 +123,16 @@ class _calender_view_widgetState extends State<calender_widget_Week> {
                   DateFormat('d').format(date),
                   style: TextStyle(
                     fontWeight:
-                        isTodayOrSelected ? FontWeight.bold : FontWeight.normal,
-                    color: isTodayOrSelected ? Colors.blue : Colors.black,
+                        isTodayOrSelected ? FontWeight.w900 : FontWeight.w100,
+                    color: isTodayOrSelected ? Colors.blue : Colors.white,
                   ),
                 ),
               ],
             ),
             if (isTodayOrSelected)
               Container(
-                width: 20,
-                height: 20,
+                width: 15,
+                height: 15,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.red,
