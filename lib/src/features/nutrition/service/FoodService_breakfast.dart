@@ -12,19 +12,19 @@ class FoodService_breakfast {
           .select();
 
       if (data.isEmpty) {
-        print("No foods found matching the criteria.");
+        print("No breakfast foods found matching the criteria.");
         return [];
       }
 
       print("Documents found: ${data.length}");
 
       for (var food in data) {
-        print("Food Item: $food");
+        print("Breakfast Food Item: $food");
       }
 
       return List<Map<String, dynamic>>.from(data.cast());
     } catch (e) {
-      print("Error fetching foods: $e");
+      print("Error fetching breakfast foods: $e");
       return [];
     }
   }

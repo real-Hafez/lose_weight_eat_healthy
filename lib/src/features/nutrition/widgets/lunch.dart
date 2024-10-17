@@ -1,3 +1,18 @@
+/*
+  This function fetches food data by first checking if it's available in the local storage (SharedPreferences).
+  1. It checks for saved food data in SharedPreferences:
+     - If data exists:
+       - It decodes the JSON data stored in SharedPreferences.
+       - Returns the decoded data, which is a list of food items.
+     - If no data is found:
+       - It fetches the food data from the Supabase database via an API call.
+       - If the API call is successful and returns data:
+         - The fetched data is saved to SharedPreferences to avoid future network calls.
+       - Whether or not data is fetched from Supabase, the function returns it as a list. 
+       and then save the data to shared pre and when open app next time he will see the food untill new 
+       Day coming get the new food from supabase ...
+*/
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +21,7 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodServi
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:convert'; // To handle JSON encoding/decoding
+import 'dart:convert';
 
 class Lunch extends StatefulWidget {
   const Lunch({super.key});
@@ -29,14 +44,9 @@ class _LunchState extends State<Lunch> {
   Future<void> clearFoodDataAtEndOfDay() async {
     final prefs = await SharedPreferences.getInstance();
     String? lastSavedDate = prefs.getString('lastSavedDate');
-    String todayDate = DateTime.now()
-        .toIso8601String()
-        .split('T')
-        .first; // Get only the date part
-
+    String todayDate = DateTime.now().toIso8601String().split('T').first;
     if (lastSavedDate != todayDate) {
-      // It's a new day, clear food data
-      await prefs.remove('savedFoodData');
+      await prefs.remove('savedFoodData_Lunch');
       await prefs.setString('lastSavedDate', todayDate);
       print("Cleared food data for a new day.");
     }
@@ -85,23 +95,21 @@ class _LunchState extends State<Lunch> {
     }
   }
 
-  // Fetch food data from SharedPreferences or Supabase
-  // Fetch food data from SharedPreferences or Supabase
   Future<List<Map<String, dynamic>>> getFoodData() async {
     final prefs = await SharedPreferences.getInstance();
-    String? savedFoodData = prefs.getString('savedFoodData');
+    String? savedFoodData_Lunch = prefs.getString('savedFoodData_Lunch');
 
-    if (savedFoodData != null) {
+    if (savedFoodData_Lunch != null) {
       print("Get from SharedPreferences");
       List<Map<String, dynamic>> foodData =
-          List<Map<String, dynamic>>.from(json.decode(savedFoodData));
+          List<Map<String, dynamic>>.from(json.decode(savedFoodData_Lunch));
       print("Retrieved food data: $foodData");
       return foodData;
     } else {
       print("Fetch from Supabase");
       List<Map<String, dynamic>> foods = await foodService.getFoods();
       if (foods.isNotEmpty) {
-        await prefs.setString('savedFoodData', json.encode(foods));
+        await prefs.setString('savedFoodData_Lunch', json.encode(foods));
         print("Data fetched from Supabase and saved to SharedPreferences");
       } else {
         print("No food data fetched from Supabase");
