@@ -48,112 +48,117 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            const Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
               children: [
-                SizedBox(width: 80),
-                Expanded(
-                  child: Center(
-                    child: AutoSizeText(
-                      'Breakfast',
-                      maxLines: 1,
-                      maxFontSize: 22,
-                      minFontSize: 12,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                const Row(
+                  children: [
+                    SizedBox(width: 80),
+                    Expanded(
+                      child: Center(
+                        child: AutoSizeText(
+                          'Breakfast',
+                          maxLines: 1,
+                          maxFontSize: 22,
+                          minFontSize: 12,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                VerticalDivider(),
-                Expanded(
-                  child: Center(
-                    child: AutoSizeText(
-                      'Lunch',
-                      maxLines: 1,
-                      maxFontSize: 22,
-                      minFontSize: 12,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    VerticalDivider(),
+                    Expanded(
+                      child: Center(
+                        child: AutoSizeText(
+                          'Lunch',
+                          maxLines: 1,
+                          maxFontSize: 22,
+                          minFontSize: 12,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                VerticalDivider(),
-                Expanded(
-                  child: Center(
-                    child: AutoSizeText(
-                      'Dinner',
-                      maxLines: 1,
-                      maxFontSize: 22,
-                      minFontSize: 12,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    VerticalDivider(),
+                    Expanded(
+                      child: Center(
+                        child: AutoSizeText(
+                          'Dinner',
+                          maxLines: 1,
+                          maxFontSize: 22,
+                          minFontSize: 12,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 80,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: weekDates.length,
-                    itemBuilder: (context, index) {
-                      final date = weekDates[index];
-                      final bool isExpanded =
-                          expandedDay == date; // Check if expanded
-                      return DayCell(
-                        date: date,
-                        isSelected: isSameDay(selectedDay, date),
-                        isExpanded: isExpanded, // Pass expanded state
-                        onTap: () {
-                          setState(() {
-                            selectedDay = date;
-                            _toggleExpanded(date);
-                          });
+                const SizedBox(height: 6),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 80,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: weekDates.length,
+                        itemBuilder: (context, index) {
+                          final date = weekDates[index];
+                          final bool isExpanded =
+                              expandedDay == date; // Check if expanded
+                          return DayCell(
+                            date: date,
+                            isSelected: isSameDay(selectedDay, date),
+                            isExpanded: isExpanded, // Pass expanded state
+                            onTap: () {
+                              setState(() {
+                                selectedDay = date;
+                                _toggleExpanded(date);
+                              });
+                            },
+                          );
                         },
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: weekDates.length,
-                    itemBuilder: (context, index) {
-                      final date = weekDates[index];
-                      return MealRow(
-                        date: date,
-                        isExpanded: expandedDay ==
-                            date, // Check if this date is expanded
-                        onTapExpand: () =>
-                            _toggleExpanded(date), // Toggle when tapped
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: weekDates.length,
+                        itemBuilder: (context, index) {
+                          final date = weekDates[index];
+                          return MealRow(
+                            date: date,
+                            isExpanded: expandedDay ==
+                                date, // Check if this date is expanded
+                            onTapExpand: () =>
+                                _toggleExpanded(date), // Toggle when tapped
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -224,8 +229,8 @@ class DayCell extends StatelessWidget {
 
 class MealRow extends StatelessWidget {
   final DateTime date;
-  final bool isExpanded; // Determine whether the row should expand
-  final VoidCallback onTapExpand; // Callback for expanding
+  final bool isExpanded;
+  final VoidCallback onTapExpand;
 
   const MealRow({
     Key? key,
@@ -237,10 +242,10 @@ class MealRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTapExpand, // Trigger expansion
+      onTap: onTapExpand,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        height: isExpanded ? 220 : 100, // Increase height when expanded
+        height: isExpanded ? 220 : 100,
         margin: const EdgeInsets.symmetric(vertical: 6),
         child: Row(
           children: [
@@ -249,7 +254,7 @@ class MealRow extends StatelessWidget {
                 mealType: 'Breakfast',
                 selectedDay: date,
                 fetchFoodData: FoodService_breakfast().getFoods,
-                isExpanded: isExpanded, // Pass expanded state to MealWidget
+                isExpanded: isExpanded,
               ),
             ),
             const VerticalDivider(color: Colors.grey, thickness: 1),
@@ -258,7 +263,7 @@ class MealRow extends StatelessWidget {
                 mealType: 'Lunch',
                 selectedDay: date,
                 fetchFoodData: FoodService_launch().getFoods,
-                isExpanded: isExpanded, // Pass expanded state to MealWidget
+                isExpanded: isExpanded,
               ),
             ),
             const VerticalDivider(color: Colors.grey, thickness: 1),
@@ -267,7 +272,7 @@ class MealRow extends StatelessWidget {
                 mealType: 'Dinner',
                 selectedDay: date,
                 fetchFoodData: FoodService_Dinner().getFoods,
-                isExpanded: isExpanded, // Pass expanded state to MealWidget
+                isExpanded: isExpanded,
               ),
             ),
           ],
@@ -277,11 +282,11 @@ class MealRow extends StatelessWidget {
   }
 }
 
-class MealWidget extends StatelessWidget {
+class MealWidget extends StatefulWidget {
   final String mealType;
   final DateTime selectedDay;
   final Future<List<Map<String, dynamic>>> Function() fetchFoodData;
-  final bool isExpanded; // Expanded state
+  final bool isExpanded;
 
   const MealWidget({
     Key? key,
@@ -292,68 +297,104 @@ class MealWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _MealWidgetState createState() => _MealWidgetState();
+}
+
+class _MealWidgetState extends State<MealWidget> {
+  List<Map<String, dynamic>>? cachedFoodData;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    // Check if data is already cached
+    if (cachedFoodData == null) {
+      // Fetch data and cache it
+      cachedFoodData = await widget.fetchFoodData();
+      setState(() {}); // Trigger rebuild
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: fetchFoodData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const ShimmerLoading();
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Column(
+    if (cachedFoodData == null) {
+      return const ShimmerLoading();
+    }
+
+    if (cachedFoodData!.isEmpty) {
+      return Column(
+        children: [
+          Image.network('https://via.placeholder.com/120', height: 100),
+        ],
+      );
+    }
+
+    var food = cachedFoodData![0]; // Get the first food item
+    return Column(
+      children: [
+        CachedNetworkImage(
+          imageUrl: food['food_Image'] ?? 'https://via.placeholder.com/120',
+          height: widget.isExpanded ? 100 : 95,
+          width: double.infinity,
+          fit: BoxFit.fill,
+          placeholder: (context, url) => const ShimmerLoading(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
+        if (widget.isExpanded) ...[
+          AutoSizeText(
+            'Name: ${food['food_Name']}',
+            maxLines: 3,
+            minFontSize: 10,
+            maxFontSize: 22,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image.network('https://via.placeholder.com/120', height: 100),
-            ],
-          );
-        } else {
-          var food = snapshot.data![0];
-          return Column(
-            children: [
-              CachedNetworkImage(
-                imageUrl:
-                    food['food_Image'] ?? 'https://via.placeholder.com/120',
-                height: isExpanded ? 100 : 90,
-                width: double.infinity,
-                fit: BoxFit.fill,
-                placeholder: (context, url) => const ShimmerLoading(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+              Column(
+                children: [
+                  const Icon(Icons.local_fire_department, size: 18),
+                  AutoSizeText(
+                    '${food['calories']}',
+                    maxLines: 1,
+                    minFontSize: 8,
+                    maxFontSize: 22,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-              if (isExpanded) ...[
-                AutoSizeText(
-                  'Name: ${food['food_Name']}',
-                  maxLines: 3,
-                  minFontSize: 10,
-                  maxFontSize: 22,
-                  textAlign: TextAlign.center,
-                ),
-                AutoSizeText(
-                  'Calories: ${food['calories']}',
-                  maxLines: 1,
-                  minFontSize: 8,
-                  maxFontSize: 22,
-                  textAlign: TextAlign.center,
-                ),
-                AutoSizeText(
-                  'Protein: ${food['protein']}g',
-                  maxLines: 1,
-                  minFontSize: 8,
-                  maxFontSize: 22,
-                  textAlign: TextAlign.center,
-                ),
-                AutoSizeText(
-                  'Carbs: ${food['carbs']}g',
-                  maxLines: 1,
-                  minFontSize: 8,
-                  maxFontSize: 22,
-                  textAlign: TextAlign.center,
-                ),
-                // Add more fields as needed
-              ],
+              Column(
+                children: [
+                  const Icon(Icons.fitness_center, size: 18),
+                  AutoSizeText(
+                    '${food['protein']}g',
+                    maxLines: 1,
+                    minFontSize: 8,
+                    maxFontSize: 22,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  const Icon(Icons.rice_bowl, size: 18),
+                  AutoSizeText(
+                    '${food['carbs']}g',
+                    maxLines: 1,
+                    minFontSize: 8,
+                    maxFontSize: 22,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ],
-          );
-        }
-      },
+          ),
+        ],
+      ],
     );
   }
 }
