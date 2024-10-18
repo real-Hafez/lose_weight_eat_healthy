@@ -6,9 +6,9 @@ class WeekView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       children: [
-        Expanded(child: const CalendarWidgetWeek()),
+        Expanded(child: CalendarWidgetWeek()),
       ],
     );
   }
