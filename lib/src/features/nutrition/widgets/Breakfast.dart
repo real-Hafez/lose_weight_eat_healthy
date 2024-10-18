@@ -36,25 +36,25 @@ class _BreakfastState extends State<Breakfast> {
   @override
   void initState() {
     super.initState();
-    clearFoodDataAtEndOfDay(); // Clear food data at the start of the day.
+    // clearFoodDataAtEndOfDay(); // Clear food data at the start of the day.
   }
 
   // Method to clear food data if it's a new day
-  Future<void> clearFoodDataAtEndOfDay() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? lastSavedDate = prefs.getString('lastSavedDate');
-    String todayDate = DateTime.now()
-        .toIso8601String()
-        .split('T')
-        .first; // Get only the date part
+  // Future<void> clearFoodDataAtEndOfDay() async {
+  // final prefs = await SharedPreferences.getInstance();
+  // String? lastSavedDate = prefs.getString('lastSavedDate');
+  // String todayDate = DateTime.now()
+  //     .toIso8601String()
+  //     .split('T')
+  //     .first; // Get only the date part
 
-    if (lastSavedDate != todayDate) {
-      // It's a new day, clear food data
-      await prefs.remove('savedBreakfastData');
-      await prefs.setString('lastSavedDate', todayDate);
-      print("Cleared breakfast data for a new day.");
-    }
-  }
+  // if (lastSavedDate != todayDate) {
+  //   // It's a new day, clear food data
+  //   await prefs.remove('savedBreakfastData');
+  //   await prefs.setString('lastSavedDate', todayDate);
+  //   print("Cleared breakfast data for a new day.");
+  // }
+  // }
 
   // Fetch user ID
   Future<String> getUserId() async {
@@ -71,12 +71,10 @@ class _BreakfastState extends State<Breakfast> {
           .doc('/users/$userId/Diet/data')
           .get();
 
-      return dietSnapshot.exists
-          ? dietSnapshot['selectedGender']
-          : 'Everything';
+      return dietSnapshot.exists ? dietSnapshot['selectedGender'] : 'Anything';
     } catch (e) {
       print('Error fetching user diet: $e');
-      return 'Everything';
+      return 'Anything';
     }
   }
 
@@ -144,7 +142,7 @@ class _BreakfastState extends State<Breakfast> {
                 return Center(child: Text('Error: ${dietSnapshot.error}'));
               }
 
-              String userDiet = dietSnapshot.data ?? 'Everything';
+              String userDiet = dietSnapshot.data ?? 'Anything';
 
               return FutureBuilder<List<String>>(
                 future: getUserDislikedFoodsFromFirebase(),

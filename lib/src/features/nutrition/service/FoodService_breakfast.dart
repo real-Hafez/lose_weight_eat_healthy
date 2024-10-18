@@ -7,7 +7,7 @@ class FoodService_breakfast {
     try {
       final data = await supabase
           .from(
-            'breakfast_meals',
+            'breakfast_meals_for_Arabic_Country',
           )
           .select();
 
@@ -16,7 +16,7 @@ class FoodService_breakfast {
         return [];
       }
 
-      print("Documents found: ${data.length}");
+      print(" breakfast Documents found: ${data.length}");
 
       for (var food in data) {
         print("Breakfast Food Item: $food");
