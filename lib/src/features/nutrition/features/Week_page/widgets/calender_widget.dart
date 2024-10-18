@@ -166,7 +166,7 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
 class DayCell extends StatelessWidget {
   final DateTime date;
   final bool isSelected;
-  final bool isExpanded; // Expanded state
+  final bool isExpanded;
   final VoidCallback onTap;
 
   const DayCell({
@@ -184,10 +184,9 @@ class DayCell extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        height:
-            isExpanded ? 220 : 100, // Match the expanded height of the MealRow
-        margin: const EdgeInsets.symmetric(vertical: 6),
+        duration: const Duration(milliseconds: 250),
+        height: isExpanded ? 250 : 100,
+        margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue[100] : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
@@ -244,9 +243,9 @@ class MealRow extends StatelessWidget {
     return GestureDetector(
       onTap: onTapExpand,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        height: isExpanded ? 220 : 100,
-        margin: const EdgeInsets.symmetric(vertical: 6),
+        duration: const Duration(milliseconds: 250),
+        height: isExpanded ? 250 : 100,
+        margin: const EdgeInsets.symmetric(vertical: 4),
         child: Row(
           children: [
             Expanded(
@@ -257,7 +256,7 @@ class MealRow extends StatelessWidget {
                 isExpanded: isExpanded,
               ),
             ),
-            const VerticalDivider(color: Colors.grey, thickness: 1),
+            const VerticalDivider(color: Colors.grey, thickness: 0.2),
             Expanded(
               child: MealWidget(
                 mealType: 'Lunch',
@@ -266,7 +265,7 @@ class MealRow extends StatelessWidget {
                 isExpanded: isExpanded,
               ),
             ),
-            const VerticalDivider(color: Colors.grey, thickness: 1),
+            const VerticalDivider(color: Colors.grey, thickness: 0.2),
             Expanded(
               child: MealWidget(
                 mealType: 'Dinner',
@@ -310,11 +309,9 @@ class _MealWidgetState extends State<MealWidget> {
   }
 
   Future<void> _fetchData() async {
-    // Check if data is already cached
     if (cachedFoodData == null) {
-      // Fetch data and cache it
       cachedFoodData = await widget.fetchFoodData();
-      setState(() {}); // Trigger rebuild
+      setState(() {});
     }
   }
 
@@ -345,9 +342,11 @@ class _MealWidgetState extends State<MealWidget> {
         ),
         if (widget.isExpanded) ...[
           AutoSizeText(
-            'Name: ${food['food_Name']}',
-            maxLines: 3,
-            minFontSize: 10,
+            '${food['food_Name']}',
+            maxLines: 2,
+            wrapWords: true,
+            overflow: TextOverflow.ellipsis,
+            minFontSize: 14,
             maxFontSize: 22,
             textAlign: TextAlign.center,
           ),
