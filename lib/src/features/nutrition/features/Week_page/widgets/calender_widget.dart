@@ -18,12 +18,14 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
   late DateTime focusedDay;
   late DateTime selectedDay;
   late List<DateTime> weekDates;
+  late DateTime? expandedDay; // Track expanded day
 
   @override
   void initState() {
     super.initState();
     focusedDay = DateTime.now();
     selectedDay = focusedDay;
+    expandedDay = selectedDay; // Default expanded to the selected day
     weekDates = _getWeekFromSaturdayToFriday(focusedDay);
   }
 
@@ -31,6 +33,17 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
     int differenceFromSaturday = date.weekday % 7;
     DateTime saturday = date.subtract(Duration(days: differenceFromSaturday));
     return List.generate(7, (i) => saturday.add(Duration(days: i)));
+  }
+
+  // Toggle expand or collapse
+  void _toggleExpanded(DateTime date) {
+    setState(() {
+      if (expandedDay == date) {
+        expandedDay = null; // Collapse if the same day is clicked again
+      } else {
+        expandedDay = date; // Expand the clicked day
+      }
+    });
   }
 
   @override
@@ -41,15 +54,6 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            // const Text(
-            //   'Weekly Meal Plan',
-            //   style: TextStyle(
-            //     fontSize: 20,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            // const SizedBox(height: 0),
-
             const Row(
               children: [
                 SizedBox(width: 80),
@@ -100,7 +104,6 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
               ],
             ),
             const SizedBox(height: 6),
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -112,12 +115,16 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
                     itemCount: weekDates.length,
                     itemBuilder: (context, index) {
                       final date = weekDates[index];
+                      final bool isExpanded =
+                          expandedDay == date; // Check if expanded
                       return DayCell(
                         date: date,
                         isSelected: isSameDay(selectedDay, date),
+                        isExpanded: isExpanded, // Pass expanded state
                         onTap: () {
                           setState(() {
                             selectedDay = date;
+                            _toggleExpanded(date);
                           });
                         },
                       );
@@ -132,7 +139,13 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
                     itemCount: weekDates.length,
                     itemBuilder: (context, index) {
                       final date = weekDates[index];
-                      return MealRow(date: date);
+                      return MealRow(
+                        date: date,
+                        isExpanded: expandedDay ==
+                            date, // Check if this date is expanded
+                        onTapExpand: () =>
+                            _toggleExpanded(date), // Toggle when tapped
+                      );
                     },
                   ),
                 ),
@@ -148,14 +161,16 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
 class DayCell extends StatelessWidget {
   final DateTime date;
   final bool isSelected;
+  final bool isExpanded; // Expanded state
   final VoidCallback onTap;
 
   const DayCell({
-    super.key,
+    Key? key,
     required this.date,
     required this.isSelected,
+    required this.isExpanded,
     required this.onTap,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +178,10 @@ class DayCell extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        height: 100,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height:
+            isExpanded ? 220 : 100, // Match the expanded height of the MealRow
         margin: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           color: isSelected ? Colors.blue[100] : Colors.transparent,
@@ -207,43 +224,54 @@ class DayCell extends StatelessWidget {
 
 class MealRow extends StatelessWidget {
   final DateTime date;
+  final bool isExpanded; // Determine whether the row should expand
+  final VoidCallback onTapExpand; // Callback for expanding
 
-  const MealRow({Key? key, required this.date}) : super(key: key);
+  const MealRow({
+    Key? key,
+    required this.date,
+    this.isExpanded = false,
+    required this.onTapExpand,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Expanded(
-            child: MealWidget(
-              mealType: 'Breakfast',
-              selectedDay: date,
-              fetchFoodData:
-                  FoodService_breakfast().getFoods, //  service for breakfast
+    return GestureDetector(
+      onTap: onTapExpand, // Trigger expansion
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: isExpanded ? 220 : 100, // Increase height when expanded
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Expanded(
+              child: MealWidget(
+                mealType: 'Breakfast',
+                selectedDay: date,
+                fetchFoodData: FoodService_breakfast().getFoods,
+                isExpanded: isExpanded, // Pass expanded state to MealWidget
+              ),
             ),
-          ),
-          const VerticalDivider(color: Colors.grey, thickness: 1),
-          Expanded(
-            child: MealWidget(
-              mealType: 'Lunch',
-              selectedDay: date,
-              fetchFoodData: FoodService_launch()
-                  .getFoods, //  service for lunch may be need edit so rememper
+            const VerticalDivider(color: Colors.grey, thickness: 1),
+            Expanded(
+              child: MealWidget(
+                mealType: 'Lunch',
+                selectedDay: date,
+                fetchFoodData: FoodService_launch().getFoods,
+                isExpanded: isExpanded, // Pass expanded state to MealWidget
+              ),
             ),
-          ),
-          const VerticalDivider(color: Colors.grey, thickness: 1),
-          Expanded(
-            child: MealWidget(
-              mealType: 'Dinner',
-              selectedDay: date,
-              fetchFoodData:
-                  FoodService_Dinner().getFoods, //  service for dinner
+            const VerticalDivider(color: Colors.grey, thickness: 1),
+            Expanded(
+              child: MealWidget(
+                mealType: 'Dinner',
+                selectedDay: date,
+                fetchFoodData: FoodService_Dinner().getFoods,
+                isExpanded: isExpanded, // Pass expanded state to MealWidget
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -253,12 +281,14 @@ class MealWidget extends StatelessWidget {
   final String mealType;
   final DateTime selectedDay;
   final Future<List<Map<String, dynamic>>> Function() fetchFoodData;
+  final bool isExpanded; // Expanded state
 
   const MealWidget({
     Key? key,
     required this.mealType,
     required this.selectedDay,
     required this.fetchFoodData,
+    this.isExpanded = false,
   }) : super(key: key);
 
   @override
@@ -278,13 +308,49 @@ class MealWidget extends StatelessWidget {
           );
         } else {
           var food = snapshot.data![0];
-          return CachedNetworkImage(
-            imageUrl: food['food_Image'] ?? 'https://via.placeholder.com/120',
-            height: 100,
-            width: double.infinity,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const ShimmerLoading(),
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+          return Column(
+            children: [
+              CachedNetworkImage(
+                imageUrl:
+                    food['food_Image'] ?? 'https://via.placeholder.com/120',
+                height: isExpanded ? 100 : 90,
+                width: double.infinity,
+                fit: BoxFit.fill,
+                placeholder: (context, url) => const ShimmerLoading(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+              if (isExpanded) ...[
+                AutoSizeText(
+                  'Name: ${food['food_Name']}',
+                  maxLines: 3,
+                  minFontSize: 10,
+                  maxFontSize: 22,
+                  textAlign: TextAlign.center,
+                ),
+                AutoSizeText(
+                  'Calories: ${food['calories']}',
+                  maxLines: 1,
+                  minFontSize: 8,
+                  maxFontSize: 22,
+                  textAlign: TextAlign.center,
+                ),
+                AutoSizeText(
+                  'Protein: ${food['protein']}g',
+                  maxLines: 1,
+                  minFontSize: 8,
+                  maxFontSize: 22,
+                  textAlign: TextAlign.center,
+                ),
+                AutoSizeText(
+                  'Carbs: ${food['carbs']}g',
+                  maxLines: 1,
+                  minFontSize: 8,
+                  maxFontSize: 22,
+                  textAlign: TextAlign.center,
+                ),
+                // Add more fields as needed
+              ],
+            ],
           );
         }
       },
