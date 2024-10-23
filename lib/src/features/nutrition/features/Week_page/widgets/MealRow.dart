@@ -10,11 +10,11 @@ class MealRow extends StatelessWidget {
   final VoidCallback onTapExpand;
 
   const MealRow({
-    Key? key,
+    super.key,
     required this.date,
     this.isExpanded = false,
     required this.onTapExpand,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

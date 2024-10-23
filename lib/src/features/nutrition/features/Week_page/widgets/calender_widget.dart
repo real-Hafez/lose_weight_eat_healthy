@@ -4,7 +4,7 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Week_pag
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Week_page/widgets/MealRow.dart';
 
 class CalendarWidgetWeek extends StatefulWidget {
-  const CalendarWidgetWeek({Key? key}) : super(key: key);
+  const CalendarWidgetWeek({super.key});
 
   @override
   _CalendarWidgetWeekState createState() => _CalendarWidgetWeekState();
@@ -49,12 +49,9 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Header with meal types
                 Row(
                   children: [
-                    const SizedBox(
-                        width:
-                            80), // Empty space for the day cells for brekfast etc..
+                    const SizedBox(width: 80),
                     Expanded(
                         child: Center(child: _buildHeaderText('Breakfast'))),
                     const VerticalDivider(),
@@ -64,7 +61,6 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
                   ],
                 ),
                 const SizedBox(height: 6),
-                // Main content: Day cells and meal rows
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -73,8 +69,8 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
                       width: 80,
                       child: ListView.builder(
                         shrinkWrap: true,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: weekDates.length, // Total days in the week
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: weekDates.length,
                         itemBuilder: (context, index) {
                           final date = weekDates[index];
                           final bool isExpanded = expandedDay == date;
@@ -104,10 +100,8 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
                           final date = weekDates[index];
                           return MealRow(
                             date: date,
-                            isExpanded: expandedDay ==
-                                date, // Check if this date is expanded
-                            onTapExpand: () =>
-                                _toggleExpanded(date), // Handle tap to expand
+                            isExpanded: expandedDay == date,
+                            onTapExpand: () => _toggleExpanded(date),
                           );
                         },
                       ),
@@ -122,7 +116,6 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
     );
   }
 
-  // Helper method to build header text for meals
   static Widget _buildHeaderText(String text) {
     return AutoSizeText(
       text,
@@ -137,7 +130,6 @@ class _CalendarWidgetWeekState extends State<CalendarWidgetWeek> {
   }
 }
 
-// Helper function to compare two dates and see if they are the same day
 bool isSameDay(DateTime day1, DateTime day2) {
   return day1.year == day2.year &&
       day1.month == day2.month &&

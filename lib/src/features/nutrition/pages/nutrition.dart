@@ -7,7 +7,7 @@ import '../features/Day_page/Pages/Dayview.dart';
 class Nutrition extends StatefulWidget {
   // final FoodService_breakfast foodService = FoodService();
 
-  Nutrition({super.key});
+  const Nutrition({super.key});
 
   @override
   _NutritionState createState() => _NutritionState();
@@ -16,7 +16,7 @@ class Nutrition extends StatefulWidget {
 class _NutritionState extends State<Nutrition> {
   // Define the options for the toggle buttons
   final List<String> options = ['3 Day', 'Week', 'Shopping List'];
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +76,9 @@ class _NutritionState extends State<Nutrition> {
   Widget buildContent() {
     switch (selectedIndex) {
       case 0:
-        return Expanded(child: Dayview());
+        return const Expanded(child: Dayview());
       case 1:
-        return Expanded(child: const WeekView());
+        return const Expanded(child: WeekView());
       case 2:
         return const ShoppingListView();
       default:

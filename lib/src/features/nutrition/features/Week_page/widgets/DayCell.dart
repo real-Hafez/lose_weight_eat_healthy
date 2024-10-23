@@ -9,12 +9,12 @@ class DayCell extends StatelessWidget {
   final VoidCallback onTap;
 
   const DayCell({
-    Key? key,
+    super.key,
     required this.date,
     required this.isSelected,
     required this.isExpanded,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

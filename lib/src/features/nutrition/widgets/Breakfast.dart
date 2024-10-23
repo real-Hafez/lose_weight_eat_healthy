@@ -1,26 +1,10 @@
-/*
-  This function fetches food data by first checking if it's available in the local storage (SharedPreferences).
-  1. It checks for saved food data in SharedPreferences:
-     - If data exists:
-       - It decodes the JSON data stored in SharedPreferences.
-       - Returns the decoded data, which is a list of food items.
-     - If no data is found:
-       - It fetches the food data from the Supabase database via an API call.
-       - If the API call is successful and returns data:
-         - The fetched data is saved to SharedPreferences to avoid future network calls.
-       - Whether or not data is fetched from Supabase, the function returns it as a list. 
-       and then save the data to shared pre and when open app next time he will see the food untill new 
-       Day coming get the new food from supabase ...
-*/
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:convert';
 
 class Breakfast extends StatefulWidget {
   const Breakfast({super.key});
@@ -36,25 +20,7 @@ class _BreakfastState extends State<Breakfast> {
   @override
   void initState() {
     super.initState();
-    // clearFoodDataAtEndOfDay(); // Clear food data at the start of the day.
   }
-
-  // Method to clear food data if it's a new day
-  // Future<void> clearFoodDataAtEndOfDay() async {
-  // final prefs = await SharedPreferences.getInstance();
-  // String? lastSavedDate = prefs.getString('lastSavedDate');
-  // String todayDate = DateTime.now()
-  //     .toIso8601String()
-  //     .split('T')
-  //     .first; // Get only the date part
-
-  // if (lastSavedDate != todayDate) {
-  //   // It's a new day, clear food data
-  //   await prefs.remove('savedBreakfastData');
-  //   await prefs.setString('lastSavedDate', todayDate);
-  //   print("Cleared breakfast data for a new day.");
-  // }
-  // }
 
   // Fetch user ID
   Future<String> getUserId() async {
@@ -97,28 +63,11 @@ class _BreakfastState extends State<Breakfast> {
     }
   }
 
-  // Fetch breakfast data from SharedPreferences or Supabase
+  // Fetch breakfast data directly from Supabase
   Future<List<Map<String, dynamic>>> getBreakfastData() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? savedBreakfastData = prefs.getString('savedBreakfastData');
-
-    if (savedBreakfastData != null) {
-      print("Breakfast data retrieved from SharedPreferences");
-      List<Map<String, dynamic>> breakfastData =
-          List<Map<String, dynamic>>.from(json.decode(savedBreakfastData));
-      print("Retrieved breakfast data: $breakfastData");
-      return breakfastData;
-    } else {
-      print("Fetch breakfast data from Supabase");
-      List<Map<String, dynamic>> foods = await foodService.getFoods();
-      if (foods.isNotEmpty) {
-        await prefs.setString('savedBreakfastData', json.encode(foods));
-        print("Data fetched from Supabase and saved to SharedPreferences");
-      } else {
-        print("No breakfast data fetched from Supabase");
-      }
-      return foods;
-    }
+    print("Fetch breakfast data from Supabase");
+    List<Map<String, dynamic>> foods = await foodService.getFoods();
+    return foods;
   }
 
   @override
@@ -173,7 +122,7 @@ class _BreakfastState extends State<Breakfast> {
                   var food = filteredFoods[0];
 
                   return NutritionInfoCard(
-                    foodName: food['food_Name'] ?? 'Unknown',
+                    foodName: food['food_Name_Arabic'] ?? 'Unknown',
                     foodImage:
                         food['food_Image'] ?? 'https://via.placeholder.com/150',
                     calories: food['calories'] ?? 0,

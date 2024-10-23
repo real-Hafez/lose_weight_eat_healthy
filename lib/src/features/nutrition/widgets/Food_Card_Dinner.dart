@@ -20,6 +20,6 @@ class Food_Card_Dinner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dinner();
+    return const Dinner();
   }
 }

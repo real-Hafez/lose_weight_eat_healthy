@@ -7,7 +7,7 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_Card
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Meal_Type_Display.dart';
 
 class Dayview extends StatelessWidget {
-  const Dayview({Key? key}) : super(key: key);
+  const Dayview({super.key});
 
   @override
   Widget build(BuildContext context) {

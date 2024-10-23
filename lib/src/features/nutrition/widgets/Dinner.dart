@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_Dinner.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:convert';
 
 class Dinner extends StatefulWidget {
   const Dinner({super.key});
@@ -22,19 +20,6 @@ class _DinnerState extends State<Dinner> {
   @override
   void initState() {
     super.initState();
-    clearFoodDataAtEndOfDay();
-  }
-
-  Future<void> clearFoodDataAtEndOfDay() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? lastSavedDate = prefs.getString('lastSavedDate');
-    String todayDate = DateTime.now().toIso8601String().split('T').first;
-
-    if (lastSavedDate != todayDate) {
-      await prefs.remove('savedDinnerData');
-      await prefs.setString('lastSavedDate', todayDate);
-      print("Cleared dinner data for a new day.");
-    }
   }
 
   Future<String> getUserId() async {
@@ -79,27 +64,14 @@ class _DinnerState extends State<Dinner> {
   }
 
   Future<List<Map<String, dynamic>>> getDinnerData() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? savedDinnerData = prefs.getString('savedDinnerData');
-
-    if (savedDinnerData != null) {
-      print("Dinner retrieved from SharedPreferences");
-      List<Map<String, dynamic>> dinnerData =
-          List<Map<String, dynamic>>.from(json.decode(savedDinnerData));
-      print("Retrieved dinner data: $dinnerData");
-      return dinnerData;
+    print("Fetching dinner from Supabase");
+    List<Map<String, dynamic>> dinners = await foodService.getFoods();
+    if (dinners.isNotEmpty) {
+      print("Dinner data fetched from Supabase");
     } else {
-      print("Fetching dinner from Supabase");
-      List<Map<String, dynamic>> dinners = await foodService.getFoods();
-      if (dinners.isNotEmpty) {
-        await prefs.setString('savedDinnerData', json.encode(dinners));
-        print(
-            "Dinner data fetched from Supabase and saved to SharedPreferences");
-      } else {
-        print("No dinner data fetched from Supabase");
-      }
-      return dinners;
+      print("No dinner data fetched from Supabase");
     }
+    return dinners;
   }
 
   @override
@@ -154,7 +126,7 @@ class _DinnerState extends State<Dinner> {
                   var food = filteredFoods[0];
 
                   return NutritionInfoCard(
-                    foodName: food['food_Name'] ?? 'Unknown',
+                    foodName: food['food_Name_Arabic'] ?? 'Unknown',
                     foodImage:
                         food['food_Image'] ?? 'https://via.placeholder.com/150',
                     calories: food['calories'] ?? 0,

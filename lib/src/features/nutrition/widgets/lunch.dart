@@ -16,12 +16,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
+import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Lunch extends StatefulWidget {
   const Lunch({super.key});
@@ -37,22 +44,8 @@ class _LunchState extends State<Lunch> {
   @override
   void initState() {
     super.initState();
-    clearFoodDataAtEndOfDay(); // Clear food data at the start of the day.
   }
 
-  // Method to clear food data if it's a new day
-  Future<void> clearFoodDataAtEndOfDay() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? lastSavedDate = prefs.getString('lastSavedDate');
-    String todayDate = DateTime.now().toIso8601String().split('T').first;
-    if (lastSavedDate != todayDate) {
-      await prefs.remove('savedFoodData_Lunch');
-      await prefs.setString('lastSavedDate', todayDate);
-      print("Cleared food data for a new day.");
-    }
-  }
-
-  // Fetch user ID
   Future<String> getUserId() async {
     return FirebaseAuth.instance.currentUser?.uid ?? '';
   }
@@ -96,26 +89,14 @@ class _LunchState extends State<Lunch> {
   }
 
   Future<List<Map<String, dynamic>>> getFoodData() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? savedFoodData_Lunch = prefs.getString('savedFoodData_Lunch');
-
-    if (savedFoodData_Lunch != null) {
-      print("Get from SharedPreferences");
-      List<Map<String, dynamic>> foodData =
-          List<Map<String, dynamic>>.from(json.decode(savedFoodData_Lunch));
-      print("Retrieved food data: $foodData");
-      return foodData;
+    print("Fetch from Supabase");
+    List<Map<String, dynamic>> foods = await foodService.getFoods();
+    if (foods.isNotEmpty) {
+      print("Data fetched from Supabase");
     } else {
-      print("Fetch from Supabase");
-      List<Map<String, dynamic>> foods = await foodService.getFoods();
-      if (foods.isNotEmpty) {
-        await prefs.setString('savedFoodData_Lunch', json.encode(foods));
-        print("Data fetched from Supabase and saved to SharedPreferences");
-      } else {
-        print("No food data fetched from Supabase");
-      }
-      return foods;
+      print("No food data fetched from Supabase");
     }
+    return foods;
   }
 
   @override
@@ -170,7 +151,7 @@ class _LunchState extends State<Lunch> {
                   var food = filteredFoods[0];
 
                   return NutritionInfoCard(
-                    foodName: food['food_Name'] ?? 'Unknown',
+                    foodName: food['food_Name_Arabic'] ?? 'Unknown',
                     foodImage:
                         food['food_Image'] ?? 'https://via.placeholder.com/150',
                     calories: food['calories'] ?? 0,

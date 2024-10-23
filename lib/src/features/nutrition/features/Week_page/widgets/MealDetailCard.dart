@@ -12,12 +12,12 @@ class MealDetailCard extends StatefulWidget {
   final bool isExpanded;
 
   const MealDetailCard({
-    Key? key,
+    super.key,
     required this.mealType,
     required this.selectedDay,
     required this.fetchFoodData,
     this.isExpanded = false,
-  }) : super(key: key);
+  });
 
   @override
   _MealDetailCardState createState() => _MealDetailCardState();
@@ -53,7 +53,14 @@ class _MealDetailCardState extends State<MealDetailCard> {
       );
     }
 
-    var food = cachedFoodData![0]; // Get the first food item
+    int dayIndex = widget.selectedDay.difference(DateTime(2024, 1, 1)).inDays;
+
+    int mealIndex = dayIndex % cachedFoodData!.length;
+    var food = cachedFoodData![mealIndex];
+
+    print("Displaying meal ID: ${food['id']} on day $dayIndex");
+    print("Meal Details: $food");
+
     return Column(
       children: [
         CachedNetworkImage(
@@ -66,11 +73,11 @@ class _MealDetailCardState extends State<MealDetailCard> {
         ),
         if (widget.isExpanded) ...[
           AutoSizeText(
-            '${food['food_Name']}',
+            '${food['food_Name_Arabic']}',
             maxLines: 2,
             wrapWords: true,
             overflow: TextOverflow.ellipsis,
-            minFontSize: 14,
+            minFontSize: 16,
             maxFontSize: 22,
             textAlign: TextAlign.center,
           ),
