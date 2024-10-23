@@ -9,6 +9,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/Fav_food.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/Finishpage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/GenderSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HeightSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HowQuick_Youwant_to_lose_weight.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightLossMessageWidget.dart';
@@ -87,6 +88,14 @@ class OnboardingPage extends StatelessWidget {
                       },
                     ),
                     WeightLossMessageWidget(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                    HowQuickYouWantToLoseWeight(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },

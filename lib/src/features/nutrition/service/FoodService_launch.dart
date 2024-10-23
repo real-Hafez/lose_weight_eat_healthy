@@ -16,11 +16,7 @@ class FoodService_launch {
         return [];
       }
 
-      print("Documents found: ${data.length}");
-
-      for (var food in data) {
-        print("Food Item: $food");
-      }
+      for (var food in data) {}
 
       return List<Map<String, dynamic>>.from(data.cast());
     } catch (e) {

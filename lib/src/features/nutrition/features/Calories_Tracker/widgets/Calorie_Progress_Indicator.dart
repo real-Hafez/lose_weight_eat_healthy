@@ -39,10 +39,12 @@ class Calorie_Progress_Indicator extends StatelessWidget {
             style: const TextStyle(color: Colors.red),
           );
         } else if (state is CalorieCubitSuccess) {
+          // Here we're using the adjustedCalories from the state
+          double adjustedCalories = state.dailyCalories; // Adjusted value
           double consumedCalories =
-              state.dailyCalories; 
-          double dailyCalories = state.dailyCalories;
-          double percent = (consumedCalories / dailyCalories).clamp(0.0, 1.0);
+              3000; // Example consumed calories, update this with your logic
+          double percent =
+              (consumedCalories / adjustedCalories).clamp(0.0, 1.0);
 
           return CircularPercentIndicator(
             radius: 120.0,
@@ -58,16 +60,16 @@ class Calorie_Progress_Indicator extends StatelessWidget {
                   size: 30,
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  "3000 Kcal",
-                  style: TextStyle(
+                Text(
+                  "$consumedCalories Kcal",
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "/${state.dailyCalories.toStringAsFixed(0)} Kcal",
+                  "/${adjustedCalories.toStringAsFixed(0)} Kcal", // Display adjusted calories
                   style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 14.0,

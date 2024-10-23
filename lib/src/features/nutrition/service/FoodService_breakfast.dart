@@ -16,11 +16,7 @@ class FoodService_breakfast {
         return [];
       }
 
-      print(" breakfast Documents found: ${data.length}");
-
-      for (var food in data) {
-        print("Breakfast Food Item: $food");
-      }
+      for (var food in data) {}
 
       return List<Map<String, dynamic>>.from(data.cast());
     } catch (e) {

@@ -79,8 +79,28 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
         print("Data fetched from Firestore and saved to SharedPreferences");
       }
 
-      emit(CalorieCubitSuccess(dailyCalories));
-      print("Emission success with daily calories: $dailyCalories");
+      // Fetch the user's weight loss goal from Firestore
+      String goal = await _getUserWeightLossGoal(userId);
+      print("Fetched Goal from Firestore: $goal");
+
+      double adjustedCalories = dailyCalories;
+
+      // Adjust daily calories based on the goal
+      if (goal == "Lose 1 kg per week") {
+        adjustedCalories -= 1000;
+      } else if (goal == "Lose 0.5 kg per week") {
+        adjustedCalories -= 500;
+      }
+
+      // Save the adjusted calorie amount
+      await prefs.setDouble('adjusted_calories_$userId', adjustedCalories);
+
+      emit(CalorieCubitSuccess(adjustedCalories));
+      print("Emission success with adjusted calories: $adjustedCalories");
+
+      // Save the adjusted calories in SharedPreferences
+      await prefs.setDouble('adjusted_calories_$userId', adjustedCalories);
+      print("Adjusted calories saved to SharedPreferences: $adjustedCalories");
     } catch (e) {
       emit(CalorieCubitError(e.toString()));
       print("Error occurred: ${e.toString()}");
@@ -94,6 +114,29 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
       return 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
     } else {
       return 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+    }
+  }
+
+  Future<String> _getUserWeightLossGoal(String userId) async {
+    try {
+      DocumentSnapshot goalDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('HowMuchLosing_weight_per_week')
+          .doc('data')
+          .get();
+
+      if (goalDoc.exists) {
+        final goalData = goalDoc.data() as Map<String, dynamic>?;
+
+        if (goalData != null && goalData.containsKey('Goal')) {
+          return goalData['Goal'];
+        }
+      }
+      throw Exception("Missing weight loss goal data.");
+    } catch (e) {
+      print("Error fetching weight loss goal: ${e.toString()}");
+      throw Exception("Error fetching weight loss goal: ${e.toString()}");
     }
   }
 
