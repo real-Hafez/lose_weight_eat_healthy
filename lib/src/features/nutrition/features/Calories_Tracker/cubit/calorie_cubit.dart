@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'calorie_state.dart';
 
@@ -10,11 +10,9 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
     _enableFirestoreOffline();
   }
 
-  // Enable Firestore offline persistence
   void _enableFirestoreOffline() {
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true, // Enable offline persistence
-    );
+    FirebaseFirestore.instance.settings =
+        const Settings(persistenceEnabled: true);
     print("Firestore offline persistence enabled.");
   }
 
@@ -35,72 +33,121 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
       print("Height (cm): $heightCm");
       print("Daily Calories: $dailyCalories");
 
-      if (gender != null &&
-          weightKg != 0.0 &&
-          heightCm != 0.0 &&
-          dailyCalories != 0.0) {
-        print("Complete data loaded from SharedPreferences.");
-      }
-
       if (gender == null ||
           weightKg == 0.0 ||
           heightCm == 0.0 ||
           dailyCalories == 0.0) {
         print(
             "Incomplete data in SharedPreferences, fetching from Firestore...");
-
-        gender = await _getUserGender(userId);
-        print("Fetched Gender from Firestore: $gender");
-
-        weightKg = await _getUserWeight(userId);
-        print("Fetched Weight from Firestore: $weightKg");
-
-        heightCm = await _getUserHeight(userId);
-        print("Fetched Height from Firestore: $heightCm");
-
-        if (weightKg == 0.0 || heightCm == 0.0) {
-          emit(const CalorieCubitError(
-              "Please provide your height and weight."));
-          print("Error: Please provide your height and weight.");
-          return;
+        if (gender == null) {
+          gender = await _getUserGender(userId);
+          print("Fetched Gender from Firestore: $gender");
         }
-
-        double bmr = _calculateBMR(gender, weightKg, heightCm, age);
-        print("Calculated BMR: $bmr");
-
-        dailyCalories = _calculateDailyCalories(bmr);
-        print("Calculated Daily Calories: $dailyCalories");
-
-        await prefs.setString('gender_$userId', gender);
-        await prefs.setDouble('weight_$userId', weightKg);
-        await prefs.setDouble('height_$userId', heightCm);
-        await prefs.setDouble('calories_$userId', dailyCalories);
-
-        print("Data fetched from Firestore and saved to SharedPreferences");
+        if (weightKg == 0.0) {
+          weightKg = await _getUserWeight(userId);
+          print("Fetched Weight from Firestore: $weightKg");
+        }
+        if (heightCm == 0.0) {
+          heightCm = await _getUserHeight(userId);
+          print("Fetched Height from Firestore: $heightCm");
+        }
       }
 
-      // Fetch the user's weight loss goal from Firestore
+      if (weightKg == 0.0 || heightCm == 0.0) {
+        emit(const CalorieCubitError("Please provide your height and weight."));
+        print("Error: Please provide your height and weight.");
+        return;
+      }
+
+      double bmr = _calculateBMR(gender, weightKg, heightCm, age);
+      print("Calculated BMR: $bmr");
+
+      dailyCalories = _calculateDailyCalories(bmr);
+      print("Calculated Daily Calories: $dailyCalories");
+
+      await prefs.setString('gender_$userId', gender);
+      await prefs.setDouble('weight_$userId', weightKg);
+      await prefs.setDouble('height_$userId', heightCm);
+      await prefs.setDouble('calories_$userId', dailyCalories);
+
+      print("Data fetched from Firestore and saved to SharedPreferences");
+
       String goal = await _getUserWeightLossGoal(userId);
       print("Fetched Goal from Firestore: $goal");
 
       double adjustedCalories = dailyCalories;
+      adjustedCalories -= _getCalorieAdjustment(goal);
 
-      // Adjust daily calories based on the goal
-      if (goal == "Lose 1 kg per week") {
-        adjustedCalories -= 1000;
-      } else if (goal == "Lose 0.5 kg per week") {
-        adjustedCalories -= 500;
-      }
-
-      // Save the adjusted calorie amount
       await prefs.setDouble('adjusted_calories_$userId', adjustedCalories);
+
+      double proteinGrams =
+          _calculateMacronutrientGrams(adjustedCalories, 40, 4);
+      double carbsGrams = _calculateMacronutrientGrams(adjustedCalories, 35, 4);
+      double fatsGrams = _calculateMacronutrientGrams(adjustedCalories, 25, 9);
+
+      print("Calculated Macronutrients:");
+      print("Protein: $proteinGrams grams");
+      print("Carbs: $carbsGrams grams");
+      print("Fats: $fatsGrams grams");
+
+      await prefs.setDouble('protein_grams_$userId', proteinGrams);
+      await prefs.setDouble('carbs_grams_$userId', carbsGrams);
+      await prefs.setDouble('fats_grams_$userId', fatsGrams);
 
       emit(CalorieCubitSuccess(adjustedCalories));
       print("Emission success with adjusted calories: $adjustedCalories");
+    } catch (e) {
+      emit(CalorieCubitError(e.toString()));
+      print("Error occurred: ${e.toString()}");
+    }
+  }
 
-      // Save the adjusted calories in SharedPreferences
-      await prefs.setDouble('adjusted_calories_$userId', adjustedCalories);
-      print("Adjusted calories saved to SharedPreferences: $adjustedCalories");
+  double _getCalorieAdjustment(String goal) {
+    switch (goal) {
+      case "Lose 1 kg per week":
+        return 1000;
+      case "Lose 0.5 kg per week":
+        return 500;
+      default:
+        return 0;
+    }
+  }
+
+  double _calculateMacronutrientGrams(
+      double adjustedCalories, double percentage, double caloriesPerGram) {
+    return (adjustedCalories * (percentage / 100)) / caloriesPerGram;
+  }
+
+  Future<void> fetchCalculatedMacronutrients(String userId) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      double? adjustedCalories = prefs.getDouble('adjusted_calories_$userId');
+
+      if (adjustedCalories == null || adjustedCalories == 0.0) {
+        emit(const CalorieCubitError("Adjusted calories not found."));
+        return;
+      }
+
+      print("Adjusted Calories: $adjustedCalories");
+
+      double proteinGrams =
+          _calculateMacronutrientGrams(adjustedCalories, 40, 4); // 40% protein
+      double carbsGrams =
+          _calculateMacronutrientGrams(adjustedCalories, 35, 4); // 35% carbs
+      double fatsGrams =
+          _calculateMacronutrientGrams(adjustedCalories, 25, 9); // 25% fat
+
+      print("Protein: $proteinGrams grams");
+      print("Carbs: $carbsGrams grams");
+      print("Fats: $fatsGrams grams");
+
+      await prefs.setDouble('protein_grams', proteinGrams);
+      await prefs.setDouble('carbs_grams', carbsGrams);
+      await prefs.setDouble('fats_grams', fatsGrams);
+
+      // Emit success state with calculated macronutrients
+      emit(CalorieMacronutrientSuccess(proteinGrams, carbsGrams, fatsGrams));
     } catch (e) {
       emit(CalorieCubitError(e.toString()));
       print("Error occurred: ${e.toString()}");

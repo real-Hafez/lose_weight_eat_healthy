@@ -1,30 +1,42 @@
 part of 'calorie_cubit.dart';
 
-sealed class Calorie_State extends Equatable {
+abstract class Calorie_State extends Equatable {
   const Calorie_State();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class CalorieCubitInitial extends Calorie_State {}
+class CalorieCubitInitial extends Calorie_State {}
 
-final class CalorieCubitLoading extends Calorie_State {}
+class CalorieCubitLoading extends Calorie_State {}
 
-final class CalorieCubitSuccess extends Calorie_State {
-  final double dailyCalories;
+class CalorieCubitSuccess extends Calorie_State {
+  final double adjustedCalories;
 
-  const CalorieCubitSuccess(this.dailyCalories);
+  const CalorieCubitSuccess(this.adjustedCalories);
 
   @override
-  List<Object> get props => [dailyCalories];
+  List<Object?> get props => [adjustedCalories];
 }
 
-final class CalorieCubitError extends Calorie_State {
+class CalorieMacronutrientSuccess extends Calorie_State {
+  final double proteinGrams;
+  final double carbsGrams;
+  final double fatsGrams;
+
+  const CalorieMacronutrientSuccess(
+      this.proteinGrams, this.carbsGrams, this.fatsGrams);
+
+  @override
+  List<Object?> get props => [proteinGrams, carbsGrams, fatsGrams];
+}
+
+class CalorieCubitError extends Calorie_State {
   final String message;
 
   const CalorieCubitError(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }
