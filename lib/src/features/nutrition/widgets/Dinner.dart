@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_Dinner.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Dinner extends StatefulWidget {
@@ -16,10 +18,33 @@ class Dinner extends StatefulWidget {
 class _DinnerState extends State<Dinner> {
   final FoodService_Dinner foodService = FoodService_Dinner();
   final SupabaseClient supabase = Supabase.instance.client;
+  late Future<List<Map<String, dynamic>>> closestBreakfastMeal;
 
   @override
   void initState() {
     super.initState();
+    closestBreakfastMeal = _loadClosestMeal();
+  }
+
+  Future<List<Map<String, dynamic>>> _loadClosestMeal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    // Get user macros
+    double targetCalories = prefs.getDouble('adjusted_calories_$userId') ?? 0.0;
+    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
+    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
+    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+
+    // Fetch food data from the service
+    List<Map<String, dynamic>> foods = await foodService.getFoods();
+
+    // Fetch the closest meal
+    Map<String, dynamic>? closestMeal = await MealService().getClosestMeal(
+        targetCalories, targetProtein, targetCarbs, targetFats, foods);
+
+    // Return the closest meal as a list
+    return closestMeal != null ? [closestMeal] : [];
   }
 
   Future<String> getUserId() async {
@@ -77,7 +102,7 @@ class _DinnerState extends State<Dinner> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: getDinnerData(),
+      future: closestBreakfastMeal,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: AppLoadingIndicator());
