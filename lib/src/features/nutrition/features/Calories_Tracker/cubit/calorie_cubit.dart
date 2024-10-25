@@ -81,12 +81,12 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
       await prefs.setDouble('adjusted_calories_$userId', adjustedCalories);
 
       double proteinGrams =
-          _calculateMacronutrientGrams(adjustedCalories, 35, 4); // 35% Protein
+          _calculateMacronutrientGrams(adjustedCalories, 30, 4); // 35% Protein
       double fatsGrams =
-          _calculateMacronutrientGrams(adjustedCalories, 25, 9); // 25% Fats
+          _calculateMacronutrientGrams(adjustedCalories, 30, 9); // 25% Fats
       double carbsGrams =
           _calculateMacronutrientGrams(adjustedCalories, 40, 4); // 40% Carbs
-
+//change it based on diet and maybe we will change it in future so remember it
       print("Calculated Macronutrients:");
       print("Protein: $proteinGrams grams");
       print("Carbs: $carbsGrams grams");
@@ -134,11 +134,11 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
       print("Adjusted Calories: $adjustedCalories");
 
       double proteinGrams =
-          _calculateMacronutrientGrams(adjustedCalories, 40, 4); // 40% protein
+          _calculateMacronutrientGrams(adjustedCalories, 30, 4); // 40% protein
       double carbsGrams =
-          _calculateMacronutrientGrams(adjustedCalories, 35, 4); // 35% carbs
+          _calculateMacronutrientGrams(adjustedCalories, 40, 4); // 35% carbs
       double fatsGrams =
-          _calculateMacronutrientGrams(adjustedCalories, 25, 9); // 25% fat
+          _calculateMacronutrientGrams(adjustedCalories, 30, 9); // 25% fat
 
       print("Protein: $proteinGrams grams");
       print("Carbs: $carbsGrams grams");

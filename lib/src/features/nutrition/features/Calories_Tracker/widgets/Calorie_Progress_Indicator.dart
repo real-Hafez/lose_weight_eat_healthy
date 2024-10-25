@@ -50,7 +50,7 @@ class _Calorie_Progress_IndicatorState
             radius: 120.0,
             lineWidth: 15.0,
             animation: true,
-            percent: 0.6,
+            percent: 0,
             center: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

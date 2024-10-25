@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
-import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Breakfast extends StatefulWidget {
@@ -16,10 +17,30 @@ class Breakfast extends StatefulWidget {
 class _BreakfastState extends State<Breakfast> {
   final FoodService_breakfast foodService = FoodService_breakfast();
   final SupabaseClient supabase = Supabase.instance.client;
+  late Future<Map<String, dynamic>?> closestBreakfastMeal;
 
   @override
   void initState() {
     super.initState();
+    closestBreakfastMeal = _loadClosestMeal();
+  }
+
+  Future<Map<String, dynamic>?> _loadClosestMeal() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    // Get user macros
+    double targetCalories = prefs.getDouble('adjusted_calories_$userId') ?? 0.0;
+    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
+    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
+    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+
+    // Fetch food data from the service
+    List<Map<String, dynamic>> foods = await foodService.getFoods();
+
+    // Fetch the closest meal
+    return await MealService().getClosestMeal(
+        targetCalories, targetProtein, targetCarbs, targetFats, foods);
   }
 
   // Fetch user ID
@@ -72,68 +93,25 @@ class _BreakfastState extends State<Breakfast> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Map<String, dynamic>>>(
-      future: getBreakfastData(),
+    return FutureBuilder<Map<String, dynamic>?>(
+      future: closestBreakfastMeal,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: AppLoadingIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No breakfast items available'));
+        } else if (!snapshot.hasData || snapshot.data == null) {
+          return const Center(child: Text('No suitable breakfast found'));
         } else {
-          return FutureBuilder<String>(
-            future: getUserDietFromFirebase(),
-            builder: (context, dietSnapshot) {
-              if (dietSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: AppLoadingIndicator());
-              } else if (dietSnapshot.hasError) {
-                return Center(child: Text('Error: ${dietSnapshot.error}'));
-              }
-
-              String userDiet = dietSnapshot.data ?? 'Anything';
-
-              return FutureBuilder<List<String>>(
-                future: getUserDislikedFoodsFromFirebase(),
-                builder: (context, dislikedFoodsSnapshot) {
-                  if (dislikedFoodsSnapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const Center(child: AppLoadingIndicator());
-                  } else if (dislikedFoodsSnapshot.hasError) {
-                    return Center(
-                        child: Text('Error: ${dislikedFoodsSnapshot.error}'));
-                  }
-
-                  List<String> dislikedFoods = dislikedFoodsSnapshot.data ?? [];
-
-                  List<Map<String, dynamic>> filteredFoods =
-                      snapshot.data!.where((food) {
-                    bool isSuitableForDiet =
-                        food['Tags']?.contains(userDiet) ?? true;
-                    bool isDisliked = dislikedFoods.contains(food['food_Name']);
-                    return isSuitableForDiet && !isDisliked;
-                  }).toList();
-
-                  if (filteredFoods.isEmpty) {
-                    return const Center(
-                        child: Text('No suitable breakfast items found'));
-                  }
-
-                  var food = filteredFoods[0];
-
-                  return NutritionInfoCard(
-                    foodName: food['food_Name_Arabic'] ?? 'Unknown',
-                    foodImage:
-                        food['food_Image'] ?? 'https://via.placeholder.com/150',
-                    calories: food['calories'] ?? 0,
-                    weight: food['weight'] ?? 0,
-                    fat: food['fat'] ?? 0,
-                    carbs: food['carbs'] ?? 0,
-                    protein: food['protein'] ?? 0,
-                  );
-                },
-              );
-            },
+          var meal = snapshot.data!;
+          return NutritionInfoCard(
+            foodName: meal['food_Name_Arabic'] ?? 'Unknown',
+            foodImage: meal['food_Image'],
+            calories: meal['calories'],
+            weight: meal['weight'],
+            fat: meal['fat'],
+            carbs: meal['carbs'] ?? 0,
+            protein: meal['protein'],
           );
         }
       },
