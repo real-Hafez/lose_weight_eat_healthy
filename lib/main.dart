@@ -12,6 +12,8 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/GenderSelection
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onboarding_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/cubit/calorie_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/cubit/cubit/mealfinder_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealFinder.dart';
 import 'package:lose_weight_eat_healthy/src/features/splash/pages/Splash_Screen.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
@@ -31,6 +33,10 @@ void main() async {
       url: 'https://icobobugrotssbzwnilc.supabase.co',
       anonKey:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imljb2JvYnVncm90c3NienduaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4NjU2NzQsImV4cCI6MjA0MzQ0MTY3NH0.xmV_dP0nTiCVppIGwr5CLPo5Ln_QVbMbnoGaUDtZHN4');
+
+  // final mealFinder = MealFinder();
+  // await mealFinder.findMeals();
+
   runApp(
     DevicePreview(
       enabled: kDebugMode,
@@ -46,6 +52,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => MealfinderCubit(),
+        ),
         BlocProvider(
           create: (context) => SignupCubit(AuthService()),
         ),

@@ -16,7 +16,6 @@ class Breakfast extends StatefulWidget {
 
 class _BreakfastState extends State<Breakfast> {
   final FoodService_breakfast foodService = FoodService_breakfast();
-  final SupabaseClient supabase = Supabase.instance.client;
   late Future<Map<String, dynamic>?> closestBreakfastMeal;
 
   @override
@@ -29,66 +28,25 @@ class _BreakfastState extends State<Breakfast> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
-    // Get user macros
-    double targetCalories = prefs.getDouble('adjusted_calories_$userId') ?? 0.0;
+    // Get total adjusted calories
+    double totalCalories = prefs.getDouble('adjusted_calories_$userId') ?? 0.0;
+
+    // Calculate calorie distribution
+    // Map<String, double> mealCalories =
+    //     MealService().calculateMealCalories(totalCalories);
+
+    // Use breakfast calories (20-30%)
+    // double targetCalories = mealCalories['breakfast'] ?? 0.0;
     double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
     double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
     double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
 
-    // Fetch food data from the service
+    // Fetch food data
     List<Map<String, dynamic>> foods = await foodService.getFoods();
 
-    // Fetch the closest meal
+    // Get closest meal
     return await MealService().getClosestMeal(
-        targetCalories, targetProtein, targetCarbs, targetFats, foods);
-  }
-
-  // Fetch user ID
-  Future<String> getUserId() async {
-    return FirebaseAuth.instance.currentUser?.uid ?? '';
-  }
-
-  // Fetch the user's diet preference from Firestore
-  Future<String> getUserDietFromFirebase() async {
-    try {
-      final userId = await getUserId();
-      if (userId.isEmpty) throw Exception('No user logged in');
-
-      DocumentSnapshot dietSnapshot = await FirebaseFirestore.instance
-          .doc('/users/$userId/Diet/data')
-          .get();
-
-      return dietSnapshot.exists ? dietSnapshot['selectedGender'] : 'Anything';
-    } catch (e) {
-      print('Error fetching user diet: $e');
-      return 'Anything';
-    }
-  }
-
-  // Fetch the user's disliked foods from Firestore
-  Future<List<String>> getUserDislikedFoodsFromFirebase() async {
-    try {
-      final userId = await getUserId();
-      if (userId.isEmpty) throw Exception('No user logged in');
-
-      DocumentSnapshot dishSnapshot = await FirebaseFirestore.instance
-          .doc('/users/$userId/Dish/data')
-          .get();
-
-      return dishSnapshot.exists
-          ? List<String>.from(dishSnapshot['selectedDishes'])
-          : [];
-    } catch (e) {
-      print('Error fetching disliked foods: $e');
-      return [];
-    }
-  }
-
-  // Fetch breakfast data directly from Supabase
-  Future<List<Map<String, dynamic>>> getBreakfastData() async {
-    print("Fetch breakfast data from Supabase");
-    List<Map<String, dynamic>> foods = await foodService.getFoods();
-    return foods;
+        targetProtein, targetCarbs, targetFats, targetFats, foods, userId);
   }
 
   @override
@@ -106,12 +64,12 @@ class _BreakfastState extends State<Breakfast> {
           var meal = snapshot.data!;
           return NutritionInfoCard(
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
-            foodImage: meal['food_Image'],
-            calories: meal['calories'],
-            weight: meal['weight'],
-            fat: meal['fat'],
+            foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
+            calories: meal['calories'] ?? 0,
+            weight: meal['weight'] ?? 0,
+            fat: meal['fat'] ?? 0,
             carbs: meal['carbs'] ?? 0,
-            protein: meal['protein'],
+            protein: meal['protein'] ?? 0,
           );
         }
       },

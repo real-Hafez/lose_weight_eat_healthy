@@ -54,7 +54,6 @@ class _MealDetailCardState extends State<MealDetailCard> {
     }
 
     int dayIndex = widget.selectedDay.difference(DateTime(2024, 1, 1)).inDays;
-
     int mealIndex = dayIndex % cachedFoodData!.length;
     var food = cachedFoodData![mealIndex];
 
