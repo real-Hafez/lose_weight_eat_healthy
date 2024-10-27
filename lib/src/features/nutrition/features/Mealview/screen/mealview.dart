@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class Mealview extends StatelessWidget {
     required this.fat,
     required this.carbs,
     required this.protein,
+    required this.Ingredients,
   });
   final String foodName;
   final String foodImage;
@@ -20,6 +23,7 @@ class Mealview extends StatelessWidget {
   final int fat;
   final int carbs;
   final int protein;
+  final List<String> Ingredients;
 
   @override
   Widget build(BuildContext context) {
@@ -42,77 +46,106 @@ class Mealview extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * .02,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  AutoSizeText(
-                    foodName,
-                    minFontSize: 20,
-                    maxFontSize: 34,
-                    maxLines: 3,
-                    style: const TextStyle(
-                      fontSize: 26,
-                      color: Colors.white,
+              child:
+                  Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                AutoSizeText(
+                  foodName,
+                  minFontSize: 20,
+                  maxFontSize: 34,
+                  maxLines: 3,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                Text(
+                  'المعلومات الغذائية',
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .03,
+                    color: Colors.white,
+                  ),
+                ),
+                // Nutrient Cards Section
+                Row(
+                  children: [
+                    Expanded(
+                      child: NutrientCard(
+                        icon: Icons.local_fire_department,
+                        iconColor: Colors.red,
+                        title: 'البروتين',
+                        content: protein,
+                        unit: 'جرام',
+                      ),
                     ),
-                    textAlign: TextAlign.right,
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  Text(
-                    'المعلومات الغذائية',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * .03,
-                      color: Colors.white,
+                    Expanded(
+                      child: NutrientCard(
+                        icon: Icons.local_fire_department,
+                        iconColor: Colors.red,
+                        title: 'السعرات الحرارية',
+                        content: calories,
+                        unit: 'السعرات الحرارية',
+                      ),
                     ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: NutrientCard(
+                        icon: Icons.local_fire_department,
+                        iconColor: Colors.red,
+                        title: 'الدهون',
+                        content: fat,
+                        unit: 'غ',
+                      ),
+                    ),
+                    Expanded(
+                      child: NutrientCard(
+                        icon: Icons.local_fire_department,
+                        iconColor: Colors.red,
+                        title: 'الكربوهيدرات',
+                        content: carbs,
+                        unit: 'غ',
+                      ),
+                    ),
+                  ],
+                ), // Preparation time widget
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                _buildPreparationTime(context),
+                Text(
+                  'المكونات',
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .03,
+                    color: Colors.white,
                   ),
-                  // Nutrient Cards Section
-                  Row(
-                    children: [
-                      Expanded(
-                        child: NutrientCard(
-                          icon: Icons.local_fire_department,
-                          iconColor: Colors.red,
-                          title: 'البروتين',
-                          content: protein,
-                          unit: 'جرام',
-                        ),
-                      ),
-                      Expanded(
-                        child: NutrientCard(
-                          icon: Icons.local_fire_department,
-                          iconColor: Colors.red,
-                          title: 'السعرات الحرارية',
-                          content: calories,
-                          unit: 'السعرات الحرارية',
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: NutrientCard(
-                          icon: Icons.local_fire_department,
-                          iconColor: Colors.red,
-                          title: 'الدهون',
-                          content: fat,
-                          unit: 'غ',
-                        ),
-                      ),
-                      Expanded(
-                        child: NutrientCard(
-                          icon: Icons.local_fire_department,
-                          iconColor: Colors.red,
-                          title: 'الكربوهيدرات',
-                          content: carbs,
-                          unit: 'غ',
-                        ),
-                      ),
-                    ],
-                  ), // Preparation time widget
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                  _buildPreparationTime(context),
-                ],
-              ),
+                ),
+                ListView.builder(
+                    shrinkWrap:
+                        true, // Allows ListView to take only the space it needs
+                    physics: NeverScrollableScrollPhysics(), //  inner scrolling
+                    itemCount: Ingredients.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              Ingredients[index],
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height * .02,
+                                color: Colors.white,
+                              ),
+                            ),
+                            if (index < Ingredients.length - 1)
+                              Divider(
+                                color: Colors.grey[400],
+                                thickness: 1.0,
+                              ),
+                          ]);
+                    })
+              ]),
             ),
           ),
         ],

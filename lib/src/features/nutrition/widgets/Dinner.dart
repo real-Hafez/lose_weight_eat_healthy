@@ -55,7 +55,13 @@ class _DinnerState extends State<Dinner> {
           return const Center(child: Text('No suitable dinner found'));
         } else {
           var meal = snapshot.data!;
+          // Safely cast ingredients to List<String>
+          final ingredients = (meal['ingredients_Ar'] as List<dynamic>?)
+                  ?.map((item) => item.toString())
+                  .toList() ??
+              <String>[];
           return NutritionInfoCard(
+            Ingredients: ingredients,
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
             foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
             calories: meal['calories'] ?? 0,

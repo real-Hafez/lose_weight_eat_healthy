@@ -100,16 +100,16 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.system,
             theme: light_theme,
             darkTheme: dark_theme,
-            // home: const Splash_Screen(),
-            home: Mealview(
-                foodImage:
-                    'https://www.eatingwell.com/thmb/VqKostZeQfIVieTm9jkOOnkqQZk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/45495781-216464daa160453bb307d31607564c9c.jpg',
-                foodName: "فول بالزيت الحار",
-                calories: 10,
-                weight: 100,
-                fat: 10,
-                carbs: 25,
-                protein: 35),
+            home: const Splash_Screen(),
+            // home: Mealview(
+            //     foodImage:
+            //         'https://www.eatingwell.com/thmb/VqKostZeQfIVieTm9jkOOnkqQZk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/45495781-216464daa160453bb307d31607564c9c.jpg',
+            //     foodName: "فول بالزيت الحار",
+            //     calories: 10,
+            //     weight: 100,
+            //     fat: 10,
+            //     carbs: 25,
+            //     protein: 35),
             // home: const DietType(),
           );
         },

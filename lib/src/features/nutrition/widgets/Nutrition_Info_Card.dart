@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +17,7 @@ class NutritionInfoCard extends StatelessWidget {
     required this.fat,
     required this.carbs,
     required this.protein,
+    required this.Ingredients,
   });
 
   final String foodName;
@@ -24,6 +27,7 @@ class NutritionInfoCard extends StatelessWidget {
   final int fat;
   final int carbs;
   final int protein;
+  final List<String> Ingredients;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,7 @@ class NutritionInfoCard extends StatelessWidget {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return Mealview(
+                  Ingredients: Ingredients,
                   calories: calories,
                   carbs: carbs,
                   fat: fat,
