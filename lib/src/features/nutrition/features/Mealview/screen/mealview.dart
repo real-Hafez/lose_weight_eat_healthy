@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Mealview extends StatelessWidget {
   Mealview({
@@ -41,7 +40,7 @@ class Mealview extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * .04,
+                horizontal: MediaQuery.of(context).size.width * .02,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -57,86 +56,106 @@ class Mealview extends StatelessWidget {
                     ),
                     textAlign: TextAlign.right,
                   ),
-                  const Text(
-                    '١٠ دقائق',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                    ),
-                    textAlign: TextAlign.right,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.sizeOf(context).height * 0.05,
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Text(
                     'المعلومات الغذائية',
                     style: TextStyle(
-                      fontSize: MediaQuery.sizeOf(context).height * .03,
+                      fontSize: MediaQuery.of(context).size.height * .03,
                       color: Colors.white,
                     ),
                   ),
-                  const Row(
+                  // Nutrient Cards Section
+                  Row(
                     children: [
                       Expanded(
-                        child: SingleChildScrollView(
-                          scrollDirection:
-                              Axis.horizontal, // Enable horizontal scrolling
-                          child: Row(
-                            children: [
-                              NutrientCard(
-                                icon: Icons.local_fire_department,
-                                iconColor: Colors.red,
-                                title: 'دهون',
-                                content: 600,
-                                unit: 'غ', // Use 'غ' for grams
-                              ),
-                              NutrientCard(
-                                icon: Icons.local_fire_department,
-                                iconColor: Colors.red,
-                                title: 'كالوري',
-                                content: 350, // Format in Arabic
-                                unit: 'كال', // Change to 'كال' for consistency
-                              ),
-                              NutrientCard(
-                                icon: Icons.local_fire_department,
-                                iconColor: Colors.red,
-                                title: 'بروتين',
-                                content: 450,
-                                unit: 'غ', // Use 'غ' for grams
-                              ),
-                              NutrientCard(
-                                icon: Icons.local_fire_department,
-                                iconColor: Colors.red,
-                                title: 'كارب',
-                                content: 550,
-                                unit: 'غ', // Use 'غ' for grams
-                              ),
-                              NutrientCard(
-                                icon: Icons.local_fire_department,
-                                iconColor: Colors.red,
-                                title: 'بروتين',
-                                content: 450,
-                                unit: 'غ', // Use 'غ' for grams
-                              ),
-                              NutrientCard(
-                                icon: Icons.local_fire_department,
-                                iconColor: Colors.red,
-                                title: 'كالوري',
-                                content: 350, // Format in Arabic
-                                unit: 'كال', // Change to 'كال' for consistency
-                              ),
-                            ],
-                          ),
+                        child: NutrientCard(
+                          icon: Icons.local_fire_department,
+                          iconColor: Colors.red,
+                          title: 'البروتين',
+                          content: protein,
+                          unit: 'جرام',
+                        ),
+                      ),
+                      Expanded(
+                        child: NutrientCard(
+                          icon: Icons.local_fire_department,
+                          iconColor: Colors.red,
+                          title: 'السعرات الحرارية',
+                          content: calories,
+                          unit: 'السعرات الحرارية',
                         ),
                       ),
                     ],
                   ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: NutrientCard(
+                          icon: Icons.local_fire_department,
+                          iconColor: Colors.red,
+                          title: 'الدهون',
+                          content: fat,
+                          unit: 'غ',
+                        ),
+                      ),
+                      Expanded(
+                        child: NutrientCard(
+                          icon: Icons.local_fire_department,
+                          iconColor: Colors.red,
+                          title: 'الكربوهيدرات',
+                          content: carbs,
+                          unit: 'غ',
+                        ),
+                      ),
+                    ],
+                  ), // Preparation time widget
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                  _buildPreparationTime(context),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildPreparationTime(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width * 0.04,
+        vertical: MediaQuery.of(context).size.height * 0.015,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      // child: Align(
+      // alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.access_time,
+            color: Colors.white,
+            size: MediaQuery.of(context).size.height * 0.04,
+          ),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.02),
+          AutoSizeText(
+            'وقت التحضير: ٢٠ دقيقة',
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).size.height * 0.0255,
+              color: Colors.white,
+            ),
+            maxLines: 1,
+            maxFontSize: 28,
+            minFontSize: 22,
+          ),
+        ],
+      ),
+      // ),
     );
   }
 }
@@ -160,36 +179,38 @@ class NutrientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4.0, // Adds shadow to the card
+      elevation: 4.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      color: const Color(0xFFF5EDEA), // Light background color
+      color: const Color(0xFFF5EDEA),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.end, // Align everything to the right
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Icon(
               icon,
               color: iconColor,
-              size: MediaQuery.sizeOf(context).height * .04,
+              size: MediaQuery.of(context).size.height * .04,
             ),
-            SizedBox(height: MediaQuery.sizeOf(context).height * .04),
+            SizedBox(height: MediaQuery.of(context).size.height * .02),
             Text(
               title,
               style: TextStyle(
-                fontSize: MediaQuery.sizeOf(context).height * .03,
+                fontSize: MediaQuery.of(context).size.height * .025,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: MediaQuery.sizeOf(context).height * .01),
-            Text(
-              '$content ',
+            SizedBox(height: MediaQuery.of(context).size.height * .01),
+            AutoSizeText(
+              '$unit $content ',
+              maxFontSize: 32,
+              minFontSize: 14,
+              maxLines: 1,
               style: TextStyle(
-                fontSize: MediaQuery.sizeOf(context).height * .04,
+                fontSize: MediaQuery.of(context).size.height * .02,
                 color: Colors.grey,
               ),
             ),
