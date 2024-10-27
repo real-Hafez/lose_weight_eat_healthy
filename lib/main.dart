@@ -13,6 +13,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/on-boarding/onb
 import 'package:lose_weight_eat_healthy/src/features/Setup/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/cubit/calorie_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/cubit/cubit/mealfinder_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Mealview/screen/mealview.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealFinder.dart';
 import 'package:lose_weight_eat_healthy/src/features/splash/pages/Splash_Screen.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
@@ -99,7 +100,16 @@ class MyApp extends StatelessWidget {
             themeMode: ThemeMode.system,
             theme: light_theme,
             darkTheme: dark_theme,
-            home: const Splash_Screen(),
+            // home: const Splash_Screen(),
+            home: Mealview(
+                foodImage:
+                    'https://www.eatingwell.com/thmb/VqKostZeQfIVieTm9jkOOnkqQZk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/45495781-216464daa160453bb307d31607564c9c.jpg',
+                foodName: "فول بالزيت الحار",
+                calories: 10,
+                weight: 100,
+                fat: 10,
+                carbs: 25,
+                protein: 35),
             // home: const DietType(),
           );
         },

@@ -36,6 +36,12 @@ class NutritionInfoCard extends StatelessWidget {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return Mealview(
+                  calories: calories,
+                  carbs: carbs,
+                  fat: fat,
+                  foodName: foodName,
+                  protein: protein,
+                  weight: weight,
                   foodImage: foodImage,
                 );
               },
