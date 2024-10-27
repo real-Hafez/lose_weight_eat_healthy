@@ -15,6 +15,7 @@ class Mealview extends StatelessWidget {
     required this.carbs,
     required this.protein,
     required this.Ingredients,
+    required this.steps,
   });
   final String foodName;
   final String foodImage;
@@ -24,6 +25,7 @@ class Mealview extends StatelessWidget {
   final int carbs;
   final int protein;
   final List<String> Ingredients;
+  final List<String> steps;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +36,27 @@ class Mealview extends StatelessWidget {
             expandedHeight: MediaQuery.of(context).size.height * .5,
             floating: false,
             pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: CachedNetworkImage(
-                imageUrl: foodImage,
-                fit: BoxFit.cover,
-              ),
+            flexibleSpace: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                // Calculate the percentage of the collapsed app bar
+                var appBarHeight =
+                    MediaQuery.of(context).padding.top + kToolbarHeight;
+                var percentCollapsed = (constraints.maxHeight - appBarHeight) /
+                    (MediaQuery.of(context).size.height * .5 - appBarHeight);
+                return FlexibleSpaceBar(
+                  title: percentCollapsed <= 0.5 // Show title when collapsed
+                      ? Text(
+                          foodName,
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        )
+                      : null,
+                  background: CachedNetworkImage(
+                    imageUrl: foodImage,
+                    fit: BoxFit.cover,
+                  ),
+                  collapseMode: CollapseMode.parallax,
+                );
+              },
             ),
           ),
           SliverToBoxAdapter(
@@ -114,37 +132,86 @@ class Mealview extends StatelessWidget {
                 ), // Preparation time widget
                 SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 _buildPreparationTime(context),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
                 Text(
                   'المكونات',
                   style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * .03,
+                    fontSize: MediaQuery.of(context).size.height * .04,
                     color: Colors.white,
                   ),
                 ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 ListView.builder(
                     shrinkWrap:
                         true, // Allows ListView to take only the space it needs
-                    physics: NeverScrollableScrollPhysics(), //  inner scrolling
+                    physics:
+                        NeverScrollableScrollPhysics(), // no inner scrolling
                     itemCount: Ingredients.length,
                     itemBuilder: (context, index) {
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text(
-                              Ingredients[index],
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height * .02,
-                                color: Colors.white,
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                      MediaQuery.sizeOf(context).height * .003),
+                              child: Text(
+                                Ingredients[index],
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * .02,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                             if (index < Ingredients.length - 1)
                               Divider(
                                 color: Colors.grey[400],
-                                thickness: 1.0,
+                                thickness: 2.0,
                               ),
                           ]);
-                    })
+                    }),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+                Text(
+                  'خطوات التحضير',
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.height * .04,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                ListView.builder(
+                    shrinkWrap:
+                        true, // Allows ListView to take only the space it needs
+                    physics:
+                        NeverScrollableScrollPhysics(), // no inner scrolling
+                    itemCount: steps.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical:
+                                      MediaQuery.sizeOf(context).height * .003),
+                              child: Text(
+                                steps[index],
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * .02,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            if (index < steps.length - 1)
+                              Divider(
+                                color: Colors.grey[400],
+                                thickness: 2.0,
+                              ),
+                          ]);
+                    }),
               ]),
             ),
           ),

@@ -69,6 +69,7 @@ class _BreakfastState extends State<Breakfast> {
               <String>[];
 
           return NutritionInfoCard(
+            steps: [],
             Ingredients: ingredients,
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
             foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',

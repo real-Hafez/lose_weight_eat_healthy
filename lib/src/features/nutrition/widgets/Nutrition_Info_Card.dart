@@ -18,6 +18,7 @@ class NutritionInfoCard extends StatelessWidget {
     required this.carbs,
     required this.protein,
     required this.Ingredients,
+    required this.steps,
   });
 
   final String foodName;
@@ -28,7 +29,7 @@ class NutritionInfoCard extends StatelessWidget {
   final int carbs;
   final int protein;
   final List<String> Ingredients;
-
+  final List<String> steps;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -40,6 +41,7 @@ class NutritionInfoCard extends StatelessWidget {
             Navigator.push(context, MaterialPageRoute(
               builder: (context) {
                 return Mealview(
+                  steps: steps,
                   Ingredients: Ingredients,
                   calories: calories,
                   carbs: carbs,
