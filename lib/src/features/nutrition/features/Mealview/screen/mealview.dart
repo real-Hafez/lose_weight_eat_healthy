@@ -64,155 +64,173 @@ class Mealview extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * .02,
               ),
-              child:
-                  Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                AutoSizeText(
-                  foodName,
-                  minFontSize: 20,
-                  maxFontSize: 34,
-                  maxLines: 3,
-                  style: const TextStyle(
-                    fontSize: 26,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.right,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Text(
-                  'المعلومات الغذائية',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * .03,
-                    color: Colors.white,
-                  ),
-                ),
-                // Nutrient Cards Section
-                Row(
+              child: Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Expanded(
-                      child: NutrientCard(
-                        icon: Icons.local_fire_department,
-                        iconColor: Colors.red,
-                        title: 'البروتين',
-                        content: protein,
-                        unit: 'جرام',
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: AutoSizeText(
+                        foodName,
+                        minFontSize: 20,
+                        maxFontSize: 34,
+                        maxLines: 3,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                        ),
+                        // textAlign: TextAlign.right,
                       ),
                     ),
-                    Expanded(
-                      child: NutrientCard(
-                        icon: Icons.local_fire_department,
-                        iconColor: Colors.red,
-                        title: 'السعرات الحرارية',
-                        content: calories,
-                        unit: 'السعرات الحرارية',
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'المعلومات الغذائية',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * .03,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: NutrientCard(
-                        icon: Icons.local_fire_department,
-                        iconColor: Colors.red,
-                        title: 'الدهون',
-                        content: fat,
-                        unit: 'غ',
-                      ),
+                    // Nutrient Cards Section
+                    Row(
+                      children: [
+                        Expanded(
+                          child: NutrientCard(
+                            icon: Icons.local_fire_department,
+                            iconColor: Colors.red,
+                            title: 'البروتين',
+                            content: protein,
+                            unit: 'جرام',
+                          ),
+                        ),
+                        Expanded(
+                          child: NutrientCard(
+                            icon: Icons.local_fire_department,
+                            iconColor: Colors.red,
+                            title: 'السعرات الحرارية',
+                            content: calories,
+                            unit: 'السعرات الحرارية',
+                          ),
+                        ),
+                      ],
                     ),
-                    Expanded(
-                      child: NutrientCard(
-                        icon: Icons.local_fire_department,
-                        iconColor: Colors.red,
-                        title: 'الكربوهيدرات',
-                        content: carbs,
-                        unit: 'غ',
-                      ),
-                    ),
-                  ],
-                ), // Preparation time widget
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                _buildPreparationTime(context),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: NutrientCard(
+                            icon: Icons.local_fire_department,
+                            iconColor: Colors.red,
+                            title: 'الدهون',
+                            content: fat,
+                            unit: 'غ',
+                          ),
+                        ),
+                        Expanded(
+                          child: NutrientCard(
+                            icon: Icons.local_fire_department,
+                            iconColor: Colors.red,
+                            title: 'الكربوهيدرات',
+                            content: carbs,
+                            unit: 'غ',
+                          ),
+                        ),
+                      ],
+                    ), // Preparation time widget
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    _buildPreparationTime(context),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
-                Text(
-                  'المكونات',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * .04,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                ListView.builder(
-                    shrinkWrap:
-                        true, // Allows ListView to take only the space it needs
-                    physics:
-                        NeverScrollableScrollPhysics(), // no inner scrolling
-                    itemCount: Ingredients.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical:
-                                      MediaQuery.sizeOf(context).height * .003),
-                              child: Text(
-                                Ingredients[index],
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height * .02,
-                                  color: Colors.white,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'المكونات',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * .04,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    ListView.builder(
+                        shrinkWrap:
+                            true, // Allows ListView to take only the space it needs
+                        physics:
+                            NeverScrollableScrollPhysics(), // no inner scrolling
+                        itemCount: Ingredients.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                              // crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical:
+                                          MediaQuery.sizeOf(context).height *
+                                              .003),
+                                  child: Text(
+                                    Ingredients[index],
+                                    style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              .02,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            if (index < Ingredients.length - 1)
-                              Divider(
-                                color: Colors.grey[400],
-                                thickness: 2.0,
-                              ),
-                          ]);
-                    }),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                if (index < Ingredients.length - 1)
+                                  Divider(
+                                    color: Colors.grey[400],
+                                    thickness: 2.0,
+                                  ),
+                              ]);
+                        }),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
 
-                Text(
-                  'خطوات التحضير',
-                  style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.height * .04,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                ListView.builder(
-                    shrinkWrap:
-                        true, // Allows ListView to take only the space it needs
-                    physics:
-                        NeverScrollableScrollPhysics(), // no inner scrolling
-                    itemCount: steps.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical:
-                                      MediaQuery.sizeOf(context).height * .003),
-                              child: Text(
-                                steps[index],
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height * .02,
-                                  color: Colors.white,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'خطوات التحضير',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * .04,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                    ListView.builder(
+                        shrinkWrap:
+                            true, // Allows ListView to take only the space it needs
+                        physics:
+                            NeverScrollableScrollPhysics(), // no inner scrolling
+                        itemCount: steps.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical:
+                                          MediaQuery.sizeOf(context).height *
+                                              .003),
+                                  child: Text(
+                                    steps[index],
+                                    style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              .02,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            if (index < steps.length - 1)
-                              Divider(
-                                color: Colors.grey[400],
-                                thickness: 2.0,
-                              ),
-                          ]);
-                    }),
-              ]),
+                                if (index < steps.length - 1)
+                                  Divider(
+                                    color: Colors.grey[400],
+                                    thickness: 2.0,
+                                  ),
+                              ]);
+                        }),
+                  ]),
             ),
           ),
         ],
