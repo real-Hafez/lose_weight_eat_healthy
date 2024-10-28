@@ -60,7 +60,8 @@ class _FavFoodState extends State<FavFood> {
         Column(
           children: [
             const TitleWidget(
-              title: 'What\'s Your Favourite Dishes?',
+              title:
+                  'Are there any dishes or ingredients you\'d prefer to avoid?',
             ),
             Expanded(
               child: LiveGrid.options(
@@ -94,6 +95,7 @@ class _FavFoodState extends State<FavFood> {
                 padding: EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(
                   'Please select at least 3 dishes',
+                  //change that user doesnt have to chooes hateable food
                   style: TextStyle(
                     color: Colors.red,
                     fontSize: 16,
@@ -114,9 +116,9 @@ class _FavFoodState extends State<FavFood> {
                       await _saveSelectedDishes();
                       widget.onNextButtonPressed();
                     },
-                    collectionName: "Dish",
+                    collectionName: "Dish_that_user_want_avoid",
                     dataToSave: {
-                      'selectedDishes': _selectedDishes,
+                      'Dishes_to_avoid': _selectedDishes,
                     },
                     saveData: true,
                     userId: FirebaseAuth.instance.currentUser?.uid,

@@ -43,7 +43,7 @@ class _DietTypeState extends State<DietType> {
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * .01),
               const TitleWidget(
-                title: 'What\'s Your Diet',
+                title: 'What Type of Diet Do You Follow?',
               ),
               SizedBox(height: MediaQuery.of(context).size.height * .01),
               Column(
@@ -52,66 +52,38 @@ class _DietTypeState extends State<DietType> {
                     text: 'Anything',
                     exclude: 'Nothing',
                     icon: FontAwesomeIcons.utensils,
-                    color: Colors.green,
+                    color: Colors.black,
+                    iconcolor: Colors.green,
                     isSelected: _selectedDiet == 'Anything',
                     ontap: () => _selectDiet('Anything'),
                   ),
                   Diet_Type_card(
-                    text: 'Keto',
-                    exclude: 'Grains, Sugars, Starchy Vegetables',
-                    icon: FontAwesomeIcons.bacon,
-                    color: Colors.orange,
-                    isSelected: _selectedDiet == 'Keto',
-                    ontap: () => _selectDiet('Keto'),
-                  ),
-                  Diet_Type_card(
                     text: 'Vegetarian',
-                    exclude: 'Meat, Poultry, Fish',
+                    exclude: 'meat',
                     icon: FontAwesomeIcons.leaf,
-                    color: Colors.lightGreen,
+                    color: Colors.black,
+                    iconcolor: Colors.black,
                     isSelected: _selectedDiet == 'Vegetarian',
                     ontap: () => _selectDiet('Vegetarian'),
                   ),
                   Diet_Type_card(
                     text: 'Vegan',
-                    exclude: 'Animal Products (Meat, Dairy, Eggs, Honey)',
-                    icon: FontAwesomeIcons.seedling,
-                    color: Colors.greenAccent,
+                    exclude: 'all animal products',
+                    icon: FontAwesomeIcons.carrot,
+                    color: Colors.black,
+                    iconcolor: Colors.brown,
                     isSelected: _selectedDiet == 'Vegan',
                     ontap: () => _selectDiet('Vegan'),
                   ),
                   Diet_Type_card(
-                    text: 'Paleo',
-                    exclude: 'Grains, Legumes, Dairy, Processed Foods',
-                    icon: FontAwesomeIcons.drumstickBite,
-                    color: Colors.brown,
-                    isSelected: _selectedDiet == 'Paleo',
-                    ontap: () => _selectDiet('Paleo'),
-                  ),
-                  Diet_Type_card(
-                    text: 'Mediterranean',
-                    exclude: 'Refined Sugar, Processed Meat',
-                    icon: FontAwesomeIcons.fish,
-                    color: Colors.blueAccent,
-                    isSelected: _selectedDiet == 'Mediterranean',
-                    ontap: () => _selectDiet('Mediterranean'),
-                  ),
-                  Diet_Type_card(
-                    text: 'Pescatarian',
-                    exclude: 'Meat (except Fish)',
-                    icon: FontAwesomeIcons.fish,
-                    color: Colors.teal,
-                    isSelected: _selectedDiet == 'Pescatarian',
-                    ontap: () => _selectDiet('Pescatarian'),
-                  ),
-                  Diet_Type_card(
-                    text: 'Gluten-Free',
-                    exclude: 'Gluten (Wheat, Barley, Rye)',
-                    icon: FontAwesomeIcons.breadSlice,
-                    color: Colors.purple,
-                    isSelected: _selectedDiet == 'Gluten-Free',
-                    ontap: () => _selectDiet('Gluten-Free'),
-                  ),
+                    text: 'keto',
+                    exclude: 'Carbs, sugar, grains',
+                    icon: FontAwesomeIcons.egg,
+                    color: Colors.black,
+                    iconcolor: Colors.white,
+                    isSelected: _selectedDiet == 'keto',
+                    ontap: () => _selectDiet('keto'),
+                  )
                 ],
               ),
             ],
@@ -152,11 +124,14 @@ class Diet_Type_card extends StatelessWidget {
     required this.color,
     required this.ontap,
     required this.isSelected,
+    required this.iconcolor,
   });
   final String text;
   final String exclude;
   final IconData icon;
   final Color color;
+  final Color iconcolor;
+
   final VoidCallback ontap;
   final bool isSelected;
 
@@ -190,7 +165,7 @@ class Diet_Type_card extends StatelessWidget {
                 Icon(
                   icon,
                   size: 32,
-                  color: color,
+                  color: iconcolor,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * .1,
