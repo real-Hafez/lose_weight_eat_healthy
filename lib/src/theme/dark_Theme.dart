@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 
 ThemeData dark_theme = ThemeData(
   brightness: Brightness.dark,
-  primaryColor: Color(0xFF00A676), // A vibrant green for primary color
-  hintColor: Color(0xFF1DB954), // Complementary green for accent
+  primaryColor: Color(0xFF0D0B02), // A vibrant green for primary color
+  hintColor: Color(0xFF0D0B02), // Complementary green for accent
 
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: Color(0xFFB2FF59)), // Soft lime for headings
-    bodyMedium:
-        TextStyle(color: Color(0xFFE1FFB1)), // Light green for body text
-    displayLarge:
-        TextStyle(color: Color(0xFF4CAF50)), // Bright green for display
+    bodyLarge: TextStyle(
+        color: Color.fromARGB(255, 244, 244, 244)), // Soft lime for headings
+    bodyMedium: TextStyle(
+        color: Color.fromARGB(255, 233, 233, 233)), // Light green for body text
+    displayLarge: TextStyle(
+        color: Color.fromARGB(255, 253, 253, 253)), // Bright green for display
   ),
 
   colorScheme: const ColorScheme.dark(
-    surface: Color(0xFF212121), // Dark gray background for balance
+    surface: Color(0xFF0D0B02), // Dark gray background for balance
   ),
 
   inputDecorationTheme: InputDecorationTheme(

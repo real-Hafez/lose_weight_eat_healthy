@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -93,50 +91,57 @@ class Mealview extends StatelessWidget {
                       ),
                     ),
                     // Nutrient Cards Section
-                    Row(
-                      children: [
-                        Expanded(
-                          child: NutrientCard(
-                            icon: Icons.local_fire_department,
-                            iconColor: Colors.red,
-                            title: 'البروتين',
-                            content: protein,
-                            unit: 'جرام',
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: NutrientCard(
+                                  icon: Icons.local_fire_department,
+                                  iconColor: Colors.red,
+                                  title: 'البروتين',
+                                  content: protein,
+                                  unit: 'جرام',
+                                ),
+                              ),
+                              Expanded(
+                                child: NutrientCard(
+                                  icon: Icons.local_fire_department,
+                                  iconColor: Colors.red,
+                                  title: 'السعرات الحرارية',
+                                  content: calories,
+                                  unit: 'السعرات الحرارية',
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          child: NutrientCard(
-                            icon: Icons.local_fire_department,
-                            iconColor: Colors.red,
-                            title: 'السعرات الحرارية',
-                            content: calories,
-                            unit: 'السعرات الحرارية',
+                          Row(
+                            children: [
+                              Expanded(
+                                child: NutrientCard(
+                                  icon: Icons.local_fire_department,
+                                  iconColor: Colors.red,
+                                  title: 'الدهون',
+                                  content: fat,
+                                  unit: 'غ',
+                                ),
+                              ),
+                              Expanded(
+                                child: NutrientCard(
+                                  icon: Icons.local_fire_department,
+                                  iconColor: Colors.red,
+                                  title: 'الكربوهيدرات',
+                                  content: carbs,
+                                  unit: 'غ',
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: NutrientCard(
-                            icon: Icons.local_fire_department,
-                            iconColor: Colors.red,
-                            title: 'الدهون',
-                            content: fat,
-                            unit: 'غ',
-                          ),
-                        ),
-                        Expanded(
-                          child: NutrientCard(
-                            icon: Icons.local_fire_department,
-                            iconColor: Colors.red,
-                            title: 'الكربوهيدرات',
-                            content: carbs,
-                            unit: 'غ',
-                          ),
-                        ),
-                      ],
-                    ), // Preparation time widget
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     _buildPreparationTime(context),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -199,37 +204,74 @@ class Mealview extends StatelessWidget {
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     ListView.builder(
-                        shrinkWrap:
-                            true, // Allows ListView to take only the space it needs
-                        physics:
-                            NeverScrollableScrollPhysics(), // no inner scrolling
-                        itemCount: steps.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical:
-                                          MediaQuery.sizeOf(context).height *
-                                              .003),
-                                  child: Text(
-                                    steps[index],
-                                    style: TextStyle(
-                                      fontSize:
-                                          MediaQuery.of(context).size.height *
-                                              .02,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                      shrinkWrap:
+                          true, // Allows ListView to take only the space it needs
+                      physics:
+                          NeverScrollableScrollPhysics(), // no inner scrolling
+                      itemCount: steps.length,
+                      itemBuilder: (context, index) {
+                        // Arabic numbers from 1 to 20
+                        List<String> arabicNumbers = [
+                          '١',
+                          '٢',
+                          '٣',
+                          '٤',
+                          '٥',
+                          '٦',
+                          '٧',
+                          '٨',
+                          '٩',
+                          '١٠',
+                          '١١',
+                          '١٢',
+                          '١٣',
+                          '١٤',
+                          '١٥',
+                          '١٦',
+                          '١٧',
+                          '١٨',
+                          '١٩',
+                          '٢٠'
+                        ];
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Display the Arabic number above the step
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical:
+                                    MediaQuery.sizeOf(context).height * .003,
+                              ),
+                              child: Text(
+                                arabicNumbers[index],
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * .04,
+                                  color: Colors.grey[400],
                                 ),
-                                if (index < steps.length - 1)
-                                  Divider(
-                                    color: Colors.grey[400],
-                                    thickness: 2.0,
-                                  ),
-                              ]);
-                        }),
+                                // textAlign: TextAlign.right,
+                              ),
+                            ),
+                            // Display the step text below the number
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical:
+                                    MediaQuery.sizeOf(context).height * .003,
+                              ),
+                              child: Text(
+                                steps[index], // Step text
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * .02,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    )
                   ]),
             ),
           ),
@@ -252,8 +294,8 @@ class Mealview extends StatelessWidget {
       // child: Align(
       // alignment: Alignment.centerRight,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.min,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             Icons.access_time,

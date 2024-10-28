@@ -32,19 +32,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
               animateTabTransition: true,
               screenTransitionAnimationType:
                   ScreenTransitionAnimationType.slide,
-              curve: Curves.ease)),
+              curve: Curves.easeOutExpo)),
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       hideNavigationBarWhenKeyboardAppears: true,
       // popAllScreensOnTapOfSelectedTab: true,
-      backgroundColor: const Color.fromARGB(0, 255, 255, 255),
+      backgroundColor: Colors.black,
       decoration: NavBarDecoration(
         borderRadius: BorderRadius.circular(1.0),
       ),
-      confineToSafeArea: false,
+      confineToSafeArea: true,
       navBarHeight: kBottomNavigationBarHeight,
-      navBarStyle: NavBarStyle.style4,
+      navBarStyle: NavBarStyle.style9,
     );
   }
 }
