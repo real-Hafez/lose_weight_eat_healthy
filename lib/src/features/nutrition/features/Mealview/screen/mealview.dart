@@ -14,6 +14,7 @@ class Mealview extends StatelessWidget {
     required this.protein,
     required this.Ingredients,
     required this.steps,
+    required this.tips,
   });
   final String foodName;
   final String foodImage;
@@ -24,6 +25,7 @@ class Mealview extends StatelessWidget {
   final int protein;
   final List<String> Ingredients;
   final List<String> steps;
+  final List<Map<String, dynamic>> tips;
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +163,7 @@ class Mealview extends StatelessWidget {
                         shrinkWrap:
                             true, // Allows ListView to take only the space it needs
                         physics:
-                            NeverScrollableScrollPhysics(), // no inner scrolling
+                            NeverScrollableScrollPhysics(), // no inner scrolling maybe in update we will need row scolling so make sure to look at it
                         itemCount: Ingredients.length,
                         itemBuilder: (context, index) {
                           return Column(
@@ -271,7 +273,52 @@ class Mealview extends StatelessWidget {
                           ],
                         );
                       },
-                    )
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'نصائح',
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height * .04,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: tips.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: [
+                            // Display icon based on type
+                            if (tips[index]['icon'] == 'check')
+                              Icon(Icons.check, color: Colors.green),
+                            if (tips[index]['icon'] == 'replace')
+                              Icon(Icons.swap_horiz, color: Colors.orange),
+                            if (tips[index]['icon'] == 'cross')
+                              Icon(Icons.close, color: Colors.red),
+
+                            SizedBox(width: 8), // Spacing between icon and text
+
+                            // Display message
+                            Expanded(
+                              child: Text(
+                                tips[index]['message'] ?? '',
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.height * .02,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
                   ]),
             ),
           ),

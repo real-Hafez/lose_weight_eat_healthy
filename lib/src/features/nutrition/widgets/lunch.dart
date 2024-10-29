@@ -66,7 +66,13 @@ class _LunchState extends State<Lunch> {
                   ?.map((item) => item.toString())
                   .toList() ??
               <String>[];
+          final tips = (meal['tips'] as List<dynamic>?)
+                  ?.map((item) => item as Map<String, dynamic>)
+                  .toList() ??
+              <Map<String, dynamic>>[];
+
           return NutritionInfoCard(
+            tips: tips,
             steps: steps,
             Ingredients: ingredients,
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
