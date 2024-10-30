@@ -18,7 +18,7 @@ class MealfinderCubit extends Cubit<MealfinderState> {
           await mealFinder.findMeals(targetCalories); // Pass targetCalories
       emit(MealfinderLoaded(meals)); // Emit loaded state with meals
     } catch (error) {
-      emit(MealfinderError("Failed to load meals")); // Emit error state
+      emit(const MealfinderError("Failed to load meals")); // Emit error state
     }
   }
 }

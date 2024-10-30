@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class Mealview extends StatelessWidget {
-  Mealview({
+  const Mealview({
     super.key,
     required this.foodImage,
     required this.foodName,
@@ -47,7 +47,8 @@ class Mealview extends StatelessWidget {
                   title: percentCollapsed <= 0.5 // Show title when collapsed
                       ? Text(
                           foodName,
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 20),
                         )
                       : null,
                   background: CachedNetworkImage(
@@ -163,7 +164,7 @@ class Mealview extends StatelessWidget {
                         shrinkWrap:
                             true, // Allows ListView to take only the space it needs
                         physics:
-                            NeverScrollableScrollPhysics(), // no inner scrolling maybe in update we will need row scolling so make sure to look at it
+                            const NeverScrollableScrollPhysics(), // no inner scrolling maybe in update we will need row scolling so make sure to look at it
                         itemCount: Ingredients.length,
                         itemBuilder: (context, index) {
                           return Column(
@@ -209,7 +210,7 @@ class Mealview extends StatelessWidget {
                       shrinkWrap:
                           true, // Allows ListView to take only the space it needs
                       physics:
-                          NeverScrollableScrollPhysics(), // no inner scrolling
+                          const NeverScrollableScrollPhysics(), // no inner scrolling
                       itemCount: steps.length,
                       itemBuilder: (context, index) {
                         // Arabic numbers from 1 to 20
@@ -288,20 +289,22 @@ class Mealview extends StatelessWidget {
 
                     ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: tips.length,
                       itemBuilder: (context, index) {
                         return Row(
                           children: [
                             // Display icon based on type
                             if (tips[index]['icon'] == 'check')
-                              Icon(Icons.check, color: Colors.green),
+                              const Icon(Icons.check, color: Colors.green),
                             if (tips[index]['icon'] == 'replace')
-                              Icon(Icons.swap_horiz, color: Colors.orange),
+                              const Icon(Icons.swap_horiz,
+                                  color: Colors.orange),
                             if (tips[index]['icon'] == 'cross')
-                              Icon(Icons.close, color: Colors.red),
+                              const Icon(Icons.close, color: Colors.red),
 
-                            SizedBox(width: 8), // Spacing between icon and text
+                            const SizedBox(
+                                width: 8), // Spacing between icon and text
 
                             // Display message
                             Expanded(

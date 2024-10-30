@@ -9,9 +9,9 @@ class Calorie_Progress_Indicator extends StatefulWidget {
   final int age;
 
   const Calorie_Progress_Indicator({
-    Key? key,
+    super.key,
     required this.age,
-  }) : super(key: key);
+  });
 
   @override
   State<Calorie_Progress_Indicator> createState() =>

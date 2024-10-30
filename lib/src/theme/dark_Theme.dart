@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 ThemeData dark_theme = ThemeData(
   brightness: Brightness.dark,
-  primaryColor: Color(0xFF0D0B02), // A vibrant green for primary color
-  hintColor: Color(0xFF0D0B02), // Complementary green for accent
+  primaryColor: const Color(0xFF0D0B02), // A vibrant green for primary color
+  hintColor: const Color(0xFF0D0B02), // Complementary green for accent
 
   textTheme: const TextTheme(
     bodyLarge: TextStyle(
@@ -44,13 +44,13 @@ ThemeData dark_theme = ThemeData(
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       backgroundColor:
-          MaterialStateProperty.all<Color>(Color(0xFF388E3C)), // Dark green
+          WidgetStateProperty.all<Color>(const Color(0xFF388E3C)), // Dark green
       foregroundColor:
-          MaterialStateProperty.all<Color>(Colors.white), // White text
-      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          WidgetStateProperty.all<Color>(Colors.white), // White text
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
         const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       ),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),

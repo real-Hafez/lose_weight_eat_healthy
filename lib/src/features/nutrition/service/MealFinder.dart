@@ -71,8 +71,6 @@ class MealFinder {
     Map<String, dynamic>? bestMeal;
 
     for (var food in foods) {
-      if (food == null) continue;
-
       double calories = (food['calories'] ?? 0).toDouble();
       double protein = (food['protein'] ?? 0).toDouble();
       double carbs = (food['carbs'] ?? 0).toDouble();

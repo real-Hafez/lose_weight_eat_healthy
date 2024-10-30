@@ -16,8 +16,6 @@ class MealService {
         "Target -> Calories: $targetCalories, Protein: $targetProtein, Carbs: $targetCarbs, Fats: $targetFats\n");
 
     for (var food in foods) {
-      if (food == null) continue;
-
       double calories = (food['calories'] ?? 0).toDouble();
       double protein = (food['protein'] ?? 0).toDouble();
       double carbs = (food['carbs'] ?? 0).toDouble();

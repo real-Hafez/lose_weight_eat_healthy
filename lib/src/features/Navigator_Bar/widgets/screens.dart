@@ -8,7 +8,7 @@ List<Widget> buildScreens() {
   return [
     const HomeScreen(),
     const Water(),
-    Nutrition(),
+    const Nutrition(),
     const SettingsScreen(),
   ];
 }

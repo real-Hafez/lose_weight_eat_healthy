@@ -6,7 +6,7 @@ class CalorieTrackerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 12),
       child: Daily_Nutrition_Card(),
     );

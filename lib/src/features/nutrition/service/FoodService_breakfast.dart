@@ -7,7 +7,7 @@ class FoodService_breakfast {
     try {
       final data = await supabase
           .from(
-            'breakfast_meals_for_Arabic_Country',
+            'breakfast_middle eastern',
           )
           .select();
 

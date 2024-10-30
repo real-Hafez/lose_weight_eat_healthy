@@ -61,8 +61,8 @@ class _DinnerState extends State<Dinner> {
                   .toList() ??
               <String>[];
           return NutritionInfoCard(
-            tips: [],
-            steps: [],
+            tips: const [],
+            steps: const [],
             Ingredients: ingredients,
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
             foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
