@@ -7,7 +7,7 @@ class FoodService_Dinner {
     try {
       final data = await supabase
           .from(
-            'dinner_meals_for_Arabic_Country',
+            'dinner_middle eastern',
           )
           .select();
 

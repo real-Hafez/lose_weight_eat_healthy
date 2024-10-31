@@ -9,12 +9,14 @@ class MealRow extends StatelessWidget {
   final bool isExpanded;
   final VoidCallback onTapExpand;
 
-  const MealRow({
+  MealRow({
     super.key,
     required this.date,
     this.isExpanded = false,
     required this.onTapExpand,
   });
+  final FoodService_breakfast foodService = FoodService_breakfast();
+  // List<Map<String, dynamic>> foods = await foodService.getFoods();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class MealRow extends StatelessWidget {
               child: MealDetailCard(
                 mealType: 'Breakfast',
                 selectedDay: date,
-                fetchFoodData: FoodService_breakfast().getFoods,
+                fetchFoodData: foodService.getFoods,
                 isExpanded: isExpanded,
               ),
             ),

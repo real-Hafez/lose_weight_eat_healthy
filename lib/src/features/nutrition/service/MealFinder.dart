@@ -38,9 +38,6 @@ class MealFinder {
     double remainingCarbs = targetCarbs - selectedMeals.last['carbs'];
     double remainingFats = targetFats - selectedMeals.last['fats'];
 
-    print(
-        "Remaining after Breakfast -> Calories: $remainingCalories, Protein: $remainingProtein, Carbs: $remainingCarbs, Fats: $remainingFats");
-
     // Calculate lunch
     selectedMeals.add(_selectMeal("Lunch", lunchFoods, remainingCalories * 0.5,
         remainingProtein * 0.5, remainingCarbs * 0.5, remainingFats * 0.5));
@@ -49,14 +46,21 @@ class MealFinder {
     remainingCarbs -= selectedMeals.last['carbs'];
     remainingFats -= selectedMeals.last['fats'];
 
-    print(
-        "Remaining after Lunch -> Calories: $remainingCalories, Protein: $remainingProtein, Carbs: $remainingCarbs, Fats: $remainingFats");
-
     // Calculate dinner
     selectedMeals.add(_selectMeal("Dinner", dinnerFoods, remainingCalories,
         remainingProtein, remainingCarbs, remainingFats));
-    print("Final meal selection: $selectedMeals");
 
+    // Check total calories
+    double totalCalories =
+        selectedMeals.fold(0, (sum, meal) => sum + (meal['calories'] ?? 0));
+    if (totalCalories < userCalories * 0.95 ||
+        totalCalories > userCalories * 1.05) {
+      print("Total calories out of acceptable range. Re-adjustment needed.");
+      // Optionally implement re-adjustment logic here
+    }
+
+    print(
+        "Final meal selection: $selectedMeals with total calories: $totalCalories");
     return selectedMeals;
   }
 
@@ -71,19 +75,17 @@ class MealFinder {
     Map<String, dynamic>? bestMeal;
 
     for (var food in foods) {
+      if (food == null) continue;
+
       double calories = (food['calories'] ?? 0).toDouble();
       double protein = (food['protein'] ?? 0).toDouble();
       double carbs = (food['carbs'] ?? 0).toDouble();
       double fats = (food['fat'] ?? 0).toDouble();
 
-      double weightedDifference = (calories - targetCalories).abs() * 3 +
-          (protein - targetProtein).abs() * 2.5 +
+      double weightedDifference = (calories - targetCalories).abs() * 4 +
+          (protein - targetProtein).abs() * 3 +
           (carbs - targetCarbs).abs() * 2 +
-          (fats - targetFats).abs() * 1.5;
-
-      print(
-          "$mealType Meal: ${food['name']} - Calories: $calories, Protein: $protein, Carbs: $carbs, Fats: $fats");
-      print("Total Weighted Difference: $weightedDifference");
+          (fats - targetFats).abs() * 1;
 
       if (weightedDifference < closestDifference) {
         closestDifference = weightedDifference;
@@ -92,11 +94,8 @@ class MealFinder {
     }
 
     if (bestMeal != null) {
-      print(
-          "Selected $mealType Meal: ${bestMeal['name']} with Calories: ${bestMeal['calories']}");
       return bestMeal;
     } else {
-      print("No suitable meal found for $mealType.");
       return {};
     }
   }

@@ -60,9 +60,17 @@ class _DinnerState extends State<Dinner> {
                   ?.map((item) => item.toString())
                   .toList() ??
               <String>[];
+          final steps = (meal['preparation_steps'] as List<dynamic>?)
+                  ?.map((item) => item.toString())
+                  .toList() ??
+              <String>[];
+          final tips = (meal['tips'] as List<dynamic>?)
+                  ?.map((item) => item as Map<String, dynamic>)
+                  .toList() ??
+              <Map<String, dynamic>>[];
           return NutritionInfoCard(
-            tips: const [],
-            steps: const [],
+            tips: tips,
+            steps: steps,
             Ingredients: ingredients,
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
             foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
