@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/features/calender
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_Card_Breakfast.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_Card_Dinner.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_Card_Lunch.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_card_Snacks.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Meal_Type_Display.dart';
 
 class Dayview extends StatelessWidget {
@@ -11,7 +12,7 @@ class Dayview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         physics: BouncingScrollPhysics(),
@@ -28,6 +29,8 @@ class Dayview extends StatelessWidget {
             Food_Card_Lunch(),
             Meal_Type_Display(food: "Dinner"),
             Food_Card_Dinner(),
+            Meal_Type_Display(food: "snacks"),
+            Food_Card_snacks()
           ],
         ),
       ),

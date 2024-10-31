@@ -33,7 +33,7 @@ class MealService {
           (fatDiff * 1.5);
 
       print(
-          "Meal: ${food['name']} - Calories: $calories, Protein: $protein, Carbs: $carbs, Fats: $fats");
+          "Meal: ${food['food_Name_Arabic']} - Calories: $calories, Protein: $protein, Carbs: $carbs, Fats: $fats");
       print("Total Weighted Difference: $totalWeightedDiff");
 
       // Track best meal based on the smallest weighted difference
