@@ -18,10 +18,10 @@ class snacks extends StatefulWidget {
   const snacks({super.key});
 
   @override
-  _DinnerState createState() => _DinnerState();
+  _snacks_state createState() => _snacks_state();
 }
 
-class _DinnerState extends State<snacks> {
+class _snacks_state extends State<snacks> {
   final FoodService_snacks foodService = FoodService_snacks();
   late Future<Map<String, dynamic>?> closestsnacksMeal;
 
@@ -29,6 +29,51 @@ class _DinnerState extends State<snacks> {
   void initState() {
     super.initState();
     closestsnacksMeal = _loadClosestMeal();
+  }
+
+  Future<List<Map<String, dynamic>>> _loadDistinctSnacks() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    // Get user macros for snacks and adjust for 30% of daily intake
+    double adjustedCalories =
+        (prefs.getDouble('adjusted_calories_$userId') ?? 0.0) * 0.3;
+    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
+    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
+    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+
+    // Fetch all available snack foods once
+    List<Map<String, dynamic>> allFoods = await foodService.getFoods();
+
+    // Get the first closest snack
+    Map<String, dynamic>? firstSnack = await MealService().getClosestMeal(
+      adjustedCalories,
+      targetProtein,
+      targetCarbs,
+      targetFats,
+      allFoods,
+      'snacks',
+    );
+
+    // Filter out the first selected snack for the second choice
+    List<Map<String, dynamic>> remainingFoods =
+        allFoods.where((food) => food != firstSnack).toList();
+
+    // Get the second distinct closest snack
+    Map<String, dynamic>? secondSnack = await MealService().getClosestMeal(
+      adjustedCalories,
+      targetProtein,
+      targetCarbs,
+      targetFats,
+      remainingFoods,
+      'snacks',
+    );
+
+    // Only include non-null snacks in the returned list
+    return [
+      if (firstSnack != null) firstSnack,
+      if (secondSnack != null) secondSnack
+    ];
   }
 
   Future<Map<String, dynamic>?> _loadClosestMeal() async {
@@ -51,41 +96,42 @@ class _DinnerState extends State<snacks> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, dynamic>?>(
-      future: closestsnacksMeal,
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: _loadDistinctSnacks(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data == null) {
-          return const Center(child: Text('No suitable dinner found'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No suitable snacks found'));
         } else {
-          var meal = snapshot.data!;
-          // Safely cast ingredients to List<String>
-          final ingredients = (meal['ingredients_Ar'] as List<dynamic>?)
-                  ?.map((item) => item.toString())
-                  .toList() ??
-              <String>[];
-          final steps = (meal['preparation_steps'] as List<dynamic>?)
-                  ?.map((item) => item.toString())
-                  .toList() ??
-              <String>[];
-          final tips = (meal['tips'] as List<dynamic>?)
-                  ?.map((item) => item as Map<String, dynamic>)
-                  .toList() ??
-              <Map<String, dynamic>>[];
-          return NutritionInfoCard(
-            tips: tips,
-            steps: steps,
-            Ingredients: ingredients,
-            foodName: meal['food_Name_Arabic'] ?? 'Unknown',
-            foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
-            calories: meal['calories'] ?? 0,
-            weight: meal['weight'] ?? 0,
-            fat: meal['fat'] ?? 0,
-            carbs: meal['carbs'] ?? 0,
-            protein: meal['protein'] ?? 0,
+          final snacks = snapshot.data!;
+          return Column(
+            children: snacks.map((meal) {
+              return NutritionInfoCard(
+                tips: (meal['tips'] as List<dynamic>?)
+                        ?.map((item) => item as Map<String, dynamic>)
+                        .toList() ??
+                    [],
+                steps: (meal['preparation_steps'] as List<dynamic>?)
+                        ?.map((item) => item.toString())
+                        .toList() ??
+                    [],
+                Ingredients: (meal['ingredients_Ar'] as List<dynamic>?)
+                        ?.map((item) => item.toString())
+                        .toList() ??
+                    [],
+                foodName: meal['food_Name_Arabic'] ?? 'Unknown',
+                foodImage:
+                    meal['food_Image'] ?? 'https://via.placeholder.com/150',
+                calories: meal['calories'] ?? 0,
+                weight: meal['weight'] ?? 0,
+                fat: meal['fat'] ?? 0,
+                carbs: meal['carbs'] ?? 0,
+                protein: meal['protein'] ?? 0,
+              );
+            }).toList(),
           );
         }
       },
