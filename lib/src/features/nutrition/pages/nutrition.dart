@@ -15,7 +15,7 @@ class Nutrition extends StatefulWidget {
 
 class _NutritionState extends State<Nutrition> {
   // Define the options for the toggle buttons
-  final List<String> options = ['3 Day', 'Week', 'Shopping List'];
+  final List<String> options = [' Day', 'Week', 'Shopping List'];
   int selectedIndex = 0;
 
   @override

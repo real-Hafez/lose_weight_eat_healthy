@@ -13,14 +13,41 @@ class Breakfast extends StatefulWidget {
   _BreakfastState createState() => _BreakfastState();
 }
 
-class _BreakfastState extends State<Breakfast> {
+class _BreakfastState extends State<Breakfast>
+    with SingleTickerProviderStateMixin {
   final FoodService_breakfast foodService = FoodService_breakfast();
   late Future<Map<String, dynamic>?> closestBreakfastMeal;
+  bool isCompleted = false; // New state variable for completion
+  late AnimationController _controller; // Animation controller
+  bool isMinimized = false;
+  void toggleMinimize() {
+    setState(() {
+      isMinimized = !isMinimized;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     closestBreakfastMeal = _loadClosestMeal();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1), // Controls animation duration
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _markAsCompleted() {
+    setState(() {
+      isCompleted = true;
+      isMinimized = true; // Set to true when completed
+    });
+    _controller.forward(); // Starts the checkmark animation
   }
 
   Future<Map<String, dynamic>?> _loadClosestMeal() async {
@@ -51,6 +78,7 @@ class _BreakfastState extends State<Breakfast> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>?>(
+      // Ensure this handles null properly
       future: closestBreakfastMeal,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -61,8 +89,6 @@ class _BreakfastState extends State<Breakfast> {
           return const Center(child: Text('No suitable breakfast found'));
         } else {
           var meal = snapshot.data!;
-
-          // Safely cast ingredients to List<String>
           final ingredients = (meal['ingredients_Ar'] as List<dynamic>?)
                   ?.map((item) => item.toString())
                   .toList() ??
@@ -76,17 +102,25 @@ class _BreakfastState extends State<Breakfast> {
                   .toList() ??
               <Map<String, dynamic>>[];
 
-          return NutritionInfoCard(
-            tips: tips,
-            steps: steps,
-            Ingredients: ingredients,
-            foodName: meal['food_Name_Arabic'] ?? 'Unknown',
-            foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
-            calories: meal['calories'] ?? 0,
-            weight: meal['weight'] ?? 0,
-            fat: meal['fat'] ?? 0,
-            carbs: meal['carbs'] ?? 0,
-            protein: meal['protein'] ?? 0,
+          return GestureDetector(
+            onTap: _markAsCompleted,
+            child: NutritionInfoCard(
+              tips: tips,
+              steps: steps,
+              Ingredients: ingredients,
+              foodName: meal['food_Name_Arabic'] ?? 'Unknown',
+              foodImage:
+                  meal['food_Image'] ?? 'https://via.placeholder.com/150',
+              calories: meal['calories'] ?? 0,
+              weight: meal['weight'] ?? 0,
+              fat: meal['fat'] ?? 0,
+              carbs: meal['carbs'] ?? 0,
+              protein: meal['protein'] ?? 0,
+              isCompleted: isCompleted,
+              animationController: _controller,
+              // isMinimized: isMinimized,
+              // onToggleMinimize: toggleMinimize,
+            ),
           );
         }
       },

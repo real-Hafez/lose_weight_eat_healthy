@@ -21,14 +21,40 @@ class snacks extends StatefulWidget {
   _snacks_state createState() => _snacks_state();
 }
 
-class _snacks_state extends State<snacks> {
+class _snacks_state extends State<snacks> with SingleTickerProviderStateMixin {
   final FoodService_snacks foodService = FoodService_snacks();
   late Future<Map<String, dynamic>?> closestsnacksMeal;
+  bool isCompleted = false; // New state variable for completion
+  late AnimationController _controller; // Animation controller
+  bool isMinimized = false;
+  void toggleMinimize() {
+    setState(() {
+      isMinimized = !isMinimized;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     closestsnacksMeal = _loadClosestMeal();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1), // Controls animation duration
+      vsync: this,
+    );
+  }
+
+  void _markAsCompleted() {
+    setState(() {
+      isCompleted = true;
+      isMinimized = true; // Set to true when completed
+    });
+    _controller.forward(); // Starts the checkmark animation
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<List<Map<String, dynamic>>> _loadDistinctSnacks() async {
@@ -130,6 +156,10 @@ class _snacks_state extends State<snacks> {
                 fat: meal['fat'] ?? 0,
                 carbs: meal['carbs'] ?? 0,
                 protein: meal['protein'] ?? 0,
+                isCompleted: isCompleted,
+                animationController: _controller,
+                // isMinimized: isMinimized,
+                // onToggleMinimize: toggleMinimize,
               );
             }).toList(),
           );

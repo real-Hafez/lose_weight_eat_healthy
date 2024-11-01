@@ -18,6 +18,8 @@ class NutritionInfoCard extends StatelessWidget {
     required this.Ingredients,
     required this.steps,
     required this.tips,
+    required this.isCompleted,
+    required this.animationController,
   });
 
   final String foodName;
@@ -30,6 +32,8 @@ class NutritionInfoCard extends StatelessWidget {
   final List<String> Ingredients;
   final List<String> steps;
   final List<Map<String, dynamic>> tips;
+  final bool isCompleted;
+  final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
@@ -37,112 +41,137 @@ class NutritionInfoCard extends StatelessWidget {
       builder: (context, constraints) {
         final screenWidth = constraints.maxWidth;
 
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) {
-                return Mealview(
-                  tips: tips,
-                  steps: steps,
-                  Ingredients: Ingredients,
-                  calories: calories,
-                  carbs: carbs,
-                  fat: fat,
-                  foodName: foodName,
-                  protein: protein,
-                  weight: weight,
-                  foodImage: foodImage,
-                );
-              },
-            ));
-          },
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            elevation: 6,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Food image and details
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: CachedNetworkImage(
-                          imageUrl: foodImage,
-                          width: screenWidth * 0.37, // Adaptive image width
-                          height: screenWidth * 0.37, // Adaptive image height
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => _buildShimmerEffect(),
-                          errorWidget: (context, url, error) =>
-                              _buildErrorWidget(),
+        // Wrap the entire card in a ScaleTransition
+        return ScaleTransition(
+          scale: isCompleted
+              ? Tween(begin: 1.0, end: 1.1).animate(CurvedAnimation(
+                  parent: animationController, curve: Curves.easeInOut))
+              : const AlwaysStoppedAnimation(1.0), // Static when not completed
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return Mealview(
+                    tips: tips,
+                    steps: steps,
+                    Ingredients: Ingredients,
+                    calories: calories,
+                    carbs: carbs,
+                    fat: fat,
+                    foodName: foodName,
+                    protein: protein,
+                    weight: weight,
+                    foodImage: foodImage,
+                  );
+                },
+              ));
+            },
+            child: Card(
+              color: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 6,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Food image and details
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: CachedNetworkImage(
+                            imageUrl: foodImage,
+                            width: screenWidth * 0.37, // Adaptive image width
+                            height: screenWidth * 0.37, // Adaptive image height
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                _buildShimmerEffect(),
+                            errorWidget: (context, url, error) =>
+                                _buildErrorWidget(),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AutoSizeText(
-                              foodName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AutoSizeText(
+                                foodName,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              '$weight g',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
+                              const SizedBox(height: 6),
+                              Text(
+                                '$weight g',
+                                style: TextStyle(
+                                  color: Colors.grey[600],
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
 
-                  // Nutrient Information
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildNutrientCard(
-                        FontAwesomeIcons.fire,
-                        '$calories cal',
-                        'Calories',
-                        Colors.deepOrangeAccent,
+                    // Nutrient Information
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildNutrientCard(
+                          FontAwesomeIcons.fire,
+                          '$calories cal',
+                          'Calories',
+                          Colors.deepOrangeAccent,
+                        ),
+                        _buildNutrientCard(
+                          FontAwesomeIcons.drumstickBite,
+                          '$protein g',
+                          'Protein',
+                          Colors.lightGreen,
+                        ),
+                        _buildNutrientCard(
+                          FontAwesomeIcons.breadSlice,
+                          '$carbs g',
+                          'Carbs',
+                          Colors.lightBlueAccent,
+                        ),
+                        _buildNutrientCard(
+                          FontAwesomeIcons.cheese,
+                          '$fat g',
+                          'Fat',
+                          Colors.amberAccent,
+                        ),
+                      ],
+                    ),
+                    if (isCompleted)
+                      Center(
+                        child: ScaleTransition(
+                          scale: Tween(begin: 0.0, end: 1.0).animate(
+                            CurvedAnimation(
+                              parent: animationController,
+                              curve: Curves.easeInOut,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.check_circle,
+                            color: Colors.green,
+                            size: 80,
+                          ),
+                        ),
                       ),
-                      _buildNutrientCard(
-                        FontAwesomeIcons.drumstickBite,
-                        '$protein g',
-                        'Protein',
-                        Colors.lightGreen,
-                      ),
-                      _buildNutrientCard(
-                        FontAwesomeIcons.breadSlice,
-                        '$carbs g',
-                        'Carbs',
-                        Colors.lightBlueAccent,
-                      ),
-                      _buildNutrientCard(
-                        FontAwesomeIcons.cheese,
-                        '$fat g',
-                        'Fat',
-                        Colors.amberAccent,
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -202,94 +231,3 @@ class NutritionInfoCard extends StatelessWidget {
     );
   }
 }
-
-    //  Card(
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.circular(12),
-    //   ),
-    //   elevation: 4,
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(12),
-    //     child: Row(
-    //       crossAxisAlignment: CrossAxisAlignment.center,
-    //       children: [
-    //         ClipRRect(
-    //             borderRadius: BorderRadius.circular(10),
-    //             child:
-    //                 //  Image.network(
-    //                 //   foodImage,
-    //                 //   width: screenWidth * 0.25,
-    //                 //   height: screenWidth * 0.40,
-    //                 //   fit: BoxFit.fill,
-    //                 // ),
-    //                 CachedNetworkImage(
-    //               imageUrl: foodImage,
-    //               width: screenWidth * 0.40,
-    //               height: screenWidth * 0.50,
-    //               placeholder: (context, url) => CircularProgressIndicator(),
-    //               errorWidget: (context, url, error) => Icon(Icons.error),
-    //             )),
-    //         const SizedBox(width: 10),
-    //         Expanded(
-    //           child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             children: [
-    //               Text(
-    //                 foodName,
-    //                 style: const TextStyle(
-    //                   fontWeight: FontWeight.bold,
-    //                   fontSize: 16,
-    //                 ),
-    //               ),
-    //               Text('$weight gr', style: TextStyle(color: Colors.grey[600])),
-    //             ],
-    //           ),
-    //         ),
-    //         Expanded(
-    //           child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.stretch,
-    //             children: [
-    //               Row(
-    //                 mainAxisAlignment: MainAxisAlignment.end,
-    //                 children: [
-    //                   const Icon(Icons.local_fire_department,
-    //                       color: Colors.red),
-    //                   const SizedBox(width: 4),
-    //                   Text(
-    //                     '$calories cal',
-    //                     style: const TextStyle(
-    //                       fontWeight: FontWeight.bold,
-    //                       fontSize: 16,
-    //                       color: Colors.red,
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               const SizedBox(height: 10),
-    //               Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                 children: [
-    //                   _buildNutrientInfo(
-    //                     FontAwesomeIcons.pizzaSlice,
-    //                     '$fat gr',
-    //                     'Fat',
-    //                   ),
-    //                   _buildNutrientInfo(
-    //                     FontAwesomeIcons.breadSlice,
-    //                     '$carbs gr',
-    //                     'Carbs',
-    //                   ),
-    //                   _buildNutrientInfo(
-    //                     FontAwesomeIcons.fish,
-    //                     '$protein gr',
-    //                     'Protein',
-    //                   ),
-    //                 ],
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );

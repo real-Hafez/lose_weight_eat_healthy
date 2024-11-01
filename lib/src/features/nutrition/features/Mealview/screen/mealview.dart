@@ -302,7 +302,13 @@ class Mealview extends StatelessWidget {
                                   color: Colors.orange),
                             if (tips[index]['icon'] == 'cross')
                               const Icon(Icons.close, color: Colors.red),
-
+                            if (tips[index]['icon'] == 'Warning')
+                              const Icon(Icons.warning, color: Colors.red),
+                            if (tips[index]['icon'] == 'diet')
+                              const Icon(Icons.local_dining,
+                                  color: Colors.teal),
+                            if (tips[index]['diet'] == 'Vegan')
+                              const Icon(Icons.warning, color: Colors.red),
                             const SizedBox(
                                 width: 8), // Spacing between icon and text
 
