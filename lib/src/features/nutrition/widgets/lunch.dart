@@ -94,6 +94,7 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
                   ?.map((item) => item as Map<String, dynamic>)
                   .toList() ??
               <Map<String, dynamic>>[];
+          // final id = meal['id'] as int? ?? 0;
 
           return NutritionInfoCard(
             tips: tips,
@@ -108,8 +109,7 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
             protein: meal['protein'] ?? 0,
             isCompleted: isCompleted,
             animationController: _controller,
-            // isMinimized: isMinimized,
-            // onToggleMinimize: toggleMinimize,
+            meal_id: meal['id'],
           );
         }
       },

@@ -144,9 +144,9 @@ class Calorie_Cubit extends Cubit<Calorie_State> {
       print("Carbs: $carbsGrams grams");
       print("Fats: $fatsGrams grams");
 
-      await prefs.setDouble('protein_grams', proteinGrams);
-      await prefs.setDouble('carbs_grams', carbsGrams);
-      await prefs.setDouble('fats_grams', fatsGrams);
+      await prefs.setDouble('protein_grams_$userId', proteinGrams);
+      await prefs.setDouble('carbs_grams_$userId', carbsGrams);
+      await prefs.setDouble('fats_grams_$userId', fatsGrams);
 
       // Emit success state with calculated macronutrients
       emit(CalorieMacronutrientSuccess(proteinGrams, carbsGrams, fatsGrams));

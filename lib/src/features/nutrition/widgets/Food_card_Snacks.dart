@@ -133,6 +133,8 @@ class _snacks_state extends State<snacks> with SingleTickerProviderStateMixin {
           return const Center(child: Text('No suitable snacks found'));
         } else {
           final snacks = snapshot.data!;
+          // print("Meal ID: ${snacks[]}");
+
           return Column(
             children: snacks.map((meal) {
               return NutritionInfoCard(
@@ -160,6 +162,7 @@ class _snacks_state extends State<snacks> with SingleTickerProviderStateMixin {
                 animationController: _controller,
                 // isMinimized: isMinimized,
                 // onToggleMinimize: toggleMinimize,
+                meal_id: meal['id'] ?? 12,
               );
             }).toList(),
           );

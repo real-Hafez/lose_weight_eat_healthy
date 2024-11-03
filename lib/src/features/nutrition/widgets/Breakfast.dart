@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
@@ -17,16 +17,21 @@ class _BreakfastState extends State<Breakfast>
     with SingleTickerProviderStateMixin {
   final FoodService_breakfast foodService = FoodService_breakfast();
   late Future<Map<String, dynamic>?> closestBreakfastMeal;
-  bool isCompleted = false;
-  late AnimationController _controller;
+  bool isCompleted = false; // New state variable for completion
+  late AnimationController _controller; // Animation controller
   bool isMinimized = false;
+  void toggleMinimize() {
+    setState(() {
+      isMinimized = !isMinimized;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     closestBreakfastMeal = _loadClosestMeal();
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 1), // Controls animation duration
       vsync: this,
     );
   }
@@ -37,99 +42,43 @@ class _BreakfastState extends State<Breakfast>
     super.dispose();
   }
 
-  Future<void> _saveMealToCache(Map<String, dynamic> meal) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-        'cached_breakfast', meal['food_Name_Arabic'] ?? 'Unknown');
-    await prefs.setString('cached_breakfast_image', meal['food_Image'] ?? '');
-    await prefs.setDouble(
-        'cached_breakfast_calories', (meal['calories'] ?? 0).toDouble());
-    await prefs.setDouble(
-        'cached_breakfast_weight', (meal['weight'] ?? 0).toDouble());
-    await prefs.setDouble(
-        'cached_breakfast_fat', (meal['fat'] ?? 0).toDouble());
-    await prefs.setDouble(
-        'cached_breakfast_carbs', (meal['carbs'] ?? 0).toDouble());
-    await prefs.setDouble(
-        'cached_breakfast_protein', (meal['protein'] ?? 0).toDouble());
-  }
-
-  Future<Map<String, dynamic>?> _loadCachedMeal() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? foodName = prefs.getString('cached_breakfast');
-    if (foodName == null) return null;
-
-    return {
-      'food_Name_Arabic': foodName,
-      'food_Image': prefs.getString('cached_breakfast_image') ?? '',
-      'calories': prefs.getDouble('cached_breakfast_calories') ?? 0,
-      'weight': prefs.getDouble('cached_breakfast_weight') ?? 0,
-      'fat': prefs.getDouble('cached_breakfast_fat') ?? 0,
-      'carbs': prefs.getDouble('cached_breakfast_carbs') ?? 0,
-      'protein': prefs.getDouble('cached_breakfast_protein') ?? 0,
-    };
-  }
-
-  Future<Map<String, dynamic>?> _fetchFromSupabaseIfNeeded(
-      Map<String, dynamic> meal) async {
-    // Check if any value is zero
-    if ((meal['calories'] ?? 0) == 0 ||
-        (meal['weight'] ?? 0) == 0 ||
-        (meal['fat'] ?? 0) == 0 ||
-        (meal['carbs'] ?? 0) == 0 ||
-        (meal['protein'] ?? 0) == 0) {
-      // Fetch correct data from Supabase
-      Map<String, dynamic>? updatedMeal = await foodService.fetchFromSupabase();
-
-      if (updatedMeal != null) {
-        // Update SharedPreferences with the correct values
-        await _saveMealToCache(updatedMeal);
-        return updatedMeal;
-      }
-    }
-    return meal;
+  void _markAsCompleted() {
+    setState(() {
+      isCompleted = true;
+      isMinimized = true; // Set to true when completed
+    });
+    _controller.forward(); // Starts the checkmark animation
   }
 
   Future<Map<String, dynamic>?> _loadClosestMeal() async {
-    // Check if cached meal exists
-    Map<String, dynamic>? cachedMeal = await _loadCachedMeal();
-
-    if (cachedMeal != null &&
-        (cachedMeal['calories'] ?? 0) > 0 &&
-        (cachedMeal['protein'] ?? 0) > 0 &&
-        (cachedMeal['carbs'] ?? 0) > 0 &&
-        (cachedMeal['fat'] ?? 0) > 0) {
-      return cachedMeal;
-    }
-
-    // If cached values are zero, re-fetch from Supabase
-    List<Map<String, dynamic>> foods = await foodService.getFoods();
-    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    // Get total adjusted calories
+    double totalCalories = prefs.getDouble('adjusted_calories_$userId') ?? 0.0;
+
+    // Calculate calorie distribution
+    // Map<String, double> mealCalories =
+    //     MealService().calculateMealCalories(totalCalories);
+
+    // Use breakfast calories (20-30%)
+    // double targetCalories = mealCalories['breakfast'] ?? 0.0;
     double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
     double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
     double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
 
-    Map<String, dynamic>? closestMeal = await MealService().getClosestMeal(
+    // Fetch food data
+    List<Map<String, dynamic>> foods = await foodService.getFoods();
+
+    // Get closest meal
+    return await MealService().getClosestMeal(
         targetProtein, targetCarbs, targetFats, targetFats, foods, userId);
-
-    if (closestMeal != null) {
-      // Save updated values to cache
-      await _saveMealToCache(closestMeal);
-    }
-    return closestMeal;
-  }
-
-  void _markAsCompleted() {
-    setState(() {
-      isCompleted = true;
-    });
-    _controller.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>?>(
+      // Ensure this handles null properly
       future: closestBreakfastMeal,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -140,7 +89,6 @@ class _BreakfastState extends State<Breakfast>
           return const Center(child: Text('No suitable breakfast found'));
         } else {
           var meal = snapshot.data!;
-
           final ingredients = (meal['ingredients_Ar'] as List<dynamic>?)
                   ?.map((item) => item.toString())
                   .toList() ??
@@ -157,19 +105,22 @@ class _BreakfastState extends State<Breakfast>
           return GestureDetector(
             onTap: _markAsCompleted,
             child: NutritionInfoCard(
+              tips: tips,
+              steps: steps,
+              Ingredients: ingredients,
               foodName: meal['food_Name_Arabic'] ?? 'Unknown',
               foodImage:
                   meal['food_Image'] ?? 'https://via.placeholder.com/150',
-              calories: (meal['calories'] ?? 0).toInt(),
-              weight: (meal['weight'] ?? 0).toInt(),
-              fat: (meal['fat'] ?? 0).toInt(),
-              carbs: (meal['carbs'] ?? 0).toInt(),
-              protein: (meal['protein'] ?? 0).toInt(),
+              calories: meal['calories'] ?? 0,
+              weight: meal['weight'] ?? 0,
+              fat: meal['fat'] ?? 0,
+              carbs: meal['carbs'] ?? 0,
+              protein: meal['protein'] ?? 0,
               isCompleted: isCompleted,
               animationController: _controller,
-              Ingredients: ingredients,
-              steps: steps,
-              tips: tips,
+              meal_id: meal['id'],
+              // isMinimized: isMinimized,
+              // onToggleMinimize: toggleMinimize,
             ),
           );
         }

@@ -20,6 +20,7 @@ class NutritionInfoCard extends StatelessWidget {
     required this.tips,
     required this.isCompleted,
     required this.animationController,
+    required this.meal_id,
   });
 
   final String foodName;
@@ -34,6 +35,7 @@ class NutritionInfoCard extends StatelessWidget {
   final List<Map<String, dynamic>> tips;
   final bool isCompleted;
   final AnimationController animationController;
+  final int meal_id;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class NutritionInfoCard extends StatelessWidget {
               : const AlwaysStoppedAnimation(1.0), // Static when not completed
           child: GestureDetector(
             onTap: () {
+              print('meal id is $meal_id');
               Navigator.push(context, MaterialPageRoute(
                 builder: (context) {
                   return Mealview(

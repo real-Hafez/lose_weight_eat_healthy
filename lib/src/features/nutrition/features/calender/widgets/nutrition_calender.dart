@@ -1,72 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:fluttertoast/fluttertoast.dart'; // Import FlutterToast for showing messages
 
-class nutrition_calender extends StatelessWidget {
-  const nutrition_calender({super.key});
+class Nutrition_Calendar extends StatefulWidget {
+  const Nutrition_Calendar({super.key});
+
+  @override
+  State<Nutrition_Calendar> createState() => _Nutrition_CalendarState();
+}
+
+class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
 
   @override
   Widget build(BuildContext context) {
-    return TableCalendar(
-      firstDay: DateTime.utc(2024, 1, 1),
-      lastDay: DateTime.utc(2030, 12, 31),
-      focusedDay: DateTime.now(),
-      calendarFormat: CalendarFormat.week,
-      startingDayOfWeek: StartingDayOfWeek.monday,
-      headerVisible: false, // No need for the header in this style
-      calendarStyle: CalendarStyle(
-        isTodayHighlighted: true, // Highlight today's date
-        todayDecoration: BoxDecoration(
-          color: Colors
-              .transparent, // No background for today (or customize as needed)
-          shape: BoxShape.values[0],
-          border: Border.all(
-              color: Colors.purple, width: 2), // Black border for today's date
-        ),
-        selectedDecoration: BoxDecoration(
-          color: Colors.purple, // Background color for selected day
-          borderRadius:
-              BorderRadius.circular(20), // Oval shape for selected day
-        ),
-        selectedTextStyle: const TextStyle(
-          color: Colors.white, // Text color for selected day
-        ),
-        defaultDecoration: BoxDecoration(
-          color: Colors.white, // Background color for unselected days
-          borderRadius:
-              BorderRadius.circular(20), // Oval shape for unselected days
-          border: Border.all(
-              color: Colors.transparent), // No border for unselected days
-        ),
-        weekendDecoration: BoxDecoration(
-          color: Colors.white, // Background for weekend days
-          borderRadius: BorderRadius.circular(20), // Oval shape for weekends
-          border: Border.all(color: Colors.transparent),
-        ),
-        todayTextStyle: const TextStyle(
-          color: Colors.white, // Text color for today
-        ),
-        defaultTextStyle: const TextStyle(
-          color: Colors.black, // Default text color
-        ),
-        weekendTextStyle: const TextStyle(
-          color: Colors.black, // Weekend text color
-        ),
-        cellMargin: const EdgeInsets.symmetric(
-            vertical: 8, horizontal: 4), // Adjust space around cells
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      daysOfWeekStyle: const DaysOfWeekStyle(
-        weekdayStyle: TextStyle(
-          color: Colors.grey, // Style for weekday labels
-          fontSize: 12,
+      child: TableCalendar(
+        locale: 'ar', // Arabic locale
+        firstDay: DateTime.utc(2024, 1, 1),
+        lastDay: DateTime.utc(2030, 12, 31),
+        focusedDay: _focusedDay,
+        calendarFormat: CalendarFormat.week,
+        availableCalendarFormats: const {
+          CalendarFormat.week: 'Week',
+        },
+        startingDayOfWeek:
+            StartingDayOfWeek.saturday, // Week starts on Saturday
+        headerVisible: false,
+        pageJumpingEnabled: false, // Prevents jumping across pages
+        pageAnimationEnabled: false, // Disables any scrolling animations
+
+        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+        onDaySelected: (selectedDay, focusedDay) {
+          // Calculate the start of the week (Saturday)
+          DateTime startOfWeek = _focusedDay.subtract(
+            Duration(
+                days: _focusedDay.weekday == 7 ? 0 : _focusedDay.weekday + 1),
+          ); // Saturday
+
+          DateTime endOfWeek = startOfWeek.add(Duration(days: 6)); // Friday
+
+          if (selectedDay.isBefore(startOfWeek) ||
+              selectedDay.isAfter(endOfWeek)) {
+            // Show message and reset selection
+            Fluttertoast.showToast(
+              msg:
+                  "لا يمكنك اختيار يوم خارج الأسبوع الحالي.", // "You cannot select a day outside the current week."
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+            setState(() {
+              _selectedDay = null; // Reset selected day
+              _focusedDay = DateTime.now(); // Reset focused day to today
+            });
+          } else {
+            setState(() {
+              _selectedDay = selectedDay;
+              _focusedDay = focusedDay; // Set to keep the current focused day
+            });
+          }
+        },
+
+        calendarStyle: CalendarStyle(
+          isTodayHighlighted: true,
+          todayDecoration: BoxDecoration(
+            color: Colors.orange.withOpacity(0.2), // Subtle orange for today
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.orange, width: 2),
+          ),
+          selectedDecoration: BoxDecoration(
+            color: Colors.teal, // Teal for selected day
+            shape: BoxShape.circle,
+          ),
+          selectedTextStyle: const TextStyle(
+            color: Colors.white, // White text for selected day
+            fontWeight: FontWeight.bold,
+          ),
+          defaultDecoration: BoxDecoration(
+            color: Colors.transparent,
+            shape: BoxShape.circle,
+          ),
+          defaultTextStyle: const TextStyle(
+            color: Colors.grey, // Light grey for unselected days
+          ),
+          weekendTextStyle: const TextStyle(
+            color: Colors.grey, // Slightly darker grey for weekends
+          ),
+          cellMargin: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
         ),
-        weekendStyle: TextStyle(
-          color: Colors.grey, // Style for weekend labels
-          fontSize: 12,
+        daysOfWeekStyle: const DaysOfWeekStyle(
+          weekdayStyle: TextStyle(
+            color: Colors.grey, // Light grey for weekday labels
+            fontSize: 12,
+          ),
+          weekendStyle: TextStyle(
+            color: Colors.grey, // Light grey for weekend labels
+            fontSize: 12,
+          ),
+        ),
+
+        calendarBuilders: CalendarBuilders(
+          defaultBuilder: (context, day, focusedDay) {
+            return Center(
+              child: Text(
+                day.day.toString(),
+                style: const TextStyle(color: Colors.grey),
+              ),
+            );
+          },
         ),
       ),
-      onDaySelected: (selectedDay, focusedDay) {
-        // Your logic when a day is selected
-      },
     );
   }
 }

@@ -108,6 +108,7 @@ class _DinnerState extends State<Dinner> with SingleTickerProviderStateMixin {
             isCompleted: isCompleted,
             animationController: _controller,
             // isMinimized: isMinimized,
+            meal_id: meal['id'] ?? 15,
             // onToggleMinimize: toggleMinimize,
           );
         }

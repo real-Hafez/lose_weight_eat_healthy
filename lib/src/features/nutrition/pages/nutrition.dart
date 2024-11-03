@@ -15,7 +15,7 @@ class Nutrition extends StatefulWidget {
 
 class _NutritionState extends State<Nutrition> {
   // Define the options for the toggle buttons
-  final List<String> options = [' Day', 'Week', 'Shopping List'];
+  final List<String> options = ['يوم', 'اسبوع', 'قائمة التسوق'];
   int selectedIndex = 0;
 
   @override
@@ -57,7 +57,7 @@ class _NutritionState extends State<Nutrition> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.black : Colors.grey,
+              color: isSelected ? Colors.white : Colors.grey,
             ),
             maxLines: 1,
           ),
