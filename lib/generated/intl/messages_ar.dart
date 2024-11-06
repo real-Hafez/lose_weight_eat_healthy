@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اضفها الي شاشاتك الرئيسية"),
         "approximately":
             MessageLookupByLibrary.simpleMessage("سوف يستغرق هذا حوالي"),
+        "arabic": MessageLookupByLibrary.simpleMessage("عربي"),
         "bodyfatman":
             MessageLookupByLibrary.simpleMessage("اختر نسبة الدهون في جسمك"),
         "bodyfatwoman":
@@ -56,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "عنوان البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر."),
         "emailHint": MessageLookupByLibrary.simpleMessage("email@example.com"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+        "english": MessageLookupByLibrary.simpleMessage("انجليزي"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("نصائح تدريبية من خبراء"),
         "female": MessageLookupByLibrary.simpleMessage("انثي"),
@@ -106,6 +108,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "perday": MessageLookupByLibrary.simpleMessage("يوميا"),
         "personalizedTraining":
             MessageLookupByLibrary.simpleMessage("تدريب مخصص"),
+        "preferlanguage": MessageLookupByLibrary.simpleMessage(
+            "ما اللغة التي تفضل استخدامها في التطبيق؟"),
         "progressTracking": MessageLookupByLibrary.simpleMessage("تتبع التقدم"),
         "promptTextlogin":
             MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),

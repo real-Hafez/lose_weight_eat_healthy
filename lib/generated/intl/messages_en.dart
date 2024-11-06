@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addwidget": MessageLookupByLibrary.simpleMessage("Add the widget"),
         "approximately": MessageLookupByLibrary.simpleMessage(
             "This will take approximately"),
+        "arabic": MessageLookupByLibrary.simpleMessage("arabic"),
         "bodyfatman": MessageLookupByLibrary.simpleMessage(
             "Choose your body fat percentage"),
         "bodyfatwoman": MessageLookupByLibrary.simpleMessage(
@@ -56,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The email address is already in use by another account."),
         "emailHint": MessageLookupByLibrary.simpleMessage("email@example.com"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
+        "english": MessageLookupByLibrary.simpleMessage("english"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("EXPERT TRAINING TIPS"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
@@ -106,6 +108,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "perday": MessageLookupByLibrary.simpleMessage("per day"),
         "personalizedTraining":
             MessageLookupByLibrary.simpleMessage("PERSONALIZED TRAINING"),
+        "preferlanguage": MessageLookupByLibrary.simpleMessage(
+            "What is your preferred language for using the app?"),
         "progressTracking":
             MessageLookupByLibrary.simpleMessage("PROGRESS TRACKING"),
         "promptTextlogin": MessageLookupByLibrary.simpleMessage(

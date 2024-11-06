@@ -7,6 +7,7 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/BodyFatPercenta
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/Diet_Type.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/Fav_food.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/Finishpage.dart';
+import 'package:lose_weight_eat_healthy/src/features/Setup/pages/First_setup_page_About_language/screen/languagescreen.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/GenderSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/HowQuick_Youwant_to_lose_weight.dart';
@@ -32,6 +33,14 @@ class OnboardingPage extends StatelessWidget {
                   controller: context.read<OnboardingCubit>().pageController,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
+                    LanguageSelectionPage(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
                     WelcomeOnboardingPage(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();

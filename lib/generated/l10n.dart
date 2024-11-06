@@ -959,6 +959,36 @@ class S {
       args: [],
     );
   }
+
+  /// `What is your preferred language for using the app?`
+  String get preferlanguage {
+    return Intl.message(
+      'What is your preferred language for using the app?',
+      name: 'preferlanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `arabic`
+  String get arabic {
+    return Intl.message(
+      'arabic',
+      name: 'arabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `english`
+  String get english {
+    return Intl.message(
+      'english',
+      name: 'english',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

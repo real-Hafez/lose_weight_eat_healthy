@@ -7,7 +7,6 @@
     "subTextSecondOnboardingPage": "Discover the quickest way to nutritious meals that help you stay fit and healthy.",
     "mainTextThirdOnboardingPage": "Absolutely Free for Your Health",
     "subTextThirdOnboardingPage": "It’s all free! We want you to get fit and healthy, so enjoy our content at no cost.",   
-
     "firstNameHint": "Ahmed",
     "firstNameLabel": "First name",
     "lastNameHint": "Hafez",
@@ -52,8 +51,7 @@
     "signUp": "Sign up",
     "signIn": "Sign in",
     "welcomeonboarding": 
-    "Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly."
-    ,
+    "Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly.",
     "next":"Next",
     "genderselect": "Select Your Gender",
     "man":"Male",
@@ -92,9 +90,8 @@
     "step2":"Making your Nutrition...",
     "step3":"Set Up Your water reminders",
     "motivationalText":"Just 30 days to reach your goal, try to achieve our dream",
-    "buttonText":"Start activating your dream"
-    
-    
-
-
+    "buttonText":"Start activating your dream",
+    "preferlanguage":"What is your preferred language for using the app?" ,
+    "arabic":"arabic",
+    "english":"english"
 }

@@ -7,7 +7,7 @@ class NextButton extends StatelessWidget {
   final Map<String, dynamic>? dataToSave;
   final bool saveData;
   final String? userId;
-  final String collectionName; 
+  final String collectionName;
 
   const NextButton({
     super.key,
@@ -15,7 +15,7 @@ class NextButton extends StatelessWidget {
     this.dataToSave,
     this.saveData = true,
     this.userId,
-    required this.collectionName, 
+    this.collectionName = '',
   });
 
   Future<void> _saveDataToFirestore(BuildContext context) async {
