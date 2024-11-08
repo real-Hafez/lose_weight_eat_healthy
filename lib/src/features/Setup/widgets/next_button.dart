@@ -53,7 +53,7 @@ class NextButton extends StatelessWidget {
         ),
         child: Text(
           S.of(context).next,
-          style: const TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
     );

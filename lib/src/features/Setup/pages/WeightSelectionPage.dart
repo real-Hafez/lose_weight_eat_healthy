@@ -93,7 +93,6 @@ class _WeightSelectionPageState extends State<WeightSelectionPage> {
               'weightKg': _weightKg,
               'weightLb': _weightLb,
               'weightUnit': _weightUnit,
-              // Include other data as necessary
             },
             userId: FirebaseAuth.instance.currentUser?.uid,
           ),

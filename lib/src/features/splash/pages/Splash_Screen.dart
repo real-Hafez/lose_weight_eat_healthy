@@ -1,4 +1,3 @@
-import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,14 +6,14 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/Navigator_Bar/page/BottomNavBar_main.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding/screen/onboarding.dart';
 
-class Splash_Screen extends StatefulWidget {
-  const Splash_Screen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  _Splash_ScreenState createState() => _Splash_ScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _Splash_ScreenState extends State<Splash_Screen> {
+class _SplashScreenState extends State<SplashScreen> {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   Future<Widget> _getNextScreen() async {
@@ -55,27 +54,46 @@ class _Splash_ScreenState extends State<Splash_Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Widget>(
-      future: _getNextScreen(),
-      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return FlutterSplashScreen.gif(
-            gifPath: 'assets/giphy_logo_google_GIF.webp',
-            gifWidth: 200,
-            gifHeight: 474,
-            duration: const Duration(milliseconds: 6000),
-            nextScreen: const Signup(),
-            onInit: () {},
-          );
-        }
+    return Scaffold(
+      body: FutureBuilder<Widget>(
+        future: _getNextScreen(),
+        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/Google_logo.png', // Replace with the actual path to your image
+                    width: 150,
+                    height: 150,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Healthy Life', // Placeholder name for the app
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
 
-        if (snapshot.hasData && mounted) {
-          return snapshot.data!;
-        } else {
-          print('Error or no data, defaulting to OnBoarding.');
-          return const OnBoarding();
-        }
-      },
+          if (snapshot.hasData) {
+            if (mounted) {
+              return snapshot.data!;
+            } else {
+              print('Widget unmounted before Future completed.');
+              return const OnBoarding();
+            }
+          } else {
+            print('Error or no data, defaulting to OnBoarding.');
+            return const OnBoarding();
+          }
+        },
+      ),
     );
   }
 }

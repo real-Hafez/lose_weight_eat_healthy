@@ -7,7 +7,6 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/GenderBox.dar
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 class LanguageSelectionPage extends StatelessWidget {
   const LanguageSelectionPage({
@@ -25,13 +24,10 @@ class LanguageSelectionPage extends StatelessWidget {
     final deviceLocale = Localizations.localeOf(context).languageCode;
 
     // Set the default language
-    String initialLanguage = deviceLocale == 'ar'
-        ? 'ar'
-        : 'en'; // Default to 'en' if the locale isn't Arabic or English
+    String initialLanguage = deviceLocale == 'ar' ? 'ar' : 'en';
 
     return BlocBuilder<LocaleCubit, Locale>(
       builder: (context, locale) {
-        // Set the selected language based on the current locale
         final String selectedLanguage =
             locale.languageCode.isEmpty ? initialLanguage : locale.languageCode;
 
@@ -70,7 +66,6 @@ class LanguageSelectionPage extends StatelessWidget {
                           ),
                           isSelected: selectedLanguage == 'ar',
                           onTap: () {
-                            // Update the locale to Arabic
                             context
                                 .read<LocaleCubit>()
                                 .updateLocale(Locale('ar', 'SA'));

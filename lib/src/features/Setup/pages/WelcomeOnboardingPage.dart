@@ -3,7 +3,6 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/next_button.dart';
-import 'dart:async';
 
 class WelcomeOnboardingPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
@@ -21,50 +20,68 @@ class WelcomeOnboardingPage extends StatefulWidget {
 
 class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
   bool _showNextButton = false;
-  Timer? _timer; // Declare a Timer variable
+  bool _skipAnimation = false;
+  Key _animatedTextKey = UniqueKey();
 
   @override
   void initState() {
     super.initState();
-    _startDelay();
   }
 
-  void _startDelay() {
-    _timer = Timer(const Duration(seconds: 1), () {
-      if (mounted) {
-        setState(() {
-          _showNextButton = true;
-        });
-      }
+  void _onSkipPressed() {
+    setState(() {
+      _skipAnimation = true;
+      _animatedTextKey = UniqueKey();
+      _showNextButton = true;
     });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel(); 
-    super.dispose(); 
+    widget.onAnimationFinished();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        ProgressIndicatorWidget(value: 0.1),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: AnimatedTextWidget(
-            onFinished: widget.onAnimationFinished,
-            text: S.of(context).welcomeonboarding,
-          ),
+        Column(
+          children: [
+            ProgressIndicatorWidget(value: 0.1),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: AnimatedTextWidget(
+                key: _animatedTextKey,
+                onFinished: () {
+                  setState(() {
+                    _showNextButton = true;
+                  });
+                  widget.onAnimationFinished();
+                },
+                text: S.of(context).welcomeonboarding,
+                instantDisplay: _skipAnimation,
+              ),
+            ),
+            const Spacer(),
+            _showNextButton
+                ? NextButton(
+                    collectionName: 'next',
+                    onPressed: widget.onNextButtonPressed,
+                    dataToSave: const {},
+                    saveData: false,
+                  )
+                : const SizedBox.shrink(),
+          ],
         ),
-        _showNextButton
-            ? NextButton(
-                collectionName: 'next',
-                onPressed: widget.onNextButtonPressed,
-                dataToSave: const {},
-                saveData: false,
-              )
-            : const SizedBox.shrink(),
+        // Only show the skip button if the animation is still running
+        if (!_showNextButton)
+          Positioned(
+            bottom: 20,
+            right: 20,
+            child: TextButton(
+              onPressed: _onSkipPressed,
+              child: Text(
+                S.of(context).skipButton,
+                style: TextStyle(fontSize: 16, color: Colors.blue),
+              ),
+            ),
+          ),
       ],
     );
   }
