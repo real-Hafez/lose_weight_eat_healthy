@@ -7,8 +7,8 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding/pages/Onboarding
 import 'package:lose_weight_eat_healthy/src/features/onboarding/utils/onboarding_images.dart';
 import 'package:lose_weight_eat_healthy/src/localization/styles/arabic_style.dart';
 
-class OnBoarding extends StatelessWidget {
-  const OnBoarding({super.key});
+class IntroScreen extends StatelessWidget {
+  const IntroScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,6 @@ class OnBoarding extends StatelessWidget {
             main_text: S.of(context).mainTextThirdOnboardingPage,
             sub_text: S.of(context).subTextThirdOnboardingPage,
           ),
-          
         ],
         controllerColor: Colors.orange,
         onFinish: () {

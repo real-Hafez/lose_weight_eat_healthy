@@ -61,15 +61,17 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
             const Spacer(),
             _showNextButton
                 ? NextButton(
-                    collectionName: 'next',
                     onPressed: widget.onNextButtonPressed,
-                    dataToSave: const {},
                     saveData: false,
                   )
                 : const SizedBox.shrink(),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * .01,
+            ),
           ],
         ),
-        // Only show the skip button if the animation is still running
+
+        // Only show the skip button if the animation is still running and when finish show the next in next button to go to nex t on boadring screen
         if (!_showNextButton)
           Positioned(
             bottom: 20,
@@ -78,7 +80,9 @@ class _WelcomeOnboardingPageState extends State<WelcomeOnboardingPage> {
               onPressed: _onSkipPressed,
               child: Text(
                 S.of(context).skipButton,
-                style: TextStyle(fontSize: 16, color: Colors.blue),
+                style: TextStyle(
+                    fontSize: MediaQuery.sizeOf(context).height * .03,
+                    color: Colors.blue),
               ),
             ),
           ),

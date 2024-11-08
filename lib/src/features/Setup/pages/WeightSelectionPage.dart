@@ -57,11 +57,7 @@ class _WeightSelectionPageState extends State<WeightSelectionPage> {
             },
           ),
           const SizedBox(height: 20),
-          // WeightLossMessageWidget(
-          //   currentWeight: _weightKg,
-          //   targetWeight: _weightLb,
-          //   weightUnit: _weightUnit,
-          // ),
+
           Expanded(
             child: Center(
               child: _weightUnit == 'kg'
@@ -85,7 +81,7 @@ class _WeightSelectionPageState extends State<WeightSelectionPage> {
                     ),
             ),
           ),
-          const SizedBox(height: 20),
+          // const SizedBox(height: 20),
           NextButton(
             collectionName: 'weight',
             onPressed: widget.onNextButtonPressed,

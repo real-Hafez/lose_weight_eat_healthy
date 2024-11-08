@@ -46,14 +46,16 @@ class NextButton extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 64),
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.brown,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
         ),
         child: Text(
           S.of(context).next,
-          style: const TextStyle(fontSize: 18, color: Colors.white),
+          style: TextStyle(
+              fontSize: MediaQuery.sizeOf(context).height * .025,
+              color: Colors.white),
         ),
       ),
     );

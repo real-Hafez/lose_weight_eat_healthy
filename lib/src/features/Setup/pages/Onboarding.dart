@@ -17,8 +17,8 @@ import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WeightLossMessa
 import 'package:lose_weight_eat_healthy/src/features/Setup/pages/WaterPage_setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/widgets/water_widget.dart';
 
-class OnboardingPage extends StatelessWidget {
-  const OnboardingPage({super.key});
+class Onboarding extends StatelessWidget {
+  const Onboarding({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:lose_weight_eat_healthy/src/features/Auth/pages/Signup.dart';
 import 'package:lose_weight_eat_healthy/src/features/Setup/setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/Navigator_Bar/page/BottomNavBar_main.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding/screen/onboarding.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding/screen/IntroScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -48,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
       }
     } else {
       print('No userUID found in secure storage.');
-      return const OnBoarding();
+      return const IntroScreen();
     }
   }
 
@@ -64,13 +63,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/Google_logo.png', // Replace with the actual path to your image
+                    'assets/Google_logo.png',
                     width: 150,
                     height: 150,
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Healthy Life', // Placeholder name for the app
+                    'Healthy Life', // Placeholder name for the app change later
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -86,11 +85,11 @@ class _SplashScreenState extends State<SplashScreen> {
               return snapshot.data!;
             } else {
               print('Widget unmounted before Future completed.');
-              return const OnBoarding();
+              return const IntroScreen();
             }
           } else {
             print('Error or no data, defaulting to OnBoarding.');
-            return const OnBoarding();
+            return const IntroScreen();
           }
         },
       ),

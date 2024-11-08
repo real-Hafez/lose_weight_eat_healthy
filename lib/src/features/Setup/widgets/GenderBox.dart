@@ -20,7 +20,7 @@ class GenderBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // If isSelected is null, consider it as false
+    // Determine if the GenderBox should be marked as selected
     final bool isSelectedValue = isSelected ?? false;
 
     return GestureDetector(
@@ -31,9 +31,9 @@ class GenderBox extends StatelessWidget {
           },
       child: BlocBuilder<GenderSelectionCubit, String?>(
         builder: (context, selectedGender) {
-          // If isSelectedValue is true, this will override the value from the GenderSelectionCubit
+          // Determine selection state based on cubit state or the provided isSelected value
           final bool isSelectedCubit = selectedGender == gender;
-          final bool isSelectedFinal = isSelectedValue ?? isSelectedCubit;
+          final bool isSelectedFinal = isSelectedValue || isSelectedCubit;
 
           return Container(
             padding: const EdgeInsets.all(16),
@@ -48,13 +48,14 @@ class GenderBox extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                icon != null
-                    ? Icon(
-                        icon,
-                        size: 80,
-                        color: isSelectedFinal ? Colors.blue : Colors.grey,
-                      )
-                    : (countryFlag ?? const SizedBox.shrink()),
+                if (icon != null)
+                  Icon(
+                    icon,
+                    size: 80,
+                    color: isSelectedFinal ? Colors.blue : Colors.grey,
+                  )
+                else if (countryFlag != null)
+                  countryFlag!, // Display country flag if provided and icon is null
                 const SizedBox(height: 10),
                 Text(
                   gender,

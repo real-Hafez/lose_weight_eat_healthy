@@ -35,10 +35,29 @@ class GenderSelectionPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: GenderBox(gender: S().man, icon: Icons.male)),
+                  Expanded(
+                    child: GenderBox(
+                      gender: S().man,
+                      icon: Icons.male,
+                      onTap: () {
+                        context
+                            .read<GenderSelectionCubit>()
+                            .selectGender(S().man);
+                      },
+                    ),
+                  ),
                   const SizedBox(width: 20),
                   Expanded(
-                      child: GenderBox(gender: S().female, icon: Icons.female)),
+                    child: GenderBox(
+                      gender: S().female,
+                      icon: Icons.female,
+                      onTap: () {
+                        context
+                            .read<GenderSelectionCubit>()
+                            .selectGender(S().female);
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
