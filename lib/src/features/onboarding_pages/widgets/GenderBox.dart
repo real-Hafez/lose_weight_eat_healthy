@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/GenderSelection/gender_selection_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/third_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
 
 class GenderBox extends StatelessWidget {
   final String gender;
@@ -41,7 +41,7 @@ class GenderBox extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: isSelectedFinal ? Colors.blue : Colors.grey,
-                width: 5,
+                width: 7,
               ),
               color: isSelectedFinal ? Colors.blue[50] : Colors.white,
             ),

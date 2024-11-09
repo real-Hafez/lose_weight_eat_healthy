@@ -1,8 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/GenderSelection/gender_selection_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/third_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/GenderBox.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
@@ -26,9 +27,14 @@ class GenderSelectionPage extends StatelessWidget {
           children: [
             ProgressIndicatorWidget(value: 0.2),
             const Spacer(),
-            Text(
+            AutoSizeText(
               S().genderselect,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              maxLines: 1,
+              minFontSize: 16,
+              maxFontSize: 32,
+              style: TextStyle(
+                  fontSize: MediaQuery.sizeOf(context).height * .04,
+                  fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             Expanded(

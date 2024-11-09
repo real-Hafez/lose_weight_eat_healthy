@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/buildAnimatedText.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/second_onboarding_welocme_msg/widget/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 import 'dart:async';
 

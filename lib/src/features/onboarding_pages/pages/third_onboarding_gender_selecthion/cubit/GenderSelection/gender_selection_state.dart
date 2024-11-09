@@ -1,4 +1,4 @@
-part of 'gender_selection_cubit.dart';
+part of 'gender_selection_state.dart';
 
 // @immutable
 sealed class GenderSelectionState {}
