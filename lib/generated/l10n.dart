@@ -989,6 +989,116 @@ class S {
       args: [],
     );
   }
+
+  /// `No Restrictions`
+  String get Restrictions {
+    return Intl.message(
+      'No Restrictions',
+      name: 'Restrictions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exclude`
+  String get Exclude {
+    return Intl.message(
+      'Exclude',
+      name: 'Exclude',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vegetarian`
+  String get Vegetarian {
+    return Intl.message(
+      'Vegetarian',
+      name: 'Vegetarian',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vegan`
+  String get Vegan {
+    return Intl.message(
+      'Vegan',
+      name: 'Vegan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keto`
+  String get Keto {
+    return Intl.message(
+      'Keto',
+      name: 'Keto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose Your Dietary Preference`
+  String get diet {
+    return Intl.message(
+      'Choose Your Dietary Preference',
+      name: 'diet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the diet that best suits you.`
+  String get diet_selective {
+    return Intl.message(
+      'Select the diet that best suits you.',
+      name: 'diet_selective',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `nothing`
+  String get nothing {
+    return Intl.message(
+      'nothing',
+      name: 'nothing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `meat`
+  String get meat {
+    return Intl.message(
+      'meat',
+      name: 'meat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `all animal products`
+  String get allanimalproducts {
+    return Intl.message(
+      'all animal products',
+      name: 'allanimalproducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Carbs, sugar, grains`
+  String get Carbssugargrains {
+    return Intl.message(
+      'Carbs, sugar, grains',
+      name: 'Carbssugargrains',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

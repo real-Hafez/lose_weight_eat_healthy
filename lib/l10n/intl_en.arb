@@ -93,5 +93,18 @@
     "buttonText":"Start activating your dream",
     "preferlanguage":"What is your preferred language for using the app?" ,
     "arabic":"arabic",
-    "english":"english"
+    "english":"english" , 
+    "Restrictions" : "No Restrictions",
+    "Exclude": "Exclude" , 
+    "Vegetarian":"Vegetarian",
+    "Vegan" : "Vegan",
+    "Keto" : "Keto",
+    "diet":"Choose Your Dietary Preference" , 
+    "diet_selective":"Select the diet that best suits you.",
+    "nothing":"nothing" ,
+    "meat":"meat",
+    "allanimalproducts": "all animal products" , 
+    "Carbssugargrains": "Carbs, sugar, grains"
+
+
 }

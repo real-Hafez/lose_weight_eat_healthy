@@ -22,12 +22,19 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Carbssugargrains":
+            MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
+        "Exclude": MessageLookupByLibrary.simpleMessage("استبعاد"),
+        "Keto": MessageLookupByLibrary.simpleMessage("كيتو"),
         "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" تم تسجيل الدخول بنجاح "),
+        "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
         "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),
+        "Vegan": MessageLookupByLibrary.simpleMessage("نباتي صارم"),
+        "Vegetarian": MessageLookupByLibrary.simpleMessage("نباتي"),
         "Water": MessageLookupByLibrary.simpleMessage(
             "ما هي وحدات قياس المياه التي تستخدمها؟"),
         "WeightLoss": MessageLookupByLibrary.simpleMessage(
@@ -35,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "addwidget":
             MessageLookupByLibrary.simpleMessage("اضفها الي شاشاتك الرئيسية"),
+        "allanimalproducts":
+            MessageLookupByLibrary.simpleMessage("جميع المنتجات الحيوانية"),
         "approximately":
             MessageLookupByLibrary.simpleMessage("سوف يستغرق هذا حوالي"),
         "arabic": MessageLookupByLibrary.simpleMessage("عربي"),
@@ -49,6 +58,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),
         "dailyMotivation": MessageLookupByLibrary.simpleMessage("تحفيز يومي"),
         "days": MessageLookupByLibrary.simpleMessage("ايام"),
+        "diet": MessageLookupByLibrary.simpleMessage(
+            "اختر نوع النظام الغذائي الذي تفضله"),
+        "diet_selective": MessageLookupByLibrary.simpleMessage(
+            "حدد النظام الغذائي الذي يناسبك بشكل أفضل."),
         "discoverApp":
             MessageLookupByLibrary.simpleMessage("اكتشف تطبيقنا، إنه"),
         "dontHaveAccount":
@@ -91,12 +104,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("مجاناً بالكامل لصحتك"),
         "man": MessageLookupByLibrary.simpleMessage("ذكر"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("تخطيط الوجبات"),
+        "meat": MessageLookupByLibrary.simpleMessage("لحم"),
         "motivationalText": MessageLookupByLibrary.simpleMessage(
             "فقط 30 يومًا للوصول إلى هدفك، حاول تحقيق حلمنا"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
             "خطأ في الشبكة. يرجى التحقق من اتصالك."),
         "newAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
+        "nothing": MessageLookupByLibrary.simpleMessage("لا شئ "),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "طريقة تسجيل الدخول غير مسموح بها. يرجى تمكين طريقة تسجيل الدخول في وحدة تحكم Firebase."),
         "orLoginWith":

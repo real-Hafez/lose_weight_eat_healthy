@@ -22,18 +22,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Carbssugargrains":
+            MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
+        "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
+        "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" Login successful"),
+        "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
         "USoz": MessageLookupByLibrary.simpleMessage("US oz"),
+        "Vegan": MessageLookupByLibrary.simpleMessage("Vegan"),
+        "Vegetarian": MessageLookupByLibrary.simpleMessage("Vegetarian"),
         "Water": MessageLookupByLibrary.simpleMessage(
             "What Water Measurement Units do you use"),
         "WeightLoss": MessageLookupByLibrary.simpleMessage(
             "How much weight do you want to lose?"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
         "addwidget": MessageLookupByLibrary.simpleMessage("Add the widget"),
+        "allanimalproducts":
+            MessageLookupByLibrary.simpleMessage("all animal products"),
         "approximately": MessageLookupByLibrary.simpleMessage(
             "This will take approximately"),
         "arabic": MessageLookupByLibrary.simpleMessage("arabic"),
@@ -49,6 +58,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "dailyMotivation":
             MessageLookupByLibrary.simpleMessage("DAILY MOTIVATION"),
         "days": MessageLookupByLibrary.simpleMessage("days"),
+        "diet": MessageLookupByLibrary.simpleMessage(
+            "Choose Your Dietary Preference"),
+        "diet_selective": MessageLookupByLibrary.simpleMessage(
+            "Select the diet that best suits you."),
         "discoverApp":
             MessageLookupByLibrary.simpleMessage("Discover our app, it’s"),
         "dontHaveAccount":
@@ -92,6 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Absolutely Free for Your Health"),
         "man": MessageLookupByLibrary.simpleMessage("Male"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("MEAL PLANNING"),
+        "meat": MessageLookupByLibrary.simpleMessage("meat"),
         "motivationalText": MessageLookupByLibrary.simpleMessage(
             "Just 30 days to reach your goal, try to achieve our dream"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
@@ -99,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "newAccount":
             MessageLookupByLibrary.simpleMessage("Create New Account"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "nothing": MessageLookupByLibrary.simpleMessage("nothing"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Sign-in method not allowed. Please enable the sign-in method in Firebase console."),
         "orLoginWith": MessageLookupByLibrary.simpleMessage("Or login with"),
