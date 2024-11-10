@@ -104,7 +104,11 @@
     "nothing":"nothing" ,
     "meat":"meat",
     "allanimalproducts": "all animal products" , 
-    "Carbssugargrains": "Carbs, sugar, grains"
+    "Carbssugargrains": "Carbs, sugar, grains" , 
+    "Goal":"Select Your Goal", 
+    "LoseWeight":"Lose Weight" , 
+    "MaintainWeight":"Maintain Weight",
+    "GainWeight":"Gain Weight"
 
 
 }

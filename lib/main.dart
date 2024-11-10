@@ -8,7 +8,7 @@ import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/login_cubit/sign
 import 'package:lose_weight_eat_healthy/src/features/Auth/service/AuthService.dart';
 import 'package:lose_weight_eat_healthy/firebase_options.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart'; // Import your cubit
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/third_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-boarding/onboarding_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/cubit/calorie_cubit.dart';

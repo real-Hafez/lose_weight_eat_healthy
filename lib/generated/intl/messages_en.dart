@@ -25,11 +25,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
         "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
+        "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight"),
+        "Goal": MessageLookupByLibrary.simpleMessage("Select Your Goal"),
         "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" Login successful"),
+        "LoseWeight": MessageLookupByLibrary.simpleMessage("Lose Weight"),
+        "MaintainWeight":
+            MessageLookupByLibrary.simpleMessage("Maintain Weight"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
         "USoz": MessageLookupByLibrary.simpleMessage("US oz"),

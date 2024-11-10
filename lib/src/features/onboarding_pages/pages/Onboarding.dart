@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/third_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-boarding/onboarding_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-boarding/onboarding_state.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/4_onboarding_main_use_for_app/page/maintarget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/BodyFatPercentagePage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/Diet_Type.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/Finishpage.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/First_onboarding_language_selecthion/screen/languagescreen.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/third_onboarding_gender_selecthion/screen/GenderSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/1_onboarding_language_selecthion/screen/languagescreen.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/screen/GenderSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/HowQuick_Youwant_to_lose_weight.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WeightSelectionPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/second_onboarding_welocme_msg/screen/WelcomeOnboardingPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/2_onboarding_welocme_msg/screen/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WeightLossMessageWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WaterPage_setup.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/water_widget.dart';
@@ -58,6 +59,14 @@ class Onboarding extends StatelessWidget {
                           context.read<OnboardingCubit>().nextPage();
                         },
                       ),
+                    ),
+                    Maintarget(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
                     ),
                     DietType(
                       onAnimationFinished: () {

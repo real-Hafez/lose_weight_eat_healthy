@@ -7,7 +7,7 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/water/water_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/water/water_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/second_onboarding_welocme_msg/widget/buildAnimatedText.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/2_onboarding_welocme_msg/widget/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/timepacker.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/water_ToggleButtons.dart';

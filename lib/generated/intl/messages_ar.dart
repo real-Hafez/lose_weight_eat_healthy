@@ -25,11 +25,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
         "Exclude": MessageLookupByLibrary.simpleMessage("استبعاد"),
+        "GainWeight": MessageLookupByLibrary.simpleMessage("زياده الوزن "),
+        "Goal": MessageLookupByLibrary.simpleMessage("اختر هدفك"),
         "Keto": MessageLookupByLibrary.simpleMessage("كيتو"),
         "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" تم تسجيل الدخول بنجاح "),
+        "LoseWeight": MessageLookupByLibrary.simpleMessage("خسارة الوزن"),
+        "MaintainWeight":
+            MessageLookupByLibrary.simpleMessage("الحفاظ على الوزن"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
         "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),

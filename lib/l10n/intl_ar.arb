@@ -103,7 +103,11 @@
 "nothing": "لا شئ " , 
 "meat":"لحم" , 
 "allanimalproducts": "جميع المنتجات الحيوانية" , 
-"Carbssugargrains": "الكربوهيدرات، السكر، الحبوب"
+"Carbssugargrains": "الكربوهيدرات، السكر، الحبوب" ,
+"Goal":"اختر هدفك", 
+"LoseWeight":"خسارة الوزن" , 
+"MaintainWeight":"الحفاظ على الوزن",
+"GainWeight":"زياده الوزن "
 
 
     

@@ -1099,6 +1099,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Select Your Goal`
+  String get Goal {
+    return Intl.message(
+      'Select Your Goal',
+      name: 'Goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lose Weight`
+  String get LoseWeight {
+    return Intl.message(
+      'Lose Weight',
+      name: 'LoseWeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintain Weight`
+  String get MaintainWeight {
+    return Intl.message(
+      'Maintain Weight',
+      name: 'MaintainWeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gain Weight`
+  String get GainWeight {
+    return Intl.message(
+      'Gain Weight',
+      name: 'GainWeight',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
