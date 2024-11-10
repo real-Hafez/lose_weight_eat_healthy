@@ -4,11 +4,11 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/utils/helper/height_conversion.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/cm_picker.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ft_inches_picker.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/height_display_widget.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/widget/cm_picker.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/widget/ft_inches_picker.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/widget/height_display_widget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/toggle_buttons_widget.dart.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/widget/HeightUnit_Selector.dart';
 
 class HeightSelectionPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
@@ -27,6 +27,13 @@ class HeightSelectionPage extends StatefulWidget {
 }
 
 class _HeightSelectionPageState extends State<HeightSelectionPage> {
+  static const int minCmValue = 95;
+  static const int maxCmValue = 241;
+  static const int minFt = 3;
+  static const int maxFt = 7;
+  static const int minInches = 0;
+  static const int maxInches = 11;
+
   int _heightCm = 165;
   int _heightFt = 5;
   int _heightInches = 1;
@@ -43,12 +50,12 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
           const SizedBox(height: 20),
           TitleWidget(title: S().heigh),
           const SizedBox(height: 20),
-          ToggleButtonsWidget(
+          HeightUnitSelector(
             heightUnit: _heightUnit,
             onUnitChanged: (unit) {
               setState(() {
                 _heightUnit = unit;
-                _updateHeightValues();
+                syncHeightUnits();
                 widget.onHeightUnitChanged(unit);
               });
             },
@@ -68,7 +75,7 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
                       onHeightChanged: (value) {
                         setState(() {
                           _heightCm = value;
-                          _updateHeightValues();
+                          syncHeightUnits();
                         });
                       },
                     )
@@ -78,19 +85,19 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
                       onFtChanged: (value) {
                         setState(() {
                           _heightFt = value;
-                          _updateHeightValues();
+                          syncHeightUnits();
                         });
                       },
                       onInchesChanged: (value) {
                         setState(() {
                           _heightInches = value;
-                          _updateHeightValues();
+                          syncHeightUnits();
                         });
                       },
                     ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: MediaQuery.sizeOf(context).height * .01),
           NextButton(
             collectionName: 'height',
             onPressed: widget.onNextButtonPressed,
@@ -109,27 +116,22 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
     );
   }
 
-  void _updateHeightValues() {
+  void syncHeightUnits() {
     if (_heightUnit == 'ft') {
-      int cmValue = convertFtInchesToCm(_heightFt, _heightInches);
-      if (cmValue < 95) cmValue = 95;
-      if (cmValue > 241) cmValue = 241;
-
-      setState(() {
-        _heightCm = cmValue;
-      });
+      _heightCm = _constrainValue(
+        convertFtInchesToCm(_heightFt, _heightInches),
+        minCmValue,
+        maxCmValue,
+      );
     } else {
       convertCmToFtInches(_heightCm, (feet, inches) {
-        if (feet < 3) feet = 3;
-        if (feet > 7) feet = 7;
-        if (inches < 0) inches = 0;
-        if (inches > 11) inches = 11;
-
-        setState(() {
-          _heightFt = feet;
-          _heightInches = inches;
-        });
+        _heightFt = _constrainValue(feet, minFt, maxFt);
+        _heightInches = _constrainValue(inches, minInches, maxInches);
       });
     }
+  }
+
+  int _constrainValue(int value, int minValue, int maxValue) {
+    return value.clamp(minValue, maxValue);
   }
 }

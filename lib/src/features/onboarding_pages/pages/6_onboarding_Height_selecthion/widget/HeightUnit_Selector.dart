@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
-class ToggleButtonsWidget extends StatelessWidget {
+class HeightUnitSelector extends StatelessWidget {
   final String heightUnit;
   final void Function(String unit) onUnitChanged;
 
-  const ToggleButtonsWidget({
+  const HeightUnitSelector({
     super.key,
     required this.heightUnit,
     required this.onUnitChanged,

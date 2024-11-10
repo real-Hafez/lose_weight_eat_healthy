@@ -5,13 +5,13 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-b
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-boarding/onboarding_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/4_onboarding_main_use_for_app/page/maintarget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/BodyFatPercentagePage.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/Diet_Type.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/5_onboarding_DietSelection/page/DietSelection_Screen.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/Finishpage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/1_onboarding_language_selecthion/screen/languagescreen.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/screen/GenderSelectionPage.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/HeightSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/page/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/HowQuick_Youwant_to_lose_weight.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WeightSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/page/WeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/2_onboarding_welocme_msg/screen/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WeightLossMessageWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WaterPage_setup.dart';
@@ -68,7 +68,7 @@ class Onboarding extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    DietType(
+                    DietSelection_Screen(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },
@@ -95,7 +95,7 @@ class Onboarding extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    WeightSelectionPage(
+                    WeightSelecthion_Page(
                       heightUnit: state.heightUnit,
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();

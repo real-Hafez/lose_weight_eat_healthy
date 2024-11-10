@@ -18,15 +18,15 @@ class LbPicker extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.grey[100]!,
-            Colors.blue[50]!,
+            Colors.yellow!,
+            Colors.yellow!,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.yellow,
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3), // Position of shadow
@@ -38,14 +38,15 @@ class LbPicker extends StatelessWidget {
         axis: Axis.horizontal,
         haptics: true,
         value: (weightLb * 10).toInt(), // Convert to integer for NumberPicker
-        minValue: 660, // 66.0 lb * 10
+        minValue: 992, // 66.0 lb * 10
         maxValue: 3640, // 165.0 lb * 10
         step: 1, // Step by 0.1 lb
         onChanged: (value) =>
             onWeightChanged(value / 10.0), // Convert back to double
         textStyle: TextStyle(
           fontSize: 22,
-          color: Colors.grey[500], // Slightly darker gray for unselected items
+          color:
+              Colors.yellow[500], // Slightly darker gray for unselected items
         ),
         selectedTextStyle: const TextStyle(
           fontSize: 32,

@@ -17,14 +17,14 @@ class maintraget_card extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        color: isSelected ? Color(0xFFC3FF4D) : Colors.grey,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(48),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * .03,
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * .07,
+        child: Card(
+          color: isSelected ? Color(0xFFC3FF4D) : Colors.grey,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(48),
           ),
           child: Container(
             width: double.infinity,

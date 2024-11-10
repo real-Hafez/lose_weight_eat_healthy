@@ -1,19 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/KgPicker.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/LbPicker.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/KgPicker.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/LbPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ToggleButtonsWidgetkg.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/ToggleButtonsWidgetkg.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 
-class WeightSelectionPage extends StatefulWidget {
+class WeightSelecthion_Page extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
   final String heightUnit;
 
-  const WeightSelectionPage({
+  const WeightSelecthion_Page({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
@@ -21,10 +21,10 @@ class WeightSelectionPage extends StatefulWidget {
   });
 
   @override
-  State<WeightSelectionPage> createState() => _WeightSelectionPageState();
+  State<WeightSelecthion_Page> createState() => _WeightSelecthion_PageState();
 }
 
-class _WeightSelectionPageState extends State<WeightSelectionPage> {
+class _WeightSelecthion_PageState extends State<WeightSelecthion_Page> {
   double _weightKg = 70.0;
   double _weightLb = 154.0;
   String _weightUnit = 'kg';
