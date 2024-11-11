@@ -9,6 +9,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_on
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/widget/height_display_widget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/widget/HeightUnit_Selector.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HeightSelectionPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
@@ -100,7 +101,19 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
           SizedBox(height: MediaQuery.sizeOf(context).height * .01),
           NextButton(
             collectionName: 'height',
-            onPressed: widget.onNextButtonPressed,
+            onPressed: () async {
+              // Save data to SharedPreferences
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+
+              // Saving height in centimeters in shared pre
+              await prefs.setInt('heightCm', _heightCm);
+
+              // Saving height in feet and inches as a formatted string
+              String ftInches = '$_heightFt\'${_heightInches}\'';
+              await prefs.setString('heightFtInches', ftInches);
+
+              widget.onNextButtonPressed();
+            },
             userId: FirebaseAuth.instance.currentUser?.uid,
             dataToSave: {
               'heightCm': _heightCm,
