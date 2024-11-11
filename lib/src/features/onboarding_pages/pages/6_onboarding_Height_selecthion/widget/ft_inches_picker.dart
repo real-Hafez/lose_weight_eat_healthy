@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:numberpicker/numberpicker.dart';
 
 class FtInchesPicker extends StatelessWidget {
@@ -17,6 +18,8 @@ class FtInchesPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -28,6 +31,12 @@ class FtInchesPicker extends StatelessWidget {
           textStyle: const TextStyle(fontSize: 20, color: Colors.grey),
           selectedTextStyle:
               const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          textMapper: (numberText) {
+            // Convert feet number to Arabic if needed
+            return isArabic
+                ? NumberConversionHelper.convertToArabicNumbers(numberText)
+                : numberText;
+          },
         ),
         const SizedBox(width: 10),
         NumberPicker(
@@ -38,6 +47,12 @@ class FtInchesPicker extends StatelessWidget {
           textStyle: const TextStyle(fontSize: 20, color: Colors.grey),
           selectedTextStyle:
               const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          textMapper: (numberText) {
+            // Convert inches number to Arabic if needed
+            return isArabic
+                ? NumberConversionHelper.convertToArabicNumbers(numberText)
+                : numberText;
+          },
         ),
       ],
     );
