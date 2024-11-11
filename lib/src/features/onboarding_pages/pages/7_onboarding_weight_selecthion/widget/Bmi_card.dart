@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/helper/BmiHelper.dart';
@@ -105,22 +106,24 @@ class Bmi_Card extends StatelessWidget {
 
           // Recommendation Section at Bottom
           Container(
-            padding: EdgeInsets.all(screenHeight * 0.015),
+            padding: EdgeInsets.all(screenHeight * 0.020),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withOpacity(0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(Icons.favorite,
-                    color: statusColor, size: screenWidth * 0.06),
+                    color: statusColor, size: screenWidth * 0.07),
                 SizedBox(width: screenWidth * 0.02),
                 Expanded(
-                  child: Text(
+                  child: AutoSizeText(
                     recommendation,
+                    softWrap: true,
+                    wrapWords: true,
                     style: TextStyle(
-                      fontSize: screenHeight * 0.017,
+                      fontSize: screenHeight * 0.020,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                     ),

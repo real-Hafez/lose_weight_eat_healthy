@@ -109,66 +109,71 @@ class _WeightSelecthion_PageState extends State<WeightSelecthion_Page> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProgressIndicatorWidget(value: 0.4),
-          const SizedBox(height: 20),
-          TitleWidget(title: S().weight),
-          const SizedBox(height: 20),
-          ToggleButtonsWidgetkg(
-            weightUnit: _weightUnit,
-            onUnitChanged: (unit) {
-              setState(() {
-                _weightUnit = unit;
-                _updateWeightValues();
-                _updateBMI();
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: Center(
-              child: _weightUnit == 'kg'
-                  ? KgPicker(
-                      weightKg: _weightKg,
-                      onWeightChanged: (value) {
-                        setState(() {
-                          _weightKg = value;
-                          _weightLb = _kgToLb(_weightKg);
-                          _updateBMI();
-                        });
-                      },
-                    )
-                  : LbPicker(
-                      weightLb: _weightLb,
-                      onWeightChanged: (value) {
-                        setState(() {
-                          _weightLb = value;
-                          _weightKg = _lbToKg(_weightLb);
-                          _updateBMI();
-                        });
-                      },
-                    ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ProgressIndicatorWidget(value: 0.4),
+            SizedBox(height: MediaQuery.sizeOf(context).height * .02),
+            TitleWidget(title: S().weight),
+            SizedBox(height: MediaQuery.sizeOf(context).height * .02),
+            ToggleButtonsWidgetkg(
+              weightUnit: _weightUnit,
+              onUnitChanged: (unit) {
+                setState(() {
+                  _weightUnit = unit;
+                  _updateWeightValues();
+                  _updateBMI();
+                });
+              },
             ),
-          ),
-          Bmi_Card(bmiValue: _bmi),
-          SizedBox(
-            height: MediaQuery.sizeOf(context).height * .02,
-          ),
-          NextButton(
-            collectionName: 'weight',
-            onPressed: widget.onNextButtonPressed,
-            dataToSave: {
-              'weightKg': _weightKg,
-              'weightLb': _weightLb,
-              'weightUnit': _weightUnit,
-            },
-            userId: FirebaseAuth.instance.currentUser?.uid,
-          ),
-        ],
+            SizedBox(height: MediaQuery.sizeOf(context).height * .06),
+            Container(
+              width: double.infinity,
+              child: Center(
+                child: _weightUnit == 'kg'
+                    ? KgPicker(
+                        weightKg: _weightKg,
+                        onWeightChanged: (value) {
+                          setState(() {
+                            _weightKg = value;
+                            _weightLb = _kgToLb(_weightKg);
+                            _updateBMI();
+                          });
+                        },
+                      )
+                    : LbPicker(
+                        weightLb: _weightLb,
+                        onWeightChanged: (value) {
+                          setState(() {
+                            _weightLb = value;
+                            _weightKg = _lbToKg(_weightLb);
+                            _updateBMI();
+                          });
+                        },
+                      ),
+              ),
+            ),
+            SizedBox(height: MediaQuery.sizeOf(context).height * .03),
+            Bmi_Card(bmiValue: _bmi),
+            SizedBox(height: MediaQuery.sizeOf(context).height * .005),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * .02,
+            ),
+            NextButton(
+              collectionName: 'weight',
+              onPressed: widget.onNextButtonPressed,
+              dataToSave: {
+                'weightKg': _weightKg,
+                'weightLb': _weightLb,
+                'weightUnit': _weightUnit,
+              },
+              userId: FirebaseAuth.instance.currentUser?.uid,
+            ),
+          ],
+        ),
       ),
     );
   }
