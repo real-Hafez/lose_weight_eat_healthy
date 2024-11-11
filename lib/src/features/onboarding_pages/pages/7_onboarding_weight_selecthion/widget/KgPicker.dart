@@ -51,19 +51,19 @@ class KgPicker extends StatelessWidget {
         maxValue: 1650,
         step: 1,
         onChanged: (value) => onWeightChanged(value / 10.0),
-        textStyle: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w300,
+        textStyle: TextStyle(
+          fontSize: MediaQuery.sizeOf(context).height * .020,
+          fontWeight: FontWeight.w200,
           color: Colors.white,
         ),
-        selectedTextStyle: const TextStyle(
-          fontSize: 34,
+        selectedTextStyle: TextStyle(
+          fontSize: MediaQuery.sizeOf(context).height * .045,
           fontWeight: FontWeight.w900,
           color: Colors.white,
-          shadows: [
+          shadows: const [
             Shadow(
               blurRadius: 6.0,
-              color: Color(0xFFFFEB3B),
+              color: Colors.red,
               offset: Offset(2.0, 2.0),
             ),
           ],

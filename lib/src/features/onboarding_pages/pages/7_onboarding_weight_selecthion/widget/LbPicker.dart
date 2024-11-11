@@ -24,18 +24,18 @@ class LbPicker extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.yellow,
-            Colors.yellow,
+            Color(0xFFFF6F61),
+            Color(0xFF9C27B0),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.yellow,
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
+            color: const Color(0xFF9C27B0).withOpacity(0.3),
+            spreadRadius: 4,
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
         borderRadius: BorderRadius.circular(10),
@@ -49,13 +49,14 @@ class LbPicker extends StatelessWidget {
         step: 1,
         onChanged: (value) => onWeightChanged(value / 10.0),
         textStyle: TextStyle(
-          fontSize: 22,
-          color: Colors.yellow[500],
+          fontSize: MediaQuery.sizeOf(context).height * .018,
+          fontWeight: FontWeight.w200,
+          color: Colors.white,
         ),
-        selectedTextStyle: const TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: Colors.blueAccent,
+        selectedTextStyle: TextStyle(
+          fontSize: MediaQuery.sizeOf(context).height * .035,
+          fontWeight: FontWeight.w900,
+          color: Colors.white,
           shadows: [
             Shadow(
               blurRadius: 4.0,
@@ -67,8 +68,8 @@ class LbPicker extends StatelessWidget {
         itemHeight: 80,
         decoration: const BoxDecoration(
           border: Border(
-            top: BorderSide(color: Colors.blueAccent, width: 2),
-            bottom: BorderSide(color: Colors.blueAccent, width: 2),
+            top: BorderSide(color: Color(0xFFFFEB3B), width: 2),
+            bottom: BorderSide(color: Color(0xFF9C27B0), width: 2),
           ),
         ),
         textMapper: (numberText) {
