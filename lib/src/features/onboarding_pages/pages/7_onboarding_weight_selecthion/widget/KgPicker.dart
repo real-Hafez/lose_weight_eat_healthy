@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
@@ -78,19 +79,11 @@ class KgPicker extends StatelessWidget {
           double number = int.parse(numberText) / 10.0;
           // Convert to Arabic numerals if Arabic is selected
           return isArabic
-              ? _convertToArabicNumbers(number.toStringAsFixed(1))
+              ? NumberConversionHelper.convertToArabicNumbers(
+                  number.toStringAsFixed(1))
               : number.toStringAsFixed(1);
         },
       ),
-    );
-  }
-
-  // Helper function to convert numbers to Arabic numerals if user chooee arabicl ang
-  String _convertToArabicNumbers(String input) {
-    const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-    return input.replaceAllMapped(
-      RegExp(r'[0-9]'),
-      (match) => arabicNumbers[int.parse(match.group(0)!)],
     );
   }
 }

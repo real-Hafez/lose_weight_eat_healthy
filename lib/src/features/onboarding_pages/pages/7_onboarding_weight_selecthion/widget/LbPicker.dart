@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
@@ -17,26 +18,6 @@ class LbPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     // Access the current locale to check if Arabic is selected
     final String currentLocale = context.read<LocaleCubit>().state.languageCode;
-
-    // Helper function to convert English numbers to Arabic if needed
-    String _convertToArabicNumerals(String numberText) {
-      const englishToArabicDigits = {
-        '0': '٠',
-        '1': '١',
-        '2': '٢',
-        '3': '٣',
-        '4': '٤',
-        '5': '٥',
-        '6': '٦',
-        '7': '٧',
-        '8': '٨',
-        '9': '٩'
-      };
-      return numberText
-          .split('')
-          .map((char) => englishToArabicDigits[char] ?? char)
-          .join();
-    }
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -95,7 +76,7 @@ class LbPicker extends StatelessWidget {
           String displayedText =
               (int.parse(numberText) / 10.0).toStringAsFixed(1);
           return currentLocale == 'ar'
-              ? _convertToArabicNumerals(displayedText)
+              ? NumberConversionHelper.convertToArabicNumbers(displayedText)
               : displayedText;
         },
       ),

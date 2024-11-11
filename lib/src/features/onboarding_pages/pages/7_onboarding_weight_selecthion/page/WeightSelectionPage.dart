@@ -9,6 +9,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/Ti
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/ToggleButtonsWidgetkg.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WeightSelecthion_Page extends StatefulWidget {
@@ -282,7 +283,8 @@ class Bmi_card extends StatelessWidget {
                   children: [
                     Text(
                       isArabic
-                          ? _convertToArabicNumbers(bmiValue.toStringAsFixed(1))
+                          ? NumberConversionHelper.convertToArabicNumbers(
+                              bmiValue.toStringAsFixed(1))
                           : bmiValue.toStringAsFixed(1),
                       style: TextStyle(
                         fontSize: 36,
@@ -313,15 +315,6 @@ class Bmi_card extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  // Helper function to convert numbers to Arabic numerals iff user select language arabic in first onboarding page in languagescreen.dart
-  String _convertToArabicNumbers(String input) {
-    const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-    return input.replaceAllMapped(
-      RegExp(r'[0-9]'),
-      (match) => arabicNumbers[int.parse(match.group(0)!)]!,
     );
   }
 }
