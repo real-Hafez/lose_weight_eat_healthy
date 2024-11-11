@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/KgPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/LbPicker.dart';
@@ -7,6 +8,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/Pr
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/ToggleButtonsWidgetkg.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WeightSelecthion_Page extends StatefulWidget {
@@ -181,6 +183,10 @@ class Bmi_card extends StatelessWidget {
         "Keep up the good work and maintain a healthy lifestyle!";
     Color statusColor = Colors.green;
 
+    // Check if Arabic is selected to determine number formatting
+    final bool isArabic =
+        context.read<LocaleCubit>().state.languageCode == 'ar';
+
     if (bmiValue < 16) {
       bmiStatus = "Severe Thinness";
       recommendation =
@@ -275,7 +281,9 @@ class Bmi_card extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "${bmiValue.toStringAsFixed(1)}",
+                      isArabic
+                          ? _convertToArabicNumbers(bmiValue.toStringAsFixed(1))
+                          : bmiValue.toStringAsFixed(1),
                       style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
@@ -305,6 +313,15 @@ class Bmi_card extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // Helper function to convert numbers to Arabic numerals iff user select language arabic in first onboarding page in languagescreen.dart
+  String _convertToArabicNumbers(String input) {
+    const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return input.replaceAllMapped(
+      RegExp(r'[0-9]'),
+      (match) => arabicNumbers[int.parse(match.group(0)!)]!,
     );
   }
 }

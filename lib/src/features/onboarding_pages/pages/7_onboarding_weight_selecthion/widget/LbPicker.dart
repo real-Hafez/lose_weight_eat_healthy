@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 
 class LbPicker extends StatelessWidget {
   final double weightLb;
@@ -13,13 +15,36 @@ class LbPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Access the current locale to check if Arabic is selected
+    final String currentLocale = context.read<LocaleCubit>().state.languageCode;
+
+    // Helper function to convert English numbers to Arabic if needed
+    String _convertToArabicNumerals(String numberText) {
+      const englishToArabicDigits = {
+        '0': '٠',
+        '1': '١',
+        '2': '٢',
+        '3': '٣',
+        '4': '٤',
+        '5': '٥',
+        '6': '٦',
+        '7': '٧',
+        '8': '٨',
+        '9': '٩'
+      };
+      return numberText
+          .split('')
+          .map((char) => englishToArabicDigits[char] ?? char)
+          .join();
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.yellow!,
-            Colors.yellow!,
+            Colors.yellow,
+            Colors.yellow,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -29,7 +54,7 @@ class LbPicker extends StatelessWidget {
             color: Colors.yellow,
             spreadRadius: 2,
             blurRadius: 5,
-            offset: const Offset(0, 3), // Position of shadow
+            offset: const Offset(0, 3),
           ),
         ],
         borderRadius: BorderRadius.circular(10),
@@ -37,21 +62,19 @@ class LbPicker extends StatelessWidget {
       child: NumberPicker(
         axis: Axis.horizontal,
         haptics: true,
-        value: (weightLb * 10).toInt(), // Convert to integer for NumberPicker
+        value: (weightLb * 10).toInt(),
         minValue: 992, // 66.0 lb * 10
         maxValue: 3640, // 165.0 lb * 10
-        step: 1, // Step by 0.1 lb
-        onChanged: (value) =>
-            onWeightChanged(value / 10.0), // Convert back to double
+        step: 1,
+        onChanged: (value) => onWeightChanged(value / 10.0),
         textStyle: TextStyle(
           fontSize: 22,
-          color:
-              Colors.yellow[500], // Slightly darker gray for unselected items
+          color: Colors.yellow[500],
         ),
         selectedTextStyle: const TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
-          color: Colors.blueAccent, // Blue accent for selected item
+          color: Colors.blueAccent,
           shadows: [
             Shadow(
               blurRadius: 4.0,
@@ -60,8 +83,7 @@ class LbPicker extends StatelessWidget {
             ),
           ],
         ),
-        itemHeight:
-            80, // Increase the height of each item for better visibility
+        itemHeight: 80,
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(color: Colors.blueAccent, width: 2),
@@ -69,8 +91,12 @@ class LbPicker extends StatelessWidget {
           ),
         ),
         textMapper: (numberText) {
-          // Convert the integer value to a string with one decimal place
-          return (int.parse(numberText) / 10.0).toStringAsFixed(1);
+          // Convert to one decimal place and change numbers to Arabic if needed
+          String displayedText =
+              (int.parse(numberText) / 10.0).toStringAsFixed(1);
+          return currentLocale == 'ar'
+              ? _convertToArabicNumerals(displayedText)
+              : displayedText;
         },
       ),
     );
