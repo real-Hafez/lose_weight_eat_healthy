@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/Bmi_card.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/KgPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/LbPicker.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
@@ -153,7 +154,7 @@ class _WeightSelecthion_PageState extends State<WeightSelecthion_Page> {
                     ),
             ),
           ),
-          Bmi_card(bmiValue: _bmi),
+          Bmi_Card(bmiValue: _bmi),
           SizedBox(
             height: MediaQuery.sizeOf(context).height * .02,
           ),
@@ -168,152 +169,6 @@ class _WeightSelecthion_PageState extends State<WeightSelecthion_Page> {
             userId: FirebaseAuth.instance.currentUser?.uid,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class Bmi_card extends StatelessWidget {
-  final double bmiValue;
-  const Bmi_card({super.key, required this.bmiValue});
-
-  @override
-  Widget build(BuildContext context) {
-    String bmiStatus = "Normal weight";
-    String recommendation =
-        "Keep up the good work and maintain a healthy lifestyle!";
-    Color statusColor = Colors.green;
-
-    // Check if Arabic is selected to determine number formatting
-    final bool isArabic =
-        context.read<LocaleCubit>().state.languageCode == 'ar';
-
-    if (bmiValue < 16) {
-      bmiStatus = "Severe Thinness";
-      recommendation =
-          "A healthier you is within reach! Consider consulting a healthcare professional, and explore our app's nutrition plans to support your journey.";
-      statusColor = Colors.purple;
-    } else if (bmiValue >= 16 && bmiValue < 17) {
-      bmiStatus = "Moderate Thinness";
-      recommendation =
-          "A balanced diet can make a world of difference. Our nutrition plans are here to help you reach your ideal weight.";
-      statusColor = Colors.orange;
-    } else if (bmiValue >= 17 && bmiValue < 18.5) {
-      bmiStatus = "Mild Thinness";
-      recommendation =
-          "Small changes can lead to great results! Try our healthy meal options to get closer to your wellness goals.";
-      statusColor = Colors.yellow;
-    } else if (bmiValue >= 18.5 && bmiValue < 25) {
-      bmiStatus = "Normal";
-      recommendation =
-          "You’re on the right track! Keep up the great habits and explore new ways to maintain a balanced lifestyle.";
-      statusColor = Colors.green;
-    } else if (bmiValue >= 25 && bmiValue < 30) {
-      bmiStatus = "Overweight";
-      recommendation =
-          "You're closer to a healthier weight than you think! A nutritious diet and regular exercise can make a big difference. Let’s start together!";
-      statusColor = Colors.orangeAccent;
-    } else if (bmiValue >= 30 && bmiValue < 35) {
-      bmiStatus = "Obese Class I";
-      recommendation =
-          "With dedication and the right choices, a healthier weight is achievable. Explore our meal plans and workouts tailored to support your journey.";
-      statusColor = Colors.redAccent;
-    } else if (bmiValue >= 35 && bmiValue < 40) {
-      bmiStatus = "Obese Class II";
-      recommendation =
-          "Your health is a priority. Our app can guide you with personalized nutrition and activity plans to get closer to your goal.";
-      statusColor = Colors.red;
-    } else if (bmiValue >= 40) {
-      bmiStatus = "Obese Class III";
-      recommendation =
-          "Together, we can make a difference in your health. Consult a healthcare provider and start with our nutrition and wellness options for a fresh start.";
-      statusColor = Colors.deepOrange;
-    }
-
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue[400]!, Colors.blue[200]!],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Card(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        color: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Your BMI",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: 1.2,
-                ),
-              ),
-              SizedBox(height: 12),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    colors: [Colors.blue[500]!, Colors.blue[300]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      isArabic
-                          ? NumberConversionHelper.convertToArabicNumbers(
-                              bmiValue.toStringAsFixed(1))
-                          : bmiValue.toStringAsFixed(1),
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: statusColor,
-                      ),
-                    ),
-                    Text(
-                      bmiStatus,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: statusColor,
-                      ),
-                    ),
-                    Text(
-                      recommendation,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
