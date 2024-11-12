@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class weight_ShortTerm_Goal extends StatelessWidget {
   const weight_ShortTerm_Goal({
@@ -28,7 +30,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   TextEditingController weightController = TextEditingController();
   DateTime endDate =
       DateTime.now().add(const Duration(days: 30)); // Default for '1 month'
-  String _userGoal = 'Loading...'; // Initial placeholder
+  String _userGoal = 'Loading...';
   double weightLb = 176;
   double weightKg = 80;
   String weightUnit = 'kg';
@@ -38,6 +40,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
     super.initState();
     _loadUserGoal();
     _loadUserWeight();
+    _setDefaultTargetWeight(); // Set default target weight on initialization
   }
 
   Future<void> _loadUserGoal() async {
@@ -57,18 +60,23 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   }
 
   void updateEndDate() {
+    int weeks = 4; // Default for '1 month'
     switch (selectedTimeFrame) {
       case '1 week':
         endDate = DateTime.now().add(const Duration(days: 7));
+        weeks = 1;
         break;
       case '2 weeks':
         endDate = DateTime.now().add(const Duration(days: 14));
+        weeks = 2;
         break;
       case '1 month':
         endDate = DateTime.now().add(const Duration(days: 30));
+        weeks = 4;
         break;
       case '2 months':
         endDate = DateTime.now().add(const Duration(days: 60));
+        weeks = 8;
         break;
       case 'Custom':
         showDatePicker(
@@ -78,14 +86,28 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
           lastDate: DateTime.now().add(const Duration(days: 365)),
         ).then((selectedDate) {
           if (selectedDate != null) {
-            setState(() {
-              endDate = selectedDate;
-            });
+            if (selectedDate.difference(DateTime.now()).inDays < 7) {
+              ToastUtil.showToast(
+                  'Please select a date at least 1 week from today.');
+            } else {
+              setState(() {
+                endDate = selectedDate;
+              });
+            }
           }
         });
         return;
     }
+    _setDefaultTargetWeight(weeks);
     setState(() {});
+  }
+
+  void _setDefaultTargetWeight([int weeks = 4]) {
+    double currentWeight = weightUnit == 'kg' ? weightKg : weightLb;
+    double weightLossPerWeek = weightUnit == 'kg' ? 1 : 2.2;
+    double targetWeight = currentWeight - (weeks * weightLossPerWeek);
+
+    weightController.text = targetWeight.toStringAsFixed(1);
   }
 
   @override
@@ -102,7 +124,8 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(weightLb.toString()),
+            Text(
+                weightUnit == 'kg' ? weightKg.toString() : weightLb.toString()),
             const Text(
               'I want to achieve my goal in...',
               style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
@@ -153,8 +176,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                 // Handle goal submission
               },
               style: ElevatedButton.styleFrom(
-                minimumSize:
-                    const Size(double.infinity, 50), // Full-width button
+                minimumSize: const Size(double.infinity, 50),
               ),
               child: const Text('Confirm Goal'),
             ),
