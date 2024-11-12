@@ -11,7 +11,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/1_on
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/screen/GenderSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_onboarding_Height_selecthion/page/HeightSelectionPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/HowQuick_Youwant_to_lose_weight.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/page/WeightSelectionPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/page/WeightSetup_Page.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/2_onboarding_welocme_msg/screen/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WeightLossMessageWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WaterPage_setup.dart';
@@ -95,7 +95,7 @@ class Onboarding extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    WeightSelecthion_Page(
+                    WeightSetup_Page(
                       heightUnit: state.heightUnit,
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
