@@ -4,7 +4,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 
-class LbPicker extends StatelessWidget {
+class LbPicker extends StatefulWidget {
   final double weightLb;
   final ValueChanged<double> onWeightChanged;
 
@@ -15,14 +15,50 @@ class LbPicker extends StatelessWidget {
   });
 
   @override
+  _LbPickerState createState() => _LbPickerState();
+}
+
+class _LbPickerState extends State<LbPicker> {
+  late int weightValue;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize weightValue rounded and clamped within min/max bounds
+    weightValue = _validateWeightValue((widget.weightLb * 10).round());
+  }
+
+  @override
+  void didUpdateWidget(covariant LbPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.weightLb != widget.weightLb) {
+      // Update weightValue if the incoming weightLb prop changes
+      setState(() {
+        weightValue = _validateWeightValue((widget.weightLb * 10).round());
+      });
+    }
+  }
+
+  // Helper function to validate weightValue
+  int _validateWeightValue(int value) {
+    if (value > 3640) {
+      return 3640; // Max value
+    } else if (value < 992) {
+      return 992; // Min value
+    } else if (value <= 0) {
+      return 155; // Default value in case of an invalid value
+    }
+    return value;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Access the current locale to check if Arabic is selected
     final String currentLocale = context.read<LocaleCubit>().state.languageCode;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
             Color(0xFFFF6F61),
             Color(0xFF9C27B0),
@@ -43,11 +79,16 @@ class LbPicker extends StatelessWidget {
       child: NumberPicker(
         axis: Axis.horizontal,
         haptics: true,
-        value: (weightLb * 10).toInt(),
-        minValue: 992, // 66.0 lb * 10
-        maxValue: 3640, // 165.0 lb * 10
+        value: weightValue,
+        minValue: 992,
+        maxValue: 3640,
         step: 1,
-        onChanged: (value) => onWeightChanged(value / 10.0),
+        onChanged: (value) {
+          setState(() {
+            weightValue = value;
+          });
+          widget.onWeightChanged(value / 10.0);
+        },
         textStyle: TextStyle(
           fontSize: MediaQuery.sizeOf(context).height * .018,
           fontWeight: FontWeight.w200,
@@ -57,7 +98,7 @@ class LbPicker extends StatelessWidget {
           fontSize: MediaQuery.sizeOf(context).height * .035,
           fontWeight: FontWeight.w900,
           color: Colors.white,
-          shadows: [
+          shadows: const [
             Shadow(
               blurRadius: 4.0,
               color: Colors.black26,
@@ -73,7 +114,6 @@ class LbPicker extends StatelessWidget {
           ),
         ),
         textMapper: (numberText) {
-          // Convert to one decimal place and change numbers to Arabic if needed
           String displayedText =
               (int.parse(numberText) / 10.0).toStringAsFixed(1);
           return currentLocale == 'ar'

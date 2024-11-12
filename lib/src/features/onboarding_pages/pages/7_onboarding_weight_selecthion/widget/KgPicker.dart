@@ -16,9 +16,8 @@ class KgPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int weightValue = (weightKg * 10).toInt().clamp(300, 1650);
+    final int weightValue = (weightKg * 10).toInt().clamp(450, 1650);
 
-    // Check if Arabic is selected to determine number formatting
     final bool isArabic =
         context.read<LocaleCubit>().state.languageCode == 'ar';
 
@@ -47,8 +46,8 @@ class KgPicker extends StatelessWidget {
         axis: Axis.horizontal,
         haptics: true,
         value: weightValue,
-        minValue: 450,
-        maxValue: 1650,
+        minValue: 450, // 45.0 kg * 10
+        maxValue: 1650, // 165.0 kg * 10
         step: 1,
         onChanged: (value) => onWeightChanged(value / 10.0),
         textStyle: TextStyle(
@@ -57,7 +56,7 @@ class KgPicker extends StatelessWidget {
           color: Colors.white,
         ),
         selectedTextStyle: TextStyle(
-          fontSize: MediaQuery.sizeOf(context).height * .045,
+          fontSize: MediaQuery.sizeOf(context).height * .035,
           fontWeight: FontWeight.w900,
           color: Colors.white,
           shadows: const [
@@ -77,7 +76,6 @@ class KgPicker extends StatelessWidget {
         ),
         textMapper: (numberText) {
           double number = int.parse(numberText) / 10.0;
-          // Convert to Arabic numerals if Arabic is selected
           return isArabic
               ? NumberConversionHelper.convertToArabicNumbers(
                   number.toStringAsFixed(1))

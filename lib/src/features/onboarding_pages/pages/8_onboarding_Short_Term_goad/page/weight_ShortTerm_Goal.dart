@@ -8,25 +8,24 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/Pr
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/ToggleButtonsWidgetkg.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/WeightDisplayWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/WeightLosstarget.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/WeightLosstarget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 
-class WeightLossMessageWidget extends StatefulWidget {
+class weight_ShortTerm_Goal extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  const WeightLossMessageWidget({
+  const weight_ShortTerm_Goal({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
   });
 
   @override
-  State<WeightLossMessageWidget> createState() =>
-      _WeightLossMessageWidgetState();
+  State<weight_ShortTerm_Goal> createState() => _weight_ShortTerm_GoalState();
 }
 
-class _WeightLossMessageWidgetState extends State<WeightLossMessageWidget> {
+class _weight_ShortTerm_GoalState extends State<weight_ShortTerm_Goal> {
   double _weightLossKg = 0.0;
   double _weightLossLb = 0.0;
   double _currentWeightKg = 0.0;

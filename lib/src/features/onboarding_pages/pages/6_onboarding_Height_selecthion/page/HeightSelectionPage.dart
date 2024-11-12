@@ -104,7 +104,8 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
             onPressed: () async {
               // Save data to SharedPreferences
               SharedPreferences prefs = await SharedPreferences.getInstance();
-
+              await prefs.setString('heightUnit', _heightUnit);
+              print(_heightUnit);
               // Saving height in centimeters in shared pre
               await prefs.setInt('heightCm', _heightCm);
 
