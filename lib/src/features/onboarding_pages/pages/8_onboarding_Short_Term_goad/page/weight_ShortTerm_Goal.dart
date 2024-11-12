@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class weight_ShortTerm_Goal extends StatelessWidget {
   const weight_ShortTerm_Goal({
@@ -28,8 +27,7 @@ class WeightGoalPage extends StatefulWidget {
 class _WeightGoalPageState extends State<WeightGoalPage> {
   String selectedTimeFrame = '1 month';
   TextEditingController weightController = TextEditingController();
-  DateTime endDate =
-      DateTime.now().add(const Duration(days: 30)); // Default for '1 month'
+  DateTime endDate = DateTime.now().add(const Duration(days: 30));
   String _userGoal = 'Loading...';
   double weightLb = 176;
   double weightKg = 80;
@@ -40,7 +38,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
     super.initState();
     _loadUserGoal();
     _loadUserWeight();
-    _setDefaultTargetWeight(); // Set default target weight on initialization
+    _setDefaultTargetWeight();
   }
 
   Future<void> _loadUserGoal() async {
@@ -60,7 +58,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   }
 
   void updateEndDate() {
-    int weeks = 4; // Default for '1 month'
+    int weeks = 4;
     switch (selectedTimeFrame) {
       case '1 week':
         endDate = DateTime.now().add(const Duration(days: 7));
@@ -133,12 +131,35 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: selectedTimeFrame,
-              items: ['1 week', '2 weeks', '1 month', '2 months', 'Custom']
-                  .map((timeFrame) => DropdownMenuItem(
-                        value: timeFrame,
-                        child: Text(timeFrame),
-                      ))
-                  .toList(),
+              items: [
+                '1 week',
+                '2 weeks',
+                '1 month',
+                '2 months',
+                'Custom',
+              ].map((timeFrame) {
+                return DropdownMenuItem<String>(
+                  value: timeFrame,
+                  child: Row(
+                    children: [
+                      Text(timeFrame),
+                      if (timeFrame == '1 month') ...[
+                        const SizedBox(width: 8),
+                        const Icon(Icons.star, color: Colors.amber, size: 20),
+                        const SizedBox(width: 4),
+                        const Text(
+                          'Recommended',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                );
+              }).toList(),
               onChanged: (value) {
                 if (value != null) {
                   setState(() {
