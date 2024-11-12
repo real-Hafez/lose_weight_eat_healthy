@@ -6,13 +6,11 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_on
 class WeightSetup_Page extends StatelessWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
-  final String heightUnit;
 
   const WeightSetup_Page({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
-    required this.heightUnit,
   });
 
   @override

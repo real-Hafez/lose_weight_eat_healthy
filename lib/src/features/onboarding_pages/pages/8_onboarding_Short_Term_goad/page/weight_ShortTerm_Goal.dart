@@ -1,153 +1,170 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lose_weight_eat_healthy/generated/l10n.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/KgPicker.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/LbPicker.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/ToggleButtonsWidgetkg.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/WeightDisplayWidget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/WeightLosstarget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:intl/intl.dart';
+import 'package:lose_weight_eat_healthy/src/features/home/widgets/streak.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class weight_ShortTerm_Goal extends StatefulWidget {
+class weight_ShortTerm_Goal extends StatelessWidget {
+  const weight_ShortTerm_Goal(
+      {super.key,
+      required this.onAnimationFinished,
+      required this.onNextButtonPressed});
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  const weight_ShortTerm_Goal({
-    super.key,
-    required this.onAnimationFinished,
-    required this.onNextButtonPressed,
-  });
-
   @override
-  State<weight_ShortTerm_Goal> createState() => _weight_ShortTerm_GoalState();
+  Widget build(BuildContext context) {
+    return WeightGoalPage();
+  }
 }
 
-class _weight_ShortTerm_GoalState extends State<weight_ShortTerm_Goal> {
-  double _weightLossKg = 0.0;
-  double _weightLossLb = 0.0;
-  double _currentWeightKg = 0.0;
-  String _weightUnit = 'kg';
+class WeightGoalPage extends StatefulWidget {
+  @override
+  _WeightGoalPageState createState() => _WeightGoalPageState();
+}
 
-  final double _minWeightLossKg = 5.0;
-  final double _minWeightLossLb = 11.0;
+class _WeightGoalPageState extends State<WeightGoalPage> {
+  String selectedTimeFrame = '1 month';
+  TextEditingController weightController = TextEditingController();
+  DateTime endDate =
+      DateTime.now().add(const Duration(days: 30)); // Default for '1 month'
+
+  String _userGoal = 'Loading...'; // Initial placeholder
+  double weightLb = 176;
+  double weightKg = 80;
+  String weight_unit = 'kg';
 
   @override
   void initState() {
     super.initState();
-    _fetchAndSetWeight();
+    _loadUserGoal();
+    _loadUserweight();
   }
 
-  Future<void> _fetchAndSetWeight() async {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId != null) {
-      final doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('weight')
-          .doc('data')
-          .get();
-      final double userWeightKg = doc['weightKg'] ?? 0.0;
-      final String userWeightUnit = doc['weightUnit'] ?? 'kg';
+  Future<void> _loadUserGoal() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Retrieve the saved user goal or use a default if not found
+      _userGoal = prefs.getString('user_target') ?? 'Lose Weight';
+    });
+  }
 
-      setState(() {
-        _weightUnit = userWeightUnit;
-        _currentWeightKg = userWeightKg;
+  Future<void> _loadUserweight() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // Retrieve the saved user weight or use a default if not found
+      weightKg = prefs.getDouble('weightKg') ?? 70;
+      weightLb = prefs.getDouble(
+            'weightLb',
+          ) ??
+          176;
 
-        if (_weightUnit == 'kg') {
-          _weightLossKg = (userWeightKg - _minWeightLossKg)
-              .clamp(_minWeightLossKg, userWeightKg);
-          _weightLossLb = _kgToLb(_weightLossKg);
-        } else {
-          _weightLossLb = (_kgToLb(userWeightKg) - _minWeightLossLb)
-              .clamp(_minWeightLossLb, _kgToLb(userWeightKg));
-          _weightLossKg = _lbToKg(_weightLossLb);
-        }
-      });
+      weight_unit = prefs.getString(
+            'weightUnit',
+          ) ??
+          'kg';
+    });
+  }
+
+  void updateEndDate() {
+    switch (selectedTimeFrame) {
+      case '1 week':
+        endDate = DateTime.now().add(const Duration(days: 7));
+        break;
+      case '2 weeks':
+        endDate = DateTime.now().add(const Duration(days: 14));
+        break;
+      case '1 month':
+        endDate = DateTime.now().add(const Duration(days: 30));
+        break;
+      case '2 months':
+        endDate = DateTime.now().add(const Duration(days: 60));
+        break;
+      case 'Custom':
+        showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
+        ).then((selectedDate) {
+          if (selectedDate != null) {
+            setState(() {
+              endDate = selectedDate;
+            });
+          }
+        });
+        return;
     }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ProgressIndicatorWidget(value: 0.5),
-          const SizedBox(height: 20),
-          TitleWidget(title: S().WeightLoss),
-          const SizedBox(height: 20),
-          ToggleButtonsWidgetkg(
-            weightUnit: _weightUnit,
-            onUnitChanged: (unit) {
-              setState(() {
-                _weightUnit = unit;
-                _updateWeightValues();
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          WeightDisplayWidget(
-            weightKg: _weightLossKg,
-            weightLb: _weightLossLb,
-            weightUnit: _weightUnit,
-          ),
-          const SizedBox(height: 20),
-          WeightLosstarget(
-            currentWeight: _currentWeightKg,
-            targetWeight: _weightLossKg,
-            weightUnit: _weightUnit,
-          ),
-          Expanded(
-            child: Center(
-              child: _weightUnit == 'kg'
-                  ? KgPicker(
-                      weightKg: _weightLossKg,
-                      onWeightChanged: (value) {
-                        setState(() {
-                          _weightLossKg = value;
-                          _weightLossLb = _kgToLb(_weightLossKg);
-                        });
-                      },
-                    )
-                  : LbPicker(
-                      weightLb: _weightLossLb,
-                      onWeightChanged: (value) {
-                        setState(() {
-                          _weightLossLb = value;
-                          _weightLossKg = _lbToKg(_weightLossLb);
-                        });
-                      },
-                    ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Set Your Short-Term Weight Goal',
+            style: TextStyle(fontFamily: 'Indie_Flower')),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(weightLb.toString()),
+            Text(
+              'I want to achieve my goal in...',
+              style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
             ),
-          ),
-          const SizedBox(height: 20),
-          NextButton(
-            collectionName: 'weight_loss',
-            onPressed: widget.onNextButtonPressed,
-            dataToSave: {
-              'weightLossKg': _weightLossKg,
-              'weightLossLb': _weightLossLb,
-              'weightUnit': _weightUnit,
-            },
-            userId: FirebaseAuth.instance.currentUser?.uid,
-          )
-        ],
+            const SizedBox(height: 8),
+            DropdownButtonFormField<String>(
+              value: selectedTimeFrame,
+              items: ['1 week', '2 weeks', '1 month', '2 months', 'Custom']
+                  .map((timeFrame) => DropdownMenuItem(
+                        value: timeFrame,
+                        child: Text(timeFrame),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  selectedTimeFrame = value;
+                  updateEndDate();
+                }
+              },
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.surface,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'And i want in that Date : ${DateFormat('d MMMM yyyy').format(endDate)} to be in',
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: weightController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'Target Weight (e.g., 73 kg)',
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: Theme.of(context).colorScheme.surface,
+              ),
+            ),
+            const Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                // Handle goal submission
+              },
+              style: ElevatedButton.styleFrom(
+                minimumSize:
+                    const Size(double.infinity, 50), // Full-width button
+              ),
+              child: const Text('Confirm Goal'),
+            ),
+          ],
+        ),
       ),
     );
   }
-
-  void _updateWeightValues() {
-    if (_weightUnit == 'lb') {
-      _weightLossLb = double.parse(_kgToLb(_weightLossKg).toStringAsFixed(1));
-    } else {
-      _weightLossKg = double.parse(_lbToKg(_weightLossLb).toStringAsFixed(1));
-    }
-  }
-
-  double _kgToLb(double kg) => kg * 2.20462;
-  double _lbToKg(double lb) => lb / 2.20462;
 }

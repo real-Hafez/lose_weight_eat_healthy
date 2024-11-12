@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/4_onboarding_main_use_for_app/widget/maintraget_card.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Maintarget extends StatefulWidget {
   const Maintarget({
@@ -20,7 +21,7 @@ class Maintarget extends StatefulWidget {
 }
 
 class _MaintargetState extends State<Maintarget> {
-  String? selectedGoal = 'Lose Weight'; // . ,a make the defult losing weight
+  String? selectedGoal = 'Lose Weight'; // Default selection
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +66,17 @@ class _MaintargetState extends State<Maintarget> {
         ),
         Spacer(),
         NextButton(
-          onPressed: widget.onNextButtonPressed,
-          collectionName: 'user target',
+          onPressed: () async {
+            widget.onNextButtonPressed();
+
+            final prefs = await SharedPreferences.getInstance();
+            // Use a fallback value if selectedGoal is null
+            await prefs.setString('user_target', selectedGoal ?? 'Lose Weight');
+
+            print(selectedGoal);
+          },
           dataToSave: {'target': selectedGoal},
-          saveData: true,
-          userId: FirebaseAuth.instance.currentUser?.uid,
+          saveData: false,
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * .15,

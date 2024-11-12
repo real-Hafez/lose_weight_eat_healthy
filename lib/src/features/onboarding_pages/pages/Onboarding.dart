@@ -96,7 +96,6 @@ class Onboarding extends StatelessWidget {
                       },
                     ),
                     WeightSetup_Page(
-                      heightUnit: state.heightUnit,
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },

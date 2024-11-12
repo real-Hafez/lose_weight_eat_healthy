@@ -62,7 +62,7 @@
     "weight": "What's your weight?",
     "kg":"kg",
     "lb":"lb",
-    "WeightLoss":"How much weight do you want to lose?" ,
+    "WeightLoss":"Put a Short term goal" ,
     "gain":"gain",
     "lose": "lose",
     "loseorgainweight": "You are going to", 
