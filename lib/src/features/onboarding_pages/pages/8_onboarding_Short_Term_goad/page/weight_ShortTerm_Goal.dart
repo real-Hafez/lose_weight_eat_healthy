@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lose_weight_eat_healthy/src/features/home/widgets/streak.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class weight_ShortTerm_Goal extends StatelessWidget {
-  const weight_ShortTerm_Goal(
-      {super.key,
-      required this.onAnimationFinished,
-      required this.onNextButtonPressed});
+  const weight_ShortTerm_Goal({
+    super.key,
+    required this.onAnimationFinished,
+    required this.onNextButtonPressed,
+  });
+
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
@@ -27,41 +28,31 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   TextEditingController weightController = TextEditingController();
   DateTime endDate =
       DateTime.now().add(const Duration(days: 30)); // Default for '1 month'
-
   String _userGoal = 'Loading...'; // Initial placeholder
   double weightLb = 176;
   double weightKg = 80;
-  String weight_unit = 'kg';
+  String weightUnit = 'kg';
 
   @override
   void initState() {
     super.initState();
     _loadUserGoal();
-    _loadUserweight();
+    _loadUserWeight();
   }
 
   Future<void> _loadUserGoal() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      // Retrieve the saved user goal or use a default if not found
       _userGoal = prefs.getString('user_target') ?? 'Lose Weight';
     });
   }
 
-  Future<void> _loadUserweight() async {
+  Future<void> _loadUserWeight() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      // Retrieve the saved user weight or use a default if not found
       weightKg = prefs.getDouble('weightKg') ?? 70;
-      weightLb = prefs.getDouble(
-            'weightLb',
-          ) ??
-          176;
-
-      weight_unit = prefs.getString(
-            'weightUnit',
-          ) ??
-          'kg';
+      weightLb = prefs.getDouble('weightLb') ?? 176;
+      weightUnit = prefs.getString('weightUnit') ?? 'kg';
     });
   }
 
@@ -101,8 +92,10 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Set Your Short-Term Weight Goal',
-            style: TextStyle(fontFamily: 'Indie_Flower')),
+        title: const Text(
+          'Set Your Short-Term Weight Goal',
+          style: TextStyle(fontFamily: 'Indie_Flower'),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -110,7 +103,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(weightLb.toString()),
-            Text(
+            const Text(
               'I want to achieve my goal in...',
               style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
             ),
@@ -125,8 +118,10 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                   .toList(),
               onChanged: (value) {
                 if (value != null) {
-                  selectedTimeFrame = value;
-                  updateEndDate();
+                  setState(() {
+                    selectedTimeFrame = value;
+                    updateEndDate();
+                  });
                 }
               },
               decoration: InputDecoration(
@@ -137,7 +132,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'And i want in that Date : ${DateFormat('d MMMM yyyy').format(endDate)} to be in',
+              'And I want on that Date: ${DateFormat('d MMMM yyyy').format(endDate)} to be in',
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
@@ -145,7 +140,8 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
               controller: weightController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Target Weight (e.g., 73 kg)',
+                labelText:
+                    'Target Weight (e.g., ${weightUnit == 'kg' ? '73 kg' : '176 lb'})',
                 border: const OutlineInputBorder(),
                 filled: true,
                 fillColor: Theme.of(context).colorScheme.surface,
