@@ -64,7 +64,7 @@ class _MaintargetState extends State<Maintarget> {
           isSelected: selectedGoal == 'Gain Weight',
           onTap: () => setState(() => selectedGoal = 'Gain Weight'),
         ),
-        Spacer(),
+        const Spacer(),
         NextButton(
           onPressed: () async {
             widget.onNextButtonPressed();

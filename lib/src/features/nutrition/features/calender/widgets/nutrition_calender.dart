@@ -51,7 +51,8 @@ class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
                 days: _focusedDay.weekday == 7 ? 0 : _focusedDay.weekday + 1),
           ); // Saturday
 
-          DateTime endOfWeek = startOfWeek.add(Duration(days: 6)); // Friday
+          DateTime endOfWeek =
+              startOfWeek.add(const Duration(days: 6)); // Friday
 
           if (selectedDay.isBefore(startOfWeek) ||
               selectedDay.isAfter(endOfWeek)) {
@@ -84,7 +85,7 @@ class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
             shape: BoxShape.circle,
             border: Border.all(color: Colors.orange, width: 2),
           ),
-          selectedDecoration: BoxDecoration(
+          selectedDecoration: const BoxDecoration(
             color: Colors.teal, // Teal for selected day
             shape: BoxShape.circle,
           ),
@@ -92,7 +93,7 @@ class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
             color: Colors.white, // White text for selected day
             fontWeight: FontWeight.bold,
           ),
-          defaultDecoration: BoxDecoration(
+          defaultDecoration: const BoxDecoration(
             color: Colors.transparent,
             shape: BoxShape.circle,
           ),

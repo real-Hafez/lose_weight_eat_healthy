@@ -46,13 +46,13 @@ class _DayviewState extends State<Dayview> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            const Nutrition_Calendar(),
+            Nutrition_Calendar(),
             // const SizedBox(height: 25),
             // const CalorieTrackerWidget(),
             // const SizedBox(height: 25),
