@@ -220,15 +220,15 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
               ),
             ),
             const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                // Handle goal submission
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              child: const Text('Confirm Goal'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     // Handle goal submission
+            //   },
+            //   style: ElevatedButton.styleFrom(
+            //     minimumSize: const Size(double.infinity, 50),
+            //   ),
+            //   child: const Text('Confirm Goal'),
+            // ),
           ],
         ),
       ),
