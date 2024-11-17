@@ -65,7 +65,7 @@ class _DayviewState extends State<Dayview> {
             // Meal_Type_Display(
             //   food: "Lunch",
             //   minmize: lunchMinimized,
-            //   onToggleMinimize: toggleLunchMinimize,
+            //   onToggleMini mize: toggleLunchMinimize,
             // ),
             // if (!lunchMinimized) const Food_Card_Lunch(),
             // Meal_Type_Display(

@@ -112,8 +112,8 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Set Your Short-Term Weight Goal',
+        title: Text(
+          'Set Your Short-Term Weight ${_userGoal.contains('Gain') ? 'Gain' : 'Loss'} Goal',
           style: TextStyle(fontFamily: 'Indie_Flower'),
         ),
       ),
