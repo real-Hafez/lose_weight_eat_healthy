@@ -36,9 +36,21 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   @override
   void initState() {
     super.initState();
+    _initializeScreen();
+
     _loadUserGoal();
     _loadUserWeight();
     _setDefaultTargetWeight();
+  }
+
+  Future<void> _initializeScreen() async {
+    await _loadUserGoal();
+    await _loadUserWeight();
+
+    // Set default target weight after user data is loaded
+    _setDefaultTargetWeight();
+
+    setState(() {});
   }
 
   Future<void> _loadUserGoal() async {
@@ -58,7 +70,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   }
 
   void updateEndDate() {
-    int weeks = 4;
+    int weeks = 4; // Default to 1 month (4 weeks)
     switch (selectedTimeFrame) {
       case '1 week':
         endDate = DateTime.now().add(const Duration(days: 7));
@@ -97,15 +109,30 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
         return;
     }
     _setDefaultTargetWeight(weeks);
-    setState(() {});
+    setState(() {}); // Update UI
   }
 
   void _setDefaultTargetWeight([int weeks = 4]) {
     double currentWeight = weightUnit == 'kg' ? weightKg : weightLb;
-    double weightLossPerWeek = weightUnit == 'kg' ? 1 : 2.2;
-    double targetWeight = currentWeight - (weeks * weightLossPerWeek);
+    double weightChangePerWeek;
 
-    weightController.text = targetWeight.toStringAsFixed(1);
+    if (_userGoal.contains('Gain')) {
+      // Gain weight logic
+      weightChangePerWeek =
+          weightUnit == 'kg' ? 1 : 2.2; // 1 kg ~ 2.2 lb per week
+      currentWeight += weeks * weightChangePerWeek;
+    } else if (_userGoal.contains('Lose')) {
+      // Lose weight logic
+      weightChangePerWeek =
+          weightUnit == 'kg' ? 1 : 2.2; // 1 kg ~ 2.2 lb per week
+      currentWeight -= weeks * weightChangePerWeek;
+    } else if (_userGoal.contains('Maintain')) {
+      // Maintain weight logic
+      weightController.text = ''; // Clear the target weight field
+      return; // Let the user decide manually
+    }
+
+    weightController.text = currentWeight.toStringAsFixed(1);
   }
 
   @override
@@ -113,7 +140,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Set Your Short-Term Weight ${_userGoal.contains('Gain') ? 'Gain' : 'Loss'} Goal',
+          'Set Your Short-Term Weight ${_userGoal.contains('Gain') ? 'Gain' : _userGoal.contains('Lose') ? 'Loss' : 'Maintenance'} Goal',
           style: TextStyle(fontFamily: 'Indie_Flower'),
         ),
       ),
@@ -123,7 +150,8 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                weightUnit == 'kg' ? weightKg.toString() : weightLb.toString()),
+              'Your current weight: ${weightUnit == 'kg' ? weightKg.toStringAsFixed(1) + ' kg' : weightLb.toStringAsFixed(1) + ' lb'}',
+            ),
             const Text(
               'I want to achieve my goal in...',
               style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
@@ -176,7 +204,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'And I want on that Date: ${DateFormat('d MMMM yyyy').format(endDate)} to be in',
+              'Your target date: ${DateFormat('d MMMM yyyy').format(endDate)}',
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
@@ -185,7 +213,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText:
-                    'Target Weight (e.g., ${weightUnit == 'kg' ? '73 kg' : '176 lb'})',
+                    'Target Weight (e.g., ${weightUnit == 'kg' ? '${(weightKg + 4).toStringAsFixed(1)} kg' : '${(weightLb + 8.8).toStringAsFixed(1)} lb'})',
                 border: const OutlineInputBorder(),
                 filled: true,
                 fillColor: Theme.of(context).colorScheme.surface,
