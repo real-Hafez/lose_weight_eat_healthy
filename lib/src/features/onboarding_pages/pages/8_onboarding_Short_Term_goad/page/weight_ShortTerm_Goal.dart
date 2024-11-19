@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/2_onboarding_welocme_msg/widget/buildAnimatedText.dart';
 import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class weight_ShortTerm_Goal extends StatelessWidget {
-  const weight_ShortTerm_Goal({
+  weight_ShortTerm_Goal({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
@@ -131,16 +133,28 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
       weightController.text = ''; // Clear the target weight field
       return; // Let the user decide manually
     }
+    bool _showNextButton = false;
+    bool _skipAnimation = false;
 
     weightController.text = currentWeight.toStringAsFixed(1);
+    void _onSkipPressed() {
+      setState(() {
+        _skipAnimation = true;
+        _animatedTextKey = UniqueKey();
+        _showNextButton = true;
+      });
+      // onAnimationFinished();
+    }
   }
+
+  Key _animatedTextKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Set Your Short-Term Weight ${_userGoal.contains('Gain') ? 'Gain' : _userGoal.contains('Lose') ? 'Loss' : 'Maintenance'} Goal',
+          '${S().short_term} ${_userGoal.contains('${S().gain}') ? '${S().gain}' : _userGoal.contains('${S().lose}') ? '${S().lose}' : '${S().Maintenance}'} Goal',
           style: TextStyle(fontFamily: 'Indie_Flower'),
         ),
       ),
@@ -150,28 +164,49 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Your current weight: ${weightUnit == 'kg' ? weightKg.toStringAsFixed(1) + ' kg' : weightLb.toStringAsFixed(1) + ' lb'}',
+              'Your current weight: ${weightUnit == '${S().kg}' ? weightKg.toStringAsFixed(1) + '${S().kg}' : weightLb.toStringAsFixed(1) + ' ${S().lb}'}',
             ),
-            const Text(
-              'I want to achieve my goal in...',
+            Text(
+              '${S().active_my_goal}',
               style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
             ),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
               value: selectedTimeFrame,
               items: [
-                '1 week',
-                '2 weeks',
-                '1 month',
-                '2 months',
+                'one_week',
+                'two_weeks',
+                'one_month',
+                'two_months',
                 'Custom',
-              ].map((timeFrame) {
+              ].map((timeFrameKey) {
+                String timeFrameText;
+                switch (timeFrameKey) {
+                  case 'one_week':
+                    timeFrameText = S().one_week;
+                    break;
+                  case 'two_weeks':
+                    timeFrameText = S().two_weeks;
+                    break;
+                  case 'one_month':
+                    timeFrameText = S().one_month;
+                    break;
+                  case 'two_months':
+                    timeFrameText = S().two_months;
+                    break;
+                  case 'Custom':
+                    timeFrameText = S().Custom;
+                    break;
+                  default:
+                    timeFrameText = '';
+                }
+
                 return DropdownMenuItem<String>(
-                  value: timeFrame,
+                  value: timeFrameKey,
                   child: Row(
                     children: [
-                      Text(timeFrame),
-                      if (timeFrame == '1 month') ...[
+                      Text(timeFrameText),
+                      if (timeFrameKey == 'one_month') ...[
                         const SizedBox(width: 8),
                         const Icon(Icons.star, color: Colors.amber, size: 20),
                         const SizedBox(width: 4),
@@ -188,21 +223,13 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                   ),
                 );
               }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    selectedTimeFrame = value;
-                    updateEndDate();
-                  });
-                }
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedTimeFrame = newValue!;
+                });
               },
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.surface,
-              ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Text(
               'Your target date: ${DateFormat('d MMMM yyyy').format(endDate)}',
               style: const TextStyle(fontSize: 16),
@@ -219,7 +246,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                 fillColor: Theme.of(context).colorScheme.surface,
               ),
             ),
-            const Spacer(),
+            // const Spacer(),
             // ElevatedButton(
             //   onPressed: () {
             //     // Handle goal submission
@@ -229,6 +256,17 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
             //   ),
             //   child: const Text('Confirm Goal'),
             // ),
+            AnimatedTextWidget(
+              key: _animatedTextKey,
+              onFinished: () {
+                setState(() {
+                  // _showNextButton = true;
+                });
+                // widget.onAnimationFinished();
+              },
+              text: S.of(context).welcomeonboarding,
+              instantDisplay: WidgetsApp.showPerformanceOverlayOverride,
+            ),
           ],
         ),
       ),

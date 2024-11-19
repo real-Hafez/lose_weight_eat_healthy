@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
+        "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
         "Exclude": MessageLookupByLibrary.simpleMessage("استبعاد"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("زياده الوزن "),
         "Goal": MessageLookupByLibrary.simpleMessage("اختر هدفك"),
@@ -35,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoseWeight": MessageLookupByLibrary.simpleMessage("خسارة الوزن"),
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("الحفاظ على الوزن"),
+        "Maintenance": MessageLookupByLibrary.simpleMessage("الحفاظ"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
         "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),
@@ -42,9 +44,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "Vegetarian": MessageLookupByLibrary.simpleMessage("نباتي"),
         "Water": MessageLookupByLibrary.simpleMessage(
             "ما هي وحدات قياس المياه التي تستخدمها؟"),
-        "WeightLoss": MessageLookupByLibrary.simpleMessage(
-            "ما مقدار الوزن الذي تريد أن تخسره؟"),
+        "WeightLoss":
+            MessageLookupByLibrary.simpleMessage("ضع هدفًا قصير المدى"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "active_my_goal":
+            MessageLookupByLibrary.simpleMessage("أريد تحقيق هدفي في..."),
         "addwidget":
             MessageLookupByLibrary.simpleMessage("اضفها الي شاشاتك الرئيسية"),
         "allanimalproducts":
@@ -117,6 +121,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "newAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
         "nothing": MessageLookupByLibrary.simpleMessage("لا شئ "),
+        "one_month": MessageLookupByLibrary.simpleMessage("شهر واحد"),
+        "one_week": MessageLookupByLibrary.simpleMessage("1 أسبوع"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "طريقة تسجيل الدخول غير مسموح بها. يرجى تمكين طريقة تسجيل الدخول في وحدة تحكم Firebase."),
         "orLoginWith":
@@ -139,6 +145,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("- ليوناردو دافنشي"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "إعداد روتين التمارين الخاص بك..."),
+        "short_term":
+            MessageLookupByLibrary.simpleMessage("حدد وزنك على المدى القصير"),
         "signIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "signUp": MessageLookupByLibrary.simpleMessage("إنشاء حساب"),
         "signupbutton": MessageLookupByLibrary.simpleMessage("أنشاء حساب"),
@@ -157,6 +165,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("الي"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "تعددت الطلبات. حاول مرة أخرى لاحقًا."),
+        "two_months": MessageLookupByLibrary.simpleMessage("شهران"),
+        "two_weeks": MessageLookupByLibrary.simpleMessage("أسبوعان"),
         "unit": MessageLookupByLibrary.simpleMessage("اختر الوحدة:"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى."),

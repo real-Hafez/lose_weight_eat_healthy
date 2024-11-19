@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
+        "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
         "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight"),
         "Goal": MessageLookupByLibrary.simpleMessage("Select Your Goal"),
@@ -35,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoseWeight": MessageLookupByLibrary.simpleMessage("Lose Weight"),
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("Maintain Weight"),
+        "Maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
         "USoz": MessageLookupByLibrary.simpleMessage("US oz"),
@@ -42,9 +44,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "Vegetarian": MessageLookupByLibrary.simpleMessage("Vegetarian"),
         "Water": MessageLookupByLibrary.simpleMessage(
             "What Water Measurement Units do you use"),
-        "WeightLoss": MessageLookupByLibrary.simpleMessage(
-            "How much weight do you want to lose?"),
+        "WeightLoss":
+            MessageLookupByLibrary.simpleMessage("Put a Short term goal"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
+        "active_my_goal": MessageLookupByLibrary.simpleMessage(
+            "I want to achieve my goal in..."),
         "addwidget": MessageLookupByLibrary.simpleMessage("Add the widget"),
         "allanimalproducts":
             MessageLookupByLibrary.simpleMessage("all animal products"),
@@ -119,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create New Account"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "nothing": MessageLookupByLibrary.simpleMessage("nothing"),
+        "one_month": MessageLookupByLibrary.simpleMessage("شهر واحد"),
+        "one_week": MessageLookupByLibrary.simpleMessage("1 أسبوع"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Sign-in method not allowed. Please enable the sign-in method in Firebase console."),
         "orLoginWith": MessageLookupByLibrary.simpleMessage("Or login with"),
@@ -140,6 +146,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("- Leonardo da Vinci"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "Making your workout Routines..."),
+        "short_term":
+            MessageLookupByLibrary.simpleMessage("Set Your Short-Term Weight"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
         "signupSuccessful":
@@ -160,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("to"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "Too many requests. Try again later."),
+        "two_months": MessageLookupByLibrary.simpleMessage("شهران"),
+        "two_weeks": MessageLookupByLibrary.simpleMessage("أسبوعان"),
         "unit": MessageLookupByLibrary.simpleMessage("Select unit:"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "An unknown error occurred. Please try again."),

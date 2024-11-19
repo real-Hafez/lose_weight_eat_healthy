@@ -107,7 +107,17 @@
 "Goal":"اختر هدفك", 
 "LoseWeight":"خسارة الوزن" , 
 "MaintainWeight":"الحفاظ على الوزن",
-"GainWeight":"زياده الوزن "
+"GainWeight":"زياده الوزن ",
+"short_term":"حدد وزنك على المدى القصير" , 
+"Maintenance":"الحفاظ" , 
+"active_my_goal":"أريد تحقيق هدفي في..." , 
+"one_week": "1 أسبوع",
+  "two_weeks": "أسبوعان",
+  "one_month": "شهر واحد",
+  "two_months": "شهران",
+  "Custom": "مخصص"
+
+
 
 
     

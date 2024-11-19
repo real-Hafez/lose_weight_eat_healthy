@@ -670,10 +670,10 @@ class S {
     );
   }
 
-  /// `How much weight do you want to lose?`
+  /// `Put a Short term goal`
   String get WeightLoss {
     return Intl.message(
-      'How much weight do you want to lose?',
+      'Put a Short term goal',
       name: 'WeightLoss',
       desc: '',
       args: [],
@@ -1135,6 +1135,86 @@ class S {
     return Intl.message(
       'Gain Weight',
       name: 'GainWeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set Your Short-Term Weight`
+  String get short_term {
+    return Intl.message(
+      'Set Your Short-Term Weight',
+      name: 'short_term',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maintenance`
+  String get Maintenance {
+    return Intl.message(
+      'Maintenance',
+      name: 'Maintenance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I want to achieve my goal in...`
+  String get active_my_goal {
+    return Intl.message(
+      'I want to achieve my goal in...',
+      name: 'active_my_goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 أسبوع`
+  String get one_week {
+    return Intl.message(
+      '1 أسبوع',
+      name: 'one_week',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `أسبوعان`
+  String get two_weeks {
+    return Intl.message(
+      'أسبوعان',
+      name: 'two_weeks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `شهر واحد`
+  String get one_month {
+    return Intl.message(
+      'شهر واحد',
+      name: 'one_month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `شهران`
+  String get two_months {
+    return Intl.message(
+      'شهران',
+      name: 'two_months',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `مخصص`
+  String get Custom {
+    return Intl.message(
+      'مخصص',
+      name: 'Custom',
       desc: '',
       args: [],
     );
