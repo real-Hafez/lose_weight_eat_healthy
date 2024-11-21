@@ -174,39 +174,18 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
             DropdownButtonFormField<String>(
               value: selectedTimeFrame,
               items: [
-                'one_week',
-                'two_weeks',
-                'one_month',
-                'two_months',
-                'Custom',
-              ].map((timeFrameKey) {
-                String timeFrameText;
-                switch (timeFrameKey) {
-                  case 'one_week':
-                    timeFrameText = S().one_week;
-                    break;
-                  case 'two_weeks':
-                    timeFrameText = S().two_weeks;
-                    break;
-                  case 'one_month':
-                    timeFrameText = S().one_month;
-                    break;
-                  case 'two_months':
-                    timeFrameText = S().two_months;
-                    break;
-                  case 'Custom':
-                    timeFrameText = S().Custom;
-                    break;
-                  default:
-                    timeFrameText = '';
-                }
-
+                {'key': '1 week', 'text': S().one_week},
+                {'key': '2 weeks', 'text': S().two_weeks},
+                {'key': '1 month', 'text': S().one_month},
+                {'key': '2 months', 'text': S().two_months},
+                {'key': 'Custom', 'text': S().Custom},
+              ].map((timeFrame) {
                 return DropdownMenuItem<String>(
-                  value: timeFrameKey,
+                  value: timeFrame['key'], // Use the unique 'key' as the value
                   child: Row(
                     children: [
-                      Text(timeFrameText),
-                      if (timeFrameKey == 'one_month') ...[
+                      Text(timeFrame['text']!),
+                      if (timeFrame['key'] == '1 month') ...[
                         const SizedBox(width: 8),
                         const Icon(Icons.star, color: Colors.amber, size: 20),
                         const SizedBox(width: 4),
@@ -223,12 +202,14 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                   ),
                 );
               }).toList(),
-              onChanged: (String? newValue) {
+              onChanged: (String? newKey) {
                 setState(() {
-                  selectedTimeFrame = newValue!;
+                  selectedTimeFrame = newKey!; // Save the unique key
+                  updateEndDate(); // Ensure the end date is updated accordingly
                 });
               },
             ),
+
             SizedBox(height: 16),
             Text(
               'Your target date: ${DateFormat('d MMMM yyyy').format(endDate)}',
