@@ -49,7 +49,6 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
     await _loadUserGoal();
     await _loadUserWeight();
 
-    // Set default target weight after user data is loaded
     _setDefaultTargetWeight();
 
     setState(() {});
@@ -111,7 +110,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
         return;
     }
     _setDefaultTargetWeight(weeks);
-    setState(() {}); // Update UI
+    setState(() {});
   }
 
   void _setDefaultTargetWeight([int weeks = 4]) {
@@ -181,7 +180,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                 {'key': 'Custom', 'text': S().Custom},
               ].map((timeFrame) {
                 return DropdownMenuItem<String>(
-                  value: timeFrame['key'], // Use the unique 'key' as the value
+                  value: timeFrame['key'],
                   child: Row(
                     children: [
                       Text(timeFrame['text']!),
@@ -189,8 +188,8 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                         const SizedBox(width: 8),
                         const Icon(Icons.star, color: Colors.amber, size: 20),
                         const SizedBox(width: 4),
-                        const Text(
-                          'Recommended',
+                        Text(
+                          S().recommended,
                           style: TextStyle(
                             fontSize: 12,
                             fontStyle: FontStyle.italic,
@@ -209,7 +208,6 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                 });
               },
             ),
-
             SizedBox(height: 16),
             Text(
               'Your target date: ${DateFormat('d MMMM yyyy').format(endDate)}',
@@ -227,28 +225,133 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                 fillColor: Theme.of(context).colorScheme.surface,
               ),
             ),
-            // const Spacer(),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     // Handle goal submission
-            //   },
-            //   style: ElevatedButton.styleFrom(
-            //     minimumSize: const Size(double.infinity, 50),
-            //   ),
-            //   child: const Text('Confirm Goal'),
-            // ),
-            AnimatedTextWidget(
-              key: _animatedTextKey,
-              onFinished: () {
-                setState(() {
-                  // _showNextButton = true;
-                });
-                // widget.onAnimationFinished();
-              },
-              text: S.of(context).welcomeonboarding,
-              instantDisplay: WidgetsApp.showPerformanceOverlayOverride,
+            User_Target()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class User_Target extends StatefulWidget {
+  const User_Target({super.key});
+
+  @override
+  _User_TargetState createState() => _User_TargetState();
+}
+
+class _User_TargetState extends State<User_Target> {
+  String selectedOption = "";
+
+  void _selectOption(String option) {
+    setState(() {
+      selectedOption = option;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildGoalCard(
+            title: "Lose 0.5 kg/week",
+            description: "Achieve steady and sustainable weight loss.",
+            isSelected: selectedOption == "Lose 0.5 kg/week",
+            onTap: () => _selectOption("Lose 0.5 kg/week"),
+          ),
+          const SizedBox(height: 16),
+          _buildGoalCard(
+            title: "Lose 1 kg/week",
+            description: "Faster progress towards your goal.",
+            isSelected: selectedOption == "Lose 1 kg/week",
+            onTap: () => _selectOption("Lose 1 kg/week"),
+          ),
+          const SizedBox(height: 16),
+          _buildGoalCard(
+            title: "Custom",
+            description: "Set your own target weight loss per week.",
+            isSelected: selectedOption == "Custom",
+            onTap: () => _selectOption("Custom"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (selectedOption.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Please select an option!"),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("You selected: $selectedOption"),
+                  ),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text(
+              "Confirm",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGoalCard({
+    required String title,
+    required String description,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            width: isSelected ? 2 : 1,
+          ),
+          color: isSelected ? Colors.blue.shade50 : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: isSelected ? Colors.blue : Colors.black,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                description,
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            ],
+          ),
         ),
       ),
     );

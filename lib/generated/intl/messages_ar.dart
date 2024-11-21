@@ -143,6 +143,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "الماء هو القوة الدافعة لكل الطبيعة."),
         "quotesaider":
             MessageLookupByLibrary.simpleMessage("- ليوناردو دافنشي"),
+        "recommended": MessageLookupByLibrary.simpleMessage("موصى به لك"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "إعداد روتين التمارين الخاص بك..."),
         "short_term":

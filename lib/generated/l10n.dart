@@ -1170,51 +1170,61 @@ class S {
     );
   }
 
-  /// `1 أسبوع`
+  /// `1 week`
   String get one_week {
     return Intl.message(
-      '1 أسبوع',
+      '1 week',
       name: 'one_week',
       desc: '',
       args: [],
     );
   }
 
-  /// `أسبوعان`
+  /// `2 weeks`
   String get two_weeks {
     return Intl.message(
-      'أسبوعان',
+      '2 weeks',
       name: 'two_weeks',
       desc: '',
       args: [],
     );
   }
 
-  /// `شهر واحد`
+  /// `1 month`
   String get one_month {
     return Intl.message(
-      'شهر واحد',
+      '1 month',
       name: 'one_month',
       desc: '',
       args: [],
     );
   }
 
-  /// `شهران`
+  /// `2 months`
   String get two_months {
     return Intl.message(
-      'شهران',
+      '2 months',
       name: 'two_months',
       desc: '',
       args: [],
     );
   }
 
-  /// `مخصص`
+  /// `Custom`
   String get Custom {
     return Intl.message(
-      'مخصص',
+      'Custom',
       name: 'Custom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `recommended for you`
+  String get recommended {
+    return Intl.message(
+      'recommended for you',
+      name: 'recommended',
       desc: '',
       args: [],
     );

@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
-        "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
+        "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight"),
         "Goal": MessageLookupByLibrary.simpleMessage("Select Your Goal"),
@@ -123,8 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create New Account"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
         "nothing": MessageLookupByLibrary.simpleMessage("nothing"),
-        "one_month": MessageLookupByLibrary.simpleMessage("شهر واحد"),
-        "one_week": MessageLookupByLibrary.simpleMessage("1 أسبوع"),
+        "one_month": MessageLookupByLibrary.simpleMessage("1 month"),
+        "one_week": MessageLookupByLibrary.simpleMessage("1 week"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Sign-in method not allowed. Please enable the sign-in method in Firebase console."),
         "orLoginWith": MessageLookupByLibrary.simpleMessage("Or login with"),
@@ -144,6 +144,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Water is the driving force of all nature."),
         "quotesaider":
             MessageLookupByLibrary.simpleMessage("- Leonardo da Vinci"),
+        "recommended":
+            MessageLookupByLibrary.simpleMessage("recommended for you"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "Making your workout Routines..."),
         "short_term":
@@ -168,8 +170,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "to": MessageLookupByLibrary.simpleMessage("to"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "Too many requests. Try again later."),
-        "two_months": MessageLookupByLibrary.simpleMessage("شهران"),
-        "two_weeks": MessageLookupByLibrary.simpleMessage("أسبوعان"),
+        "two_months": MessageLookupByLibrary.simpleMessage("2 months"),
+        "two_weeks": MessageLookupByLibrary.simpleMessage("2 weeks"),
         "unit": MessageLookupByLibrary.simpleMessage("Select unit:"),
         "unknownError": MessageLookupByLibrary.simpleMessage(
             "An unknown error occurred. Please try again."),
