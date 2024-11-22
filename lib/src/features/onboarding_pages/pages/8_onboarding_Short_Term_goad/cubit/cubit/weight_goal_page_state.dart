@@ -8,8 +8,11 @@ class WeightGoalState {
   final String selectedOption;
   final double bodyFatPercentage;
   final String targetWeight;
+  final double? customGoal; // Nullable customGoal
 
+  // Update the constructor to handle customGoal correctly as a named parameter
   WeightGoalState({
+    this.customGoal, // Nullable customGoal
     this.userGoal = 'Loading...',
     this.weightUnit = 'kg',
     this.weightKg = 70.0,
@@ -21,6 +24,7 @@ class WeightGoalState {
     this.targetWeight = '',
   }) : endDate = endDate ?? DateTime.now().add(const Duration(days: 30));
 
+  // Updated copyWith to include customGoal
   WeightGoalState copyWith({
     String? userGoal,
     String? weightUnit,
@@ -31,6 +35,7 @@ class WeightGoalState {
     String? selectedOption,
     double? bodyFatPercentage,
     String? targetWeight,
+    double? customGoal, // Add customGoal to copyWith
   }) {
     return WeightGoalState(
       userGoal: userGoal ?? this.userGoal,
@@ -42,6 +47,7 @@ class WeightGoalState {
       selectedOption: selectedOption ?? this.selectedOption,
       bodyFatPercentage: bodyFatPercentage ?? this.bodyFatPercentage,
       targetWeight: targetWeight ?? this.targetWeight,
+      customGoal: customGoal ?? this.customGoal, // Ensure customGoal is updated
     );
   }
 }

@@ -89,8 +89,8 @@ class UserTargetOptions extends StatelessWidget {
       builder: (context, state) {
         return Center(
           child: Wrap(
-            spacing: 16, // Horizontal spacing
-            runSpacing: 16, // Vertical spacing
+            spacing: MediaQuery.sizeOf(context).width * .03,
+            runSpacing: MediaQuery.sizeOf(context).width * .02,
             alignment: WrapAlignment.center,
             children: [
               GoalOptionCard(
@@ -111,16 +111,84 @@ class UserTargetOptions extends StatelessWidget {
                     .read<WeightGoalCubit>()
                     .selectOption("Lose 1 kg/week"),
               ),
-              GoalOptionCard(
-                title: "Custom",
-                description: "Set your own goal",
-                icon: Icons.edit,
-                isSelected: state.selectedOption == "Custom",
-                onTap: () =>
-                    context.read<WeightGoalCubit>().selectOption("Custom"),
+              if (state.customGoal != null)
+                GoalOptionCard(
+                  title: "Lose ${state.customGoal!.toStringAsFixed(2)} kg/week",
+                  description: "Custom goal",
+                  icon: Icons.edit,
+                  isSelected: state.selectedOption == "Custom",
+                  onTap: () =>
+                      context.read<WeightGoalCubit>().selectOption("Custom"),
+                  onDelete: () =>
+                      context.read<WeightGoalCubit>().resetCustomGoal(),
+                )
+              else
+                GoalOptionCard(
+                  title: "Custom Goal",
+                  description: "Set your own weekly goal",
+                  icon: Icons.edit,
+                  isSelected: state.selectedOption == "Custom",
+                  onTap: () => _showCustomInputDialog(context, state),
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showCustomInputDialog(BuildContext context, WeightGoalState state) {
+    final controller = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Custom Goal"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Enter your desired weekly weight loss goal (kg):",
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "e.g., 0.75",
+                ),
               ),
             ],
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final input = controller.text;
+                if (input.isNotEmpty) {
+                  final customValue = double.tryParse(input);
+                  if (customValue != null && customValue > 0) {
+                    context
+                        .read<WeightGoalCubit>()
+                        .selectCustomOption(customValue);
+                    Navigator.of(context).pop();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text("Please enter a valid number.")),
+                    );
+                  }
+                }
+              },
+              child: const Text("Save"),
+            ),
+          ],
         );
       },
     );
@@ -133,6 +201,7 @@ class GoalOptionCard extends StatelessWidget {
   final IconData icon;
   final bool isSelected;
   final VoidCallback onTap;
+  final VoidCallback? onDelete;
 
   const GoalOptionCard({
     required this.title,
@@ -140,6 +209,7 @@ class GoalOptionCard extends StatelessWidget {
     required this.icon,
     required this.isSelected,
     required this.onTap,
+    this.onDelete,
   });
 
   @override
@@ -169,10 +239,31 @@ class GoalOptionCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 36,
-              color: isSelected ? Colors.blue : Colors.grey,
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Icon(
+                  icon,
+                  size: 36,
+                  color: isSelected ? Colors.blue : Colors.grey,
+                ),
+                if (onDelete != null)
+                  GestureDetector(
+                    onTap: onDelete,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                        size: 16,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 8),
             Text(

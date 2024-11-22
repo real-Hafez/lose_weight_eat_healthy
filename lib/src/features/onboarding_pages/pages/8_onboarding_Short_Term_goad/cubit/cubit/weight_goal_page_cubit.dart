@@ -23,6 +23,13 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
     ));
   }
 
+  void selectCustomOption(double customValue) {
+    emit(state.copyWith(
+      selectedOption: 'Custom',
+      customGoal: customValue,
+    ));
+  }
+
   void calculateBestTargetWeight(String height, {bool isHeightInFeet = false}) {
     double heightMeters;
 
@@ -107,6 +114,13 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
 
   void selectOption(String option) {
     emit(state.copyWith(selectedOption: option));
+  }
+
+  void resetCustomGoal() {
+    emit(state.copyWith(
+      customGoal: null,
+      selectedOption: null,
+    ));
   }
 
   // Add this method to update target weight based on user input
