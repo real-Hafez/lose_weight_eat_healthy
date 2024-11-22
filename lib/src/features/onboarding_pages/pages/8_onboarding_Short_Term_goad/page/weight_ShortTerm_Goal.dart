@@ -87,35 +87,40 @@ class UserTargetOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
       builder: (context, state) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GoalOptionCard(
-              title: "Lose 0.5 kg/week",
-              description: "",
-              isSelected: state.selectedOption == "Lose 0.5 kg/week",
-              onTap: () => context
-                  .read<WeightGoalCubit>()
-                  .selectOption("Lose 0.5 kg/week"),
-            ),
-            const SizedBox(height: 16),
-            GoalOptionCard(
-              title: "Lose 1 kg/week",
-              description: "",
-              isSelected: state.selectedOption == "Lose 1 kg/week",
-              onTap: () => context
-                  .read<WeightGoalCubit>()
-                  .selectOption("Lose 1 kg/week"),
-            ),
-            const SizedBox(height: 16),
-            GoalOptionCard(
-              title: "Custom",
-              description: "",
-              isSelected: state.selectedOption == "Custom",
-              onTap: () =>
-                  context.read<WeightGoalCubit>().selectOption("Custom"),
-            ),
-          ],
+        return Center(
+          child: Wrap(
+            spacing: 16, // Horizontal spacing
+            runSpacing: 16, // Vertical spacing
+            alignment: WrapAlignment.center,
+            children: [
+              GoalOptionCard(
+                title: "Lose 0.5 kg/week",
+                description: "Gradual weight loss",
+                icon: Icons.hourglass_bottom,
+                isSelected: state.selectedOption == "Lose 0.5 kg/week",
+                onTap: () => context
+                    .read<WeightGoalCubit>()
+                    .selectOption("Lose 0.5 kg/week"),
+              ),
+              GoalOptionCard(
+                title: "Lose 1 kg/week",
+                description: "Faster weight loss",
+                icon: Icons.flash_on,
+                isSelected: state.selectedOption == "Lose 1 kg/week",
+                onTap: () => context
+                    .read<WeightGoalCubit>()
+                    .selectOption("Lose 1 kg/week"),
+              ),
+              GoalOptionCard(
+                title: "Custom",
+                description: "Set your own goal",
+                icon: Icons.edit,
+                isSelected: state.selectedOption == "Custom",
+                onTap: () =>
+                    context.read<WeightGoalCubit>().selectOption("Custom"),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -125,12 +130,14 @@ class UserTargetOptions extends StatelessWidget {
 class GoalOptionCard extends StatelessWidget {
   final String title;
   final String description;
+  final IconData icon;
   final bool isSelected;
   final VoidCallback onTap;
 
   const GoalOptionCard({
     required this.title,
     required this.description,
+    required this.icon,
     required this.isSelected,
     required this.onTap,
   });
@@ -139,35 +146,51 @@ class GoalOptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        width: MediaQuery.of(context).size.width * 0.28,
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? Colors.blue : Colors.grey.shade300,
             width: isSelected ? 2 : 1,
           ),
           color: isSelected ? Colors.blue.shade50 : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(0, 4),
+              blurRadius: 6,
+            ),
+          ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: isSelected ? Colors.blue : Colors.black,
-                ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 36,
+              color: isSelected ? Colors.blue : Colors.grey,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.blue : Colors.black87,
               ),
-              const SizedBox(height: 8),
-              Text(
-                description,
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+          ],
         ),
       ),
     );
