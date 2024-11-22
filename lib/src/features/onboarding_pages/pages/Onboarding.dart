@@ -103,22 +103,6 @@ class Onboarding extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    weight_ShortTerm_Goal(
-                      onAnimationFinished: () {
-                        context.read<OnboardingCubit>().showNextButton();
-                      },
-                      onNextButtonPressed: () {
-                        context.read<OnboardingCubit>().nextPage();
-                      },
-                    ),
-                    HowQuickYouWantToLoseWeight(
-                      onAnimationFinished: () {
-                        context.read<OnboardingCubit>().showNextButton();
-                      },
-                      onNextButtonPressed: () {
-                        context.read<OnboardingCubit>().nextPage();
-                      },
-                    ),
                     BodyFatPercentagePage(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
@@ -127,6 +111,30 @@ class Onboarding extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
+                    weight_ShortTerm_Goal(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
+                    // HowQuickYouWantToLoseWeight(
+                    //   onAnimationFinished: () {
+                    //     context.read<OnboardingCubit>().showNextButton();
+                    //   },
+                    //   onNextButtonPressed: () {
+                    //     context.read<OnboardingCubit>().nextPage();
+                    //   },
+                    // ),
+                    // BodyFatPercentagePage(
+                    //   onAnimationFinished: () {
+                    //     context.read<OnboardingCubit>().showNextButton();
+                    //   },
+                    //   onNextButtonPressed: () {
+                    //     context.read<OnboardingCubit>().nextPage();
+                    //   },
+                    // ),
                     WaterPage_setup(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();

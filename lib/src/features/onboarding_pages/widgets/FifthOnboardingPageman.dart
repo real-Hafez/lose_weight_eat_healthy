@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Fifthonboardingpageman extends StatefulWidget {
   const Fifthonboardingpageman({
@@ -17,6 +18,11 @@ class Fifthonboardingpageman extends StatefulWidget {
 
   @override
   State<Fifthonboardingpageman> createState() => _FifthonboardingpagemanState();
+}
+
+Future<void> _saveToSharedPreferences(double value) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setDouble('bodyFatPercentage', value);
 }
 
 class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
@@ -124,7 +130,10 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
         ),
         NextButton(
           saveData: true,
-          onPressed: widget.onNextButtonPressed,
+          onPressed: () async {
+            await _saveToSharedPreferences(currentValue);
+            widget.onNextButtonPressed();
+          },
           collectionName: 'body percentage fat',
           dataToSave: {
             'bodyFatPercentage': currentValue.toStringAsFixed(0),

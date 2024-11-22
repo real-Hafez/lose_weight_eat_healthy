@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Fifthonboardingpagewoman extends StatefulWidget {
   const Fifthonboardingpagewoman({
@@ -32,6 +33,10 @@ class _FifthonboardingpagewomanState extends State<Fifthonboardingpagewoman> {
     'assets/body_percentage_fat/body_percentage_fat_woman/body_percentage_fat_38.jpg',
     'assets/body_percentage_fat/body_percentage_fat_woman/body_percentage_fat_44.jpg',
   ];
+  Future<void> _saveToSharedPreferences(double value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('bodyFatPercentage', value);
+  }
 
   double currentValue = 25;
   final ScrollController _scrollController = ScrollController();
@@ -124,7 +129,10 @@ class _FifthonboardingpagewomanState extends State<Fifthonboardingpagewoman> {
         ),
         NextButton(
           saveData: true,
-          onPressed: widget.onNextButtonPressed,
+          onPressed: () async {
+            await _saveToSharedPreferences(currentValue);
+            widget.onNextButtonPressed();
+          },
           collectionName: 'body percentage fat',
           dataToSave: {
             'bodyFatPercentage': currentValue.toStringAsFixed(0),

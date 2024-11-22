@@ -31,6 +31,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
   TextEditingController weightController = TextEditingController();
   DateTime endDate = DateTime.now().add(const Duration(days: 30));
   String _userGoal = 'Loading...';
+  double User_fat = 1;
   double weightLb = 176;
   double weightKg = 80;
   String weightUnit = 'kg';
@@ -42,6 +43,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
 
     _loadUserGoal();
     _loadUserWeight();
+    _loadUserbodypercentatge_fat();
     _setDefaultTargetWeight();
   }
 
@@ -58,6 +60,14 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _userGoal = prefs.getString('user_target') ?? 'Lose Weight';
+    });
+  }
+
+  Future<void> _loadUserbodypercentatge_fat() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      User_fat = prefs.getDouble('bodyFatPercentage') ?? 1;
+      print(User_fat);
     });
   }
 
@@ -165,54 +175,54 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
             Text(
               'Your current weight: ${weightUnit == '${S().kg}' ? weightKg.toStringAsFixed(1) + '${S().kg}' : weightLb.toStringAsFixed(1) + ' ${S().lb}'}',
             ),
-            Text(
-              '${S().active_my_goal}',
-              style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
-            ),
-            const SizedBox(height: 8),
-            DropdownButtonFormField<String>(
-              value: selectedTimeFrame,
-              items: [
-                {'key': '1 week', 'text': S().one_week},
-                {'key': '2 weeks', 'text': S().two_weeks},
-                {'key': '1 month', 'text': S().one_month},
-                {'key': '2 months', 'text': S().two_months},
-                {'key': 'Custom', 'text': S().Custom},
-              ].map((timeFrame) {
-                return DropdownMenuItem<String>(
-                  value: timeFrame['key'],
-                  child: Row(
-                    children: [
-                      Text(timeFrame['text']!),
-                      if (timeFrame['key'] == '1 month') ...[
-                        const SizedBox(width: 8),
-                        const Icon(Icons.star, color: Colors.amber, size: 20),
-                        const SizedBox(width: 4),
-                        Text(
-                          S().recommended,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                );
-              }).toList(),
-              onChanged: (String? newKey) {
-                setState(() {
-                  selectedTimeFrame = newKey!; // Save the unique key
-                  updateEndDate(); // Ensure the end date is updated accordingly
-                });
-              },
-            ),
+            // Text(
+            //   '${S().active_my_goal}',
+            //   style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
+            // ),
+            // const SizedBox(height: 8),
+            // DropdownButtonFormField<String>(
+            //   value: selectedTimeFrame,
+            //   items: [
+            //     {'key': '1 week', 'text': S().one_week},
+            //     {'key': '2 weeks', 'text': S().two_weeks},
+            //     {'key': '1 month', 'text': S().one_month},
+            //     {'key': '2 months', 'text': S().two_months},
+            //     {'key': 'Custom', 'text': S().Custom},
+            //   ].map((timeFrame) {
+            //     return DropdownMenuItem<String>(
+            //       value: timeFrame['key'],
+            //       child: Row(
+            //         children: [
+            //           Text(timeFrame['text']!),
+            //           if (timeFrame['key'] == '1 month') ...[
+            //             const SizedBox(width: 8),
+            //             const Icon(Icons.star, color: Colors.amber, size: 20),
+            //             const SizedBox(width: 4),
+            //             Text(
+            //               S().recommended,
+            //               style: TextStyle(
+            //                 fontSize: 12,
+            //                 fontStyle: FontStyle.italic,
+            //                 color: Colors.grey,
+            //               ),
+            //             ),
+            //           ],
+            //         ],
+            //       ),
+            //     );
+            //   }).toList(),
+            //   onChanged: (String? newKey) {
+            //     setState(() {
+            //       selectedTimeFrame = newKey!; // Save the unique key
+            //       updateEndDate(); // Ensure the end date is updated accordingly
+            //     });
+            //   },
+            // ),
             SizedBox(height: 16),
-            Text(
-              'Your target date: ${DateFormat('d MMMM yyyy').format(endDate)}',
-              style: const TextStyle(fontSize: 16),
-            ),
+            // Text(
+            //   'Your target date: ${DateFormat('d MMMM yyyy').format(endDate)}',
+            //   style: const TextStyle(fontSize: 16),
+            // ),
             const SizedBox(height: 16),
             TextFormField(
               controller: weightController,
