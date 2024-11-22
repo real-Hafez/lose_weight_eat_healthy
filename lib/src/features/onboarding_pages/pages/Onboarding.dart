@@ -111,7 +111,7 @@ class Onboarding extends StatelessWidget {
                         context.read<OnboardingCubit>().nextPage();
                       },
                     ),
-                    weight_ShortTerm_Goal(
+                    WeightGoalPage(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
                       },

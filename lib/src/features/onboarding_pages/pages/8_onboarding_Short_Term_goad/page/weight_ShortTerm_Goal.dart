@@ -1,329 +1,122 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:lose_weight_eat_healthy/generated/l10n.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/2_onboarding_welocme_msg/widget/buildAnimatedText.dart';
-import 'package:lose_weight_eat_healthy/src/shared/toast_shared.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
 
-class weight_ShortTerm_Goal extends StatelessWidget {
-  weight_ShortTerm_Goal({
-    super.key,
-    required this.onAnimationFinished,
-    required this.onNextButtonPressed,
-  });
-
+class WeightGoalPage extends StatelessWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  @override
-  Widget build(BuildContext context) {
-    return WeightGoalPage();
-  }
-}
-
-class WeightGoalPage extends StatefulWidget {
-  @override
-  _WeightGoalPageState createState() => _WeightGoalPageState();
-}
-
-class _WeightGoalPageState extends State<WeightGoalPage> {
-  String selectedTimeFrame = '1 month';
-  TextEditingController weightController = TextEditingController();
-  DateTime endDate = DateTime.now().add(const Duration(days: 30));
-  String _userGoal = 'Loading...';
-  double User_fat = 1;
-  double weightLb = 176;
-  double weightKg = 80;
-  String weightUnit = 'kg';
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeScreen();
-
-    _loadUserGoal();
-    _loadUserWeight();
-    _loadUserbodypercentatge_fat();
-    _setDefaultTargetWeight();
-  }
-
-  Future<void> _initializeScreen() async {
-    await _loadUserGoal();
-    await _loadUserWeight();
-
-    _setDefaultTargetWeight();
-
-    setState(() {});
-  }
-
-  Future<void> _loadUserGoal() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _userGoal = prefs.getString('user_target') ?? 'Lose Weight';
-    });
-  }
-
-  Future<void> _loadUserbodypercentatge_fat() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      User_fat = prefs.getDouble('bodyFatPercentage') ?? 1;
-      print(User_fat);
-    });
-  }
-
-  Future<void> _loadUserWeight() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      weightKg = prefs.getDouble('weightKg') ?? 70;
-      weightLb = prefs.getDouble('weightLb') ?? 176;
-      weightUnit = prefs.getString('weightUnit') ?? 'kg';
-    });
-  }
-
-  void updateEndDate() {
-    int weeks = 4; // Default to 1 month (4 weeks)
-    switch (selectedTimeFrame) {
-      case '1 week':
-        endDate = DateTime.now().add(const Duration(days: 7));
-        weeks = 1;
-        break;
-      case '2 weeks':
-        endDate = DateTime.now().add(const Duration(days: 14));
-        weeks = 2;
-        break;
-      case '1 month':
-        endDate = DateTime.now().add(const Duration(days: 30));
-        weeks = 4;
-        break;
-      case '2 months':
-        endDate = DateTime.now().add(const Duration(days: 60));
-        weeks = 8;
-        break;
-      case 'Custom':
-        showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime.now(),
-          lastDate: DateTime.now().add(const Duration(days: 365)),
-        ).then((selectedDate) {
-          if (selectedDate != null) {
-            if (selectedDate.difference(DateTime.now()).inDays < 7) {
-              ToastUtil.showToast(
-                  'Please select a date at least 1 week from today.');
-            } else {
-              setState(() {
-                endDate = selectedDate;
-              });
-            }
-          }
-        });
-        return;
-    }
-    _setDefaultTargetWeight(weeks);
-    setState(() {});
-  }
-
-  void _setDefaultTargetWeight([int weeks = 4]) {
-    double currentWeight = weightUnit == 'kg' ? weightKg : weightLb;
-    double weightChangePerWeek;
-
-    if (_userGoal.contains('Gain')) {
-      // Gain weight logic
-      weightChangePerWeek =
-          weightUnit == 'kg' ? 1 : 2.2; // 1 kg ~ 2.2 lb per week
-      currentWeight += weeks * weightChangePerWeek;
-    } else if (_userGoal.contains('Lose')) {
-      // Lose weight logic
-      weightChangePerWeek =
-          weightUnit == 'kg' ? 1 : 2.2; // 1 kg ~ 2.2 lb per week
-      currentWeight -= weeks * weightChangePerWeek;
-    } else if (_userGoal.contains('Maintain')) {
-      // Maintain weight logic
-      weightController.text = ''; // Clear the target weight field
-      return; // Let the user decide manually
-    }
-    bool _showNextButton = false;
-    bool _skipAnimation = false;
-
-    weightController.text = currentWeight.toStringAsFixed(1);
-    void _onSkipPressed() {
-      setState(() {
-        _skipAnimation = true;
-        _animatedTextKey = UniqueKey();
-        _showNextButton = true;
-      });
-      // onAnimationFinished();
-    }
-  }
-
-  Key _animatedTextKey = UniqueKey();
+  const WeightGoalPage(
+      {super.key,
+      required this.onAnimationFinished,
+      required this.onNextButtonPressed});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '${S().short_term} ${_userGoal.contains('${S().gain}') ? '${S().gain}' : _userGoal.contains('${S().lose}') ? '${S().lose}' : '${S().Maintenance}'} Goal',
-          style: TextStyle(fontFamily: 'Indie_Flower'),
+    return BlocProvider(
+      create: (_) => WeightGoalCubit()..loadPreferences(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: BlocBuilder<WeightGoalCubit, WeightGoalState>(
+            builder: (context, state) => Text(
+              '${state.userGoal} Goal',
+              style: const TextStyle(fontFamily: 'Indie_Flower'),
+            ),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<WeightGoalCubit, WeightGoalState>(
+                builder: (context, state) {
+                  return Text(
+                    'Your current weight: ${state.weightUnit == 'kg' ? state.weightKg.toStringAsFixed(1) + ' kg' : state.weightLb.toStringAsFixed(1) + ' lb'}',
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              BlocBuilder<WeightGoalCubit, WeightGoalState>(
+                builder: (context, state) {
+                  return TextFormField(
+                    initialValue: state.targetWeight,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Target Weight',
+                      border: const OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Theme.of(context).colorScheme.surface,
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+              UserTargetOptions(),
+            ],
+          ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
+    );
+  }
+}
+
+class UserTargetOptions extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<WeightGoalCubit, WeightGoalState>(
+      builder: (context, state) {
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Your current weight: ${weightUnit == '${S().kg}' ? weightKg.toStringAsFixed(1) + '${S().kg}' : weightLb.toStringAsFixed(1) + ' ${S().lb}'}',
+            GoalOptionCard(
+              title: "Lose 0.5 kg/week",
+              description: "Achieve steady and sustainable weight loss.",
+              isSelected: state.selectedOption == "Lose 0.5 kg/week",
+              onTap: () => context
+                  .read<WeightGoalCubit>()
+                  .selectOption("Lose 0.5 kg/week"),
             ),
-            // Text(
-            //   '${S().active_my_goal}',
-            //   style: TextStyle(fontSize: 18, fontFamily: 'Indie_Flower'),
-            // ),
-            // const SizedBox(height: 8),
-            // DropdownButtonFormField<String>(
-            //   value: selectedTimeFrame,
-            //   items: [
-            //     {'key': '1 week', 'text': S().one_week},
-            //     {'key': '2 weeks', 'text': S().two_weeks},
-            //     {'key': '1 month', 'text': S().one_month},
-            //     {'key': '2 months', 'text': S().two_months},
-            //     {'key': 'Custom', 'text': S().Custom},
-            //   ].map((timeFrame) {
-            //     return DropdownMenuItem<String>(
-            //       value: timeFrame['key'],
-            //       child: Row(
-            //         children: [
-            //           Text(timeFrame['text']!),
-            //           if (timeFrame['key'] == '1 month') ...[
-            //             const SizedBox(width: 8),
-            //             const Icon(Icons.star, color: Colors.amber, size: 20),
-            //             const SizedBox(width: 4),
-            //             Text(
-            //               S().recommended,
-            //               style: TextStyle(
-            //                 fontSize: 12,
-            //                 fontStyle: FontStyle.italic,
-            //                 color: Colors.grey,
-            //               ),
-            //             ),
-            //           ],
-            //         ],
-            //       ),
-            //     );
-            //   }).toList(),
-            //   onChanged: (String? newKey) {
-            //     setState(() {
-            //       selectedTimeFrame = newKey!; // Save the unique key
-            //       updateEndDate(); // Ensure the end date is updated accordingly
-            //     });
-            //   },
-            // ),
-            SizedBox(height: 16),
-            // Text(
-            //   'Your target date: ${DateFormat('d MMMM yyyy').format(endDate)}',
-            //   style: const TextStyle(fontSize: 16),
-            // ),
             const SizedBox(height: 16),
-            TextFormField(
-              controller: weightController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText:
-                    'Target Weight (e.g., ${weightUnit == 'kg' ? '${(weightKg + 4).toStringAsFixed(1)} kg' : '${(weightLb + 8.8).toStringAsFixed(1)} lb'})',
-                border: const OutlineInputBorder(),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.surface,
-              ),
+            GoalOptionCard(
+              title: "Lose 1 kg/week",
+              description: "Faster progress towards your goal.",
+              isSelected: state.selectedOption == "Lose 1 kg/week",
+              onTap: () => context
+                  .read<WeightGoalCubit>()
+                  .selectOption("Lose 1 kg/week"),
             ),
-            User_Target()
+            const SizedBox(height: 16),
+            GoalOptionCard(
+              title: "Custom",
+              description: "Set your own target weight loss per week.",
+              isSelected: state.selectedOption == "Custom",
+              onTap: () =>
+                  context.read<WeightGoalCubit>().selectOption("Custom"),
+            ),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
-class User_Target extends StatefulWidget {
-  const User_Target({super.key});
+class GoalOptionCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final bool isSelected;
+  final VoidCallback onTap;
 
-  @override
-  _User_TargetState createState() => _User_TargetState();
-}
-
-class _User_TargetState extends State<User_Target> {
-  String selectedOption = "";
-
-  void _selectOption(String option) {
-    setState(() {
-      selectedOption = option;
-    });
-  }
+  const GoalOptionCard({
+    required this.title,
+    required this.description,
+    required this.isSelected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildGoalCard(
-            title: "Lose 0.5 kg/week",
-            description: "Achieve steady and sustainable weight loss.",
-            isSelected: selectedOption == "Lose 0.5 kg/week",
-            onTap: () => _selectOption("Lose 0.5 kg/week"),
-          ),
-          const SizedBox(height: 16),
-          _buildGoalCard(
-            title: "Lose 1 kg/week",
-            description: "Faster progress towards your goal.",
-            isSelected: selectedOption == "Lose 1 kg/week",
-            onTap: () => _selectOption("Lose 1 kg/week"),
-          ),
-          const SizedBox(height: 16),
-          _buildGoalCard(
-            title: "Custom",
-            description: "Set your own target weight loss per week.",
-            isSelected: selectedOption == "Custom",
-            onTap: () => _selectOption("Custom"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (selectedOption.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Please select an option!"),
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("You selected: $selectedOption"),
-                  ),
-                );
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: const Text(
-              "Confirm",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGoalCard({
-    required String title,
-    required String description,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -334,13 +127,6 @@ class _User_TargetState extends State<User_Target> {
             width: isSelected ? 2 : 1,
           ),
           color: isSelected ? Colors.blue.shade50 : Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
