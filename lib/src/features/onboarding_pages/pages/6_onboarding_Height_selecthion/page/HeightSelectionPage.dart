@@ -105,12 +105,13 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.setString('heightUnit', _heightUnit);
 
-              // Saving height in centimeters in shared pre
-              await prefs.setInt('heightCm', _heightCm);
-
-              // Saving height in feet and inches as a formatted string
-              String ftInches = '$_heightFt\'${_heightInches}\'';
-              await prefs.setString('heightFtInches', ftInches);
+              // Save height correctly
+              if (_heightUnit == 'cm') {
+                await prefs.setString('height', _heightCm.toString());
+              } else {
+                String ftInches = '$_heightFt\'$_heightInches\"';
+                await prefs.setString('height', ftInches);
+              }
 
               widget.onNextButtonPressed();
             },

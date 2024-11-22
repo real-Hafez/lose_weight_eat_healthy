@@ -32,23 +32,43 @@ class WeightGoalPage extends StatelessWidget {
             children: [
               BlocBuilder<WeightGoalCubit, WeightGoalState>(
                 builder: (context, state) {
-                  return Text(
-                    'Your current weight: ${state.weightUnit == 'kg' ? state.weightKg.toStringAsFixed(1) + ' kg' : state.weightLb.toStringAsFixed(1) + ' lb'}',
-                  );
-                },
-              ),
-              const SizedBox(height: 16),
-              BlocBuilder<WeightGoalCubit, WeightGoalState>(
-                builder: (context, state) {
-                  return TextFormField(
-                    initialValue: state.targetWeight,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Target Weight',
-                      border: const OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.surface,
-                    ),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Target Weight',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextFormField(
+                        initialValue: null, // User starts with an empty field
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: state.targetWeight == 'Invalid height'
+                              ? 'Enter a valid height first'
+                              : 'Recommended: ${state.targetWeight} ',
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic,
+                            color: state.targetWeight == 'Invalid height'
+                                ? Colors.red
+                                : Colors.grey.shade600,
+                          ),
+                          border: const OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Theme.of(context).colorScheme.surface,
+                        ),
+                        onChanged: (value) {
+                          context
+                              .read<WeightGoalCubit>()
+                              .updateTargetWeight(value);
+                        },
+                      ),
+                    ],
                   );
                 },
               ),
