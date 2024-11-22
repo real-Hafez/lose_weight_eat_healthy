@@ -87,12 +87,12 @@ class UserTargetOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
       builder: (context, state) {
-        return Column(
+        return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GoalOptionCard(
               title: "Lose 0.5 kg/week",
-              description: "Achieve steady and sustainable weight loss.",
+              description: "",
               isSelected: state.selectedOption == "Lose 0.5 kg/week",
               onTap: () => context
                   .read<WeightGoalCubit>()
@@ -101,7 +101,7 @@ class UserTargetOptions extends StatelessWidget {
             const SizedBox(height: 16),
             GoalOptionCard(
               title: "Lose 1 kg/week",
-              description: "Faster progress towards your goal.",
+              description: "",
               isSelected: state.selectedOption == "Lose 1 kg/week",
               onTap: () => context
                   .read<WeightGoalCubit>()
@@ -110,7 +110,7 @@ class UserTargetOptions extends StatelessWidget {
             const SizedBox(height: 16),
             GoalOptionCard(
               title: "Custom",
-              description: "Set your own target weight loss per week.",
+              description: "",
               isSelected: state.selectedOption == "Custom",
               onTap: () =>
                   context.read<WeightGoalCubit>().selectOption("Custom"),
