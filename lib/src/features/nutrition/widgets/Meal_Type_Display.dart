@@ -90,7 +90,12 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
             numberOfParticles: 20,
             maxBlastForce: 20,
             minBlastForce: 5,
-            colors: [Colors.blue, Colors.green, Colors.purple, Colors.orange],
+            colors: const [
+              Colors.blue,
+              Colors.green,
+              Colors.purple,
+              Colors.orange
+            ],
           ),
         ),
       ],

@@ -68,7 +68,7 @@ class LanguageSelectionPage extends StatelessWidget {
                           onTap: () {
                             context
                                 .read<LocaleCubit>()
-                                .updateLocale(Locale('ar', 'SA'));
+                                .updateLocale(const Locale('ar', 'SA'));
                           },
                         ),
                       ),
@@ -86,7 +86,7 @@ class LanguageSelectionPage extends StatelessWidget {
                             // Update the locale to English
                             context
                                 .read<LocaleCubit>()
-                                .updateLocale(Locale('en', 'US'));
+                                .updateLocale(const Locale('en', 'US'));
                           },
                         ),
                       ),

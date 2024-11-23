@@ -86,8 +86,6 @@ class MealFinder {
     Map<String, dynamic>? bestMeal;
 
     for (var food in foods) {
-      if (food == null) continue;
-
       double calories = (food['calories'] ?? 0).toDouble();
       double protein = (food['protein'] ?? 0).toDouble();
       double carbs = (food['carbs'] ?? 0).toDouble();
@@ -110,15 +108,13 @@ class MealFinder {
       }
     }
 
-    if (bestMeal == null) {
-      bestMeal = {
-        'mealType': mealType,
-        'calories': 0,
-        'protein': 0,
-        'carbs': 0,
-        'fats': 0
-      }; // Fallback for null meals
-    }
+    bestMeal ??= {
+      'mealType': mealType,
+      'calories': 0,
+      'protein': 0,
+      'carbs': 0,
+      'fats': 0
+    };
 
     return bestMeal;
   }
@@ -129,8 +125,6 @@ class MealFinder {
     Map<String, dynamic>? bestSnack;
 
     for (var snack in snacks) {
-      if (snack == null) continue;
-
       double calories = (snack['calories'] ?? 0).toDouble();
 
       double difference = (calories - targetCalories).abs();
@@ -147,15 +141,13 @@ class MealFinder {
       }
     }
 
-    if (bestSnack == null) {
-      bestSnack = {
-        'mealType': "Snack",
-        'calories': 0,
-        'protein': 0,
-        'carbs': 0,
-        'fats': 0
-      }; // Fallback for no suitable snack
-    }
+    bestSnack ??= {
+      'mealType': "Snack",
+      'calories': 0,
+      'protein': 0,
+      'carbs': 0,
+      'fats': 0
+    };
 
     return bestSnack;
   }

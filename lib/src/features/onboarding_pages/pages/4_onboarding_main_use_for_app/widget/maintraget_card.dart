@@ -22,7 +22,7 @@ class maintraget_card extends StatelessWidget {
           horizontal: MediaQuery.of(context).size.width * .03,
         ),
         child: Card(
-          color: isSelected ? Color(0xFFC3FF4D) : Colors.grey,
+          color: isSelected ? const Color(0xFFC3FF4D) : Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(48),
           ),

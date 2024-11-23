@@ -15,7 +15,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ne
 class WeightSelectionView extends StatelessWidget {
   final VoidCallback onNextButtonPressed;
 
-  const WeightSelectionView({required this.onNextButtonPressed});
+  const WeightSelectionView({super.key, required this.onNextButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class WeightSelectionView extends StatelessWidget {
                   onUnitChanged: (unit) => cubit.updateWeightUnit(unit),
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * .06),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: Center(
                     child: state.weightUnit == 'kg'

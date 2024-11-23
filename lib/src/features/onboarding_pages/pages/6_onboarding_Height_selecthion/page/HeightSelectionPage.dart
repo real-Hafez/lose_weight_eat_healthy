@@ -109,7 +109,7 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
               if (_heightUnit == 'cm') {
                 await prefs.setString('height', _heightCm.toString());
               } else {
-                String ftInches = '$_heightFt\'$_heightInches\"';
+                String ftInches = '$_heightFt\'${_heightInches}"';
                 await prefs.setString('height', ftInches);
               }
 

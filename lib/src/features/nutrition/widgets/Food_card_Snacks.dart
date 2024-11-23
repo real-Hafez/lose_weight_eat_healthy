@@ -10,7 +10,7 @@ class Food_Card_snacks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return snacks();
+    return const snacks();
   }
 }
 

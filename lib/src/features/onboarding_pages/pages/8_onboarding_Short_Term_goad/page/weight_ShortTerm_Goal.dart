@@ -83,6 +83,8 @@ class WeightGoalPage extends StatelessWidget {
 }
 
 class UserTargetOptions extends StatelessWidget {
+  const UserTargetOptions({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
@@ -204,6 +206,7 @@ class GoalOptionCard extends StatelessWidget {
   final VoidCallback? onDelete;
 
   const GoalOptionCard({
+    super.key,
     required this.title,
     required this.description,
     required this.icon,

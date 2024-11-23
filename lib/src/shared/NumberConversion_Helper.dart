@@ -4,7 +4,7 @@ class NumberConversionHelper {
     const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
     return input.replaceAllMapped(
       RegExp(r'[0-9]'),
-      (match) => arabicNumbers[int.parse(match.group(0)!)]!,
+      (match) => arabicNumbers[int.parse(match.group(0)!)],
     );
   }
 }

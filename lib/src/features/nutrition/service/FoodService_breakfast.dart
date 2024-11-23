@@ -25,12 +25,7 @@ class FoodService_breakfast {
           .from('breakfast_middle eastern')
           .select()
           .limit(1)
-          .single(); // Fetch a single meal item
-
-      if (response == null) {
-        print("No data found for breakfast from Supabase.");
-        return null;
-      }
+          .single();
 
       return Map<String, dynamic>.from(response);
     } catch (e) {

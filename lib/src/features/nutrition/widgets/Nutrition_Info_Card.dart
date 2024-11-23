@@ -166,7 +166,7 @@ class NutritionInfoCard extends StatelessWidget {
                               curve: Curves.easeInOut,
                             ),
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.check_circle,
                             color: Colors.green,
                             size: 80,

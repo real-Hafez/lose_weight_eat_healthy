@@ -61,7 +61,7 @@ class Bmi_Card extends StatelessWidget {
                 height: screenHeight * 0.18,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  gradient: LinearGradient(
+                  gradient: const LinearGradient(
                     colors: [Colors.deepPurple, Colors.blue],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
