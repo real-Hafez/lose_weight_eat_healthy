@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
 
-class WeightGoalPage extends StatelessWidget {
+class WeightGoalPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
@@ -11,6 +11,13 @@ class WeightGoalPage extends StatelessWidget {
       {super.key,
       required this.onAnimationFinished,
       required this.onNextButtonPressed});
+
+  @override
+  _WeightGoalPageState createState() => _WeightGoalPageState();
+}
+
+class _WeightGoalPageState extends State<WeightGoalPage> {
+  String? customGoal;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +52,7 @@ class WeightGoalPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       TextFormField(
-                        initialValue: null, // User starts with an empty field
+                        initialValue: null,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: state.targetWeight == 'Invalid height'
@@ -73,7 +80,14 @@ class WeightGoalPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 16),
-              UserTargetOptions(),
+              GoalCardList(
+                customGoal: customGoal,
+                onCustomGoalUpdated: (newCustomGoal) {
+                  setState(() {
+                    customGoal = newCustomGoal;
+                  });
+                },
+              ),
             ],
           ),
         ),
@@ -82,15 +96,20 @@ class WeightGoalPage extends StatelessWidget {
   }
 }
 
-class UserTargetOptions extends StatelessWidget {
-  const UserTargetOptions({super.key});
+class GoalCardList extends StatelessWidget {
+  final String? customGoal;
+  final ValueChanged<String?> onCustomGoalUpdated;
+
+  const GoalCardList({
+    super.key,
+    required this.customGoal,
+    required this.onCustomGoalUpdated,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
       builder: (context, state) {
-        print("Custom Goal: ${state.customGoal}");
-
         return Center(
           child: Wrap(
             spacing: MediaQuery.sizeOf(context).width * .03,
@@ -115,16 +134,16 @@ class UserTargetOptions extends StatelessWidget {
                     .read<WeightGoalCubit>()
                     .selectOption("Lose 1 kg/week"),
               ),
-              if (state.customGoal != null)
+              if (customGoal != null)
                 GoalOptionCard(
-                  title: "Lose ${state.customGoal!.toStringAsFixed(2)} kg/week",
+                  title: "Lose $customGoal kg/week",
                   description: "Custom goal",
                   icon: Icons.edit,
                   isSelected: state.selectedOption == "Custom",
                   onTap: () =>
                       context.read<WeightGoalCubit>().selectOption("Custom"),
-                  onDelete: () =>
-                      context.read<WeightGoalCubit>().resetCustomGoal(),
+                  onDelete: () => onCustomGoalUpdated(null),
+                  onEdit: () => _showCustomInputDialog(context), // Edit logic
                 )
               else
                 GoalOptionCard(
@@ -132,7 +151,7 @@ class UserTargetOptions extends StatelessWidget {
                   description: "Set your own weekly goal",
                   icon: Icons.edit,
                   isSelected: state.selectedOption == "Custom",
-                  onTap: () => _showCustomInputDialog(context, state),
+                  onTap: () => _showCustomInputDialog(context),
                 ),
             ],
           ),
@@ -141,7 +160,7 @@ class UserTargetOptions extends StatelessWidget {
     );
   }
 
-  void _showCustomInputDialog(BuildContext context, WeightGoalState state) {
+  void _showCustomInputDialog(BuildContext context) {
     final controller = TextEditingController();
 
     showDialog(
@@ -178,6 +197,7 @@ class UserTargetOptions extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final customValue = double.tryParse(input);
                   if (customValue != null && customValue > 0) {
+                    onCustomGoalUpdated(customValue.toStringAsFixed(2));
                     context
                         .read<WeightGoalCubit>()
                         .selectCustomOption(customValue);
@@ -206,6 +226,7 @@ class GoalOptionCard extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   final VoidCallback? onDelete;
+  final VoidCallback? onEdit; // New parameter for edit functionality
 
   const GoalOptionCard({
     super.key,
@@ -215,6 +236,7 @@ class GoalOptionCard extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     this.onDelete,
+    this.onEdit,
   });
 
   @override
@@ -265,6 +287,22 @@ class GoalOptionCard extends StatelessWidget {
                         Icons.close,
                         size: 16,
                         color: Colors.red,
+                      ),
+                    ),
+                  ),
+                if (onEdit != null) // Add edit icon
+                  GestureDetector(
+                    onTap: onEdit,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.edit,
+                        size: 16,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
