@@ -143,7 +143,7 @@ class GoalCardList extends StatelessWidget {
                   onTap: () =>
                       context.read<WeightGoalCubit>().selectOption("Custom"),
                   onDelete: () => onCustomGoalUpdated(null),
-                  onEdit: () => _showCustomInputDialog(context), // Edit logic
+                  onEdit: () => _showCustomInputDialog(context),
                 )
               else
                 GoalOptionCard(
@@ -211,7 +211,7 @@ class GoalCardList extends StatelessWidget {
                 }
               },
               child: const Text("Save"),
-            ),
+            )
           ],
         );
       },

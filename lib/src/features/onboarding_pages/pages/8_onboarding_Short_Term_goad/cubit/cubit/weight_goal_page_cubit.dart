@@ -29,9 +29,11 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
     await prefs.setDouble('customGoal', customGoal);
     emit(state.copyWith(
       customGoal: customGoal,
-      selectedOption: "Custom",
+      selectedOption:
+          "Custom", // Ensure the custom goal is selected immediately
     ));
   }
+
   // void selectCustomOption(double customValue) {
   //   emit(state.copyWith(
   //     selectedOption: 'Custom',
