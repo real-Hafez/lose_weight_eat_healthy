@@ -5,10 +5,10 @@ class WeightGoalState {
   final double weightLb;
   final DateTime endDate;
   final String selectedTimeFrame;
-  final String selectedOption;
   final double bodyFatPercentage;
   final String targetWeight;
-  final double? customGoal; // Nullable customGoal
+  final String selectedOption;
+  final double? customGoal;
 
   // Update the constructor to handle customGoal correctly as a named parameter
   WeightGoalState({

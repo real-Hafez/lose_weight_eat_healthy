@@ -89,6 +89,8 @@ class UserTargetOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
       builder: (context, state) {
+        print("Custom Goal: ${state.customGoal}");
+
         return Center(
           child: Wrap(
             spacing: MediaQuery.sizeOf(context).width * .03,

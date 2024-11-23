@@ -7,6 +7,7 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
 
   Future<void> loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
+    final customGoal = prefs.getDouble('customGoal');
 
     bool isHeightInFeet = prefs.getString('heightUnit') == 'ft';
     String height =
@@ -15,20 +16,28 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
     calculateBestTargetWeight(height, isHeightInFeet: isHeightInFeet);
 
     emit(state.copyWith(
-      userGoal: prefs.getString('user_target') ?? 'Lose Weight',
-      weightKg: prefs.getDouble('weightKg') ?? 70,
-      weightLb: prefs.getDouble('weightLb') ?? 154,
-      weightUnit: prefs.getString('weightUnit') ?? 'kg',
-      bodyFatPercentage: prefs.getDouble('bodyFatPercentage') ?? 1,
-    ));
+        userGoal: prefs.getString('user_target') ?? 'Lose Weight',
+        weightKg: prefs.getDouble('weightKg') ?? 70,
+        weightLb: prefs.getDouble('weightLb') ?? 154,
+        weightUnit: prefs.getString('weightUnit') ?? 'kg',
+        bodyFatPercentage: prefs.getDouble('bodyFatPercentage') ?? 1,
+        customGoal: customGoal));
   }
 
-  void selectCustomOption(double customValue) {
+  Future<void> selectCustomOption(double customGoal) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('customGoal', customGoal);
     emit(state.copyWith(
-      selectedOption: 'Custom',
-      customGoal: customValue,
+      customGoal: customGoal,
+      selectedOption: "Custom",
     ));
   }
+  // void selectCustomOption(double customValue) {
+  //   emit(state.copyWith(
+  //     selectedOption: 'Custom',
+  //     customGoal: customValue,
+  //   ));
+  // }
 
   void calculateBestTargetWeight(String height, {bool isHeightInFeet = false}) {
     double heightMeters;
@@ -116,10 +125,12 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
     emit(state.copyWith(selectedOption: option));
   }
 
-  void resetCustomGoal() {
+  Future<void> resetCustomGoal() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('customGoal');
     emit(state.copyWith(
       customGoal: null,
-      selectedOption: null,
+      selectedOption: "Lose 0.5 kg/week",
     ));
   }
 
