@@ -105,21 +105,26 @@ class GoalCardList extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final customValue = double.tryParse(input);
                   if (customValue != null && customValue > 0) {
+                    // Update the custom goal value in parent widget
                     onCustomGoalUpdated(customValue.toStringAsFixed(2));
+
+                    // Set the custom goal and automatically select it
                     context
                         .read<WeightGoalCubit>()
                         .selectCustomOption(customValue);
+
                     Navigator.of(context).pop();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text("Please enter a valid number.")),
+                        content: Text("Please enter a valid number."),
+                      ),
                     );
                   }
                 }
               },
               child: const Text("Save"),
-            )
+            ),
           ],
         );
       },

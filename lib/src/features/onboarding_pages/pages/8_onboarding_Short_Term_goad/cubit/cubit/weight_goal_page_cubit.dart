@@ -27,10 +27,11 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
   Future<void> selectCustomOption(double customGoal) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('customGoal', customGoal);
+    // Emit new state with both customGoal updated AND "Custom" selected
     emit(state.copyWith(
       customGoal: customGoal,
       selectedOption:
-          "Custom", // Ensure the custom goal is selected immediately
+          "Custom", // This ensures the custom option is selected immediately
     ));
   }
 
