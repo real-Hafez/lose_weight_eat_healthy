@@ -105,7 +105,7 @@ class LineChart extends StatelessWidget {
             desiredMinTickCount: 6,
             desiredMaxTickCount: 10,
           ),
-          tickLength: 0,
+          tickLength: 1,
           gapAxisToLabel: 10,
           tickLabelFormatter: (measure) {
             return measure!.toInt().toString().padLeft(2, '0');
@@ -119,7 +119,7 @@ class LineChart extends StatelessWidget {
           TimeGroup(
             id: '1',
             data: series1,
-            color: Colors.deepPurple,
+            color: Colors.green,
           ),
         ],
       ),

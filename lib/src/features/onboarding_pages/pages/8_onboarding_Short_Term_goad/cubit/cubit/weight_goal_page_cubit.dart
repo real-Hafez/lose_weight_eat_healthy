@@ -31,7 +31,7 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
     emit(state.copyWith(
       customGoal: customGoal,
       selectedOption:
-          "Custom", // This ensures the custom option is selected immediately
+          "Lose 1 kg/week", // This ensures the custom option is selected immediately
     ));
   }
 
