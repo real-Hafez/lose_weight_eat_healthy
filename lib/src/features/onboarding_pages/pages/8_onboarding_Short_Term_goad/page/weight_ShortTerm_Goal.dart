@@ -78,24 +78,21 @@ class LineChart extends StatelessWidget {
                 ? 0.5
                 : state.customGoal ?? 1.0;
 
-        // Ensure weeklyLoss is positive to avoid infinite loops
         if (weeklyLoss <= 0) {
           return const Center(
             child: Text("Invalid weekly loss. Please set a valid goal."),
           );
         }
 
-        // Calculate the number of weeks
+        // Calculate the number of weeks required to reach the target weight
         int weeks = ((currentWeight - targetWeight) / weeklyLoss).ceil();
-
-        // Handle invalid cases where targetWeight > currentWeight
         if (weeks < 0) {
           return const Center(
             child: Text("Target weight must be less than your current weight."),
           );
         }
 
-        // Generate chart data
+        // Generate chart data for each week
         List<TimeData> chartData = List.generate(
           weeks,
           (index) => TimeData(
@@ -108,30 +105,51 @@ class LineChart extends StatelessWidget {
         return AspectRatio(
           aspectRatio: 16 / 9,
           child: DChartLineT(
+            animate: true,
             configRenderLine: ConfigRenderLine(strokeWidthPx: 2.5),
             layoutMargin: LayoutMargin(30, 10, 20, 10),
             domainAxis: DomainAxis(
               showLine: true,
-              tickLength: 0,
+              tickLength: 5,
               gapAxisToLabel: 10,
-              tickLabelFormatterT: (domain) {
-                return DateFormat('MMM d').format(domain);
-              },
               labelStyle: const LabelStyle(
                 color: Colors.grey,
                 fontSize: 10,
               ),
+              tickLabelFormatterT: (domain) {
+                final difference = currentWeight - targetWeight;
+                int monthIndex = DateFormat('MM')
+                    .parse(DateFormat('MM').format(domain))
+                    .month;
+
+                // If the target weight difference is large (more than 20kg), show months
+                if (difference > 20) {
+                  if (monthIndex % 2 == 0) {
+                    return DateFormat('MMM')
+                        .format(domain); // Show every 2nd month
+                  }
+                } else {
+                  // For smaller weight loss targets (e.g., less than 10 kg), show weekly progress
+                  int weekIndex =
+                      (domain.difference(DateTime.now()).inDays / 7).floor() +
+                          1;
+                  return "Week $weekIndex: ${DateFormat('dd MMM').format(domain)}"; // Show week number and date
+                }
+
+                return ''; // Skip months in between
+              },
             ),
             measureAxis: MeasureAxis(
-              useGridLine: false,
+              useGridLine: true,
               gridLineStyle: LineStyle(
                 color: Colors.grey.shade200,
+                dashPattern: [4, 2],
               ),
               numericTickProvider: const NumericTickProvider(
                 desiredMinTickCount: 6,
                 desiredMaxTickCount: 10,
               ),
-              tickLabelFormatter: (measure) => measure!.toInt().toString(),
+              tickLabelFormatter: (measure) => "${measure!.toInt()} kg",
               labelStyle: const LabelStyle(
                 color: Colors.grey,
                 fontSize: 10,
