@@ -24,23 +24,25 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
         customGoal: customGoal));
   }
 
-  Future<void> selectCustomOption(double customGoal) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble('customGoal', customGoal);
-    // Emit new state with both customGoal updated AND "Custom" selected
-    emit(state.copyWith(
-      customGoal: customGoal,
-      selectedOption:
-          "Lose 1 kg/week", // This ensures the custom option is selected immediately
-    ));
-  }
-
-  // void selectCustomOption(double customValue) {
+  // Future<void> selectCustomOption(double customGoal) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setDouble('customGoal', customGoal);
+  //   // Emit new state with both customGoal updated AND "Custom" selected
   //   emit(state.copyWith(
-  //     selectedOption: 'Custom',
-  //     customGoal: customValue,
+  //     customGoal: customGoal,
+  //     selectedOption:
+  //         "Lose 1 kg/week", // This ensures the custom option is selected immediately
   //   ));
   // }
+
+  void selectCustomOption(double customGoal) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble('customGoal', customGoal);
+    emit(state.copyWith(
+      customGoal: customGoal,
+      selectedOption: "Custom",
+    ));
+  }
 
   void calculateBestTargetWeight(String height, {bool isHeightInFeet = false}) {
     double heightMeters;

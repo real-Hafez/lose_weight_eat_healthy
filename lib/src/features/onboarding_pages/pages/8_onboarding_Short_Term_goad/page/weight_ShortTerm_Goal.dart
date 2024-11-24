@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/GoalCardList.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/TargetWeightInput.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/WeightGoalAppBar.dart';
@@ -60,69 +61,92 @@ class LineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<TimeData> series1 = [
-      TimeData(domain: DateTime(2024, 1), measure: 10),
-      TimeData(domain: DateTime(2024, 2), measure: 20),
-      TimeData(domain: DateTime(2024, 3), measure: 30),
-      TimeData(domain: DateTime(2024, 4), measure: 50),
-      TimeData(domain: DateTime(2024, 5), measure: 75),
-      TimeData(domain: DateTime(2024, 6), measure: 55),
-      TimeData(domain: DateTime(2024, 7), measure: 65),
-      TimeData(domain: DateTime(2024, 8), measure: 58),
-      TimeData(domain: DateTime(2024, 9), measure: 88),
-      TimeData(domain: DateTime(2024, 10), measure: 50),
-      TimeData(domain: DateTime(2024, 11), measure: 40),
-      TimeData(domain: DateTime(2024, 12), measure: 48),
-    ];
+    return BlocBuilder<WeightGoalCubit, WeightGoalState>(
+      builder: (context, state) {
+        if (state.targetWeight == null || state.weightKg == null) {
+          return const Center(
+            child: Text("Set your target weight to view the chart."),
+          );
+        }
 
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: DChartLineT(
-        configRenderLine: ConfigRenderLine(
-          strokeWidthPx: 2.5,
-        ),
-        layoutMargin: LayoutMargin(30, 10, 20, 10),
-        domainAxis: DomainAxis(
-          showLine: true,
-          tickLength: 0,
-          gapAxisToLabel: 10,
-          tickLabelFormatterT: (domain) {
-            return DateFormat('MMM').format(domain);
-          },
-          //that for months that in the bottom
-          labelStyle: const LabelStyle(
-            color: Colors.grey,
-            fontSize: 10,
+        final double currentWeight = state.weightKg!;
+        final double targetWeight =
+            double.tryParse(state.targetWeight!) ?? currentWeight;
+        final double weeklyLoss = state.selectedOption == "Lose 1 kg/week"
+            ? 1.0
+            : state.selectedOption == "Lose 0.5 kg/week"
+                ? 0.5
+                : state.customGoal ?? 1.0;
+
+        // Ensure weeklyLoss is positive to avoid infinite loops
+        if (weeklyLoss <= 0) {
+          return const Center(
+            child: Text("Invalid weekly loss. Please set a valid goal."),
+          );
+        }
+
+        // Calculate the number of weeks
+        int weeks = ((currentWeight - targetWeight) / weeklyLoss).ceil();
+
+        // Handle invalid cases where targetWeight > currentWeight
+        if (weeks < 0) {
+          return const Center(
+            child: Text("Target weight must be less than your current weight."),
+          );
+        }
+
+        // Generate chart data
+        List<TimeData> chartData = List.generate(
+          weeks,
+          (index) => TimeData(
+            domain: DateTime.now().add(Duration(days: index * 7)),
+            measure: (currentWeight - (index * weeklyLoss))
+                .clamp(targetWeight, currentWeight),
           ),
-        ),
-        //that for the grey lines not its false
-        measureAxis: MeasureAxis(
-          useGridLine: false,
-          gridLineStyle: LineStyle(
-            color: Colors.grey.shade200,
+        );
+
+        return AspectRatio(
+          aspectRatio: 16 / 9,
+          child: DChartLineT(
+            configRenderLine: ConfigRenderLine(strokeWidthPx: 2.5),
+            layoutMargin: LayoutMargin(30, 10, 20, 10),
+            domainAxis: DomainAxis(
+              showLine: true,
+              tickLength: 0,
+              gapAxisToLabel: 10,
+              tickLabelFormatterT: (domain) {
+                return DateFormat('MMM d').format(domain);
+              },
+              labelStyle: const LabelStyle(
+                color: Colors.grey,
+                fontSize: 10,
+              ),
+            ),
+            measureAxis: MeasureAxis(
+              useGridLine: false,
+              gridLineStyle: LineStyle(
+                color: Colors.grey.shade200,
+              ),
+              numericTickProvider: const NumericTickProvider(
+                desiredMinTickCount: 6,
+                desiredMaxTickCount: 10,
+              ),
+              tickLabelFormatter: (measure) => measure!.toInt().toString(),
+              labelStyle: const LabelStyle(
+                color: Colors.grey,
+                fontSize: 10,
+              ),
+            ),
+            groupList: [
+              TimeGroup(
+                id: 'Weight Loss',
+                data: chartData,
+                color: Colors.green,
+              ),
+            ],
           ),
-          numericTickProvider: const NumericTickProvider(
-            desiredMinTickCount: 6,
-            desiredMaxTickCount: 10,
-          ),
-          tickLength: 1,
-          gapAxisToLabel: 10,
-          tickLabelFormatter: (measure) {
-            return measure!.toInt().toString().padLeft(2, '0');
-          },
-          labelStyle: const LabelStyle(
-            color: Colors.grey,
-            fontSize: 10,
-          ),
-        ),
-        groupList: [
-          TimeGroup(
-            id: '1',
-            data: series1,
-            color: Colors.green,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
