@@ -36,7 +36,6 @@ dependencies:
   cloud_firestore: ^5.2.1
   confetti: ^0.8.0
   country_flags: ^3.0.0
-  d_chart: ^2.10.2
   device_preview: ^1.2.0
   equatable: ^2.0.5
   firebase_auth: ^5.1.4
