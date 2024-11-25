@@ -9,9 +9,13 @@ class WeightGoalState {
   final String targetWeight;
   final String selectedOption;
   final double? customGoal;
+  final String minWeight;
+  final String maxWeight;
 
   // Update the constructor to handle customGoal correctly as a named parameter
-  WeightGoalState({
+  WeightGoalState(
+    this.minWeight,
+    this.maxWeight, {
     this.customGoal, // Nullable customGoal
     this.userGoal = 'Loading...',
     this.weightUnit = 'kg',
@@ -35,9 +39,14 @@ class WeightGoalState {
     String? selectedOption,
     double? bodyFatPercentage,
     String? targetWeight,
-    double? customGoal, // Add customGoal to copyWith
+    double? customGoal,
+    String? minWeight,
+    String? maxWeight,
   }) {
     return WeightGoalState(
+      minWeight ?? this.minWeight,
+      maxWeight ?? this.maxWeight,
+      customGoal: customGoal ?? this.customGoal,
       userGoal: userGoal ?? this.userGoal,
       weightUnit: weightUnit ?? this.weightUnit,
       weightKg: weightKg ?? this.weightKg,
@@ -47,7 +56,6 @@ class WeightGoalState {
       selectedOption: selectedOption ?? this.selectedOption,
       bodyFatPercentage: bodyFatPercentage ?? this.bodyFatPercentage,
       targetWeight: targetWeight ?? this.targetWeight,
-      customGoal: customGoal ?? this.customGoal, // Ensure customGoal is updated
     );
   }
 }
