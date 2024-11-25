@@ -18,51 +18,56 @@ class GoalCardList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
       builder: (context, state) {
+        final unit = state.weightUnit;
+        final userGoal = state.userGoal;
+        final isLoseWeight = userGoal == "Lose Weight";
+        final isGainWeight = userGoal == "Gain Weight";
+
         return Center(
           child: Wrap(
-            spacing: MediaQuery.sizeOf(context).width * .03,
-            runSpacing: MediaQuery.sizeOf(context).width * .02,
+            spacing: MediaQuery.sizeOf(context).width * 0.03,
+            runSpacing: MediaQuery.sizeOf(context).width * 0.02,
             alignment: WrapAlignment.center,
             children: [
-              GoalOptionCard(
-                title:
-                    "Lose ${context.read<WeightGoalCubit>().formatWeeklyLoss(0.5)}",
-                description: "Gradual weight loss",
-                icon: Icons.hourglass_bottom,
-                isSelected: state.selectedOption == "Lose 0.5 kg/week",
-                onTap: () => context
-                    .read<WeightGoalCubit>()
-                    .selectOption("Lose 0.5 kg/week"),
-              ),
-              GoalOptionCard(
-                title:
-                    "Lose ${context.read<WeightGoalCubit>().formatWeeklyLoss(1.0)}",
-                description: "Faster weight loss",
-                icon: Icons.flash_on,
-                isSelected: state.selectedOption == "Lose 1 kg/week",
-                onTap: () => context
-                    .read<WeightGoalCubit>()
-                    .selectOption("Lose 1 kg/week"),
-              ),
-              if (customGoal != null)
+              if (userGoal == "Maintain Weight")
                 GoalOptionCard(
-                  title: "Lose $customGoal ${state.userGoal}/week",
-                  description: "Custom goal",
-                  icon: Icons.edit,
-                  isSelected: state.selectedOption == "Custom",
-                  onTap: () =>
-                      context.read<WeightGoalCubit>().selectOption("Custom"),
-                  onDelete: () => onCustomGoalUpdated(null),
-                  onEdit: () => _showCustomInputDialog(context, state),
+                  title: "Maintain Current Weight",
+                  description: "Stay at your current weight.",
+                  icon: Icons.balance,
+                  isSelected: state.selectedOption == "Maintain Weight",
+                  onTap: () => context
+                      .read<WeightGoalCubit>()
+                      .selectOption("Maintain Weight"),
                 )
-              else
-                GoalOptionCard(
-                  title: "Custom Goal",
-                  description: "Set your own weekly goal",
-                  icon: Icons.edit,
-                  isSelected: state.selectedOption == "Custom",
-                  onTap: () => _showCustomInputDialog(context, state),
+              else ...[
+                _buildGoalOption(
+                  context: context,
+                  title:
+                      "${isLoseWeight ? "Lose" : "Gain"} ${context.read<WeightGoalCubit>().formatWeeklyLoss(0.5)}",
+                  description:
+                      "Gradual ${isLoseWeight ? "weight loss" : "weight gain"}",
+                  icon: isLoseWeight
+                      ? Icons.hourglass_bottom
+                      : Icons.arrow_upward,
+                  isSelected: state.selectedOption ==
+                      "${isLoseWeight ? "Lose" : "Gain"} 0.5",
+                  value: "${isLoseWeight ? "Lose" : "Gain"} 0.5",
                 ),
+                _buildGoalOption(
+                  context: context,
+                  title:
+                      "${isLoseWeight ? "Lose" : "Gain"} ${context.read<WeightGoalCubit>().formatWeeklyLoss(1.0)}",
+                  description:
+                      "Faster ${isLoseWeight ? "weight loss" : "weight gain"}",
+                  icon: isLoseWeight
+                      ? Icons.flash_on
+                      : Icons.arrow_upward_outlined,
+                  isSelected: state.selectedOption ==
+                      "${isLoseWeight ? "Lose" : "Gain"} 1.0",
+                  value: "${isLoseWeight ? "Lose" : "Gain"} 1.0",
+                ),
+                _buildCustomGoalOption(context, state),
+              ]
             ],
           ),
         );
@@ -70,8 +75,50 @@ class GoalCardList extends StatelessWidget {
     );
   }
 
+  Widget _buildGoalOption({
+    required BuildContext context,
+    required String title,
+    required String description,
+    required IconData icon,
+    required bool isSelected,
+    required String value,
+  }) {
+    return GoalOptionCard(
+      title: title,
+      description: description,
+      icon: icon,
+      isSelected: isSelected,
+      onTap: () => context.read<WeightGoalCubit>().selectOption(value),
+    );
+  }
+
+  Widget _buildCustomGoalOption(BuildContext context, WeightGoalState state) {
+    final unit = state.weightUnit;
+    final isLoseWeight = state.userGoal == "Lose Weight";
+
+    return customGoal != null
+        ? GoalOptionCard(
+            title: "${isLoseWeight ? "Lose" : "Gain"} $customGoal $unit/week",
+            description: "Custom goal",
+            icon: Icons.edit,
+            isSelected: state.selectedOption == "Custom",
+            onTap: () => context.read<WeightGoalCubit>().selectOption("Custom"),
+            onDelete: () => onCustomGoalUpdated(null),
+            onEdit: () => _showCustomInputDialog(context, state),
+          )
+        : GoalOptionCard(
+            title: "Custom Goal",
+            description: "Set your own weekly goal.",
+            icon: Icons.edit,
+            isSelected: state.selectedOption == "Custom",
+            onTap: () => _showCustomInputDialog(context, state),
+          );
+  }
+
   void _showCustomInputDialog(BuildContext context, WeightGoalState state) {
     final controller = TextEditingController();
+    final unit = state.weightUnit;
+    final isLoseWeight = state.userGoal == "Lose Weight";
 
     showDialog(
       context: context,
@@ -82,7 +129,7 @@ class GoalCardList extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Enter your desired weekly weight loss goal (${state.weightUnit}):",
+                "Enter your desired weekly ${isLoseWeight ? "weight loss" : "weight gain"} goal ($unit):",
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 8),
@@ -107,28 +154,19 @@ class GoalCardList extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final customValue = double.tryParse(input);
                   if (customValue != null && customValue > 0) {
-                    if ((state.weightUnit == "kg" && customValue <= 1.5) ||
-                        (state.weightUnit == "lb" && customValue <= 3.3)) {
+                    if ((unit == "kg" && customValue <= 1.5) ||
+                        (unit == "lb" && customValue <= 3.3)) {
                       onCustomGoalUpdated(customValue.toStringAsFixed(2));
                       context
                           .read<WeightGoalCubit>()
                           .selectCustomOption(customValue);
                       Navigator.of(context).pop();
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "A weekly goal of more than ${state.weightUnit == "kg" ? "1.5 kg" : "3.3 lb"} is not healthy.",
-                          ),
-                        ),
-                      );
+                      _showSnackBar(context,
+                          "A weekly goal of more than ${unit == "kg" ? "1.5 kg" : "3.3 lb"} is not healthy.");
                     }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Please enter a valid number."),
-                      ),
-                    );
+                    _showSnackBar(context, "Please enter a valid number.");
                   }
                 }
               },
@@ -137,6 +175,12 @@ class GoalCardList extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
     );
   }
 }

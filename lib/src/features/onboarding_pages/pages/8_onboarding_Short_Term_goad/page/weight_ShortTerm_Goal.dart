@@ -72,13 +72,27 @@ class LineChart extends StatelessWidget {
         final double currentWeight = state.weightKg!;
         final double targetWeight =
             double.tryParse(state.targetWeight!) ?? currentWeight;
-        final double minWeightKg =
-            double.tryParse(state.minWeight.split(' ').first) ?? 0.0;
+        final String userGoal =
+            state.userGoal; // "Lose Weight", "Gain Weight", "Maintain Weight"
 
-        if (targetWeight < minWeightKg) {
+        final double weeklyChange = state.selectedOption == "Lose 1 kg/week"
+            ? 1.0
+            : state.selectedOption == "Lose 0.5 kg/week"
+                ? 0.5
+                : state.customGoal ?? 1.0;
+
+        if (weeklyChange <= 0) {
+          return const Center(
+            child: Text("Invalid weekly goal. Please set a valid goal."),
+          );
+        }
+
+        // Validate target weight based on goal
+        if ((userGoal == "Lose Weight" && targetWeight >= currentWeight) ||
+            (userGoal == "Gain Weight" && targetWeight <= currentWeight)) {
           return Center(
             child: Text(
-              "Target weight must be within the healthy range: \n${state.minWeight} - ${state.maxWeight}.",
+              "For a ${userGoal.toLowerCase()}, your target weight must be ${userGoal == "Lose Weight" ? "less" : "greater"} than your current weight.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.red.shade600,
@@ -89,34 +103,22 @@ class LineChart extends StatelessWidget {
           );
         }
 
-        final double weeklyLoss = state.selectedOption == "Lose 1 kg/week"
-            ? 1.0
-            : state.selectedOption == "Lose 0.5 kg/week"
-                ? 0.5
-                : state.customGoal ?? 1.0;
-
-        if (weeklyLoss <= 0) {
-          return const Center(
-            child: Text("Invalid weekly loss. Please set a valid goal."),
-          );
-        }
-
         // Calculate the number of weeks required to reach the target weight
-        int weeks = ((currentWeight - targetWeight) / weeklyLoss).ceil();
-        if (weeks < 0) {
-          return const Center(
-            child: Text("Target weight must be less than your current weight."),
-          );
-        }
+        int weeks =
+            ((currentWeight - targetWeight).abs() / weeklyChange).ceil();
 
         // Generate chart data for each week
         List<TimeData> chartData = List.generate(
           weeks,
           (index) => TimeData(
             domain: DateTime.now().add(Duration(days: index * 7)),
-            measure: (currentWeight - (index * weeklyLoss))
-                .clamp(targetWeight, currentWeight)
-                .toDouble(), // Explicitly cast to double
+            measure: userGoal == "Lose Weight"
+                ? (currentWeight - (index * weeklyChange))
+                    .clamp(targetWeight, currentWeight)
+                    .toDouble()
+                : (currentWeight + (index * weeklyChange))
+                    .clamp(currentWeight, targetWeight)
+                    .toDouble(),
           ),
         );
 
@@ -160,9 +162,9 @@ class LineChart extends StatelessWidget {
             ),
             groupList: [
               TimeGroup(
-                id: 'Weight Loss',
+                id: userGoal,
                 data: chartData,
-                color: Colors.green,
+                color: userGoal == "Lose Weight" ? Colors.green : Colors.blue,
               ),
             ],
           ),

@@ -28,13 +28,13 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
     calculateBestTargetWeight(height, isHeightInFeet: isHeightInFeet);
 
     emit(state.copyWith(
-      userGoal: prefs.getString('user_target') ?? 'Lose Weight',
-      weightKg: prefs.getDouble('weightKg') ?? 70,
-      weightLb: prefs.getDouble('weightLb') ?? 154,
-      weightUnit: prefs.getString('weightUnit') ?? 'kg',
-      bodyFatPercentage: prefs.getDouble('bodyFatPercentage') ?? 1,
-      customGoal: customGoal,
-    ));
+        userGoal: prefs.getString('user_target') ?? 'Lose Weight',
+        weightKg: prefs.getDouble('weightKg') ?? 70,
+        weightLb: prefs.getDouble('weightLb') ?? 154,
+        weightUnit: prefs.getString('weightUnit') ?? 'kg',
+        bodyFatPercentage: prefs.getDouble('bodyFatPercentage') ?? 1,
+        customGoal: customGoal,
+        selectedOption: 'Gain 1.0'));
   }
 
   // Future<void> selectCustomOption(double customGoal) async {
