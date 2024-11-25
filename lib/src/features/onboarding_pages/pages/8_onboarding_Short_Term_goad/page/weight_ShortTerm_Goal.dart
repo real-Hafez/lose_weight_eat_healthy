@@ -7,6 +7,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_on
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/GoalCardList.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/TargetWeightInput.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/WeightGoalAppBar.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 
 class WeightGoalPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
@@ -48,6 +49,9 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
               ),
               const SizedBox(height: 16),
               Expanded(child: const LineChart()),
+              NextButton(
+                onPressed: widget.onNextButtonPressed,
+              ),
             ],
           ),
         ),
