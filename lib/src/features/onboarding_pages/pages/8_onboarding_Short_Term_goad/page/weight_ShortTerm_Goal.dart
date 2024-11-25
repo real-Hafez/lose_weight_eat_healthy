@@ -98,7 +98,8 @@ class LineChart extends StatelessWidget {
           (index) => TimeData(
             domain: DateTime.now().add(Duration(days: index * 7)),
             measure: (currentWeight - (index * weeklyLoss))
-                .clamp(targetWeight, currentWeight),
+                .clamp(targetWeight, currentWeight)
+                .toDouble(), // Explicitly cast to double
           ),
         );
 
@@ -117,26 +118,9 @@ class LineChart extends StatelessWidget {
                 fontSize: 10,
               ),
               tickLabelFormatterT: (domain) {
-                final difference = currentWeight - targetWeight;
-                int monthIndex = DateFormat('MM')
-                    .parse(DateFormat('MM').format(domain))
-                    .month;
-
-                // If the target weight difference is large (more than 20kg), show months
-                if (difference > 20) {
-                  if (monthIndex % 2 == 0) {
-                    return DateFormat('MMM')
-                        .format(domain); // Show every 2nd month
-                  }
-                } else {
-                  // For smaller weight loss targets (e.g., less than 10 kg), show weekly progress
-                  int weekIndex =
-                      (domain.difference(DateTime.now()).inDays / 7).floor() +
-                          1;
-                  return "Week $weekIndex: ${DateFormat('dd MMM').format(domain)}"; // Show week number and date
-                }
-
-                return ''; // Skip months in between
+                int weekIndex =
+                    (domain.difference(DateTime.now()).inDays / 7).floor() + 1;
+                return "Week $weekIndex: ${DateFormat('dd MMM').format(domain)}";
               },
             ),
             measureAxis: MeasureAxis(
@@ -149,7 +133,9 @@ class LineChart extends StatelessWidget {
                 desiredMinTickCount: 6,
                 desiredMaxTickCount: 10,
               ),
-              tickLabelFormatter: (measure) => "${measure!.toInt()} kg",
+              tickLabelFormatter: (measure) => context
+                  .read<WeightGoalCubit>()
+                  .formatWeight((measure ?? 0).toDouble()),
               labelStyle: const LabelStyle(
                 color: Colors.grey,
                 fontSize: 10,

@@ -25,7 +25,8 @@ class GoalCardList extends StatelessWidget {
             alignment: WrapAlignment.center,
             children: [
               GoalOptionCard(
-                title: "Lose 0.5 kg/week",
+                title:
+                    "Lose ${context.read<WeightGoalCubit>().formatWeeklyLoss(0.5)}",
                 description: "Gradual weight loss",
                 icon: Icons.hourglass_bottom,
                 isSelected: state.selectedOption == "Lose 0.5 kg/week",
@@ -34,7 +35,8 @@ class GoalCardList extends StatelessWidget {
                     .selectOption("Lose 0.5 kg/week"),
               ),
               GoalOptionCard(
-                title: "Lose 1 kg/week",
+                title:
+                    "Lose ${context.read<WeightGoalCubit>().formatWeeklyLoss(1.0)}",
                 description: "Faster weight loss",
                 icon: Icons.flash_on,
                 isSelected: state.selectedOption == "Lose 1 kg/week",
@@ -51,7 +53,7 @@ class GoalCardList extends StatelessWidget {
                   onTap: () =>
                       context.read<WeightGoalCubit>().selectOption("Custom"),
                   onDelete: () => onCustomGoalUpdated(null),
-                  onEdit: () => _showCustomInputDialog(context),
+                  onEdit: () => _showCustomInputDialog(context, state),
                 )
               else
                 GoalOptionCard(
@@ -59,7 +61,7 @@ class GoalCardList extends StatelessWidget {
                   description: "Set your own weekly goal",
                   icon: Icons.edit,
                   isSelected: state.selectedOption == "Custom",
-                  onTap: () => _showCustomInputDialog(context),
+                  onTap: () => _showCustomInputDialog(context, state),
                 ),
             ],
           ),
@@ -68,7 +70,7 @@ class GoalCardList extends StatelessWidget {
     );
   }
 
-  void _showCustomInputDialog(BuildContext context) {
+  void _showCustomInputDialog(BuildContext context, WeightGoalState state) {
     final controller = TextEditingController();
 
     showDialog(
@@ -79,9 +81,9 @@ class GoalCardList extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                "Enter your desired weekly weight loss goal (kg):",
-                style: TextStyle(fontSize: 14),
+              Text(
+                "Enter your desired weekly weight loss goal (${state.weightUnit}):",
+                style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 8),
               TextField(
@@ -105,14 +107,10 @@ class GoalCardList extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final customValue = double.tryParse(input);
                   if (customValue != null && customValue > 0) {
-                    // Update the custom goal value in parent widget
                     onCustomGoalUpdated(customValue.toStringAsFixed(2));
-
-                    // Set the custom goal and automatically select it
                     context
                         .read<WeightGoalCubit>()
                         .selectCustomOption(customValue);
-
                     Navigator.of(context).pop();
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
