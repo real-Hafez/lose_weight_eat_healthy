@@ -107,11 +107,22 @@ class GoalCardList extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final customValue = double.tryParse(input);
                   if (customValue != null && customValue > 0) {
-                    onCustomGoalUpdated(customValue.toStringAsFixed(2));
-                    context
-                        .read<WeightGoalCubit>()
-                        .selectCustomOption(customValue);
-                    Navigator.of(context).pop();
+                    if ((state.weightUnit == "kg" && customValue <= 1.5) ||
+                        (state.weightUnit == "lb" && customValue <= 3.3)) {
+                      onCustomGoalUpdated(customValue.toStringAsFixed(2));
+                      context
+                          .read<WeightGoalCubit>()
+                          .selectCustomOption(customValue);
+                      Navigator.of(context).pop();
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "A weekly goal of more than ${state.weightUnit == "kg" ? "1.5 kg" : "3.3 lb"} is not healthy.",
+                          ),
+                        ),
+                      );
+                    }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
