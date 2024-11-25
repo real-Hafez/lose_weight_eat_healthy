@@ -72,6 +72,23 @@ class LineChart extends StatelessWidget {
         final double currentWeight = state.weightKg!;
         final double targetWeight =
             double.tryParse(state.targetWeight!) ?? currentWeight;
+        final double minWeightKg =
+            double.tryParse(state.minWeight.split(' ').first) ?? 0.0;
+
+        if (targetWeight < minWeightKg) {
+          return Center(
+            child: Text(
+              "Target weight must be within the healthy range: \n${state.minWeight} - ${state.maxWeight}.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.red.shade600,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          );
+        }
+
         final double weeklyLoss = state.selectedOption == "Lose 1 kg/week"
             ? 1.0
             : state.selectedOption == "Lose 0.5 kg/week"

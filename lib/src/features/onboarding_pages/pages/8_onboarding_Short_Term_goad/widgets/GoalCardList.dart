@@ -46,7 +46,7 @@ class GoalCardList extends StatelessWidget {
               ),
               if (customGoal != null)
                 GoalOptionCard(
-                  title: "Lose $customGoal ${state.weightUnit}/week",
+                  title: "Lose $customGoal ${state.userGoal}/week",
                   description: "Custom goal",
                   icon: Icons.edit,
                   isSelected: state.selectedOption == "Custom",
