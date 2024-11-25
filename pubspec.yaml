@@ -65,6 +65,7 @@ dependencies:
   shared_preferences: ^2.3.2
   shimmer: ^3.0.0
   supabase_flutter: ^2.7.0
+  syncfusion_flutter_charts: ^27.2.3
   table_calendar: ^3.1.2
   toggle_switch: ^2.3.0
 
