@@ -4,6 +4,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class WeightGoalCubit extends Cubit<WeightGoalState> {
   WeightGoalCubit() : super(WeightGoalState('60', '90'));
+  String formatWeight(double weight) {
+    return state.weightUnit == 'lb'
+        ? (weight * 2.20462).toStringAsFixed(1) + ' lb'
+        : weight.toStringAsFixed(1) + ' kg';
+  }
+
+  // Convert weekly loss goal to the selected unit
+  String formatWeeklyLoss(double weeklyLoss) {
+    return state.weightUnit == 'lb'
+        ? (weeklyLoss * 2.20462).toStringAsFixed(2) + ' lb/week'
+        : weeklyLoss.toStringAsFixed(2) + ' kg/week';
+  }
 
   Future<void> loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();

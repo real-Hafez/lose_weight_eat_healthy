@@ -59,7 +59,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Healthy range: ${state.minWeight} - ${state.maxWeight}',
+              'Healthy range: ${context.read<WeightGoalCubit>().formatWeight(minWeight)} - ${context.read<WeightGoalCubit>().formatWeight(maxWeight)}',
               style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
             ),
             const SizedBox(height: 8),
