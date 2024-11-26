@@ -114,15 +114,6 @@ class LineChart extends StatelessWidget {
         final int totalWeeks =
             ((currentWeight - targetWeight).abs() / weeklyChange).ceil();
         final DateTime startDate = DateTime.now();
-        final DateTime endDate = startDate.add(Duration(days: totalWeeks * 7));
-
-        List<DateTime> keyDates = List.generate(
-          6,
-          (index) => startDate.add(
-            Duration(days: (index * totalWeeks ~/ 5) * 7),
-          ),
-        );
-        keyDates[5] = endDate; // Ensure the last date is the end date.
 
         List<TimeData> chartData = [];
         for (int i = 0; i <= totalWeeks; i++) {
@@ -174,35 +165,6 @@ class LineChart extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: keyDates.map((date) {
-                bool isLastDate = date == keyDates.last;
-                return Column(
-                  children: [
-                    Text(
-                      DateFormat('dd MMM').format(date),
-                      style: TextStyle(
-                        fontWeight:
-                            isLastDate ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 12,
-                        color: isLastDate ? Colors.red : Colors.grey.shade700,
-                      ),
-                    ),
-                    if (isLastDate)
-                      const Text(
-                        "Last Month",
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                  ],
-                );
-              }).toList(),
             ),
           ],
         );
