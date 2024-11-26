@@ -115,6 +115,7 @@ class LineChart extends StatelessWidget {
             ((currentWeight - targetWeight).abs() / weeklyChange).ceil();
         final DateTime startDate = DateTime.now();
 
+        // Generate chart data for all weeks
         List<TimeData> fullChartData = [];
         for (int i = 0; i <= totalWeeks; i++) {
           DateTime date = startDate.add(Duration(days: i * 7));
@@ -128,28 +129,55 @@ class LineChart extends StatelessWidget {
           fullChartData.add(TimeData(domain: date, measure: weight));
         }
 
-        // Ensure exactly 6 data points, including the target date
+        // Ensure exactly 5 data points are selected
         List<TimeData> chartData = [];
-        int interval = (fullChartData.length / 5).ceil();
-        for (int i = 0; i < fullChartData.length; i += interval) {
-          chartData.add(fullChartData[i]);
+        if (fullChartData.length <= 5) {
+          // If 5 or fewer points, use all
+          chartData = fullChartData;
+        } else {
+          // Select 5 evenly spaced points
+          for (int i = 0; i < 5; i++) {
+            int index = (i * (fullChartData.length - 1) ~/ 4);
+            chartData.add(fullChartData[index]);
+          }
         }
-        if (!chartData.contains(fullChartData.last)) {
-          chartData.add(fullChartData.last); // Ensure target date is included
-        }
-        if (chartData.length > 6) {
-          chartData = chartData.take(6).toList(); // Limit to 6 points
-        }
+
+        // Create custom axis labels that match the exact dates of data points
+        List<String> customXAxisLabels = chartData
+            .map((data) => DateFormat('d MMM').format(data.domain))
+            .toList();
 
         return Column(
           children: [
             Expanded(
               child: SfCartesianChart(
                 primaryXAxis: DateTimeAxis(
-                  interval: 1,
-                  dateFormat: DateFormat('dd MMM'),
+                  // Ensure the axis matches the range of your data points
+                  minimum: chartData.first.domain,
+                  maximum: chartData.last.domain,
+                  intervalType: DateTimeIntervalType
+                      .days, // Adjust based on your intervals
+                  interval: chartData.length > 1
+                      ? chartData[1]
+                          .domain
+                          .difference(chartData[0].domain)
+                          .inDays
+                          .toDouble()
+                      : 1,
                   majorGridLines: const MajorGridLines(width: 0),
+                  labelIntersectAction: AxisLabelIntersectAction.none,
                   labelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
+                  // Use only the exact data point labels
+                  majorTickLines: const MajorTickLines(size: 0),
+                  axisLabelFormatter: (AxisLabelRenderDetails details) {
+                    final DateTime labelDate =
+                        DateTime.fromMillisecondsSinceEpoch(
+                            details.value.toInt());
+                    return ChartAxisLabel(
+                      DateFormat('d MMM').format(labelDate),
+                      const TextStyle(color: Colors.grey, fontSize: 12),
+                    );
+                  },
                 ),
                 primaryYAxis: NumericAxis(
                   majorGridLines: MajorGridLines(
@@ -159,11 +187,15 @@ class LineChart extends StatelessWidget {
                   labelFormat: '{value} kg',
                   labelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
-                tooltipBehavior: TooltipBehavior(enable: true),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  format: 'point.x: point.y kg',
+                ),
                 series: <LineSeries<TimeData, DateTime>>[
                   LineSeries<TimeData, DateTime>(
                     dataSource: chartData,
-                    xValueMapper: (data, _) => data.domain,
+                    xValueMapper: (data, _) =>
+                        data.domain as DateTime, // Ensure casting to DateTime
                     yValueMapper: (data, _) => data.measure,
                     color:
                         userGoal == "Lose Weight" ? Colors.green : Colors.blue,
@@ -182,7 +214,7 @@ class LineChart extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                "Projected timeline to reach your target weight: ${DateFormat('dd MMM yyyy').format(fullChartData.last.domain)}",
+                "Projected timeline to reach your target weight: ${DateFormat('d MMM yyyy').format(chartData.last.domain)}",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey.shade700,
