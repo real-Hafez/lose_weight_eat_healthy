@@ -103,12 +103,19 @@ class LineChart extends StatelessWidget {
             double.tryParse(state.maxWeight.split(' ').first) ??
                 double.infinity;
         final String userGoal = state.userGoal;
+        final String weightUnit =
+            state.weightUnit ?? 'kg'; // Default to kg if unit is null
+
+        // Function to convert weight to pounds if the unit is 'lb'
+        double convertWeight(double weight) {
+          return weightUnit == 'lb' ? weight * 2.20462 : weight;
+        }
 
         // Check if the target weight is within the allowed range
-        if (targetWeight < minWeight) {
+        if (convertWeight(targetWeight) < convertWeight(minWeight)) {
           return Center(
             child: Text(
-              "Your target weight is below the healthy minimum of $minWeight ${state.weightUnit}. Please set a higher target.",
+              "Your target weight is below the healthy minimum of ${convertWeight(minWeight).toStringAsFixed(1)} $weightUnit. Please set a higher target.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.red.shade600,
@@ -117,10 +124,10 @@ class LineChart extends StatelessWidget {
               ),
             ),
           );
-        } else if (targetWeight > maxWeight) {
+        } else if (convertWeight(targetWeight) > convertWeight(maxWeight)) {
           return Center(
             child: Text(
-              "Your target weight is above the healthy maximum of $maxWeight ${state.weightUnit}. Please set a lower target.",
+              "Your target weight is above the healthy maximum of ${convertWeight(maxWeight).toStringAsFixed(1)} $weightUnit. Please set a lower target.",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.red.shade600,
@@ -173,7 +180,8 @@ class LineChart extends StatelessWidget {
               : (currentWeight + (i * weeklyChange))
                   .clamp(currentWeight, targetWeight)
                   .toDouble();
-          fullChartData.add(TimeData(domain: date, measure: weight));
+          fullChartData
+              .add(TimeData(domain: date, measure: convertWeight(weight)));
         }
 
         // Ensure exactly 5 data points are selected
@@ -212,12 +220,12 @@ class LineChart extends StatelessWidget {
                     dashArray: [4, 2],
                     color: Colors.grey.shade300,
                   ),
-                  labelFormat: '{value} kg',
+                  labelFormat: '{value} $weightUnit',
                   labelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 tooltipBehavior: TooltipBehavior(
                   enable: true,
-                  format: 'point.x: point.y kg',
+                  format: 'point.x: point.y $weightUnit',
                 ),
                 series: <LineSeries<TimeData, DateTime>>[
                   LineSeries<TimeData, DateTime>(
