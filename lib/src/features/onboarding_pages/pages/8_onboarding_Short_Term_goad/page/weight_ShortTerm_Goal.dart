@@ -92,7 +92,39 @@ class LineChart extends StatelessWidget {
         final double currentWeight = state.weightKg!;
         final double targetWeight =
             double.tryParse(state.targetWeight!) ?? currentWeight;
+        final double minWeight =
+            double.tryParse(state.minWeight.split(' ').first) ?? 0.0;
+        final double maxWeight =
+            double.tryParse(state.maxWeight.split(' ').first) ??
+                double.infinity;
         final String userGoal = state.userGoal;
+
+        // Check if the target weight is within the allowed range
+        if (targetWeight < minWeight) {
+          return Center(
+            child: Text(
+              "Your target weight is below the healthy minimum of $minWeight ${state.weightUnit}. Please set a higher target.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.red.shade600,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          );
+        } else if (targetWeight > maxWeight) {
+          return Center(
+            child: Text(
+              "Your target weight is above the healthy maximum of $maxWeight ${state.weightUnit}. Please set a lower target.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.red.shade600,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          );
+        }
 
         final double weeklyChange = state.selectedOption == "Lose 1 kg/week"
             ? 1.0
@@ -142,31 +174,22 @@ class LineChart extends StatelessWidget {
         // Ensure exactly 5 data points are selected
         List<TimeData> chartData = [];
         if (fullChartData.length <= 5) {
-          // If 5 or fewer points, use all
           chartData = fullChartData;
         } else {
-          // Select 5 evenly spaced points
           for (int i = 0; i < 5; i++) {
             int index = (i * (fullChartData.length - 1) ~/ 4);
             chartData.add(fullChartData[index]);
           }
         }
 
-        // Create custom axis labels that match the exact dates of data points
-        List<String> customXAxisLabels = chartData
-            .map((data) => DateFormat('d MMM').format(data.domain))
-            .toList();
-
         return Column(
           children: [
             Expanded(
               child: SfCartesianChart(
                 primaryXAxis: DateTimeAxis(
-                  // Ensure the axis matches the range of your data points
                   minimum: chartData.first.domain,
                   maximum: chartData.last.domain,
-                  intervalType: DateTimeIntervalType
-                      .days, // Adjust based on your intervals
+                  intervalType: DateTimeIntervalType.days,
                   interval: chartData.length > 1
                       ? chartData[1]
                           .domain
@@ -177,17 +200,7 @@ class LineChart extends StatelessWidget {
                   majorGridLines: const MajorGridLines(width: 0),
                   labelIntersectAction: AxisLabelIntersectAction.none,
                   labelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
-                  // Use only the exact data point labels
                   majorTickLines: const MajorTickLines(size: 0),
-                  axisLabelFormatter: (AxisLabelRenderDetails details) {
-                    final DateTime labelDate =
-                        DateTime.fromMillisecondsSinceEpoch(
-                            details.value.toInt());
-                    return ChartAxisLabel(
-                      DateFormat('d MMM').format(labelDate),
-                      const TextStyle(color: Colors.grey, fontSize: 12),
-                    );
-                  },
                 ),
                 primaryYAxis: NumericAxis(
                   majorGridLines: MajorGridLines(
@@ -204,8 +217,7 @@ class LineChart extends StatelessWidget {
                 series: <LineSeries<TimeData, DateTime>>[
                   LineSeries<TimeData, DateTime>(
                     dataSource: chartData,
-                    xValueMapper: (data, _) =>
-                        data.domain as DateTime, // Ensure casting to DateTime
+                    xValueMapper: (data, _) => data.domain,
                     yValueMapper: (data, _) => data.measure,
                     color:
                         userGoal == "Lose Weight" ? Colors.green : Colors.blue,
