@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -239,20 +240,28 @@ class LineChart extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Text(
+              child: AutoSizeText(
+                maxFontSize: 42,
+                minFontSize: 8,
+                maxLines: 1,
                 () {
                   final int totalDays = chartData.last.domain
                       .difference(chartData.first.domain)
                       .inDays;
                   final int totalWeeks = (totalDays / 7).floor();
 
-                  // Determine the display format
+                  // here from 1 week to 22 week show the text in weeks
                   if (totalWeeks <= 22) {
-                    return "Projected timeline to reach your target weight: $totalWeeks week${totalWeeks > 1 ? 's' : ''}";
+                    return "Estimated time to achieve your goal weight: $totalWeeks week${totalWeeks > 1 ? 's' : ''}";
                   } else {
+                    //here from 22 weeks to 12 months show the msg in monthes
                     final int totalMonths = (totalWeeks / 4)
                         .floor(); // Convert weeks to months (4 weeks per month approx.)
-                    return "Projected timeline to reach your target weight: $totalMonths month${totalMonths > 1 ? 's' : ''}";
+                    if (totalMonths > 12) {
+                      //here if more that 12 mon
+                      return "Your journey to success starts here!";
+                    }
+                    return "Estimated time to achieve your goal weight: $totalMonths month${totalMonths > 1 ? 's' : ''}";
                   }
                 }(),
                 style: TextStyle(
