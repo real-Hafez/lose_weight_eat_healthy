@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/GoalCardList.dart';
@@ -138,9 +137,11 @@ class LineChart extends StatelessWidget {
           );
         }
 
-        final double weeklyChange = state.selectedOption == "Lose 1.0"
+        final double weeklyChange = state.selectedOption == "Lose 1.0" ||
+                state.selectedOption == "Gain 1.0"
             ? 1.0
-            : state.selectedOption == "Lose 0.5"
+            : state.selectedOption == "Lose 0.5" &&
+                    state.selectedOption == "Gain 0.5"
                 ? 0.5
                 : state.customGoal ?? 1.0;
 
