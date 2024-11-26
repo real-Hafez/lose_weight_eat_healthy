@@ -126,9 +126,9 @@ class LineChart extends StatelessWidget {
           );
         }
 
-        final double weeklyChange = state.selectedOption == "Lose 1 kg/week"
+        final double weeklyChange = state.selectedOption == "Lose 1.0"
             ? 1.0
-            : state.selectedOption == "Lose 0.5 kg/week"
+            : state.selectedOption == "Lose 0.5"
                 ? 0.5
                 : state.customGoal ?? 1.0;
 
