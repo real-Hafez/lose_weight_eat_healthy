@@ -240,7 +240,21 @@ class LineChart extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                "Projected timeline to reach your target weight: ${DateFormat('d MMM yyyy').format(chartData.last.domain)}",
+                () {
+                  final int totalDays = chartData.last.domain
+                      .difference(chartData.first.domain)
+                      .inDays;
+                  final int totalWeeks = (totalDays / 7).floor();
+
+                  // Determine the display format
+                  if (totalWeeks <= 22) {
+                    return "Projected timeline to reach your target weight: $totalWeeks week${totalWeeks > 1 ? 's' : ''}";
+                  } else {
+                    final int totalMonths = (totalWeeks / 4)
+                        .floor(); // Convert weeks to months (4 weeks per month approx.)
+                    return "Projected timeline to reach your target weight: $totalMonths month${totalMonths > 1 ? 's' : ''}";
+                  }
+                }(),
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey.shade700,
