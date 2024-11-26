@@ -49,9 +49,19 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                   },
                 ),
                 const SizedBox(height: 16),
-                AspectRatio(
-                  aspectRatio: 8 / 9,
-                  child: const LineChart(),
+                // Show the chart only if an option is selected
+                BlocBuilder<WeightGoalCubit, WeightGoalState>(
+                  builder: (context, state) {
+                    if (state.selectedOption != null &&
+                        state.selectedOption != "") {
+                      return AspectRatio(
+                        aspectRatio: 8 / 9,
+                        child: const LineChart(),
+                      );
+                    } else {
+                      return Container(); // Don't show the chart if no option is selected
+                    }
+                  },
                 ),
                 const SizedBox(height: 24),
                 NextButton(
@@ -73,7 +83,7 @@ class LineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
       builder: (context, state) {
-        if (state.targetWeight == null || state.weightKg == null) {
+        if (state.selectedOption == null || state.selectedOption == "") {
           return const Center(
             child: Text("Set your target weight to view the chart."),
           );

@@ -34,19 +34,8 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
         weightUnit: prefs.getString('weightUnit') ?? 'kg',
         bodyFatPercentage: prefs.getDouble('bodyFatPercentage') ?? 1,
         customGoal: customGoal,
-        selectedOption: 'Gain 1.0'));
+        selectedOption: ''));
   }
-
-  // Future<void> selectCustomOption(double customGoal) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.setDouble('customGoal', customGoal);
-  //   // Emit new state with both customGoal updated AND "Custom" selected
-  //   emit(state.copyWith(
-  //     customGoal: customGoal,
-  //     selectedOption:
-  //         "Lose 1 kg/week", // This ensures the custom option is selected immediately
-  //   ));
-  // }
 
   void selectCustomOption(double customGoal) async {
     final prefs = await SharedPreferences.getInstance();
@@ -134,15 +123,6 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
 
   void selectOption(String option) {
     emit(state.copyWith(selectedOption: option));
-  }
-
-  Future<void> resetCustomGoal() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('customGoal');
-    emit(state.copyWith(
-      customGoal: null,
-      selectedOption: "Lose 0.5 kg/week",
-    ));
   }
 
   // Add this method to update target weight based on user input

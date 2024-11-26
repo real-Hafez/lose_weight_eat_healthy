@@ -23,7 +23,7 @@ class WeightGoalState {
     this.weightLb = 154.0,
     DateTime? endDate,
     this.selectedTimeFrame = '1 month',
-    this.selectedOption = 'Lose 1 kg/week',
+    this.selectedOption = '',
     this.bodyFatPercentage = 1.0,
     this.targetWeight = '',
   }) : endDate = endDate ?? DateTime.now().add(const Duration(days: 30));

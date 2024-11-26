@@ -40,18 +40,23 @@ class GoalCardList extends StatelessWidget {
                       .selectOption("Maintain Weight"),
                 )
               else ...[
-                _buildGoalOption(
-                  context: context,
-                  title:
-                      "${isLoseWeight ? "Lose" : "Gain"} ${context.read<WeightGoalCubit>().formatWeeklyLoss(0.5)}",
-                  description:
-                      "Gradual ${isLoseWeight ? "weight loss" : "weight gain"}",
-                  icon: isLoseWeight
-                      ? Icons.hourglass_bottom
-                      : Icons.arrow_upward,
-                  isSelected: state.selectedOption ==
-                      "${isLoseWeight ? "Lose" : "Gain"} 0.5",
-                  value: "${isLoseWeight ? "Lose" : "Gain"} 0.5",
+                GestureDetector(
+                  onTap: () {
+                    context.read<WeightGoalCubit>().selectOption("Lose Weight");
+                  },
+                  child: _buildGoalOption(
+                    context: context,
+                    title:
+                        "${isLoseWeight ? "Lose" : "Gain"} ${context.read<WeightGoalCubit>().formatWeeklyLoss(0.5)}",
+                    description:
+                        "Gradual ${isLoseWeight ? "weight loss" : "weight gain"}",
+                    icon: isLoseWeight
+                        ? Icons.hourglass_bottom
+                        : Icons.arrow_upward,
+                    isSelected: state.selectedOption ==
+                        "${isLoseWeight ? "Lose" : "Gain"} 0.5",
+                    value: "${isLoseWeight ? "Lose" : "Gain"} 0.5",
+                  ),
                 ),
                 _buildGoalOption(
                   context: context,
@@ -88,7 +93,10 @@ class GoalCardList extends StatelessWidget {
       description: description,
       icon: icon,
       isSelected: isSelected,
-      onTap: () => context.read<WeightGoalCubit>().selectOption(value),
+      onTap: () {
+        // Select the option and ensure the weekly change is updated
+        context.read<WeightGoalCubit>().selectOption(value);
+      },
     );
   }
 
@@ -154,8 +162,12 @@ class GoalCardList extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final customValue = double.tryParse(input);
                   if (customValue != null && customValue > 0) {
-                    if ((unit == "kg" && customValue <= 1.5) ||
-                        (unit == "lb" && customValue <= 3.3)) {
+                    if ((unit == "kg" &&
+                            customValue <= 1.5 &&
+                            customValue >= 0.1) ||
+                        (unit == "lb" &&
+                            customValue <= 3.3 &&
+                            customValue >= 0.2)) {
                       onCustomGoalUpdated(customValue.toStringAsFixed(2));
                       context
                           .read<WeightGoalCubit>()
@@ -163,7 +175,7 @@ class GoalCardList extends StatelessWidget {
                       Navigator.of(context).pop();
                     } else {
                       _showSnackBar(context,
-                          "A weekly goal of more than ${unit == "kg" ? "1.5 kg" : "3.3 lb"} is not healthy.");
+                          "Please enter a valid goal within a healthy range.");
                     }
                   } else {
                     _showSnackBar(context, "Please enter a valid number.");
