@@ -54,18 +54,22 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                   builder: (context, state) {
                     if (state.selectedOption != null &&
                         state.selectedOption != "") {
-                      return AspectRatio(
-                        aspectRatio: 8 / 9,
-                        child: const LineChart(),
+                      return Column(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 8 / 9,
+                            child: const LineChart(),
+                          ),
+                          const SizedBox(height: 24),
+                          NextButton(
+                            onPressed: widget.onNextButtonPressed,
+                          ),
+                        ],
                       );
                     } else {
                       return Container(); // Don't show the chart if no option is selected
                     }
                   },
-                ),
-                const SizedBox(height: 24),
-                NextButton(
-                  onPressed: widget.onNextButtonPressed,
                 ),
               ],
             ),
