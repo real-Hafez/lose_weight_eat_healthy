@@ -115,7 +115,7 @@ class LineChart extends StatelessWidget {
             ((currentWeight - targetWeight).abs() / weeklyChange).ceil();
         final DateTime startDate = DateTime.now();
 
-        List<TimeData> chartData = [];
+        List<TimeData> fullChartData = [];
         for (int i = 0; i <= totalWeeks; i++) {
           DateTime date = startDate.add(Duration(days: i * 7));
           double weight = userGoal == "Lose Weight"
@@ -125,7 +125,20 @@ class LineChart extends StatelessWidget {
               : (currentWeight + (i * weeklyChange))
                   .clamp(currentWeight, targetWeight)
                   .toDouble();
-          chartData.add(TimeData(domain: date, measure: weight));
+          fullChartData.add(TimeData(domain: date, measure: weight));
+        }
+
+        // Ensure exactly 6 data points, including the target date
+        List<TimeData> chartData = [];
+        int interval = (fullChartData.length / 5).ceil();
+        for (int i = 0; i < fullChartData.length; i += interval) {
+          chartData.add(fullChartData[i]);
+        }
+        if (!chartData.contains(fullChartData.last)) {
+          chartData.add(fullChartData.last); // Ensure target date is included
+        }
+        if (chartData.length > 6) {
+          chartData = chartData.take(6).toList(); // Limit to 6 points
         }
 
         return Column(
@@ -136,15 +149,15 @@ class LineChart extends StatelessWidget {
                   interval: 1,
                   dateFormat: DateFormat('dd MMM'),
                   majorGridLines: const MajorGridLines(width: 0),
-                  labelStyle: const TextStyle(fontSize: 10, color: Colors.grey),
+                  labelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 primaryYAxis: NumericAxis(
                   majorGridLines: MajorGridLines(
                     dashArray: [4, 2],
-                    color: Colors.grey.shade200,
+                    color: Colors.grey.shade300,
                   ),
                   labelFormat: '{value} kg',
-                  labelStyle: const TextStyle(fontSize: 10, color: Colors.grey),
+                  labelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 tooltipBehavior: TooltipBehavior(enable: true),
                 series: <LineSeries<TimeData, DateTime>>[
@@ -161,9 +174,20 @@ class LineChart extends StatelessWidget {
                       borderColor: Colors.white,
                       color: Colors.red,
                     ),
-                    width: 2.5,
+                    width: 3,
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                "Projected timeline to reach your target weight: ${DateFormat('dd MMM yyyy').format(fullChartData.last.domain)}",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey.shade700,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
