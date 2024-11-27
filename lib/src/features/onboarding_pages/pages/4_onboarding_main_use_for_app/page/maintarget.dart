@@ -50,11 +50,11 @@ class _MaintargetState extends State<Maintarget> {
         SizedBox(
           height: MediaQuery.of(context).size.height * .02,
         ),
-        maintraget_card(
-          card_text: S().MaintainWeight,
-          isSelected: selectedGoal == 'Maintain Weight',
-          onTap: () => setState(() => selectedGoal = 'Maintain Weight'),
-        ),
+        // maintraget_card(
+        //   card_text: S().MaintainWeight,
+        //   isSelected: selectedGoal == 'Maintain Weight',
+        //   onTap: () => setState(() => selectedGoal = 'Maintain Weight'),
+        // ),
         SizedBox(
           height: MediaQuery.of(context).size.height * .02,
         ),
