@@ -7,8 +7,8 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
   WeightGoalCubit() : super(WeightGoalState('60', '90'));
   String formatWeight(double weight) {
     return state.weightUnit == 'lb'
-        ? (weight * 2.20462).toStringAsFixed(1) + ' lb'
-        : weight.toStringAsFixed(1) + ' kg';
+        ? (weight * 2.20462).toStringAsFixed(1) + ' ${S().lb}'
+        : weight.toStringAsFixed(1) + ' ${S().kg}';
   }
 
   // Convert weekly loss goal to the selected unit
@@ -79,8 +79,8 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
 
     // Set min and max weights
     emit(state.copyWith(
-      minWeight: '${minWeightKg.toStringAsFixed(1)} kg',
-      maxWeight: '${maxWeightKg.toStringAsFixed(1)} kg',
+      minWeight: '${minWeightKg.toStringAsFixed(1)} ${S().kg}',
+      maxWeight: '${maxWeightKg.toStringAsFixed(1)} ${S().kg}',
       targetWeight: '${((minWeightKg + maxWeightKg) / 2).toStringAsFixed(1)} ',
     ));
   }

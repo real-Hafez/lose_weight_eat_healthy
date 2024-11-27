@@ -1460,11 +1460,71 @@ class S {
     );
   }
 
-  /// `تدريجي`
+  /// `Gradual`
   String get Gradual {
     return Intl.message(
-      'تدريجي',
+      'Gradual',
       name: 'Gradual',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Faster`
+  String get Faster {
+    return Intl.message(
+      'Faster',
+      name: 'Faster',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Custom goal`
+  String get customgoal {
+    return Intl.message(
+      'Custom goal',
+      name: 'customgoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `week`
+  String get week {
+    return Intl.message(
+      'week',
+      name: 'week',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `weekly goal`
+  String get weeklygoal {
+    return Intl.message(
+      'weekly goal',
+      name: 'weeklygoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your desired weekly weight`
+  String get desiredweekly {
+    return Intl.message(
+      'Enter your desired weekly weight',
+      name: 'desiredweekly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose a custom goal like 0.75 kilograms`
+  String get ex {
+    return Intl.message(
+      'Choose a custom goal like 0.75 kilograms',
+      name: 'ex',
       desc: '',
       args: [],
     );

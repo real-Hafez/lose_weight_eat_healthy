@@ -69,9 +69,9 @@ class GoalCardList extends StatelessWidget {
                 _buildGoalOption(
                   context: context,
                   title:
-                      "${isLoseWeight ? "Lose" : "Gain"} ${context.read<WeightGoalCubit>().formatWeeklyLoss(1.0)}",
+                      "${isLoseWeight ? S().lose : S().gain} ${convertNumber(context.read<WeightGoalCubit>().formatWeeklyLoss(1.0))}",
                   description:
-                      "Faster ${isLoseWeight ? "weight loss" : "weight gain"}",
+                      "${S().Faster} ${isLoseWeight ? "${S().WeightLoss}" : "${S().weightgain}"}",
                   icon: isLoseWeight
                       ? Icons.flash_on
                       : Icons.arrow_upward_outlined,
@@ -111,11 +111,14 @@ class GoalCardList extends StatelessWidget {
   Widget _buildCustomGoalOption(BuildContext context, WeightGoalState state) {
     final unit = state.weightUnit;
     final isLoseWeight = state.userGoal == "Lose Weight";
+    final locale = Localizations.localeOf(context);
+    final isArabic = locale.languageCode == 'ar';
 
     return customGoal != null
         ? GoalOptionCard(
-            title: "${isLoseWeight ? "Lose" : "Gain"} $customGoal $unit/week",
-            description: "Custom goal",
+            title:
+                "${isLoseWeight ? S().lose : S().gain} ${isArabic ? NumberConversionHelper.convertToArabicNumbers(customGoal ?? "") : customGoal} ${isArabic ? NumberConversionHelper.convertToArabicNumbers(unit) : unit}/${S().week}",
+            description: S().customgoal,
             icon: Icons.edit,
             isSelected: state.selectedOption == "Custom",
             onTap: () => context.read<WeightGoalCubit>().selectOption("Custom"),
@@ -123,8 +126,8 @@ class GoalCardList extends StatelessWidget {
             onEdit: () => _showCustomInputDialog(context, state),
           )
         : GoalOptionCard(
-            title: "Custom Goal",
-            description: "Set your own weekly goal.",
+            title: S().customgoal,
+            description: '${S().weeklygoal}',
             icon: Icons.edit,
             isSelected: state.selectedOption == "Custom",
             onTap: () => _showCustomInputDialog(context, state),
@@ -140,21 +143,21 @@ class GoalCardList extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Custom Goal"),
+          title: Text("${S().customgoal}"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Enter your desired weekly ${isLoseWeight ? "weight loss" : "weight gain"} goal ($unit):",
+                "${S().desiredweekly} ${isLoseWeight ? S().lose : S().gain} ${S().Goal} ($unit):",
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: controller,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "e.g., 0.75",
+                  hintText: "${S().ex}",
                 ),
               ),
             ],

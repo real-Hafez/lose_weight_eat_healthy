@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
         "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
         "Exclude": MessageLookupByLibrary.simpleMessage("استبعاد"),
+        "Faster": MessageLookupByLibrary.simpleMessage("أسرع"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("زياده الوزن "),
         "Goal": MessageLookupByLibrary.simpleMessage("اختر هدفك"),
         "Goall": MessageLookupByLibrary.simpleMessage("هدف"),
@@ -69,8 +70,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "cm": MessageLookupByLibrary.simpleMessage("سم"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),
+        "customgoal": MessageLookupByLibrary.simpleMessage("هدف مخصص"),
         "dailyMotivation": MessageLookupByLibrary.simpleMessage("تحفيز يومي"),
         "days": MessageLookupByLibrary.simpleMessage("ايام"),
+        "desiredweekly":
+            MessageLookupByLibrary.simpleMessage("ادخل هدفك الاسبوعي"),
         "diet": MessageLookupByLibrary.simpleMessage(
             "اختر نوع النظام الغذائي الذي تفضله"),
         "diet_selective": MessageLookupByLibrary.simpleMessage(
@@ -84,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailHint": MessageLookupByLibrary.simpleMessage("email@example.com"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
         "english": MessageLookupByLibrary.simpleMessage("انجليزي"),
+        "ex": MessageLookupByLibrary.simpleMessage(
+            "ختر هدفًا مخصصًا مثل ٠٫٧٥ كيلو جرام"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("نصائح تدريبية من خبراء"),
         "female": MessageLookupByLibrary.simpleMessage("انثي"),
@@ -104,11 +110,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "عنوان البريد الإلكتروني بتنسيق غير صحيح."),
         "kg": MessageLookupByLibrary.simpleMessage("كجم"),
-        "kgweek": MessageLookupByLibrary.simpleMessage("كجم/اسبوع"),
+        "kgweek": MessageLookupByLibrary.simpleMessage("كجم / اسبوع"),
         "lastNameHint": MessageLookupByLibrary.simpleMessage("حافظ"),
         "lastNameLabel": MessageLookupByLibrary.simpleMessage("الاسم الأخير"),
         "lb": MessageLookupByLibrary.simpleMessage("رطل"),
-        "lbweek": MessageLookupByLibrary.simpleMessage("رطل/اسبوع"),
+        "lbweek": MessageLookupByLibrary.simpleMessage("رطل / اسبوع"),
         "lose": MessageLookupByLibrary.simpleMessage("فقدان "),
         "loseorgainweight":
             MessageLookupByLibrary.simpleMessage("سوف يكون هناك"),
@@ -226,6 +232,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "أفضل طريقة لتحقيق أحلامك هي إبقائها في الأفق. لهذا السبب تحتاج إلى إضافة هذه الأداة إلى شاشتك الرئيسية."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "كلمة المرور المقدمة ضعيفة جدًا."),
+        "week": MessageLookupByLibrary.simpleMessage("اسبوع"),
+        "weeklygoal":
+            MessageLookupByLibrary.simpleMessage("حدد هدفك الأسبوعي."),
         "weight": MessageLookupByLibrary.simpleMessage("ما هو وزنك؟"),
         "weightgain": MessageLookupByLibrary.simpleMessage("زيادة الوزن"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك"),

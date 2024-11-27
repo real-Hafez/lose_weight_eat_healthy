@@ -27,10 +27,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
+        "Faster": MessageLookupByLibrary.simpleMessage("Faster"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight"),
         "Goal": MessageLookupByLibrary.simpleMessage("Select Your Goal"),
         "Goall": MessageLookupByLibrary.simpleMessage("Goal"),
-        "Gradual": MessageLookupByLibrary.simpleMessage("تدريجي"),
+        "Gradual": MessageLookupByLibrary.simpleMessage("Gradual"),
         "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -68,9 +69,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "cm": MessageLookupByLibrary.simpleMessage("cm"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("CUSTOM WORKOUT PLANS"),
+        "customgoal": MessageLookupByLibrary.simpleMessage("Custom goal"),
         "dailyMotivation":
             MessageLookupByLibrary.simpleMessage("DAILY MOTIVATION"),
         "days": MessageLookupByLibrary.simpleMessage("days"),
+        "desiredweekly": MessageLookupByLibrary.simpleMessage(
+            "Enter your desired weekly weight"),
         "diet": MessageLookupByLibrary.simpleMessage(
             "Choose Your Dietary Preference"),
         "diet_selective": MessageLookupByLibrary.simpleMessage(
@@ -84,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailHint": MessageLookupByLibrary.simpleMessage("email@example.com"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
         "english": MessageLookupByLibrary.simpleMessage("english"),
+        "ex": MessageLookupByLibrary.simpleMessage(
+            "Choose a custom goal like 0.75 kilograms"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("EXPERT TRAINING TIPS"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
@@ -226,6 +232,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The best way to achieve your dreams is to keep them in sight. That\'s why you need to add this widget to your home screen."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "The password provided is too weak."),
+        "week": MessageLookupByLibrary.simpleMessage("week"),
+        "weeklygoal": MessageLookupByLibrary.simpleMessage("weekly goal"),
         "weight": MessageLookupByLibrary.simpleMessage("What\'s your weight?"),
         "weightgain": MessageLookupByLibrary.simpleMessage("weight gain"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back"),
