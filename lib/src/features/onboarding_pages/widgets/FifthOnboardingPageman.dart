@@ -4,6 +4,7 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Fifthonboardingpageman extends StatefulWidget {
@@ -72,6 +73,8 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
     return Column(
       children: [
         ProgressIndicatorWidget(
@@ -83,10 +86,13 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
         Column(
           children: [
             Text(
-              "${currentValue.toStringAsFixed(0)}%",
-              style: const TextStyle(
+              isArabic
+                  ? NumberConversionHelper.convertToArabicNumbers(
+                      "   % ${currentValue.toStringAsFixed(0)}")
+                  : "${currentValue.toStringAsFixed(0)}%",
+              style: TextStyle(
                 color: Colors.yellow,
-                fontSize: 28,
+                fontSize: MediaQuery.sizeOf(context).height * .04,
                 fontWeight: FontWeight.bold,
               ),
             ),
