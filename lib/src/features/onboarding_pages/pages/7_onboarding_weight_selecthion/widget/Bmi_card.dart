@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/widget/helper/BmiHelper.dart';
 import 'package:lose_weight_eat_healthy/src/localization/LocaleCubit/LocaleCubit.dart';
 import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
@@ -41,8 +42,8 @@ class Bmi_Card extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Title at the top
-          const Text(
-            "Your BMI",
+          Text(
+            S().Bmi,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -92,7 +93,7 @@ class Bmi_Card extends StatelessWidget {
                   Text(
                     bmiStatus,
                     style: TextStyle(
-                      fontSize: screenHeight * 0.02,
+                      fontSize: screenHeight * 0.016,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),

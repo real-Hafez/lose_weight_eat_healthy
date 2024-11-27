@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Bmi": MessageLookupByLibrary.simpleMessage("Your BMI"),
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
@@ -93,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Your Gender"),
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("HEALTHY RECIPE SUGGESTIONS"),
+        "healthylifestyle": MessageLookupByLibrary.simpleMessage(
+            "Keep up the good work and maintain a healthy lifestyle!"),
         "heigh": MessageLookupByLibrary.simpleMessage("What\'s your height?"),
         "howmanywater": MessageLookupByLibrary.simpleMessage(
             "You will need to drink around:"),
@@ -115,6 +118,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "man": MessageLookupByLibrary.simpleMessage("Male"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("MEAL PLANNING"),
         "meat": MessageLookupByLibrary.simpleMessage("meat"),
+        "mildThinness": MessageLookupByLibrary.simpleMessage("Mild Thinness"),
+        "mildThinnessRec": MessageLookupByLibrary.simpleMessage(
+            "Small changes can lead to great results! Try our healthy meal options to get closer to your wellness goals."),
+        "moderateThinness":
+            MessageLookupByLibrary.simpleMessage("Moderate Thinness"),
+        "moderateThinnessRec": MessageLookupByLibrary.simpleMessage(
+            "A balanced diet can make a world of difference. Our nutrition plans are here to help you reach your ideal weight."),
         "motivationalText": MessageLookupByLibrary.simpleMessage(
             "Just 30 days to reach your goal, try to achieve our dream"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
@@ -122,13 +132,29 @@ class MessageLookup extends MessageLookupByLibrary {
         "newAccount":
             MessageLookupByLibrary.simpleMessage("Create New Account"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
+        "normalRec": MessageLookupByLibrary.simpleMessage(
+            "You’re on the right track! Keep up the great habits and explore new ways to maintain a balanced lifestyle."),
+        "normalWeight": MessageLookupByLibrary.simpleMessage("Normal weight"),
         "nothing": MessageLookupByLibrary.simpleMessage("nothing"),
+        "obeseClassI": MessageLookupByLibrary.simpleMessage("Obese Class I"),
+        "obeseClassII": MessageLookupByLibrary.simpleMessage("Obese Class II"),
+        "obeseClassIII":
+            MessageLookupByLibrary.simpleMessage("Obese Class III"),
+        "obeseClassIIIRec": MessageLookupByLibrary.simpleMessage(
+            "Together, we can make a difference in your health. Consult a healthcare provider and start with our nutrition and wellness options for a fresh start."),
+        "obeseClassIIRec": MessageLookupByLibrary.simpleMessage(
+            "Your health is a priority. Our app can guide you with personalized nutrition and activity plans to get closer to your goal."),
+        "obeseClassIRec": MessageLookupByLibrary.simpleMessage(
+            "With dedication and the right choices, a healthier weight is achievable. Explore our meal plans and workouts tailored to support your journey."),
         "one_month": MessageLookupByLibrary.simpleMessage("1 month"),
         "one_week": MessageLookupByLibrary.simpleMessage("1 week"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Sign-in method not allowed. Please enable the sign-in method in Firebase console."),
         "orLoginWith": MessageLookupByLibrary.simpleMessage("Or login with"),
         "orSignupWith": MessageLookupByLibrary.simpleMessage("Or sign up with"),
+        "overweight": MessageLookupByLibrary.simpleMessage("Overweight"),
+        "overweightRec": MessageLookupByLibrary.simpleMessage(
+            "You\'re closer to a healthier weight than you think! A nutritious diet and regular exercise can make a big difference. Let’s start together!"),
         "passwordHint": MessageLookupByLibrary.simpleMessage("*********"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
         "perday": MessageLookupByLibrary.simpleMessage("per day"),
@@ -148,6 +174,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("recommended for you"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "Making your workout Routines..."),
+        "severeThinness":
+            MessageLookupByLibrary.simpleMessage("Severe Thinness"),
+        "severeThinnessRec": MessageLookupByLibrary.simpleMessage(
+            "A healthier you is within reach! Consider consulting a healthcare professional, and explore our app\'s nutrition plans to support your journey."),
         "short_term":
             MessageLookupByLibrary.simpleMessage("Set Your Short-Term Weight"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),

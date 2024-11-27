@@ -1,4 +1,5 @@
 {
+    "@@locale": "en",
     "skipButton": "Skip",
     "newAccount": "Create New Account",
     "mainTextFirstOnboardingPage": "Find Your Perfect Cardio Routine",
@@ -117,7 +118,25 @@
 "one_month": "1 month",
 "two_months": "2 months",
 "Custom": "Custom",
-"recommended":"recommended for you"
+"recommended":"recommended for you" ,
+"Bmi":"Your BMI" ,
+"severeThinness": "Severe Thinness",
+"moderateThinness": "Moderate Thinness",
+"mildThinness": "Mild Thinness",
+"normalWeight": "Normal weight",
+"overweight": "Overweight",
+"obeseClassI": "Obese Class I",
+"obeseClassII": "Obese Class II",
+"obeseClassIII": "Obese Class III",
+"healthylifestyle": "Keep up the good work and maintain a healthy lifestyle!",
+"severeThinnessRec": "A healthier you is within reach! Consider consulting a healthcare professional, and explore our app's nutrition plans to support your journey.",
+"moderateThinnessRec": "A balanced diet can make a world of difference. Our nutrition plans are here to help you reach your ideal weight.",
+"mildThinnessRec": "Small changes can lead to great results! Try our healthy meal options to get closer to your wellness goals.",
+"normalRec": "You’re on the right track! Keep up the great habits and explore new ways to maintain a balanced lifestyle.",
+"overweightRec": "You're closer to a healthier weight than you think! A nutritious diet and regular exercise can make a big difference. Let’s start together!",
+"obeseClassIRec": "With dedication and the right choices, a healthier weight is achievable. Explore our meal plans and workouts tailored to support your journey.",
+"obeseClassIIRec": "Your health is a priority. Our app can guide you with personalized nutrition and activity plans to get closer to your goal.",
+"obeseClassIIIRec": "Together, we can make a difference in your health. Consult a healthcare provider and start with our nutrition and wellness options for a fresh start."
 
 }
 

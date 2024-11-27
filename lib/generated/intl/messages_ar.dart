@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Bmi": MessageLookupByLibrary.simpleMessage("مؤشر كتلة الجسم (Bmi)"),
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
         "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
@@ -92,6 +93,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "genderselect": MessageLookupByLibrary.simpleMessage("حدد جنسك"),
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("اقتراحات وصفات صحية"),
+        "healthylifestyle": MessageLookupByLibrary.simpleMessage(
+            "استمروا في العمل الجيد وحافظوا على نمط حياة صحي!"),
         "heigh": MessageLookupByLibrary.simpleMessage("ما هو طولك ؟ "),
         "howmanywater":
             MessageLookupByLibrary.simpleMessage("سوف تحتاج إلى شرب حول:"),
@@ -114,13 +117,36 @@ class MessageLookup extends MessageLookupByLibrary {
         "man": MessageLookupByLibrary.simpleMessage("ذكر"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("تخطيط الوجبات"),
         "meat": MessageLookupByLibrary.simpleMessage("لحم"),
+        "mildThinness":
+            MessageLookupByLibrary.simpleMessage("نقص طفيف في الوزن"),
+        "mildThinnessRec": MessageLookupByLibrary.simpleMessage(
+            "تغييرات صغيرة يمكن أن تؤدي إلى نتائج رائعة! جرب خيارات وجباتنا الصحية للاقتراب من أهدافك الصحية."),
+        "moderateThinness":
+            MessageLookupByLibrary.simpleMessage("نقص معتدل في الوزن"),
+        "moderateThinnessRec": MessageLookupByLibrary.simpleMessage(
+            "النظام الغذائي المتوازن يمكن أن يحدث فرقًا كبيرًا. خطط التغذية الخاصة بنا ستساعدك على الوصول إلى وزنك المثالي."),
         "motivationalText": MessageLookupByLibrary.simpleMessage(
             "فقط 30 يومًا للوصول إلى هدفك، حاول تحقيق حلمنا"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
             "خطأ في الشبكة. يرجى التحقق من اتصالك."),
         "newAccount": MessageLookupByLibrary.simpleMessage("إنشاء حساب جديد"),
         "next": MessageLookupByLibrary.simpleMessage("التالي"),
+        "normalRec": MessageLookupByLibrary.simpleMessage(
+            "أنت على الطريق الصحيح! واصل العادات الجيدة واستكشف طرقًا جديدة للحفاظ على نمط حياة متوازن."),
+        "normalWeight": MessageLookupByLibrary.simpleMessage("الوزن الطبيعي"),
         "nothing": MessageLookupByLibrary.simpleMessage("لا شئ "),
+        "obeseClassI":
+            MessageLookupByLibrary.simpleMessage("السمنة من الفئة الأولى"),
+        "obeseClassII":
+            MessageLookupByLibrary.simpleMessage("السمنة من الفئة الثانية"),
+        "obeseClassIII":
+            MessageLookupByLibrary.simpleMessage("السمنة من الفئة الثالثة"),
+        "obeseClassIIIRec": MessageLookupByLibrary.simpleMessage(
+            "معًا، يمكننا أن نُحدث فرقًا في صحتك. استشر مزود الرعاية الصحية وابدأ مع خيارات التغذية والعافية لدينا لبداية جديدة."),
+        "obeseClassIIRec": MessageLookupByLibrary.simpleMessage(
+            "صحتك هي الأولوية. يمكن لتطبيقنا أن يرشدك بخطط تغذية ونشاط مخصصة لتقترب من هدفك."),
+        "obeseClassIRec": MessageLookupByLibrary.simpleMessage(
+            "مع الالتزام والخيارات الصحيحة، يمكن تحقيق وزن صحي. استكشف خطط الوجبات والتمارين الخاصة بنا لدعم مسيرتك."),
         "one_month": MessageLookupByLibrary.simpleMessage("شهر واحد"),
         "one_week": MessageLookupByLibrary.simpleMessage("1 أسبوع"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
@@ -129,6 +155,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("أو تسجيل الدخول باستخدام"),
         "orSignupWith":
             MessageLookupByLibrary.simpleMessage("أو التسجيل باستخدام"),
+        "overweight": MessageLookupByLibrary.simpleMessage("زيادة الوزن"),
+        "overweightRec": MessageLookupByLibrary.simpleMessage(
+            "أنت أقرب إلى وزن صحي مما تعتقد! النظام الغذائي المغذي والتمارين المنتظمة يمكن أن تحدث فرقًا كبيرًا. دعنا نبدأ معًا!"),
         "passwordHint": MessageLookupByLibrary.simpleMessage("***********"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "perday": MessageLookupByLibrary.simpleMessage("يوميا"),
@@ -146,6 +175,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "recommended": MessageLookupByLibrary.simpleMessage("موصى به لك"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "إعداد روتين التمارين الخاص بك..."),
+        "severeThinness":
+            MessageLookupByLibrary.simpleMessage("نقص شديد في الوزن"),
+        "severeThinnessRec": MessageLookupByLibrary.simpleMessage(
+            "الوصول إلى حياة أكثر صحة في متناول اليد! فكر في استشارة طبيب مختص واستكشف خطط التغذية في تطبيقنا لدعم مسيرتك."),
         "short_term":
             MessageLookupByLibrary.simpleMessage("حدد وزنك على المدى القصير"),
         "signIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),

@@ -1229,6 +1229,186 @@ class S {
       args: [],
     );
   }
+
+  /// `Your BMI`
+  String get Bmi {
+    return Intl.message(
+      'Your BMI',
+      name: 'Bmi',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Severe Thinness`
+  String get severeThinness {
+    return Intl.message(
+      'Severe Thinness',
+      name: 'severeThinness',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Moderate Thinness`
+  String get moderateThinness {
+    return Intl.message(
+      'Moderate Thinness',
+      name: 'moderateThinness',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mild Thinness`
+  String get mildThinness {
+    return Intl.message(
+      'Mild Thinness',
+      name: 'mildThinness',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Normal weight`
+  String get normalWeight {
+    return Intl.message(
+      'Normal weight',
+      name: 'normalWeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overweight`
+  String get overweight {
+    return Intl.message(
+      'Overweight',
+      name: 'overweight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Obese Class I`
+  String get obeseClassI {
+    return Intl.message(
+      'Obese Class I',
+      name: 'obeseClassI',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Obese Class II`
+  String get obeseClassII {
+    return Intl.message(
+      'Obese Class II',
+      name: 'obeseClassII',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Obese Class III`
+  String get obeseClassIII {
+    return Intl.message(
+      'Obese Class III',
+      name: 'obeseClassIII',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep up the good work and maintain a healthy lifestyle!`
+  String get healthylifestyle {
+    return Intl.message(
+      'Keep up the good work and maintain a healthy lifestyle!',
+      name: 'healthylifestyle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A healthier you is within reach! Consider consulting a healthcare professional, and explore our app's nutrition plans to support your journey.`
+  String get severeThinnessRec {
+    return Intl.message(
+      'A healthier you is within reach! Consider consulting a healthcare professional, and explore our app\'s nutrition plans to support your journey.',
+      name: 'severeThinnessRec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A balanced diet can make a world of difference. Our nutrition plans are here to help you reach your ideal weight.`
+  String get moderateThinnessRec {
+    return Intl.message(
+      'A balanced diet can make a world of difference. Our nutrition plans are here to help you reach your ideal weight.',
+      name: 'moderateThinnessRec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Small changes can lead to great results! Try our healthy meal options to get closer to your wellness goals.`
+  String get mildThinnessRec {
+    return Intl.message(
+      'Small changes can lead to great results! Try our healthy meal options to get closer to your wellness goals.',
+      name: 'mildThinnessRec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You’re on the right track! Keep up the great habits and explore new ways to maintain a balanced lifestyle.`
+  String get normalRec {
+    return Intl.message(
+      'You’re on the right track! Keep up the great habits and explore new ways to maintain a balanced lifestyle.',
+      name: 'normalRec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You're closer to a healthier weight than you think! A nutritious diet and regular exercise can make a big difference. Let’s start together!`
+  String get overweightRec {
+    return Intl.message(
+      'You\'re closer to a healthier weight than you think! A nutritious diet and regular exercise can make a big difference. Let’s start together!',
+      name: 'overweightRec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `With dedication and the right choices, a healthier weight is achievable. Explore our meal plans and workouts tailored to support your journey.`
+  String get obeseClassIRec {
+    return Intl.message(
+      'With dedication and the right choices, a healthier weight is achievable. Explore our meal plans and workouts tailored to support your journey.',
+      name: 'obeseClassIRec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your health is a priority. Our app can guide you with personalized nutrition and activity plans to get closer to your goal.`
+  String get obeseClassIIRec {
+    return Intl.message(
+      'Your health is a priority. Our app can guide you with personalized nutrition and activity plans to get closer to your goal.',
+      name: 'obeseClassIIRec',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Together, we can make a difference in your health. Consult a healthcare provider and start with our nutrition and wellness options for a fresh start.`
+  String get obeseClassIIIRec {
+    return Intl.message(
+      'Together, we can make a difference in your health. Consult a healthcare provider and start with our nutrition and wellness options for a fresh start.',
+      name: 'obeseClassIIIRec',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
