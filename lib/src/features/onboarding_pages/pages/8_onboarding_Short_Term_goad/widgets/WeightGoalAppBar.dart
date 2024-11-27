@@ -17,7 +17,7 @@ class WeightGoalAppBar extends StatelessWidget implements PreferredSizeWidget {
               MainAxisAlignment.spaceBetween, // to space them out evenly
           children: [
             Text(
-              '${state.userGoal} Goal',
+              '${state.userGoal} ${S().Goall}',
               style: const TextStyle(fontFamily: 'Indie_Flower'),
             ),
             TextButton(

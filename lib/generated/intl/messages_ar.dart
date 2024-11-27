@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Exclude": MessageLookupByLibrary.simpleMessage("استبعاد"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("زياده الوزن "),
         "Goal": MessageLookupByLibrary.simpleMessage("اختر هدفك"),
+        "Goall": MessageLookupByLibrary.simpleMessage("هدف"),
+        "Gradual": MessageLookupByLibrary.simpleMessage("تدريجي"),
         "Keto": MessageLookupByLibrary.simpleMessage("كيتو"),
         "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
@@ -47,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "ما هي وحدات قياس المياه التي تستخدمها؟"),
         "WeightLoss":
             MessageLookupByLibrary.simpleMessage("ضع هدفًا قصير المدى"),
+        "Weightlose": MessageLookupByLibrary.simpleMessage("فقدان الوزن"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "active_my_goal":
             MessageLookupByLibrary.simpleMessage("أريد تحقيق هدفي في..."),
@@ -101,9 +104,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "عنوان البريد الإلكتروني بتنسيق غير صحيح."),
         "kg": MessageLookupByLibrary.simpleMessage("كجم"),
+        "kgweek": MessageLookupByLibrary.simpleMessage("كجم/اسبوع"),
         "lastNameHint": MessageLookupByLibrary.simpleMessage("حافظ"),
         "lastNameLabel": MessageLookupByLibrary.simpleMessage("الاسم الأخير"),
         "lb": MessageLookupByLibrary.simpleMessage("رطل"),
+        "lbweek": MessageLookupByLibrary.simpleMessage("رطل/اسبوع"),
         "lose": MessageLookupByLibrary.simpleMessage("فقدان "),
         "loseorgainweight":
             MessageLookupByLibrary.simpleMessage("سوف يكون هناك"),
@@ -222,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "كلمة المرور المقدمة ضعيفة جدًا."),
         "weight": MessageLookupByLibrary.simpleMessage("ما هو وزنك؟"),
+        "weightgain": MessageLookupByLibrary.simpleMessage("زيادة الوزن"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("مرحبًا بعودتك"),
         "welcomeonboarding": MessageLookupByLibrary.simpleMessage(
             "مرحبًا بك في رحلتك نحو حياة أكثر صحة وسعادة! تطبيقنا هنا لدعمك في كل خطوة مع مجموعة من الميزات المجانية المصممة لمساعدتك في تحقيق أهدافك بسهولة."),

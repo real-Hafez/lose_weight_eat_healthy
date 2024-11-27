@@ -1409,6 +1409,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Goal`
+  String get Goall {
+    return Intl.message(
+      'Goal',
+      name: 'Goall',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `weight loss`
+  String get Weightlose {
+    return Intl.message(
+      'weight loss',
+      name: 'Weightlose',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `weight gain`
+  String get weightgain {
+    return Intl.message(
+      'weight gain',
+      name: 'weightgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `kg/week`
+  String get kgweek {
+    return Intl.message(
+      'kg/week',
+      name: 'kgweek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `lb/week`
+  String get lbweek {
+    return Intl.message(
+      'lb/week',
+      name: 'lbweek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `تدريجي`
+  String get Gradual {
+    return Intl.message(
+      'تدريجي',
+      name: 'Gradual',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

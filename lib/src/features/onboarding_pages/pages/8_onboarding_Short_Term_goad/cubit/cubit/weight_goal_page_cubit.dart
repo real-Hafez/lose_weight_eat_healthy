@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,8 +14,8 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
   // Convert weekly loss goal to the selected unit
   String formatWeeklyLoss(double weeklyLoss) {
     return state.weightUnit == 'lb'
-        ? (weeklyLoss * 2.20462).toStringAsFixed(2) + ' lb/week'
-        : weeklyLoss.toStringAsFixed(2) + ' kg/week';
+        ? (weeklyLoss * 2.20462).toStringAsFixed(2) + '${S().lbweek}'
+        : weeklyLoss.toStringAsFixed(2) + '${S().kgweek}';
   }
 
   Future<void> loadPreferences() async {

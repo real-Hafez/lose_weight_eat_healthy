@@ -136,7 +136,12 @@
 "overweightRec": "You're closer to a healthier weight than you think! A nutritious diet and regular exercise can make a big difference. Let’s start together!",
 "obeseClassIRec": "With dedication and the right choices, a healthier weight is achievable. Explore our meal plans and workouts tailored to support your journey.",
 "obeseClassIIRec": "Your health is a priority. Our app can guide you with personalized nutrition and activity plans to get closer to your goal.",
-"obeseClassIIIRec": "Together, we can make a difference in your health. Consult a healthcare provider and start with our nutrition and wellness options for a fresh start."
-
+"obeseClassIIIRec": "Together, we can make a difference in your health. Consult a healthcare provider and start with our nutrition and wellness options for a fresh start.",
+"Goall":"Goal" ,
+"Weightlose":"weight loss" , 
+"weightgain":"weight gain" , 
+"kgweek":"kg/week" , 
+"lbweek":"lb/week" ,
+"Gradual":"تدريجي"
 }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/GoalOptionCard.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 
 class GoalCardList extends StatelessWidget {
   final String? customGoal;
@@ -18,10 +20,16 @@ class GoalCardList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WeightGoalCubit, WeightGoalState>(
       builder: (context, state) {
+        final locale = Localizations.localeOf(context);
+        final isArabic = locale.languageCode == 'ar';
+
         final unit = state.weightUnit;
         final userGoal = state.userGoal;
         final isLoseWeight = userGoal == "Lose Weight";
         final isGainWeight = userGoal == "Gain Weight";
+        String convertNumber(String input) => isArabic
+            ? NumberConversionHelper.convertToArabicNumbers(input)
+            : input;
 
         return Center(
           child: Wrap(
@@ -47,9 +55,9 @@ class GoalCardList extends StatelessWidget {
                   child: _buildGoalOption(
                     context: context,
                     title:
-                        "${isLoseWeight ? "Lose" : "Gain"} ${context.read<WeightGoalCubit>().formatWeeklyLoss(0.5)}",
+                        "${isLoseWeight ? S().lose : S().gain} ${convertNumber(context.read<WeightGoalCubit>().formatWeeklyLoss(0.5))}",
                     description:
-                        "Gradual ${isLoseWeight ? "weight loss" : "weight gain"}",
+                        "${S().Gradual} ${isLoseWeight ? "${S().WeightLoss}" : "${S().weightgain}"}",
                     icon: isLoseWeight
                         ? Icons.hourglass_bottom
                         : Icons.arrow_upward,

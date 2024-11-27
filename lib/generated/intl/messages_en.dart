@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight"),
         "Goal": MessageLookupByLibrary.simpleMessage("Select Your Goal"),
+        "Goall": MessageLookupByLibrary.simpleMessage("Goal"),
+        "Gradual": MessageLookupByLibrary.simpleMessage("تدريجي"),
         "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -47,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "What Water Measurement Units do you use"),
         "WeightLoss":
             MessageLookupByLibrary.simpleMessage("Put a Short term goal"),
+        "Weightlose": MessageLookupByLibrary.simpleMessage("weight loss"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
         "active_my_goal": MessageLookupByLibrary.simpleMessage(
             "I want to achieve my goal in..."),
@@ -102,9 +105,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "The email address is badly formatted."),
         "kg": MessageLookupByLibrary.simpleMessage("kg"),
+        "kgweek": MessageLookupByLibrary.simpleMessage("kg/week"),
         "lastNameHint": MessageLookupByLibrary.simpleMessage("Hafez"),
         "lastNameLabel": MessageLookupByLibrary.simpleMessage("Last name"),
         "lb": MessageLookupByLibrary.simpleMessage("lb"),
+        "lbweek": MessageLookupByLibrary.simpleMessage("lb/week"),
         "lose": MessageLookupByLibrary.simpleMessage("lose"),
         "loseorgainweight":
             MessageLookupByLibrary.simpleMessage("You are going to"),
@@ -222,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "weakPassword": MessageLookupByLibrary.simpleMessage(
             "The password provided is too weak."),
         "weight": MessageLookupByLibrary.simpleMessage("What\'s your weight?"),
+        "weightgain": MessageLookupByLibrary.simpleMessage("weight gain"),
         "welcomeBack": MessageLookupByLibrary.simpleMessage("Welcome back"),
         "welcomeonboarding": MessageLookupByLibrary.simpleMessage(
             "Welcome to your journey toward a healthier and happier you! Our app is here to support you every step of the way with a range of free features designed to help you reach your goals effortlessly."),
