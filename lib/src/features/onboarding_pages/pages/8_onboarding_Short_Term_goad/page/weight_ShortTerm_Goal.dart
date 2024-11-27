@@ -31,7 +31,9 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
     return BlocProvider(
       create: (_) => WeightGoalCubit()..loadPreferences(),
       child: Scaffold(
-        appBar: const WeightGoalAppBar(),
+        appBar: WeightGoalAppBar(
+          onNextButtonPressed: widget.onNextButtonPressed,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
