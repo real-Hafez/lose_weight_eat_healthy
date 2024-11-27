@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/cubit/cubit/weight_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'weight_state.dart';
 
 class WeightCubit extends Cubit<WeightState> {
   WeightCubit()
@@ -9,9 +9,10 @@ class WeightCubit extends Cubit<WeightState> {
           weightLb: 154.0,
           bmi: 23.4,
           weightUnit: 'kg',
-          heightM: 1.65,
+          heightM: 1.75, // Default height in meters
         ));
 
+  // Conversion methods
   double _kgToLb(double kg) => kg * 2.20462;
   double _lbToKg(double lb) => lb / 2.20462;
 
@@ -19,7 +20,7 @@ class WeightCubit extends Cubit<WeightState> {
     if (unit == state.weightUnit) return;
 
     double weightKg =
-        state.weightUnit == 'kg' ? _lbToKg(state.weightLb) : state.weightKg;
+        state.weightUnit == 'kg' ? state.weightKg : _lbToKg(state.weightLb);
 
     emit(state.copyWith(
       weightUnit: unit,
@@ -44,36 +45,47 @@ class WeightCubit extends Cubit<WeightState> {
     updateBMI();
   }
 
+  void updateHeight(double heightFeet, [double? heightInches]) {
+    double totalHeightInches = heightFeet * 12 + (heightInches ?? 0);
+    double heightM = totalHeightInches * 0.0254; // Convert inches to meters
+    emit(state.copyWith(heightM: heightM));
+    updateBMI();
+  }
+
   void updateBMI() {
-    double bmi = state.weightKg / (state.heightM * state.heightM);
-    emit(state.copyWith(bmi: bmi));
+    if (state.heightM <= 0) {
+      emit(state.copyWith(bmi: 0.0)); // Prevent division by zero
+      return;
+    }
+
+    double bmi =
+        state.weightKg / (state.heightM * state.heightM); // Metric formula
+    emit(state.copyWith(bmi: double.parse(bmi.toStringAsFixed(1))));
   }
 
   Future<void> loadPreferences() async {
-    // Load weight, height, and unit from SharedPreferences
-    // Example:
     final prefs = await SharedPreferences.getInstance();
-    double weightKg = prefs.getDouble('weightKg') ?? 70.0;
-    double weightLb = prefs.getDouble('weightLb') ?? _kgToLb(weightKg);
+
+    double heightM =
+        prefs.getDouble('heightM') ?? 1.75; // Default height in meters
+    double weightKg =
+        prefs.getDouble('weightKg') ?? 70.0; // Default weight in kg
     String weightUnit = prefs.getString('weightUnit') ?? 'kg';
-    double heightM = (prefs.getInt('heightCm') ?? 170) / 100.0;
 
     emit(state.copyWith(
-      weightKg: weightKg,
-      weightLb: weightLb,
-      weightUnit: weightUnit,
       heightM: heightM,
+      weightKg: weightKg,
+      weightLb: _kgToLb(weightKg),
+      weightUnit: weightUnit,
     ));
     updateBMI();
   }
 
   Future<void> savePreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    print('weightKg: ${state.weightKg}, weightUnit: ${state.weightUnit}');
 
+    await prefs.setDouble('heightM', state.heightM);
     await prefs.setDouble('weightKg', state.weightKg);
-    await prefs.setDouble('weightLb', state.weightLb);
-
     await prefs.setString('weightUnit', state.weightUnit);
   }
 }

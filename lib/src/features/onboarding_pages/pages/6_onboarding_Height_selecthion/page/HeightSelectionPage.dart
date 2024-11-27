@@ -143,6 +143,8 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
         _heightInches = _constrainValue(inches, minInches, maxInches);
       });
     }
+    print(
+        'Height updated: ${_heightCm}cm, ${_heightFt}ft ${_heightInches}inches');
   }
 
   int _constrainValue(int value, int minValue, int maxValue) {
