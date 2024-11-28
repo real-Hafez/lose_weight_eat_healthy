@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 
 class TargetWeightInput extends StatefulWidget {
   const TargetWeightInput({super.key});
@@ -45,8 +47,16 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
         final maxWeight =
             state.weightUnit == 'lb' ? maxWeightKg * 2.20462 : maxWeightKg;
 
-        final formattedMinWeight = minWeight.toStringAsFixed(1);
-        final formattedMaxWeight = maxWeight.toStringAsFixed(1);
+        String formattedMinWeight = minWeight.toStringAsFixed(1);
+        String formattedMaxWeight = maxWeight.toStringAsFixed(1);
+
+        // Convert numbers to Arabic if the language is Arabic
+        if (Localizations.localeOf(context).languageCode == 'ar') {
+          formattedMinWeight =
+              NumberConversionHelper.convertToArabicNumbers(formattedMinWeight);
+          formattedMaxWeight =
+              NumberConversionHelper.convertToArabicNumbers(formattedMaxWeight);
+        }
 
         // Set initial target weight in the correct unit
         if (_isRecommended && state.targetWeight != 'Invalid height') {
@@ -64,17 +74,19 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Target Weight',
+              '${S().TargetWeight}',
               style: TextStyle(
-                fontSize: 14,
+                fontSize: MediaQuery.sizeOf(context).height * .03,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Healthy range: $formattedMinWeight - $formattedMaxWeight ${state.weightUnit}',
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+              '${S().Healthyrange} $formattedMinWeight - $formattedMaxWeight ${state.weightUnit}',
+              style: TextStyle(
+                  fontSize: MediaQuery.sizeOf(context).height * .025,
+                  color: Colors.grey.shade600),
             ),
             const SizedBox(height: 8),
             Row(
@@ -82,6 +94,8 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
               children: [
                 Expanded(
                   child: TextFormField(
+                    style: TextStyle(
+                        fontSize: MediaQuery.sizeOf(context).height * .025),
                     controller: _controller,
                     keyboardType: TextInputType.number,
                     inputFormatters: [
@@ -93,7 +107,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
                           ? 'Enter a valid height first'
                           : null,
                       hintStyle: TextStyle(
-                        fontSize: 14,
+                        fontSize: 16,
                         fontStyle: FontStyle.italic,
                         color: state.targetWeight == 'Invalid height'
                             ? Colors.red
@@ -116,7 +130,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
                           inputWeightKg > maxWeightKg) {
                         setState(() {
                           _validationMessage =
-                              'Please enter a weight within the range $formattedMinWeight - $formattedMaxWeight ${state.weightUnit}.';
+                              '${S().rangeweight} $formattedMinWeight - $formattedMaxWeight ${state.weightUnit}.';
                         });
                       } else {
                         setState(() {
@@ -132,24 +146,24 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
                 Text(
                   state.weightUnit,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey.shade700,
                   ),
                 ),
               ],
             ),
-            if (_validationMessage != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  _validationMessage!,
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
+            // if (_validationMessage != null)
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 8.0),
+            //   child: Text(
+            //     _validationMessage!,
+            //     style: const TextStyle(
+            //       color: Colors.red,
+            //       fontSize: 12,
+            //     ),
+            //   ),
+            // ),
           ],
         );
       },

@@ -1569,6 +1569,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Target Weight`
+  String get TargetWeight {
+    return Intl.message(
+      'Target Weight',
+      name: 'TargetWeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Healthy range:`
+  String get Healthyrange {
+    return Intl.message(
+      'Healthy range:',
+      name: 'Healthyrange',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a weight within the range`
+  String get rangeweight {
+    return Intl.message(
+      'Please enter a weight within the range',
+      name: 'rangeweight',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

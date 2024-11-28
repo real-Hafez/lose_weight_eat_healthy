@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Goal": MessageLookupByLibrary.simpleMessage("Select Your Goal"),
         "Goall": MessageLookupByLibrary.simpleMessage("Goal"),
         "Gradual": MessageLookupByLibrary.simpleMessage("Gradual"),
+        "Healthyrange": MessageLookupByLibrary.simpleMessage("Healthy range:"),
         "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -45,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
+        "TargetWeight": MessageLookupByLibrary.simpleMessage("Target Weight"),
         "USoz": MessageLookupByLibrary.simpleMessage("US oz"),
         "Vegan": MessageLookupByLibrary.simpleMessage("Vegan"),
         "Vegetarian": MessageLookupByLibrary.simpleMessage("Vegetarian"),
@@ -183,6 +185,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Water is the driving force of all nature."),
         "quotesaider":
             MessageLookupByLibrary.simpleMessage("- Leonardo da Vinci"),
+        "rangeweight": MessageLookupByLibrary.simpleMessage(
+            "Please enter a weight within the range"),
         "recommended":
             MessageLookupByLibrary.simpleMessage("recommended for you"),
         "setp1": MessageLookupByLibrary.simpleMessage(

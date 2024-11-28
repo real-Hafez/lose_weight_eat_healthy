@@ -152,6 +152,9 @@
 "Cancel":"Cancel" ,
 "validgoal":"Please enter a valid goal within a healthy range.",
 "vaildnumber":"Please enter a valid number.",
-"Save":"Save"
+"Save":"Save",
+"TargetWeight":"Target Weight",
+"Healthyrange":"Healthy range:",
+"rangeweight":"Please enter a weight within the range"
 }
 

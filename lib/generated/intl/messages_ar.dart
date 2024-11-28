@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Goal": MessageLookupByLibrary.simpleMessage("اختر هدفك"),
         "Goall": MessageLookupByLibrary.simpleMessage("هدف"),
         "Gradual": MessageLookupByLibrary.simpleMessage("تدريجي"),
+        "Healthyrange": MessageLookupByLibrary.simpleMessage("النطاق الصحي:"),
         "Keto": MessageLookupByLibrary.simpleMessage("كيتو"),
         "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
@@ -45,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "Save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
+        "TargetWeight": MessageLookupByLibrary.simpleMessage("الوزن المستهدف"),
         "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),
         "Vegan": MessageLookupByLibrary.simpleMessage("نباتي صارم"),
         "Vegetarian": MessageLookupByLibrary.simpleMessage("نباتي"),
@@ -185,6 +187,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "الماء هو القوة الدافعة لكل الطبيعة."),
         "quotesaider":
             MessageLookupByLibrary.simpleMessage("- ليوناردو دافنشي"),
+        "rangeweight":
+            MessageLookupByLibrary.simpleMessage("من فضلك أدخل الوزن ضمن نطاق"),
         "recommended": MessageLookupByLibrary.simpleMessage("موصى به لك"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "إعداد روتين التمارين الخاص بك..."),
