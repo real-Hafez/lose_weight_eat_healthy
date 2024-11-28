@@ -1599,6 +1599,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter Valid Height`
+  String get EnterValidHeight {
+    return Intl.message(
+      'Enter Valid Height',
+      name: 'EnterValidHeight',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

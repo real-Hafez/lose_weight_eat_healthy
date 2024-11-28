@@ -154,7 +154,9 @@
 "Save":"حفظ",
 "TargetWeight":"الوزن المستهدف" ,
 "Healthyrange":"النطاق الصحي:",
-"rangeweight":"من فضلك أدخل الوزن ضمن نطاق"
+"rangeweight":"من فضلك أدخل الوزن ضمن نطاق" , 
+"EnterValidHeight":"ادخل طول صحيح "
+
 
 
 

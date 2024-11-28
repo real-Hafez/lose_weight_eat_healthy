@@ -155,6 +155,7 @@
 "Save":"Save",
 "TargetWeight":"Target Weight",
 "Healthyrange":"Healthy range:",
-"rangeweight":"Please enter a weight within the range"
+"rangeweight":"Please enter a weight within the range",
+"EnterValidHeight":"Enter Valid Height"
 }
 

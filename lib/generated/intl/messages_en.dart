@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
+        "EnterValidHeight":
+            MessageLookupByLibrary.simpleMessage("Enter Valid Height"),
         "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
         "Faster": MessageLookupByLibrary.simpleMessage("Faster"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight"),
