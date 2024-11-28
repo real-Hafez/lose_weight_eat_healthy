@@ -165,7 +165,7 @@ class GoalCardList extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text("Cancel"),
+              child: Text("${S().Cancel}"),
             ),
             ElevatedButton(
               onPressed: () {
@@ -185,15 +185,14 @@ class GoalCardList extends StatelessWidget {
                           .selectCustomOption(customValue);
                       Navigator.of(context).pop();
                     } else {
-                      _showSnackBar(context,
-                          "Please enter a valid goal within a healthy range.");
+                      _showSnackBar(context, "${S().validgoal}");
                     }
                   } else {
-                    _showSnackBar(context, "Please enter a valid number.");
+                    _showSnackBar(context, "${S().vaildnumber}");
                   }
                 }
               },
-              child: const Text("Save"),
+              child: Text("${S().Save}"),
             ),
           ],
         );

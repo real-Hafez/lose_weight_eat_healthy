@@ -1529,6 +1529,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Cancel`
+  String get Cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'Cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid goal within a healthy range.`
+  String get validgoal {
+    return Intl.message(
+      'Please enter a valid goal within a healthy range.',
+      name: 'validgoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid number.`
+  String get vaildnumber {
+    return Intl.message(
+      'Please enter a valid number.',
+      name: 'vaildnumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get Save {
+    return Intl.message(
+      'Save',
+      name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

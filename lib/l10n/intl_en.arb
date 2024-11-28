@@ -148,6 +148,10 @@
 "week":"week",
 "weeklygoal":"weekly goal" ,
 "desiredweekly":"Enter your desired weekly weight",
-"ex":"Choose a custom goal like 0.75 kilograms"
+"ex":"Choose a custom goal like 0.75 kilograms" ,
+"Cancel":"Cancel" ,
+"validgoal":"Please enter a valid goal within a healthy range.",
+"vaildnumber":"Please enter a valid number.",
+"Save":"Save"
 }
 

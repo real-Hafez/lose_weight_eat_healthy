@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Bmi": MessageLookupByLibrary.simpleMessage("مؤشر كتلة الجسم (Bmi)"),
+        "Cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
         "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
@@ -42,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الحفاظ على الوزن"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("الحفاظ"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
+        "Save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
         "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),
         "Vegan": MessageLookupByLibrary.simpleMessage("نباتي صارم"),
@@ -225,6 +227,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "usernameLabel": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
         "usernametaken":
             MessageLookupByLibrary.simpleMessage("اسم المستخدم مأخوذ بالفعل"),
+        "vaildnumber":
+            MessageLookupByLibrary.simpleMessage("الرجاء إدخال رقم صالح."),
+        "validgoal": MessageLookupByLibrary.simpleMessage(
+            "يرجى إدخال هدف صالح ضمن النطاق الصحي."),
         "wakeup": MessageLookupByLibrary.simpleMessage("وقت الاستيقاظ:"),
         "wakeupclock":
             MessageLookupByLibrary.simpleMessage("اختر وقت الاستيقاظ"),

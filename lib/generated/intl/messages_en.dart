@@ -23,6 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Bmi": MessageLookupByLibrary.simpleMessage("Your BMI"),
+        "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
@@ -42,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Maintain Weight"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
+        "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
         "USoz": MessageLookupByLibrary.simpleMessage("US oz"),
         "Vegan": MessageLookupByLibrary.simpleMessage("Vegan"),
@@ -226,6 +228,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "usernameLabel": MessageLookupByLibrary.simpleMessage("Username"),
         "usernametaken":
             MessageLookupByLibrary.simpleMessage("Username is already taken"),
+        "vaildnumber": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid number."),
+        "validgoal": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid goal within a healthy range."),
         "wakeup": MessageLookupByLibrary.simpleMessage("Wake-up Time:"),
         "wakeupclock": MessageLookupByLibrary.simpleMessage("waking time"),
         "waterwidget": MessageLookupByLibrary.simpleMessage(
