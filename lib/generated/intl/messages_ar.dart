@@ -121,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("يرجى تحديد هدف أعلى."),
         "howmanywater":
             MessageLookupByLibrary.simpleMessage("سوف تحتاج إلى شرب حول:"),
+        "howold": MessageLookupByLibrary.simpleMessage("كم عمرك"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "عنوان البريد الإلكتروني بتنسيق غير صحيح."),
         "kg": MessageLookupByLibrary.simpleMessage("كجم"),

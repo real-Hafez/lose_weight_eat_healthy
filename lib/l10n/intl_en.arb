@@ -164,6 +164,7 @@
 "highertarget":"Please set a higher target.",
 "maxweigh":"Your target weight is above the healthy maximum of",
 "lowertarget":"Please set a lower target.",
-"s":"s"
+"s":"s" , 
+"howold":"How old are you"
 }
 

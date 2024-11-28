@@ -1689,6 +1689,16 @@ class S {
       args: [],
     );
   }
+
+  /// `How old are you`
+  String get howold {
+    return Intl.message(
+      'How old are you',
+      name: 'howold',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

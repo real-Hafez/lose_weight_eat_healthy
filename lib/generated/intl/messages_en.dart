@@ -122,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please set a higher target."),
         "howmanywater": MessageLookupByLibrary.simpleMessage(
             "You will need to drink around:"),
+        "howold": MessageLookupByLibrary.simpleMessage("How old are you"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "The email address is badly formatted."),
         "kg": MessageLookupByLibrary.simpleMessage("kg"),
