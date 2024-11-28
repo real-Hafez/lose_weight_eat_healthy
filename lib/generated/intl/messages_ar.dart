@@ -29,6 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
         "EnterValidHeight":
             MessageLookupByLibrary.simpleMessage("ادخل طول صحيح "),
+        "Estimatedtime": MessageLookupByLibrary.simpleMessage(
+            "الوقت المقدر للوصول إلى وزنك المستهدف:"),
         "Exclude": MessageLookupByLibrary.simpleMessage("استبعاد"),
         "Faster": MessageLookupByLibrary.simpleMessage("أسرع"),
         "GainWeight": MessageLookupByLibrary.simpleMessage("زياده الوزن "),
@@ -57,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeightLoss":
             MessageLookupByLibrary.simpleMessage("ضع هدفًا قصير المدى"),
         "Weightlose": MessageLookupByLibrary.simpleMessage("فقدان الوزن"),
+        "Yourjourney":
+            MessageLookupByLibrary.simpleMessage("رحلتك نحو النجاح تبدأ هنا!"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "active_my_goal":
             MessageLookupByLibrary.simpleMessage("أريد تحقيق هدفي في..."),
@@ -67,6 +71,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "approximately":
             MessageLookupByLibrary.simpleMessage("سوف يستغرق هذا حوالي"),
         "arabic": MessageLookupByLibrary.simpleMessage("عربي"),
+        "belowweigh": MessageLookupByLibrary.simpleMessage(
+            "وزنك المستهدف أقل من الحد الأدنى الصحي"),
         "bodyfatman":
             MessageLookupByLibrary.simpleMessage("اختر نسبة الدهون في جسمك"),
         "bodyfatwoman":
@@ -111,6 +117,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "healthylifestyle": MessageLookupByLibrary.simpleMessage(
             "استمروا في العمل الجيد وحافظوا على نمط حياة صحي!"),
         "heigh": MessageLookupByLibrary.simpleMessage("ما هو طولك ؟ "),
+        "highertarget":
+            MessageLookupByLibrary.simpleMessage("يرجى تحديد هدف أعلى."),
         "howmanywater":
             MessageLookupByLibrary.simpleMessage("سوف تحتاج إلى شرب حول:"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
@@ -124,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lose": MessageLookupByLibrary.simpleMessage("فقدان "),
         "loseorgainweight":
             MessageLookupByLibrary.simpleMessage("سوف يكون هناك"),
+        "lowertarget":
+            MessageLookupByLibrary.simpleMessage("يرجى تحديد هدف أقل."),
         "mL": MessageLookupByLibrary.simpleMessage("مل"),
         "mainTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "ابحث عن روتين الكارديو المثالي لك"),
@@ -132,6 +142,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "mainTextThirdOnboardingPage":
             MessageLookupByLibrary.simpleMessage("مجاناً بالكامل لصحتك"),
         "man": MessageLookupByLibrary.simpleMessage("ذكر"),
+        "maxweigh": MessageLookupByLibrary.simpleMessage(
+            "وزنك المستهدف أعلى من الحد الأقصى الصحي"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("تخطيط الوجبات"),
         "meat": MessageLookupByLibrary.simpleMessage("لحم"),
         "mildThinness":
@@ -142,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("نقص معتدل في الوزن"),
         "moderateThinnessRec": MessageLookupByLibrary.simpleMessage(
             "النظام الغذائي المتوازن يمكن أن يحدث فرقًا كبيرًا. خطط التغذية الخاصة بنا ستساعدك على الوصول إلى وزنك المثالي."),
+        "month": MessageLookupByLibrary.simpleMessage("شهر"),
         "motivationalText": MessageLookupByLibrary.simpleMessage(
             "فقط 30 يومًا للوصول إلى هدفك، حاول تحقيق حلمنا"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
@@ -192,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rangeweight":
             MessageLookupByLibrary.simpleMessage("من فضلك أدخل الوزن ضمن نطاق"),
         "recommended": MessageLookupByLibrary.simpleMessage("موصى به لك"),
+        "s": MessageLookupByLibrary.simpleMessage(""),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "إعداد روتين التمارين الخاص بك..."),
         "severeThinness":

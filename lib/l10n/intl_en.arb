@@ -156,6 +156,14 @@
 "TargetWeight":"Target Weight",
 "Healthyrange":"Healthy range:",
 "rangeweight":"Please enter a weight within the range",
-"EnterValidHeight":"Enter Valid Height"
+"EnterValidHeight":"Enter Valid Height",
+"Estimatedtime":"Estimated time to achieve your goal weight:",
+"Yourjourney":"Your journey to success starts here!",
+"month":"month",
+"belowweigh":"Your target weight is below the healthy minimum of",
+"highertarget":"Please set a higher target.",
+"maxweigh":"Your target weight is above the healthy maximum of",
+"lowertarget":"Please set a lower target.",
+"s":"s"
 }
 

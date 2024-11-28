@@ -1130,10 +1130,10 @@ class S {
     );
   }
 
-  /// `Gain Weight`
+  /// `Gain Weight `
   String get GainWeight {
     return Intl.message(
-      'Gain Weight',
+      'Gain Weight ',
       name: 'GainWeight',
       desc: '',
       args: [],
@@ -1605,6 +1605,86 @@ class S {
     return Intl.message(
       'Enter Valid Height',
       name: 'EnterValidHeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Estimated time to achieve your goal weight:`
+  String get Estimatedtime {
+    return Intl.message(
+      'Estimated time to achieve your goal weight:',
+      name: 'Estimatedtime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your journey to success starts here!`
+  String get Yourjourney {
+    return Intl.message(
+      'Your journey to success starts here!',
+      name: 'Yourjourney',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `month`
+  String get month {
+    return Intl.message(
+      'month',
+      name: 'month',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your target weight is below the healthy minimum of`
+  String get belowweigh {
+    return Intl.message(
+      'Your target weight is below the healthy minimum of',
+      name: 'belowweigh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please set a higher target.`
+  String get highertarget {
+    return Intl.message(
+      'Please set a higher target.',
+      name: 'highertarget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your target weight is above the healthy maximum of`
+  String get maxweigh {
+    return Intl.message(
+      'Your target weight is above the healthy maximum of',
+      name: 'maxweigh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please set a lower target.`
+  String get lowertarget {
+    return Intl.message(
+      'Please set a lower target.',
+      name: 'lowertarget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `s`
+  String get s {
+    return Intl.message(
+      's',
+      name: 's',
       desc: '',
       args: [],
     );

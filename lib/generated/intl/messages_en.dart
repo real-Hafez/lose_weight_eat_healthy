@@ -29,9 +29,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "EnterValidHeight":
             MessageLookupByLibrary.simpleMessage("Enter Valid Height"),
+        "Estimatedtime": MessageLookupByLibrary.simpleMessage(
+            "Estimated time to achieve your goal weight:"),
         "Exclude": MessageLookupByLibrary.simpleMessage("Exclude"),
         "Faster": MessageLookupByLibrary.simpleMessage("Faster"),
-        "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight"),
+        "GainWeight": MessageLookupByLibrary.simpleMessage("Gain Weight "),
         "Goal": MessageLookupByLibrary.simpleMessage("Select Your Goal"),
         "Goall": MessageLookupByLibrary.simpleMessage("Goal"),
         "Gradual": MessageLookupByLibrary.simpleMessage("Gradual"),
@@ -57,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "WeightLoss":
             MessageLookupByLibrary.simpleMessage("Put a Short term goal"),
         "Weightlose": MessageLookupByLibrary.simpleMessage("weight loss"),
+        "Yourjourney": MessageLookupByLibrary.simpleMessage(
+            "Your journey to success starts here!"),
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
         "active_my_goal": MessageLookupByLibrary.simpleMessage(
             "I want to achieve my goal in..."),
@@ -66,6 +70,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "approximately": MessageLookupByLibrary.simpleMessage(
             "This will take approximately"),
         "arabic": MessageLookupByLibrary.simpleMessage("arabic"),
+        "belowweigh": MessageLookupByLibrary.simpleMessage(
+            "Your target weight is below the healthy minimum of"),
         "bodyfatman": MessageLookupByLibrary.simpleMessage(
             "Choose your body fat percentage"),
         "bodyfatwoman": MessageLookupByLibrary.simpleMessage(
@@ -112,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "healthylifestyle": MessageLookupByLibrary.simpleMessage(
             "Keep up the good work and maintain a healthy lifestyle!"),
         "heigh": MessageLookupByLibrary.simpleMessage("What\'s your height?"),
+        "highertarget":
+            MessageLookupByLibrary.simpleMessage("Please set a higher target."),
         "howmanywater": MessageLookupByLibrary.simpleMessage(
             "You will need to drink around:"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
@@ -125,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lose": MessageLookupByLibrary.simpleMessage("lose"),
         "loseorgainweight":
             MessageLookupByLibrary.simpleMessage("You are going to"),
+        "lowertarget":
+            MessageLookupByLibrary.simpleMessage("Please set a lower target."),
         "mL": MessageLookupByLibrary.simpleMessage("mL"),
         "mainTextFirstOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Find Your Perfect Cardio Routine"),
@@ -133,6 +143,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "mainTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "Absolutely Free for Your Health"),
         "man": MessageLookupByLibrary.simpleMessage("Male"),
+        "maxweigh": MessageLookupByLibrary.simpleMessage(
+            "Your target weight is above the healthy maximum of"),
         "mealPlanning": MessageLookupByLibrary.simpleMessage("MEAL PLANNING"),
         "meat": MessageLookupByLibrary.simpleMessage("meat"),
         "mildThinness": MessageLookupByLibrary.simpleMessage("Mild Thinness"),
@@ -142,6 +154,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Moderate Thinness"),
         "moderateThinnessRec": MessageLookupByLibrary.simpleMessage(
             "A balanced diet can make a world of difference. Our nutrition plans are here to help you reach your ideal weight."),
+        "month": MessageLookupByLibrary.simpleMessage("month"),
         "motivationalText": MessageLookupByLibrary.simpleMessage(
             "Just 30 days to reach your goal, try to achieve our dream"),
         "networkRequestFailed": MessageLookupByLibrary.simpleMessage(
@@ -191,6 +204,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter a weight within the range"),
         "recommended":
             MessageLookupByLibrary.simpleMessage("recommended for you"),
+        "s": MessageLookupByLibrary.simpleMessage("s"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "Making your workout Routines..."),
         "severeThinness":
