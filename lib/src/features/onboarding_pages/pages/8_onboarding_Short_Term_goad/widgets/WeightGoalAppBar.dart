@@ -12,26 +12,37 @@ class WeightGoalAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: BlocBuilder<WeightGoalCubit, WeightGoalState>(
-        builder: (context, state) => Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceBetween, // to space them out evenly
-          children: [
-            Text(
-              '${state.userGoal} ${S().Goall}',
-              style: const TextStyle(fontFamily: 'Indie_Flower'),
-            ),
-            TextButton(
-              onPressed: onNextButtonPressed,
-              child: Text(
-                S().skipButton,
-                style: TextStyle(
+        builder: (context, state) {
+          String modifiedGoalText;
+          if (state.userGoal == 'Lose Weight') {
+            modifiedGoalText = '${S().LoseWeight}';
+          } else if (state.userGoal == 'Gain Weight') {
+            modifiedGoalText = '${S().GainWeight}';
+          } else {
+            modifiedGoalText = 'f';
+          }
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                modifiedGoalText,
+                style: const TextStyle(fontFamily: 'Indie_Flower'),
+              ),
+              TextButton(
+                onPressed: onNextButtonPressed,
+                child: Text(
+                  S().skipButton,
+                  style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Indie_Flower',
-                    fontSize: MediaQuery.sizeOf(context).height * .025),
+                    fontSize: MediaQuery.sizeOf(context).height * .025,
+                  ),
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }

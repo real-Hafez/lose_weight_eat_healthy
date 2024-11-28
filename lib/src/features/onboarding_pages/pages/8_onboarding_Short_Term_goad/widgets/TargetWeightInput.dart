@@ -69,7 +69,12 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
             TextPosition(offset: _controller.text.length),
           );
         }
-
+        String weight_unit = S().kg;
+        if (state.weightUnit == 'kg') {
+          weight_unit = '${S().kg}';
+        } else {
+          weight_unit = '${S().lb}';
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -83,7 +88,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
             ),
             const SizedBox(height: 8),
             Text(
-              '${S().Healthyrange} $formattedMinWeight - $formattedMaxWeight ${state.weightUnit}',
+              '${S().Healthyrange} $formattedMinWeight - $formattedMaxWeight $weight_unit',
               style: TextStyle(
                   fontSize: MediaQuery.sizeOf(context).height * .025,
                   color: Colors.grey.shade600),
@@ -130,7 +135,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
                           inputWeightKg > maxWeightKg) {
                         setState(() {
                           _validationMessage =
-                              '${S().rangeweight} $formattedMinWeight - $formattedMaxWeight ${state.weightUnit}.';
+                              '${S().rangeweight} $formattedMinWeight - $formattedMaxWeight $weight_unit .';
                         });
                       } else {
                         setState(() {
@@ -144,7 +149,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  state.weightUnit,
+                  weight_unit,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
