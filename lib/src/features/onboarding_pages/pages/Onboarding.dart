@@ -13,8 +13,8 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/6_on
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/7_onboarding_weight_selecthion/page/WeightSetup_Page.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/2_onboarding_welocme_msg/screen/WelcomeOnboardingPage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/page/weight_ShortTerm_Goal.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/WaterPage_setup.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/water_widget.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/9_onboarding_Waterpage/page/WaterPage_setup.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/9_onboarding_Waterpage/widget/water_widget.dart';
 
 class Onboarding extends StatelessWidget {
   const Onboarding({super.key});
