@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ActivityLevelDetails extends StatelessWidget {
   final String title;
   final String description;
+  final String calculation;
   final bool isSelected;
 
   const ActivityLevelDetails({
@@ -10,6 +11,7 @@ class ActivityLevelDetails extends StatelessWidget {
     required this.title,
     required this.description,
     required this.isSelected,
+    required this.calculation,
   });
 
   @override

@@ -34,7 +34,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   }
 
   int _getTotalPages() {
-    return 11;
+    return 15;
   }
 
   @override
