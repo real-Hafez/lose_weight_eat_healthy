@@ -168,13 +168,15 @@
 "titlesedentary": "قليل النشاط",
 "descriptionsedentary": "قليل أو معدوم النشاط البدني. مثال: العمل المكتبي، الجلوس معظم اليوم.",
 "titlelightlyactive": "نشاط خفيف",
-"descriptionlightlyactive": "تمارين خفيفة/رياضة من 1-3 أيام في الأسبوع. مثال: المشي، جلسات رياضية خفيفة.",
-"titlemoderatelyactive": "نشاط معتدل",
-"descriptionmoderatelyactive": "تمارين متوسطة/رياضة من 3-5 أيام في الأسبوع. مثال: الذهاب إلى النادي الرياضي 3-5 مرات أسبوعياً.",
-"titleveryactive": "نشاط عالٍ",
-"descriptionveryactive": "تمارين شاقة/رياضة من 6-7 أيام في الأسبوع. مثال: تدريبات مكثفة في النادي الرياضي.",
-"titleextraactive": "نشاط مكثف",
-"descriptionextraactive": "تمارين شديدة أو عمل بدني شاق. مثال: رياضي محترف، تدريب مرتين يومياً."
+"descriptionlightlyactive": "تمارين خفيفة/رياضة من ١-٣ أيام في الأسبوع. مثال: المشي، جلسات رياضية خفيفة."
+,"titlemoderatelyactive": "نشاط معتدل",
+"descriptionmoderatelyactive": "تمارين متوسطة/رياضة من ٣-٥ أيام في الأسبوع. مثال: الذهاب إلى النادي الرياضي ٣-٥ مرات أسبوعياً."
+,"titleveryactive": "نشاط عالٍ"
+,"descriptionveryactive": "تمارين شاقة/رياضة من ٦-٧ أيام في الأسبوع. مثال: تدريبات مكثفة في النادي الرياضي."
+,"titleextraactive": "نشاط مكثف"
+,"descriptionextraactive": "تمارين شديدة أو عمل بدني شاق. مثال: رياضي محترف، تدريب مرتين يومياً."
+,"activitylevel":"ما هو مستوى نشاطك؟"
+
 
 
 

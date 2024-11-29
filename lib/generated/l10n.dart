@@ -1799,6 +1799,16 @@ class S {
       args: [],
     );
   }
+
+  /// `What is your activity level?`
+  String get activitylevel {
+    return Intl.message(
+      'What is your activity level?',
+      name: 'activitylevel',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

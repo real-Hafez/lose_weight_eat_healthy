@@ -64,6 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("Log in"),
         "active_my_goal": MessageLookupByLibrary.simpleMessage(
             "I want to achieve my goal in..."),
+        "activitylevel": MessageLookupByLibrary.simpleMessage(
+            "What is your activity level?"),
         "addwidget": MessageLookupByLibrary.simpleMessage("Add the widget"),
         "allanimalproducts":
             MessageLookupByLibrary.simpleMessage("all animal products"),

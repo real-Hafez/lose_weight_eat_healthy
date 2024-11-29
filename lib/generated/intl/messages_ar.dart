@@ -64,6 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "actionTextlogin": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "active_my_goal":
             MessageLookupByLibrary.simpleMessage("أريد تحقيق هدفي في..."),
+        "activitylevel":
+            MessageLookupByLibrary.simpleMessage("ما هو مستوى نشاطك؟"),
         "addwidget":
             MessageLookupByLibrary.simpleMessage("اضفها الي شاشاتك الرئيسية"),
         "allanimalproducts":
