@@ -1699,6 +1699,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Sedentary`
+  String get titlesedentary {
+    return Intl.message(
+      'Sedentary',
+      name: 'titlesedentary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Little or no exercise. Example: Office work, sitting most of the day.`
+  String get descriptionsedentary {
+    return Intl.message(
+      'Little or no exercise. Example: Office work, sitting most of the day.',
+      name: 'descriptionsedentary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lightly Active`
+  String get titlelightlyactive {
+    return Intl.message(
+      'Lightly Active',
+      name: 'titlelightlyactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light exercise/sports 1-3 days/week. Example: Walking, light gym sessions.`
+  String get descriptionlightlyactive {
+    return Intl.message(
+      'Light exercise/sports 1-3 days/week. Example: Walking, light gym sessions.',
+      name: 'descriptionlightlyactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Moderately Active`
+  String get titlemoderatelyactive {
+    return Intl.message(
+      'Moderately Active',
+      name: 'titlemoderatelyactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Moderate exercise/sports 3-5 days/week. Example: Gym 3-5 days/week.`
+  String get descriptionmoderatelyactive {
+    return Intl.message(
+      'Moderate exercise/sports 3-5 days/week. Example: Gym 3-5 days/week.',
+      name: 'descriptionmoderatelyactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Very Active`
+  String get titleveryactive {
+    return Intl.message(
+      'Very Active',
+      name: 'titleveryactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hard exercise/sports 6-7 days/week. Example: Intensive gym training.`
+  String get descriptionveryactive {
+    return Intl.message(
+      'Hard exercise/sports 6-7 days/week. Example: Intensive gym training.',
+      name: 'descriptionveryactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extra Active`
+  String get titleextraactive {
+    return Intl.message(
+      'Extra Active',
+      name: 'titleextraactive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Very hard exercise or physical job. Example: Athlete, 2x daily training.`
+  String get descriptionextraactive {
+    return Intl.message(
+      'Very hard exercise or physical job. Example: Athlete, 2x daily training.',
+      name: 'descriptionextraactive',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

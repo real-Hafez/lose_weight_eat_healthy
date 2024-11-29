@@ -85,6 +85,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "dailyMotivation":
             MessageLookupByLibrary.simpleMessage("DAILY MOTIVATION"),
         "days": MessageLookupByLibrary.simpleMessage("days"),
+        "descriptionextraactive": MessageLookupByLibrary.simpleMessage(
+            "Very hard exercise or physical job. Example: Athlete, 2x daily training."),
+        "descriptionlightlyactive": MessageLookupByLibrary.simpleMessage(
+            "Light exercise/sports 1-3 days/week. Example: Walking, light gym sessions."),
+        "descriptionmoderatelyactive": MessageLookupByLibrary.simpleMessage(
+            "Moderate exercise/sports 3-5 days/week. Example: Gym 3-5 days/week."),
+        "descriptionsedentary": MessageLookupByLibrary.simpleMessage(
+            "Little or no exercise. Example: Office work, sitting most of the day."),
+        "descriptionveryactive": MessageLookupByLibrary.simpleMessage(
+            "Hard exercise/sports 6-7 days/week. Example: Intensive gym training."),
         "desiredweekly": MessageLookupByLibrary.simpleMessage(
             "Enter your desired weekly weight"),
         "diet": MessageLookupByLibrary.simpleMessage(
@@ -231,6 +241,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Discover the quickest way to nutritious meals that help you stay fit and healthy."),
         "subTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "It’s all free! We want you to get fit and healthy, so enjoy our content at no cost."),
+        "titleextraactive":
+            MessageLookupByLibrary.simpleMessage("Extra Active"),
+        "titlelightlyactive":
+            MessageLookupByLibrary.simpleMessage("Lightly Active"),
+        "titlemoderatelyactive":
+            MessageLookupByLibrary.simpleMessage("Moderately Active"),
+        "titlesedentary": MessageLookupByLibrary.simpleMessage("Sedentary"),
+        "titleveryactive": MessageLookupByLibrary.simpleMessage("Very Active"),
         "to": MessageLookupByLibrary.simpleMessage("to"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "Too many requests. Try again later."),

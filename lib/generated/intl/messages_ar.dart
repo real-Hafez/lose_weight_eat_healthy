@@ -85,6 +85,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "customgoal": MessageLookupByLibrary.simpleMessage("هدف مخصص"),
         "dailyMotivation": MessageLookupByLibrary.simpleMessage("تحفيز يومي"),
         "days": MessageLookupByLibrary.simpleMessage("ايام"),
+        "descriptionextraactive": MessageLookupByLibrary.simpleMessage(
+            "تمارين شديدة أو عمل بدني شاق. مثال: رياضي محترف، تدريب مرتين يومياً."),
+        "descriptionlightlyactive": MessageLookupByLibrary.simpleMessage(
+            "تمارين خفيفة/رياضة من 1-3 أيام في الأسبوع. مثال: المشي، جلسات رياضية خفيفة."),
+        "descriptionmoderatelyactive": MessageLookupByLibrary.simpleMessage(
+            "تمارين متوسطة/رياضة من 3-5 أيام في الأسبوع. مثال: الذهاب إلى النادي الرياضي 3-5 مرات أسبوعياً."),
+        "descriptionsedentary": MessageLookupByLibrary.simpleMessage(
+            "قليل أو معدوم النشاط البدني. مثال: العمل المكتبي، الجلوس معظم اليوم."),
+        "descriptionveryactive": MessageLookupByLibrary.simpleMessage(
+            "تمارين شاقة/رياضة من 6-7 أيام في الأسبوع. مثال: تدريبات مكثفة في النادي الرياضي."),
         "desiredweekly":
             MessageLookupByLibrary.simpleMessage("ادخل هدفك الاسبوعي"),
         "diet": MessageLookupByLibrary.simpleMessage(
@@ -230,6 +240,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك."),
         "subTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "كل شيء مجاني! نريدك أن تصبح لائقًا وصحيًا، لذا استمتع بمحتوانا دون أي تكلفة."),
+        "titleextraactive": MessageLookupByLibrary.simpleMessage("نشاط مكثف"),
+        "titlelightlyactive": MessageLookupByLibrary.simpleMessage("نشاط خفيف"),
+        "titlemoderatelyactive":
+            MessageLookupByLibrary.simpleMessage("نشاط معتدل"),
+        "titlesedentary": MessageLookupByLibrary.simpleMessage("قليل النشاط"),
+        "titleveryactive": MessageLookupByLibrary.simpleMessage("نشاط عالٍ"),
         "to": MessageLookupByLibrary.simpleMessage("الي"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "تعددت الطلبات. حاول مرة أخرى لاحقًا."),
