@@ -34,9 +34,9 @@ class ActivityLevelCard extends StatelessWidget {
               Icon(
                 isSelected ? Icons.check_circle : Icons.circle,
                 color: isSelected ? Colors.blue : Colors.grey,
-                size: 32,
+                size: MediaQuery.sizeOf(context).height * .04,
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: MediaQuery.sizeOf(context).height * .02),
               Expanded(
                 child: ActivityLevelDetails(
                   title: title,

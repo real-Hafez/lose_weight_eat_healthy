@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/10_onboarding_activity_level/widget/ActivityLevelCard.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/10_onboarding_activity_level/widget/activityLevels.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 
 class ActivityLevelPage extends StatefulWidget {
   final VoidCallback onAnimationFinished;
@@ -50,6 +53,15 @@ class _ActivityLevelPageState extends State<ActivityLevelPage> {
                 },
               ),
             ),
+            NextButton(
+              onPressed: widget.onNextButtonPressed,
+              collectionName: 'Activity level',
+              dataToSave: {
+                'selectedactivitylevel': selectedActivityLevel,
+              },
+              saveData: true,
+              userId: FirebaseAuth.instance.currentUser?.uid,
+            )
           ],
         ),
       ),

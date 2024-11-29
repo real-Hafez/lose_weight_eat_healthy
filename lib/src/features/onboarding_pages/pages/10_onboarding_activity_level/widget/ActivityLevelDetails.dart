@@ -20,16 +20,16 @@ class ActivityLevelDetails extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            fontSize: 18,
+            fontSize: MediaQuery.sizeOf(context).height * .025,
             fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.blue : Colors.green,
+            color: isSelected ? Colors.white : Colors.white70,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: MediaQuery.sizeOf(context).height * .007),
         Text(
           description,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: MediaQuery.sizeOf(context).height * .020,
             color: Colors.grey.shade700,
           ),
         ),
