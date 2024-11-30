@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/10_onboarding_activity_level/page/ActivityLevelPage.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/page/calories_page.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_age/page/HowOldAreYou.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-boarding/onboarding_cubit.dart';
@@ -152,6 +153,14 @@ class Onboarding extends StatelessWidget {
                     //     context.read<OnboardingCubit>().nextPage();
                     //   },
                     // ),
+                    CaloriesChart(
+                      onAnimationFinished: () {
+                        context.read<OnboardingCubit>().showNextButton();
+                      },
+                      onNextButtonPressed: () {
+                        context.read<OnboardingCubit>().nextPage();
+                      },
+                    ),
                     WaterPage_setup(
                       onAnimationFinished: () {
                         context.read<OnboardingCubit>().showNextButton();
