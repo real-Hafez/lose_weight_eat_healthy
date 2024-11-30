@@ -24,9 +24,9 @@ class ActivityLevelPage extends StatefulWidget {
 
 class _ActivityLevelPageState extends State<ActivityLevelPage> {
   String? selectedActivityLevel;
-  String? selectedCalculation;
+  double? selectedCalculation;
 
-  void selectActivityLevel(String title, String calculation) {
+  void selectActivityLevel(String title, double calculation) {
     setState(() {
       selectedActivityLevel = title;
       selectedCalculation = calculation;
@@ -48,7 +48,7 @@ class _ActivityLevelPageState extends State<ActivityLevelPage> {
       // Save to SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('selectedActivityLevel', selectedActivityLevel!);
-      await prefs.setString('selectedCalculation', selectedCalculation!);
+      await prefs.setDouble('selectedCalculation', selectedCalculation!);
     }
   }
 
@@ -60,7 +60,7 @@ class _ActivityLevelPageState extends State<ActivityLevelPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TitleWidget(title: '${S().activitylevel}'),
+            TitleWidget(title: S().activitylevel),
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
@@ -68,13 +68,13 @@ class _ActivityLevelPageState extends State<ActivityLevelPage> {
                 itemBuilder: (context, index) {
                   final level = activityLevels[index];
                   return ActivityLevelCard(
-                    title: level["title"]!,
-                    description: level["description"]!,
-                    calculation: level["calculation"]!,
+                    title: level["title"] as String,
+                    description: level["description"] as String,
+                    calculation: level["calculation"] as double,
                     isSelected: selectedActivityLevel == level["title"],
                     onTap: () => selectActivityLevel(
-                      level["title"]!,
-                      level["calculation"]!,
+                      level["title"] as String,
+                      level["calculation"] as double,
                     ),
                   );
                 },

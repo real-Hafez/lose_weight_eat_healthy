@@ -20,8 +20,17 @@ class CaloriesChart extends StatelessWidget {
     final weight = prefs.getDouble('weightKg') ?? 0.0;
     final height = prefs.getDouble('heightCm') ?? 0.0;
     final age = prefs.getInt('age') ?? 0;
-    final activityLevelCalc =
-        prefs.getString('selectedCalculation') ?? 'Not Set';
+
+    // Check if activityLevelCalc is stored as double or string
+    double activityLevelCalc = 1.0; // Default value
+    if (prefs.containsKey('selectedCalculation')) {
+      final dynamic storedValue = prefs.get('selectedCalculation');
+      if (storedValue is double) {
+        activityLevelCalc = storedValue;
+      } else if (storedValue is String) {
+        activityLevelCalc = double.tryParse(storedValue) ?? 1.0;
+      }
+    }
 
     return {
       'gender': gender,
@@ -90,7 +99,8 @@ class CaloriesChart extends StatelessWidget {
                 'Height: ${height.toStringAsFixed(1)} cm\n'
                 'Age: $age\n'
                 'Activity Level: $activityLevelCalc\n'
-                'Calories: ${calories.toStringAsFixed(1)} kcal',
+                'Calories: ${calories.toStringAsFixed(1)} kcal \n'
+                'finil cal : ${calories * activityLevelCalc}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

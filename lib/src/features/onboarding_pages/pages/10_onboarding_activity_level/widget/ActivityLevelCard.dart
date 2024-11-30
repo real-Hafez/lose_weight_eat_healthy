@@ -5,7 +5,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/10_o
 class ActivityLevelCard extends StatelessWidget {
   final String title;
   final String description;
-  final String calculation;
+  final double calculation;
 
   final bool isSelected;
 
