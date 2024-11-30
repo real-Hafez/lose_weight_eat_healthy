@@ -13,24 +13,42 @@ class CaloriesChart extends StatelessWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  // Function to retrieve gender, weight, and height from SharedPreferences
+  // Function to retrieve gender, weight, height, and age from SharedPreferences
   Future<Map<String, dynamic>> _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
     final gender = prefs.getString('gender') ?? 'Not set';
     final weight = prefs.getDouble('weightKg') ?? 0.0;
-    final age = prefs.getInt('age') ?? 0.0;
-    final activitylevelcalc =
+    final height = prefs.getDouble('heightCm') ?? 0.0;
+    final age = prefs.getInt('age') ?? 0;
+    final activityLevelCalc =
         prefs.getString('selectedCalculation') ?? 'Not Set';
-    print('Retrieved Activity Level Calculation: $activitylevelcalc');
 
-    final height = prefs.getDouble('heightCm') ?? 0.0; // Fetch the heightCm key
     return {
       'gender': gender,
       'weight': weight,
       'height': height,
-      "age": age,
-      "selectedCalculation": activitylevelcalc,
+      'age': age,
+      'selectedCalculation': activityLevelCalc,
     };
+  }
+
+  double _calculateCalories(
+      String gender, double weight, double height, int age) {
+    if (weight <= 0 || height <= 0 || age <= 0) {
+      print('Invalid data for calorie calculation.');
+      return 0.0;
+    }
+
+    // Handle gender localization and case insensitivity
+    gender = gender.toLowerCase();
+    if (gender == 'man' || gender == 'male' || gender == 'ذكر') {
+      return 10 * weight + 6.25 * height - 5 * age + 5;
+    } else if (gender == 'woman' || gender == 'female' || gender == 'أنثى') {
+      return 10 * weight + 6.25 * height - 5 * age - 161;
+    } else {
+      print('Invalid gender value: $gender');
+      return 0.0; // Default for invalid gender
+    }
   }
 
   @override
@@ -57,14 +75,22 @@ class CaloriesChart extends StatelessWidget {
           final weight = data['weight'];
           final height = data['height'];
           final age = data['age'];
-          final activitylevelcalc = data['selectedCalculation'];
+          final activityLevelCalc = data['selectedCalculation'];
+
+          // Calculate calories
+          final calories = _calculateCalories(gender, weight, height, age);
 
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Display gender, weight, and height
+              // Display gender, weight, height, and calculated calories
               Text(
-                'Gender: $gender\nWeight: ${weight.toStringAsFixed(1)} kg\nHeight: ${height.toStringAsFixed(1)} cm  \nage ${age} \nactivity level calc = ${activitylevelcalc}',
+                'Gender: $gender\n'
+                'Weight: ${weight.toStringAsFixed(1)} kg\n'
+                'Height: ${height.toStringAsFixed(1)} cm\n'
+                'Age: $age\n'
+                'Activity Level: $activityLevelCalc\n'
+                'Calories: ${calories.toStringAsFixed(1)} kcal',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
