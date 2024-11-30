@@ -48,7 +48,7 @@ class _ActivityLevelPageState extends State<ActivityLevelPage> {
       // Save to SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('selectedActivityLevel', selectedActivityLevel!);
-      await prefs.setString('calculation', selectedCalculation!);
+      await prefs.setString('selectedCalculation', selectedCalculation!);
     }
   }
 

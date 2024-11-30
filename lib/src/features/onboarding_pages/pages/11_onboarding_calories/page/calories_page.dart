@@ -13,9 +13,24 @@ class CaloriesChart extends StatelessWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  Future<void> getgender() async {
+  // Function to retrieve gender, weight, and height from SharedPreferences
+  Future<Map<String, dynamic>> _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
-    final customGoal = prefs.getDouble('customGoal');
+    final gender = prefs.getString('gender') ?? 'Not set';
+    final weight = prefs.getDouble('weightKg') ?? 0.0;
+    final age = prefs.getInt('age') ?? 0.0;
+    final activitylevelcalc =
+        prefs.getString('selectedCalculation') ?? 'Not Set';
+    print('Retrieved Activity Level Calculation: $activitylevelcalc');
+
+    final height = prefs.getDouble('heightCm') ?? 0.0; // Fetch the heightCm key
+    return {
+      'gender': gender,
+      'weight': weight,
+      'height': height,
+      "age": age,
+      "selectedCalculation": activitylevelcalc,
+    };
   }
 
   @override
@@ -27,59 +42,77 @@ class CaloriesChart extends StatelessWidget {
       ChartData('Fat', 50, Colors.orange),
     ];
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TitleWidget(title: 'Calories Chart'),
-        SizedBox(
-          height: MediaQuery.sizeOf(context).height * .02,
-        ),
-        Expanded(
-          child: SfCircularChart(
-            // Enable chart animation
-            enableMultiSelection: true,
+    return FutureBuilder<Map<String, dynamic>>(
+      future: _getUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else {
+          final data = snapshot.data!;
+          final gender = data['gender'];
+          final weight = data['weight'];
+          final height = data['height'];
+          final age = data['age'];
+          final activitylevelcalc = data['selectedCalculation'];
 
-            tooltipBehavior: TooltipBehavior(enable: true),
-            // title: ChartTitle(
-            //   text: 'Macronutrient Breakdown',
-            //   textStyle: TextStyle(
-            //     fontSize: 18,
-            //     fontWeight: FontWeight.bold,
-            //   ),
-            // ),
-            legend: Legend(
-              isVisible: true,
-              position: LegendPosition.bottom,
-              overflowMode: LegendItemOverflowMode.wrap,
-            ),
-            series: <CircularSeries>[
-              // Pie chart series
-              PieSeries<ChartData, String>(
-                dataSource: chartData,
-                xValueMapper: (ChartData data, _) => data.name,
-                yValueMapper: (ChartData data, _) => data.percentage,
-                pointColorMapper: (ChartData data, _) => data.color,
-                dataLabelMapper: (ChartData data, _) =>
-                    '${data.name}\n${data.percentage}%',
-                dataLabelSettings: const DataLabelSettings(
-                  isVisible: true,
-                  labelPosition: ChartDataLabelPosition.inside,
-                  textStyle: TextStyle(
-                    fontSize: 14,
-                    color:
-                        Colors.white, // Adjust text color for better contrast
-                    fontWeight: FontWeight.bold,
-                  ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Display gender, weight, and height
+              Text(
+                'Gender: $gender\nWeight: ${weight.toStringAsFixed(1)} kg\nHeight: ${height.toStringAsFixed(1)} cm  \nage ${age} \nactivity level calc = ${activitylevelcalc}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
-                explode: true, // Emphasize each slice
-                explodeOffset: '10%', // Offset for exploded slices
-                startAngle: 0,
-                endAngle: 360,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              const TitleWidget(title: 'Calories Chart'),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height * .02,
+              ),
+              Expanded(
+                child: SfCircularChart(
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  legend: Legend(
+                    isVisible: true,
+                    position: LegendPosition.bottom,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                  ),
+                  series: <CircularSeries>[
+                    PieSeries<ChartData, String>(
+                      dataSource: chartData,
+                      xValueMapper: (ChartData data, _) => data.name,
+                      yValueMapper: (ChartData data, _) => data.percentage,
+                      pointColorMapper: (ChartData data, _) => data.color,
+                      dataLabelMapper: (ChartData data, _) =>
+                          '${data.name}\n${data.percentage}%',
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                        labelPosition: ChartDataLabelPosition.inside,
+                        textStyle: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      explode: true,
+                      explodeOffset: '10%',
+                      startAngle: 0,
+                      endAngle: 360,
+                    ),
+                  ],
+                ),
               ),
             ],
-          ),
-        ),
-      ],
+          );
+        }
+      },
     );
   }
 }

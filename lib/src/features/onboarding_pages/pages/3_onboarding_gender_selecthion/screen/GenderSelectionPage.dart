@@ -20,7 +20,7 @@ class GenderSelectionPage extends StatelessWidget {
   final VoidCallback onNextButtonPressed;
   Future<void> _saveGenderToSharedPreferences(String gender) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('selectedGender', gender);
+    await prefs.setString('gender', gender);
   }
 
   @override
@@ -81,7 +81,7 @@ class GenderSelectionPage extends StatelessWidget {
                         userId: FirebaseAuth.instance.currentUser?.uid,
                         onPressed: () async {
                           await _saveGenderToSharedPreferences(selectedGender);
-                          onNextButtonPressed;
+                          onNextButtonPressed();
                         },
                         dataToSave: {
                           'selectedGender': selectedGender,

@@ -103,15 +103,16 @@ class _HeightSelectionPageState extends State<HeightSelectionPage> {
             collectionName: 'height',
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              await prefs.setString('heightUnit', _heightUnit);
 
-              // Save height correctly
+              double heightInCm;
               if (_heightUnit == 'cm') {
-                await prefs.setString('height', _heightCm.toString());
+                heightInCm = _heightCm.toDouble();
               } else {
-                String ftInches = '$_heightFt\'${_heightInches}"';
-                await prefs.setString('height', ftInches);
+                heightInCm =
+                    convertFtInchesToCm(_heightFt, _heightInches).toDouble();
               }
+
+              await prefs.setDouble('heightCm', heightInCm);
 
               widget.onNextButtonPressed();
             },
