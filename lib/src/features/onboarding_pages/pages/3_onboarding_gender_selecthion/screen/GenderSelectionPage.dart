@@ -7,6 +7,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_on
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/GenderBox.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/ProgressIndicatorWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GenderSelectionPage extends StatelessWidget {
   const GenderSelectionPage({
@@ -17,6 +18,10 @@ class GenderSelectionPage extends StatelessWidget {
 
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
+  Future<void> _saveGenderToSharedPreferences(String gender) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedGender', gender);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +79,10 @@ class GenderSelectionPage extends StatelessWidget {
                     ? NextButton(
                         collectionName: 'gender',
                         userId: FirebaseAuth.instance.currentUser?.uid,
-                        onPressed: onNextButtonPressed,
+                        onPressed: () async {
+                          await _saveGenderToSharedPreferences(selectedGender);
+                          onNextButtonPressed;
+                        },
                         dataToSave: {
                           'selectedGender': selectedGender,
                         },
