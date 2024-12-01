@@ -17,7 +17,7 @@ class CaloriesChart extends StatelessWidget {
   Future<String> _getGoal() async {
     final prefs = await SharedPreferences.getInstance();
     final goal = prefs.getString('selected_goal') ?? 'No goal set';
-    return goal; // Return the actual goal stored in preferences
+    return goal;
   }
 
   // Fetching user data from shared preferences
@@ -48,6 +48,27 @@ class CaloriesChart extends StatelessWidget {
     };
   }
 
+  Map<String, double> _calculateMacros(double finalCalories) {
+    const proteinRatio = 0.2; // 20% of calories
+    const carbRatio = 0.5; // 50% of calories
+    const fatRatio = 0.3; // 30% of calories
+
+    final proteinCalories = finalCalories * proteinRatio;
+    final carbCalories = finalCalories * carbRatio;
+    final fatCalories = finalCalories * fatRatio;
+
+    // Convert calories to grams
+    final proteinGrams = proteinCalories / 4;
+    final carbGrams = carbCalories / 4;
+    final fatGrams = fatCalories / 9;
+
+    return {
+      'Protein': proteinGrams,
+      'Carbs': carbGrams,
+      'Fat': fatGrams,
+    };
+  }
+
   // Calculating calories based on gender
   double _calculateCalories(
       String gender, double weight, double height, int age) {
@@ -61,15 +82,38 @@ class CaloriesChart extends StatelessWidget {
     }
   }
 
+  // Adjusting calories based on the goal
+  double _calculateFinalCalories(double baseCalories, String goal) {
+    double adjustment = 0.0;
+
+    switch (goal) {
+      case 'Lose 1.0':
+        adjustment = -1000;
+        break;
+      case 'Lose 0.5':
+        adjustment = -500;
+        break;
+      case 'Lose 0.7':
+        adjustment = -700;
+        break;
+      case 'Gain 0.5':
+        adjustment = 500;
+        break;
+      case 'Gain 1.0':
+        adjustment = 1000;
+        break;
+      case 'Gain 0.7':
+        adjustment = 700;
+        break;
+      default:
+        adjustment = 0.0;
+    }
+
+    return baseCalories + adjustment;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Chart data
-    final List<ChartData> chartData = [
-      ChartData('Protein', 30, Colors.blue),
-      ChartData('Carbs', 20, Colors.green),
-      ChartData('Fat', 50, Colors.orange),
-    ];
-
     return FutureBuilder<Map<String, dynamic>>(
       future: _getUserData(),
       builder: (context, snapshot) {
@@ -86,11 +130,32 @@ class CaloriesChart extends StatelessWidget {
           final activityLevelCalc = data['selectedCalculation'];
 
           final calories = _calculateCalories(gender, weight, height, age);
+          final adjustedCalories = calories * activityLevelCalc;
 
           return FutureBuilder<String>(
             future: _getGoal(),
             builder: (context, goalSnapshot) {
               final goal = goalSnapshot.data ?? 'No goal set';
+              final finalCalories =
+                  _calculateFinalCalories(adjustedCalories, goal);
+              final macros = _calculateMacros(finalCalories);
+
+              final protein = macros['Protein']!;
+              final carbs = macros['Carbs']!;
+              final fats = macros['Fat']!;
+
+              // Dynamic percentages based on macro values
+              final totalMacros = protein + carbs + fats;
+              final proteinPercentage = (protein / totalMacros) * 100;
+              final carbsPercentage = (carbs / totalMacros) * 100;
+              final fatsPercentage = (fats / totalMacros) * 100;
+
+              // Chart data update
+              final List<ChartData> chartData = [
+                ChartData('Protein', proteinPercentage, Colors.blue),
+                ChartData('Carbs', carbsPercentage, Colors.green),
+                ChartData('Fat', fatsPercentage, Colors.orange),
+              ];
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -101,34 +166,24 @@ class CaloriesChart extends StatelessWidget {
                     'Height: ${height.toStringAsFixed(1)} cm\n'
                     'Age: $age\n'
                     'Activity Level: $activityLevelCalc\n'
-                    'Calories: ${calories.toStringAsFixed(1)} kcal\n'
-                    'Final Calories: ${(calories * activityLevelCalc).toStringAsFixed(1)}',
+                    'Base Calories: ${calories.toStringAsFixed(1)} kcal\n'
+                    'Adjusted Calories: ${adjustedCalories.toStringAsFixed(1)} kcal\n'
+                    'Final Calories: ${finalCalories.toStringAsFixed(1)} kcal',
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Goal: $goal', // Display the exact goal here
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green[800],
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                  Text(
+                    'Protein: ${protein.toStringAsFixed(1)} g/day\n'
+                    'Carbs: ${carbs.toStringAsFixed(1)} g/day\n'
+                    'Fat: ${fats.toStringAsFixed(1)} g/day',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
                   const TitleWidget(title: 'Calories Chart'),
-                  SizedBox(height: MediaQuery.sizeOf(context).height * .02),
                   Expanded(
                     child: SfCircularChart(
                       tooltipBehavior: TooltipBehavior(enable: true),
@@ -144,7 +199,7 @@ class CaloriesChart extends StatelessWidget {
                           yValueMapper: (ChartData data, _) => data.percentage,
                           pointColorMapper: (ChartData data, _) => data.color,
                           dataLabelMapper: (ChartData data, _) =>
-                              '${data.name}\n${data.percentage}%',
+                              '${data.name}\n${data.percentage.toStringAsFixed(1)}%',
                           dataLabelSettings: const DataLabelSettings(
                             isVisible: true,
                             labelPosition: ChartDataLabelPosition.inside,
@@ -156,8 +211,6 @@ class CaloriesChart extends StatelessWidget {
                           ),
                           explode: true,
                           explodeOffset: '10%',
-                          startAngle: 0,
-                          endAngle: 360,
                         ),
                       ],
                     ),
