@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/cubit/cubit/weight_goal_page_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/8_onboarding_Short_Term_goad/widgets/GoalOptionCard.dart';
 import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 
-class GoalCardList extends StatelessWidget {
+class GoalCardList extends StatefulWidget {
   final String? customGoal;
   final ValueChanged<String?> onCustomGoalUpdated;
 
@@ -15,6 +16,30 @@ class GoalCardList extends StatelessWidget {
     required this.customGoal,
     required this.onCustomGoalUpdated,
   });
+
+  @override
+  _GoalCardListState createState() => _GoalCardListState();
+}
+
+class _GoalCardListState extends State<GoalCardList> {
+  @override
+  void initState() {
+    super.initState();
+    _loadSelectedGoal();
+  }
+
+  Future<void> _loadSelectedGoal() async {
+    final prefs = await SharedPreferences.getInstance();
+    final selectedGoal = prefs.getString('selected_goal');
+    if (selectedGoal != null) {
+      context.read<WeightGoalCubit>().selectOption(selectedGoal);
+    }
+  }
+
+  Future<void> _saveSelectedGoal(String goal) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selected_goal', goal);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +51,6 @@ class GoalCardList extends StatelessWidget {
         final unit = state.weightUnit;
         final userGoal = state.userGoal;
         final isLoseWeight = userGoal == "Lose Weight";
-        final isGainWeight = userGoal == "Gain Weight";
         String convertNumber(String input) => isArabic
             ? NumberConversionHelper.convertToArabicNumbers(input)
             : input;
@@ -43,28 +67,26 @@ class GoalCardList extends StatelessWidget {
                   description: "Stay at your current weight.",
                   icon: Icons.balance,
                   isSelected: state.selectedOption == "Maintain Weight",
-                  onTap: () => context
-                      .read<WeightGoalCubit>()
-                      .selectOption("Maintain Weight"),
+                  onTap: () async {
+                    await _saveSelectedGoal("Maintain Weight");
+                    context
+                        .read<WeightGoalCubit>()
+                        .selectOption("Maintain Weight");
+                  },
                 )
               else ...[
-                GestureDetector(
-                  onTap: () {
-                    context.read<WeightGoalCubit>().selectOption("Lose Weight");
-                  },
-                  child: _buildGoalOption(
-                    context: context,
-                    title:
-                        "${isLoseWeight ? S().lose : S().gain} ${convertNumber(context.read<WeightGoalCubit>().formatWeeklyLoss(0.5))}",
-                    description:
-                        "${S().Gradual} ${isLoseWeight ? "${S().WeightLoss}" : "${S().weightgain}"}",
-                    icon: isLoseWeight
-                        ? Icons.hourglass_bottom
-                        : Icons.arrow_upward,
-                    isSelected: state.selectedOption ==
-                        "${isLoseWeight ? "Lose" : "Gain"} 0.5",
-                    value: "${isLoseWeight ? "Lose" : "Gain"} 0.5",
-                  ),
+                _buildGoalOption(
+                  context: context,
+                  title:
+                      "${isLoseWeight ? S().lose : S().gain} ${convertNumber(context.read<WeightGoalCubit>().formatWeeklyLoss(0.5))}",
+                  description:
+                      "${S().Gradual} ${isLoseWeight ? "${S().WeightLoss}" : "${S().weightgain}"}",
+                  icon: isLoseWeight
+                      ? Icons.hourglass_bottom
+                      : Icons.arrow_upward,
+                  isSelected: state.selectedOption ==
+                      "${isLoseWeight ? "Lose" : "Gain"} 0.5",
+                  value: "${isLoseWeight ? "Lose" : "Gain"} 0.5",
                 ),
                 _buildGoalOption(
                   context: context,
@@ -101,8 +123,8 @@ class GoalCardList extends StatelessWidget {
       description: description,
       icon: icon,
       isSelected: isSelected,
-      onTap: () {
-        // Select the option and ensure the weekly change is updated
+      onTap: () async {
+        await _saveSelectedGoal(value);
         context.read<WeightGoalCubit>().selectOption(value);
       },
     );
@@ -114,15 +136,18 @@ class GoalCardList extends StatelessWidget {
     final locale = Localizations.localeOf(context);
     final isArabic = locale.languageCode == 'ar';
 
-    return customGoal != null
+    return widget.customGoal != null
         ? GoalOptionCard(
             title:
-                "${isLoseWeight ? S().lose : S().gain} ${isArabic ? NumberConversionHelper.convertToArabicNumbers(customGoal ?? "") : customGoal} ${isArabic ? NumberConversionHelper.convertToArabicNumbers(unit) : unit}/${S().week}",
+                "${isLoseWeight ? S().lose : S().gain} ${isArabic ? NumberConversionHelper.convertToArabicNumbers(widget.customGoal ?? "") : widget.customGoal} ${isArabic ? NumberConversionHelper.convertToArabicNumbers(unit) : unit}/${S().week}",
             description: S().customgoal,
             icon: Icons.edit,
             isSelected: state.selectedOption == "Custom",
-            onTap: () => context.read<WeightGoalCubit>().selectOption("Custom"),
-            onDelete: () => onCustomGoalUpdated(null),
+            onTap: () async {
+              await _saveSelectedGoal("Custom");
+              context.read<WeightGoalCubit>().selectOption("Custom");
+            },
+            onDelete: () => widget.onCustomGoalUpdated(null),
             onEdit: () => _showCustomInputDialog(context, state),
           )
         : GoalOptionCard(
@@ -179,10 +204,12 @@ class GoalCardList extends StatelessWidget {
                         (unit == "lb" &&
                             customValue <= 3.3 &&
                             customValue >= 0.2)) {
-                      onCustomGoalUpdated(customValue.toStringAsFixed(2));
+                      widget
+                          .onCustomGoalUpdated(customValue.toStringAsFixed(2));
                       context
                           .read<WeightGoalCubit>()
                           .selectCustomOption(customValue);
+                      _saveSelectedGoal("Custom");
                       Navigator.of(context).pop();
                     } else {
                       _showSnackBar(context, "${S().validgoal}");

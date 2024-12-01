@@ -13,7 +13,14 @@ class CaloriesChart extends StatelessWidget {
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  // Function to retrieve gender, weight, height, and age from SharedPreferences
+  // Fetching the goal from shared preferences
+  Future<String> _getGoal() async {
+    final prefs = await SharedPreferences.getInstance();
+    final goal = prefs.getString('selected_goal') ?? 'No goal set';
+    return goal; // Return the actual goal stored in preferences
+  }
+
+  // Fetching user data from shared preferences
   Future<Map<String, dynamic>> _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
     final gender = prefs.getString('gender') ?? 'Not set';
@@ -21,8 +28,8 @@ class CaloriesChart extends StatelessWidget {
     final height = prefs.getDouble('heightCm') ?? 0.0;
     final age = prefs.getInt('age') ?? 0;
 
-    // Check if activityLevelCalc is stored as double or string
-    double activityLevelCalc = 1.0; // Default value
+    // Retrieving and parsing activity level
+    double activityLevelCalc = 1.0;
     if (prefs.containsKey('selectedCalculation')) {
       final dynamic storedValue = prefs.get('selectedCalculation');
       if (storedValue is double) {
@@ -41,28 +48,22 @@ class CaloriesChart extends StatelessWidget {
     };
   }
 
+  // Calculating calories based on gender
   double _calculateCalories(
       String gender, double weight, double height, int age) {
-    if (weight <= 0 || height <= 0 || age <= 0) {
-      print('Invalid data for calorie calculation.');
-      return 0.0;
-    }
-
-    // Handle gender localization and case insensitivity
     gender = gender.toLowerCase();
     if (gender == 'man' || gender == 'male' || gender == 'ذكر') {
       return 10 * weight + 6.25 * height - 5 * age + 5;
     } else if (gender == 'woman' || gender == 'female' || gender == 'أنثى') {
       return 10 * weight + 6.25 * height - 5 * age - 161;
     } else {
-      print('Invalid gender value: $gender');
-      return 0.0; // Default for invalid gender
+      return 0.0; // Invalid gender fallback
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Data for the pie chart
+    // Chart data
     final List<ChartData> chartData = [
       ChartData('Protein', 30, Colors.blue),
       ChartData('Carbs', 20, Colors.green),
@@ -75,9 +76,7 @@ class CaloriesChart extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
+          return Center(child: Text('Error: ${snapshot.error}'));
         } else {
           final data = snapshot.data!;
           final gender = data['gender'];
@@ -86,66 +85,86 @@ class CaloriesChart extends StatelessWidget {
           final age = data['age'];
           final activityLevelCalc = data['selectedCalculation'];
 
-          // Calculate calories
           final calories = _calculateCalories(gender, weight, height, age);
 
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Display gender, weight, height, and calculated calories
-              Text(
-                'Gender: $gender\n'
-                'Weight: ${weight.toStringAsFixed(1)} kg\n'
-                'Height: ${height.toStringAsFixed(1)} cm\n'
-                'Age: $age\n'
-                'Activity Level: $activityLevelCalc\n'
-                'Calories: ${calories.toStringAsFixed(1)} kcal \n'
-                'finil cal : ${calories * activityLevelCalc}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 20),
-              const TitleWidget(title: 'Calories Chart'),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * .02,
-              ),
-              Expanded(
-                child: SfCircularChart(
-                  tooltipBehavior: TooltipBehavior(enable: true),
-                  legend: Legend(
-                    isVisible: true,
-                    position: LegendPosition.bottom,
-                    overflowMode: LegendItemOverflowMode.wrap,
+          return FutureBuilder<String>(
+            future: _getGoal(),
+            builder: (context, goalSnapshot) {
+              final goal = goalSnapshot.data ?? 'No goal set';
+
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Gender: $gender\n'
+                    'Weight: ${weight.toStringAsFixed(1)} kg\n'
+                    'Height: ${height.toStringAsFixed(1)} cm\n'
+                    'Age: $age\n'
+                    'Activity Level: $activityLevelCalc\n'
+                    'Calories: ${calories.toStringAsFixed(1)} kcal\n'
+                    'Final Calories: ${(calories * activityLevelCalc).toStringAsFixed(1)}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
                   ),
-                  series: <CircularSeries>[
-                    PieSeries<ChartData, String>(
-                      dataSource: chartData,
-                      xValueMapper: (ChartData data, _) => data.name,
-                      yValueMapper: (ChartData data, _) => data.percentage,
-                      pointColorMapper: (ChartData data, _) => data.color,
-                      dataLabelMapper: (ChartData data, _) =>
-                          '${data.name}\n${data.percentage}%',
-                      dataLabelSettings: const DataLabelSettings(
-                        isVisible: true,
-                        labelPosition: ChartDataLabelPosition.inside,
-                        textStyle: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      explode: true,
-                      explodeOffset: '10%',
-                      startAngle: 0,
-                      endAngle: 360,
+                  const SizedBox(height: 20),
+                  Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ],
-                ),
-              ),
-            ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Goal: $goal', // Display the exact goal here
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green[800],
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const TitleWidget(title: 'Calories Chart'),
+                  SizedBox(height: MediaQuery.sizeOf(context).height * .02),
+                  Expanded(
+                    child: SfCircularChart(
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      legend: Legend(
+                        isVisible: true,
+                        position: LegendPosition.bottom,
+                        overflowMode: LegendItemOverflowMode.wrap,
+                      ),
+                      series: <CircularSeries>[
+                        PieSeries<ChartData, String>(
+                          dataSource: chartData,
+                          xValueMapper: (ChartData data, _) => data.name,
+                          yValueMapper: (ChartData data, _) => data.percentage,
+                          pointColorMapper: (ChartData data, _) => data.color,
+                          dataLabelMapper: (ChartData data, _) =>
+                              '${data.name}\n${data.percentage}%',
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            labelPosition: ChartDataLabelPosition.inside,
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          explode: true,
+                          explodeOffset: '10%',
+                          startAngle: 0,
+                          endAngle: 360,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         }
       },
@@ -153,7 +172,6 @@ class CaloriesChart extends StatelessWidget {
   }
 }
 
-// Model class for chart data
 class ChartData {
   final String name;
   final double percentage;
