@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CaloriesChart extends StatelessWidget {
-  const CaloriesChart({
+  CaloriesChart({
     super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
@@ -152,9 +152,9 @@ class CaloriesChart extends StatelessWidget {
 
               // Chart data update
               final List<ChartData> chartData = [
-                ChartData('Protein', proteinPercentage, Colors.blue),
-                ChartData('Carbs', carbsPercentage, Colors.green),
-                ChartData('Fat', fatsPercentage, Colors.orange),
+                ChartData('Protein', proteinPercentage, Colors.blue, protein),
+                ChartData('Carbs', carbsPercentage, Colors.green, carbs),
+                ChartData('Fat', fatsPercentage, Colors.orange, fats),
               ];
 
               return Column(
@@ -175,7 +175,7 @@ class CaloriesChart extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Protein: ${protein.toStringAsFixed(1)} g/day\n'
+                    'Proteibn: ${protein.toStringAsFixed(1)} g/day\n'
                     'Carbs: ${carbs.toStringAsFixed(1)} g/day\n'
                     'Fat: ${fats.toStringAsFixed(1)} g/day',
                     style: const TextStyle(
@@ -188,14 +188,19 @@ class CaloriesChart extends StatelessWidget {
                     child: SfCircularChart(
                       enableMultiSelection: true,
                       tooltipBehavior: TooltipBehavior(enable: true),
-                      legend: Legend(
+                      legend: const Legend(
                         isVisible: true,
                         position: LegendPosition.bottom,
                         overflowMode: LegendItemOverflowMode.wrap,
                       ),
                       series: <CircularSeries>[
                         PieSeries<ChartData, String>(
-                          dataSource: chartData,
+                          enableTooltip: true,
+                          dataSource: [
+                            {'name': 'Protein', 'value': protein},
+                            {'name': 'Carbsss', 'value': carbs},
+                            {'name': 'Fats', 'value': fats}
+                          ],
                           xValueMapper: (ChartData data, _) => data.name,
                           yValueMapper: (ChartData data, _) => data.percentage,
                           pointColorMapper: (ChartData data, _) => data.color,
@@ -203,10 +208,10 @@ class CaloriesChart extends StatelessWidget {
                             final selectedMacro = data.name;
                             double selectedGrams;
                             switch (selectedMacro) {
-                              case 'Protein':
+                              case 'Protein ':
                                 selectedGrams = protein;
                                 break;
-                              case 'Carbs':
+                              case 'Carbss ':
                                 selectedGrams = carbs;
                                 break;
                               case 'Fat':
@@ -217,7 +222,7 @@ class CaloriesChart extends StatelessWidget {
                             }
                             return '${data.name}\n'
                                 '${data.percentage.toStringAsFixed(1)}%\n'
-                                '${selectedGrams.toStringAsFixed(1)} g';
+                                '${data.grams.toStringAsFixed(1)} g';
                           },
                           dataLabelSettings: const DataLabelSettings(
                             isVisible: true,
@@ -237,9 +242,10 @@ class CaloriesChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData(this.name, this.percentage, this.color);
+  ChartData(this.name, this.percentage, this.color, this.grams);
 
   final String name;
   final double percentage;
   final Color color;
+  final double grams;
 }
