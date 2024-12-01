@@ -3,24 +3,48 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/Ti
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class CaloriesChart extends StatelessWidget {
-  CaloriesChart({
-    super.key,
+class CaloriesChart extends StatefulWidget {
+  const CaloriesChart({
+    Key? key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
-  });
+  }) : super(key: key);
 
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
 
-  // Fetching the goal from shared preferences
-  Future<String> _getGoal() async {
-    final prefs = await SharedPreferences.getInstance();
-    final goal = prefs.getString('selected_goal') ?? 'No goal set';
-    return goal;
+  @override
+  State<CaloriesChart> createState() => _CaloriesChartState();
+}
+
+class _CaloriesChartState extends State<CaloriesChart>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+    _fadeAnimation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeOut);
+    _animationController.forward();
   }
 
-  // Fetching user data from shared preferences
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  Future<String> _getGoal() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('selected_goal') ?? 'No goal set';
+  }
+
   Future<Map<String, dynamic>> _getUserData() async {
     final prefs = await SharedPreferences.getInstance();
     final gender = prefs.getString('gender') ?? 'Not set';
@@ -28,7 +52,6 @@ class CaloriesChart extends StatelessWidget {
     final height = prefs.getDouble('heightCm') ?? 0.0;
     final age = prefs.getInt('age') ?? 0;
 
-    // Retrieving and parsing activity level
     double activityLevelCalc = 1.0;
     if (prefs.containsKey('selectedCalculation')) {
       final dynamic storedValue = prefs.get('selectedCalculation');
@@ -49,15 +72,14 @@ class CaloriesChart extends StatelessWidget {
   }
 
   Map<String, double> _calculateMacros(double finalCalories) {
-    const proteinRatio = 0.2; // 20% of calories
-    const carbRatio = 0.5; // 50% of calories
-    const fatRatio = 0.3; // 30% of calories
+    const proteinRatio = 0.2;
+    const carbRatio = 0.5;
+    const fatRatio = 0.3;
 
     final proteinCalories = finalCalories * proteinRatio;
     final carbCalories = finalCalories * carbRatio;
     final fatCalories = finalCalories * fatRatio;
 
-    // Convert calories to grams
     final proteinGrams = proteinCalories / 4;
     final carbGrams = carbCalories / 4;
     final fatGrams = fatCalories / 9;
@@ -69,7 +91,6 @@ class CaloriesChart extends StatelessWidget {
     };
   }
 
-  // Calculating calories based on gender
   double _calculateCalories(
       String gender, double weight, double height, int age) {
     gender = gender.toLowerCase();
@@ -78,11 +99,10 @@ class CaloriesChart extends StatelessWidget {
     } else if (gender == 'woman' || gender == 'female' || gender == 'أنثى') {
       return 10 * weight + 6.25 * height - 5 * age - 161;
     } else {
-      return 0.0; // Invalid gender fallback
+      return 0.0;
     }
   }
 
-  // Adjusting calories based on the goal
   double _calculateFinalCalories(double baseCalories, String goal) {
     double adjustment = 0.0;
 
@@ -144,94 +164,84 @@ class CaloriesChart extends StatelessWidget {
               final carbs = macros['Carbs']!;
               final fats = macros['Fat']!;
 
-              // Dynamic percentages based on macro values
               final totalMacros = protein + carbs + fats;
               final proteinPercentage = (protein / totalMacros) * 100;
               final carbsPercentage = (carbs / totalMacros) * 100;
               final fatsPercentage = (fats / totalMacros) * 100;
 
-              // Chart data update
               final List<ChartData> chartData = [
                 ChartData('Protein', proteinPercentage, Colors.blue, protein),
                 ChartData('Carbs', carbsPercentage, Colors.green, carbs),
                 ChartData('Fat', fatsPercentage, Colors.orange, fats),
               ];
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Gender: $gender\n'
-                    'Weight: ${weight.toStringAsFixed(1)} kg\n'
-                    'Height: ${height.toStringAsFixed(1)} cm\n'
-                    'Age: $age\n'
-                    'Activity Level: $activityLevelCalc\n'
-                    'Base Calories: ${calories.toStringAsFixed(1)} kcal\n'
-                    'Adjusted Calories: ${adjustedCalories.toStringAsFixed(1)} kcal\n'
-                    'Final Calories: ${finalCalories.toStringAsFixed(1)} kcal',
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    'Proteibn: ${protein.toStringAsFixed(1)} g/day\n'
-                    'Carbs: ${carbs.toStringAsFixed(1)} g/day\n'
-                    'Fat: ${fats.toStringAsFixed(1)} g/day',
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  const TitleWidget(title: 'Calories Chart'),
-                  Flexible(
-                    child: SfCircularChart(
-                      enableMultiSelection: true,
-                      tooltipBehavior: TooltipBehavior(enable: true),
-                      legend: const Legend(
-                        isVisible: true,
-                        position: LegendPosition.bottom,
-                        overflowMode: LegendItemOverflowMode.wrap,
-                      ),
-                      series: <CircularSeries>[
-                        PieSeries<ChartData, String>(
-                          enableTooltip: true,
-                          dataSource: [
-                            {'name': 'Protein', 'value': protein},
-                            {'name': 'Carbsss', 'value': carbs},
-                            {'name': 'Fats', 'value': fats}
-                          ],
-                          xValueMapper: (ChartData data, _) => data.name,
-                          yValueMapper: (ChartData data, _) => data.percentage,
-                          pointColorMapper: (ChartData data, _) => data.color,
-                          dataLabelMapper: (ChartData data, int index) {
-                            final selectedMacro = data.name;
-                            double selectedGrams;
-                            switch (selectedMacro) {
-                              case 'Protein ':
-                                selectedGrams = protein;
-                                break;
-                              case 'Carbss ':
-                                selectedGrams = carbs;
-                                break;
-                              case 'Fat':
-                                selectedGrams = fats;
-                                break;
-                              default:
-                                selectedGrams = 0.0;
-                            }
-                            return '${data.name}\n'
-                                '${data.percentage.toStringAsFixed(1)}%\n'
-                                '${data.grams.toStringAsFixed(1)} g';
-                          },
-                          dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                          ),
-                        ),
-                      ],
+              return FadeTransition(
+                opacity: _fadeAnimation,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Text(
+                    //   'Gender: $gender\n'
+                    //   'Weight: ${weight.toStringAsFixed(1)} kg\n'
+                    //   'Height: ${height.toStringAsFixed(1)} cm\n'
+                    //   'Age: $age\n'
+                    //   'Activity Level: $activityLevelCalc\n'
+                    //   'Base Calories: ${calories.toStringAsFixed(1)} kcal\n'
+                    //   'Adjusted Calories: ${adjustedCalories.toStringAsFixed(1)} kcal\n'
+                    //   'Final Calories: ${finalCalories.toStringAsFixed(1)} kcal',
+                    //   style: const TextStyle(
+                    //       fontSize: 16, fontWeight: FontWeight.bold),
+                    //   textAlign: TextAlign.center,
+                    // ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Protein: ${protein.toStringAsFixed(1)} g/day\n'
+                      'Carbs: ${carbs.toStringAsFixed(1)} g/day\n'
+                      'Fat: ${fats.toStringAsFixed(1)} g/day',
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    const TitleWidget(title: 'Calories Chart'),
+                    Flexible(
+                      child: SfCircularChart(
+                        enableMultiSelection: true,
+                        tooltipBehavior: TooltipBehavior(enable: true),
+                        legend: const Legend(
+                          isVisible: true,
+                          position: LegendPosition.bottom,
+                          overflowMode: LegendItemOverflowMode.wrap,
+                        ),
+                        series: <CircularSeries>[
+                          PieSeries<ChartData, String>(
+                            explode: true,
+
+                            animationDuration: 1500, // Animation for pie chart
+                            enableTooltip: true,
+                            dataSource: chartData,
+                            xValueMapper: (ChartData data, _) => data.name,
+                            yValueMapper: (ChartData data, _) =>
+                                data.percentage,
+                            pointColorMapper: (ChartData data, _) => data.color,
+                            dataLabelMapper: (ChartData data, _) =>
+                                '${data.name}\n'
+                                '${data.percentage.toStringAsFixed(1)}%\n'
+                                '${data.grams.toStringAsFixed(1)} g',
+                            dataLabelSettings: const DataLabelSettings(
+                              isVisible: true,
+                            ),
+                            selectionBehavior: SelectionBehavior(
+                              enable: true,
+                              selectedColor: Colors.purple,
+                              unselectedColor: Colors.grey.withOpacity(0.3),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           );
