@@ -184,8 +184,9 @@ class CaloriesChart extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   const TitleWidget(title: 'Calories Chart'),
-                  Expanded(
+                  Flexible(
                     child: SfCircularChart(
+                      enableMultiSelection: true,
                       tooltipBehavior: TooltipBehavior(enable: true),
                       legend: Legend(
                         isVisible: true,
@@ -198,19 +199,29 @@ class CaloriesChart extends StatelessWidget {
                           xValueMapper: (ChartData data, _) => data.name,
                           yValueMapper: (ChartData data, _) => data.percentage,
                           pointColorMapper: (ChartData data, _) => data.color,
-                          dataLabelMapper: (ChartData data, _) =>
-                              '${data.name}\n${data.percentage.toStringAsFixed(1)}%',
+                          dataLabelMapper: (ChartData data, int index) {
+                            final selectedMacro = data.name;
+                            double selectedGrams;
+                            switch (selectedMacro) {
+                              case 'Protein':
+                                selectedGrams = protein;
+                                break;
+                              case 'Carbs':
+                                selectedGrams = carbs;
+                                break;
+                              case 'Fat':
+                                selectedGrams = fats;
+                                break;
+                              default:
+                                selectedGrams = 0.0;
+                            }
+                            return '${data.name}\n'
+                                '${data.percentage.toStringAsFixed(1)}%\n'
+                                '${selectedGrams.toStringAsFixed(1)} g';
+                          },
                           dataLabelSettings: const DataLabelSettings(
                             isVisible: true,
-                            labelPosition: ChartDataLabelPosition.inside,
-                            textStyle: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
-                          explode: true,
-                          explodeOffset: '10%',
                         ),
                       ],
                     ),
@@ -226,9 +237,9 @@ class CaloriesChart extends StatelessWidget {
 }
 
 class ChartData {
+  ChartData(this.name, this.percentage, this.color);
+
   final String name;
   final double percentage;
   final Color color;
-
-  ChartData(this.name, this.percentage, this.color);
 }

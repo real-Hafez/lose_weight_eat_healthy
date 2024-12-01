@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/10_onboarding_activity_level/widget/ActivityLevelDetails.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/10_onboarding_activity_level/widget/activityLevels.dart';
 
 class ActivityLevelCard extends StatelessWidget {
   final String title;
