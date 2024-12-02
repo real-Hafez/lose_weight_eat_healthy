@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/calories_chart_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/nutrition_details_cubit_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/widget/NutritionDetails.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -43,6 +44,7 @@ class CaloriesChart extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text('${state.finalCalories}'),
                 const TitleWidget(title: 'Calories Chart'),
                 Flexible(
                   child: SfCircularChart(
@@ -68,7 +70,11 @@ class CaloriesChart extends StatelessWidget {
                     ],
                   ),
                 ),
-                NutritionDetails(),
+                BlocProvider.value(
+                  value: context.read<NutritionCubit>()
+                    ..updateTotalCalories(state.finalCalories),
+                  child: NutritionDetails(),
+                ),
               ],
             );
           }
