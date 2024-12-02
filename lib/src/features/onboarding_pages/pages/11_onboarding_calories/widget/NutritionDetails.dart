@@ -30,7 +30,18 @@ class _NutritionDetailsState extends State<NutritionDetails> {
       "Carbs": "180 grams/day",
       "Fat": "70 grams/day",
     },
+    "Create Your Own": {}, // Placeholder for custom diet
   };
+
+  // Custom macronutrient values for "Create Your Own"
+  double customProtein = 100;
+  double customCarbs = 200;
+  double customFat = 50;
+
+  // Method to calculate total calories based on custom values
+  double calculateCalories() {
+    return (customProtein * 4 + customCarbs * 4 + customFat * 9);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +53,13 @@ class _NutritionDetailsState extends State<NutritionDetails> {
         // Tabs for diet selection
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: ["Balanced", "Low Fat", "Low Carb", "High Protein"]
+          children: [
+            "Balanced",
+            "Low Fat",
+            "Low Carb",
+            "High Protein",
+            "Create Your Own"
+          ]
               .map((diet) => GestureDetector(
                     onTap: () {
                       setState(() {
@@ -77,40 +94,124 @@ class _NutritionDetailsState extends State<NutritionDetails> {
               .toList(),
         ),
         const SizedBox(height: 16),
-        // Nutrition Details Table
-        Card(
-          margin: const EdgeInsets.symmetric(horizontal: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 4,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                NutritionRow(
-                  label: "Protein",
-                  value: currentData["Protein"] ?? "N/A",
-                  icon: Icons.local_fire_department_rounded,
-                  color: Colors.blue,
-                ),
-                const Divider(height: 20, color: Colors.grey),
-                NutritionRow(
-                  label: "Carbs",
-                  value: currentData["Carbs"] ?? "N/A",
-                  icon: Icons.energy_savings_leaf_rounded,
-                  color: Colors.green,
-                ),
-                const Divider(height: 20, color: Colors.grey),
-                NutritionRow(
-                  label: "Fat",
-                  value: currentData["Fat"] ?? "N/A",
-                  icon: Icons.oil_barrel_rounded,
-                  color: Colors.orange,
-                ),
-              ],
+        // Nutrition Details or Custom Controls
+        selectedDiet == "Create Your Own"
+            ? _buildCustomDietControls()
+            : _buildNutritionDetails(currentData),
+      ],
+    );
+  }
+
+  Widget _buildNutritionDetails(Map<String, String> data) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            NutritionRow(
+              label: "Protein",
+              value: data["Protein"] ?? "N/A",
+              icon: Icons.local_fire_department_rounded,
+              color: Colors.blue,
             ),
-          ),
+            const Divider(height: 20, color: Colors.grey),
+            NutritionRow(
+              label: "Carbs",
+              value: data["Carbs"] ?? "N/A",
+              icon: Icons.energy_savings_leaf_rounded,
+              color: Colors.green,
+            ),
+            const Divider(height: 20, color: Colors.grey),
+            NutritionRow(
+              label: "Fat",
+              value: data["Fat"] ?? "N/A",
+              icon: Icons.oil_barrel_rounded,
+              color: Colors.orange,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomDietControls() {
+    final totalCalories = calculateCalories();
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text(
+              "Total Calories: $totalCalories kcal",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: totalCalories > 2000 ? Colors.red : Colors.teal,
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildSlider(
+              label: "Protein",
+              value: customProtein,
+              color: Colors.blue,
+              onChanged: (value) => setState(() {
+                customProtein = value;
+              }),
+            ),
+            _buildSlider(
+              label: "Carbs",
+              value: customCarbs,
+              color: Colors.green,
+              onChanged: (value) => setState(() {
+                customCarbs = value;
+              }),
+            ),
+            _buildSlider(
+              label: "Fat",
+              value: customFat,
+              color: Colors.orange,
+              onChanged: (value) => setState(() {
+                customFat = value;
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSlider({
+    required String label,
+    required double value,
+    required Color color,
+    required ValueChanged<double> onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "$label: ${value.toInt()} grams",
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.bold, color: color),
+        ),
+        Slider(
+          value: value,
+          min: 0,
+          max: label == "Fat" ? 100 : 300,
+          divisions: 100,
+          activeColor: color,
+          label: "${value.toInt()} g",
+          onChanged: onChanged,
         ),
       ],
     );

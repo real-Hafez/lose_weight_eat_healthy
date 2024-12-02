@@ -181,28 +181,28 @@ class _CaloriesChartState extends State<CaloriesChart>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Gender: $gender\n'
-                      'Weight: ${weight.toStringAsFixed(1)} kg\n'
-                      'Height: ${height.toStringAsFixed(1)} cm\n'
-                      'Age: $age\n'
-                      'Activity Level: $activityLevelCalc\n'
-                      'Base Calories: ${calories.toStringAsFixed(1)} kcal\n'
-                      'Adjusted Calories: ${adjustedCalories.toStringAsFixed(1)} kcal\n'
-                      'Final Calories: ${finalCalories.toStringAsFixed(1)} kcal',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
+                    // Text(
+                    //   'Gender: $gender\n'
+                    //   'Weight: ${weight.toStringAsFixed(1)} kg\n'
+                    //   'Height: ${height.toStringAsFixed(1)} cm\n'
+                    //   'Age: $age\n'
+                    //   'Activity Level: $activityLevelCalc\n'
+                    //   'Base Calories: ${calories.toStringAsFixed(1)} kcal\n'
+                    //   'Adjusted Calories: ${adjustedCalories.toStringAsFixed(1)} kcal\n'
+                    //   'Final Calories: ${finalCalories.toStringAsFixed(1)} kcal',
+                    //   style: const TextStyle(
+                    //       fontSize: 16, fontWeight: FontWeight.bold),
+                    //   textAlign: TextAlign.center,
+                    // ),
                     const SizedBox(height: 20),
-                    Text(
-                      'Protein: ${protein.toStringAsFixed(1)} g/day\n'
-                      'Carbs: ${carbs.toStringAsFixed(1)} g/day\n'
-                      'Fat: ${fats.toStringAsFixed(1)} g/day',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
+                    // Text(
+                    //   'Protein: ${protein.toStringAsFixed(1)} g/day\n'
+                    //   'Carbs: ${carbs.toStringAsFixed(1)} g/day\n'
+                    //   'Fat: ${fats.toStringAsFixed(1)} g/day',
+                    //   style: const TextStyle(
+                    //       fontSize: 16, fontWeight: FontWeight.bold),
+                    //   textAlign: TextAlign.center,
+                    // ),
                     const SizedBox(height: 20),
                     const TitleWidget(title: 'Calories Chart'),
                     Flexible(
@@ -241,7 +241,7 @@ class _CaloriesChartState extends State<CaloriesChart>
                         ],
                       ),
                     ),
-                    NutritionDetails()
+                    NutritionDetails(),
                   ],
                 ),
               );
