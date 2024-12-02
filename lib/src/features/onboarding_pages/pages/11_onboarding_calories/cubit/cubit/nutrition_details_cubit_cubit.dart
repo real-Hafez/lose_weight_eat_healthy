@@ -15,21 +15,40 @@ class NutritionCubit extends Cubit<NutritionState> {
       "Protein": "126 grams/day",
       "Carbs": "276 grams/day",
       "Fat": "59 grams/day",
+      //45 % carbs
+//25% protein
+//30 % fats
     },
     "Low Fat": {
       "Protein": "130 grams/day",
       "Carbs": "300 grams/day",
       "Fat": "50 grams/day",
+
+      /*
+      35 % protein 
+55 % carbs  
+10 % fat 
+      */
     },
     "Low Carb": {
       "Protein": "150 grams/day",
       "Carbs": "120 grams/day",
       "Fat": "80 grams/day",
+      /*
+30% protein 
+10% carb
+60%fat
+      */
     },
     "High Protein": {
       "Protein": "200 grams/day",
       "Carbs": "180 grams/day",
       "Fat": "70 grams/day",
+      /*
+40% protein 
+40% carb
+20%fat
+      */
     },
     "Create Your Own": {}, // Placeholder for custom diet
   };
