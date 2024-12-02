@@ -5,7 +5,8 @@ class NutritionDetails extends StatefulWidget {
   _NutritionDetailsState createState() => _NutritionDetailsState();
 }
 
-class _NutritionDetailsState extends State<NutritionDetails> {
+class _NutritionDetailsState extends State<NutritionDetails>
+    with SingleTickerProviderStateMixin {
   String selectedDiet = "Balanced"; // Default selected diet
 
   // Nutrition data for each diet type
@@ -38,9 +39,26 @@ class _NutritionDetailsState extends State<NutritionDetails> {
   double customCarbs = 200;
   double customFat = 50;
 
+  late AnimationController _animationController;
+
   // Method to calculate total calories based on custom values
   double calculateCalories() {
     return (customProtein * 4 + customCarbs * 4 + customFat * 9);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,48 +68,77 @@ class _NutritionDetailsState extends State<NutritionDetails> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Tabs for diet selection
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // Tabs for diet selection with scrollable view
+        Stack(
           children: [
-            "Balanced",
-            "Low Fat",
-            "Low Carb",
-            "High Protein",
-            "Create Your Own"
-          ]
-              .map((diet) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedDiet = diet;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 12),
-                      decoration: BoxDecoration(
-                        color: selectedDiet == diet
-                            ? Colors.teal.withOpacity(0.2)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: selectedDiet == diet
-                              ? Colors.teal
-                              : Colors.grey.shade300,
-                        ),
-                      ),
-                      child: Text(
-                        diet,
-                        style: TextStyle(
-                          color: selectedDiet == diet
-                              ? Colors.teal
-                              : Colors.grey.shade600,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  "Balanced",
+                  "Low Fat",
+                  "Low Carb",
+                  "High Protein",
+                  "Create Your Own"
+                ]
+                    .map((diet) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedDiet = diet;
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 12),
+                            decoration: BoxDecoration(
+                              color: selectedDiet == diet
+                                  ? Colors.teal.withOpacity(0.2)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: selectedDiet == diet
+                                    ? Colors.teal
+                                    : Colors.grey.shade300,
+                              ),
+                            ),
+                            child: Text(
+                              diet,
+                              style: TextStyle(
+                                color: selectedDiet == diet
+                                    ? Colors.teal
+                                    : Colors.grey.shade600,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            // Glowing indicator to show more tabs on the right
+            Positioned(
+              right: 0,
+              top: 0,
+              bottom: 0,
+              child: FadeTransition(
+                opacity: _animationController,
+                child: Container(
+                  width: 24,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.teal.withOpacity(0.3),
+                        Colors.transparent,
+                      ],
+                      begin: Alignment.centerRight,
+                      end: Alignment.centerLeft,
                     ),
-                  ))
-              .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         // Nutrition Details or Custom Controls
@@ -253,7 +300,7 @@ class NutritionRow extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ],
