@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/widget/NutritionDetails.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -180,19 +181,19 @@ class _CaloriesChartState extends State<CaloriesChart>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Text(
-                    //   'Gender: $gender\n'
-                    //   'Weight: ${weight.toStringAsFixed(1)} kg\n'
-                    //   'Height: ${height.toStringAsFixed(1)} cm\n'
-                    //   'Age: $age\n'
-                    //   'Activity Level: $activityLevelCalc\n'
-                    //   'Base Calories: ${calories.toStringAsFixed(1)} kcal\n'
-                    //   'Adjusted Calories: ${adjustedCalories.toStringAsFixed(1)} kcal\n'
-                    //   'Final Calories: ${finalCalories.toStringAsFixed(1)} kcal',
-                    //   style: const TextStyle(
-                    //       fontSize: 16, fontWeight: FontWeight.bold),
-                    //   textAlign: TextAlign.center,
-                    // ),
+                    Text(
+                      'Gender: $gender\n'
+                      'Weight: ${weight.toStringAsFixed(1)} kg\n'
+                      'Height: ${height.toStringAsFixed(1)} cm\n'
+                      'Age: $age\n'
+                      'Activity Level: $activityLevelCalc\n'
+                      'Base Calories: ${calories.toStringAsFixed(1)} kcal\n'
+                      'Adjusted Calories: ${adjustedCalories.toStringAsFixed(1)} kcal\n'
+                      'Final Calories: ${finalCalories.toStringAsFixed(1)} kcal',
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
                     const SizedBox(height: 20),
                     Text(
                       'Protein: ${protein.toStringAsFixed(1)} g/day\n'
@@ -240,6 +241,7 @@ class _CaloriesChartState extends State<CaloriesChart>
                         ],
                       ),
                     ),
+                    NutritionDetails()
                   ],
                 ),
               );
