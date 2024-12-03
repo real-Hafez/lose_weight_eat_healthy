@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/calories_chart_cubit.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/nutrition_details_cubit_cubit.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/nutrition_details_cubit_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/widget/NutritionDetails.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -68,8 +66,8 @@ class CaloriesChart extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                        '${finalCalories.toStringAsFixed(0)} Calories ${state.activityLevel}${state.age}${state.gender}${state.macros}${state.weight}   ${state.height}         ${state.age}         '),
+                    // Text(
+                    //     '${finalCalories.toStringAsFixed(0)} Calories ${state.activityLevel}${state.age}${state.gender}${state.macros}${state.weight}   ${state.height}         ${state.age}         '),
                     const TitleWidget(title: 'Calories Chart'),
                     Flexible(
                       child: SfCircularChart(
