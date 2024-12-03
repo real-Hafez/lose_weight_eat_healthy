@@ -68,8 +68,8 @@ class CaloriesChart extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Text(
-                    //     '${finalCalories.toStringAsFixed(0)} Calories ${state.activityLevel}${state.age}${state.gender}${state.macros}${state.weight}   ${state.height}         ${state.age}         '),
+                    Text(
+                        '${finalCalories.toStringAsFixed(0)} Calories ${state.activityLevel}${state.age}${state.gender}${state.macros}${state.weight}   ${state.height}         ${state.age}         '),
                     const TitleWidget(title: 'Calories Chart'),
                     Flexible(
                       child: SfCircularChart(
