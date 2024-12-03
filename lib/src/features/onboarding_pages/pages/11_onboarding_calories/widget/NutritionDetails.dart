@@ -9,14 +9,28 @@ class NutritionDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NutritionCubit(),
-      child: _NutritionDetailsView(),
+      create: (_) =>
+          CaloriesChartCubit()..loadCaloriesData(), // Ensure data is loaded
+      child: BlocBuilder<CaloriesChartCubit, CaloriesChartState>(
+        builder: (context, state) {
+          if (state is CaloriesChartLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CaloriesChartLoaded) {
+            // Directly provide totalCalories to NutritionCubit
+            return BlocProvider(
+              create: (_) => NutritionCubit(state.finalCalories),
+              child: _NutritionDetailsView(),
+            );
+          } else {
+            return const Text("Failed to load calorie data");
+          }
+        },
+      ),
     );
   }
 }
 
 class _NutritionDetailsView extends StatelessWidget {
-  // List of diet options
   final List<String> dietOptions = [
     "Balanced",
     "Low Fat",
@@ -30,11 +44,8 @@ class _NutritionDetailsView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Diet Selection Tabs
         _buildDietTabs(context),
         const SizedBox(height: 16),
-
-        // Nutrition Details or Custom Diet Controls
         BlocBuilder<NutritionCubit, NutritionState>(
           builder: (context, state) {
             return state.selectedDiet == "Create Your Own"
@@ -50,47 +61,39 @@ class _NutritionDetailsView extends StatelessWidget {
   Widget _buildDietTabs(BuildContext context) {
     final cubit = context.read<NutritionCubit>();
 
-    return BlocBuilder<CaloriesChartCubit, CaloriesChartState>(
+    return BlocBuilder<NutritionCubit, NutritionState>(
       builder: (context, state) {
-        if (state is CaloriesChartLoaded) {
-          // Update total calories if necessary
-          if (cubit.state.totalCalories != state.finalCalories) {
-            cubit.updateTotalCalories(state.finalCalories);
-          }
-        }
-
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: dietOptions.map((diet) {
-                final isSelected = cubit.state.selectedDiet == diet;
-
                 return GestureDetector(
                   onTap: () {
-                    // Only update if diet is different
-                    if (!isSelected) {
-                      cubit.updateDietAndRecalculate(diet);
-                    }
+                    cubit.updateDietAndRecalculate(diet);
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 16),
                     decoration: BoxDecoration(
-                      color: isSelected
+                      color: state.selectedDiet == diet
                           ? Colors.teal.withOpacity(0.2)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: isSelected ? Colors.teal : Colors.grey.shade300,
+                        color: state.selectedDiet == diet
+                            ? Colors.teal
+                            : Colors.grey.shade300,
                       ),
                     ),
                     child: Text(
                       diet,
                       style: TextStyle(
-                        color: isSelected ? Colors.teal : Colors.grey.shade600,
+                        color: state.selectedDiet == diet
+                            ? Colors.teal
+                            : Colors.grey.shade600,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -164,8 +167,6 @@ class _NutritionDetailsView extends StatelessWidget {
       builder: (context, state) {
         if (state is CaloriesChartLoaded) {
           final totalCalories = state.finalCalories;
-          print('Loaded Total Calories: $totalCalories');
-
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             shape: RoundedRectangleBorder(
@@ -181,69 +182,16 @@ class _NutritionDetailsView extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: totalCalories > 2000 ? Colors.red : Colors.teal,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  _buildSlider(
-                    label: "Protein",
-                    value: state.macros['Protein'] ?? 0,
-                    color: Colors.blue,
-                    onChanged: (value) => context
-                        .read<NutritionCubit>()
-                        .updateCustomProtein(value),
-                  ),
-                  _buildSlider(
-                    label: "Carbs",
-                    value: state.macros['Carbs'] ?? 0,
-                    color: Colors.green,
-                    onChanged: (value) =>
-                        context.read<NutritionCubit>().updateCustomCarbs(value),
-                  ),
-                  _buildSlider(
-                    label: "Fat",
-                    value: state.macros['Fat'] ?? 0,
-                    color: Colors.orange,
-                    onChanged: (value) =>
-                        context.read<NutritionCubit>().updateCustomFat(value),
-                  ),
+                  // Custom diet controls for user input here...
                 ],
               ),
             ),
           );
-        } else if (state is CaloriesChartLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return const Text("Failed to load data");
         }
+        return const SizedBox.shrink();
       },
-    );
-  }
-
-  Widget _buildSlider({
-    required String label,
-    required double value,
-    required Color color,
-    required ValueChanged<double> onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "$label: ${value.toInt()} grams",
-          style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: color),
-        ),
-        Slider(
-          value: value,
-          min: 0,
-          max: label == "Fat" ? 100 : 300,
-          divisions: 100,
-          activeColor: color,
-          label: "${value.toInt()} g",
-          onChanged: onChanged,
-        ),
-      ],
     );
   }
 }

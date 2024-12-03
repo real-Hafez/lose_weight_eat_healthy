@@ -88,7 +88,8 @@ class MyApp extends StatelessWidget {
           create: (context) => WeightCubit(),
         ),
         BlocProvider<NutritionCubit>(
-          create: (_) => NutritionCubit(),
+          create: (_) =>
+              NutritionCubit(2500), // Pass initial calories, e.g., 2000
         ),
         BlocProvider<CaloriesChartCubit>(
           create: (_) => CaloriesChartCubit(),
