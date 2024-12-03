@@ -6,6 +6,10 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_o
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/widget/NutritionRow.dart';
 
 class NutritionDetails extends StatelessWidget {
+  final Function(String) onDietSelected;
+
+  const NutritionDetails({super.key, required this.onDietSelected});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -19,7 +23,9 @@ class NutritionDetails extends StatelessWidget {
             // Directly provide totalCalories to NutritionCubit
             return BlocProvider(
               create: (_) => NutritionCubit(state.finalCalories),
-              child: _NutritionDetailsView(),
+              child: _NutritionDetailsView(
+                onDietSelected: onDietSelected,
+              ),
             );
           } else {
             return const Text("Failed to load calorie data");
@@ -31,6 +37,8 @@ class NutritionDetails extends StatelessWidget {
 }
 
 class _NutritionDetailsView extends StatelessWidget {
+  final Function(String) onDietSelected;
+
   final List<String> dietOptions = [
     "Balanced",
     "Low Fat",
@@ -38,6 +46,8 @@ class _NutritionDetailsView extends StatelessWidget {
     "High Protein",
     "Create Your Own"
   ];
+
+  _NutritionDetailsView({super.key, required this.onDietSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -61,49 +71,47 @@ class _NutritionDetailsView extends StatelessWidget {
   Widget _buildDietTabs(BuildContext context) {
     final cubit = context.read<NutritionCubit>();
 
-    return BlocBuilder<NutritionCubit, NutritionState>(
-      builder: (context, state) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: dietOptions.map((diet) {
-                return GestureDetector(
-                  onTap: () {
-                    cubit.updateDietAndRecalculate(diet);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: state.selectedDiet == diet
-                          ? Colors.teal.withOpacity(0.2)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: state.selectedDiet == diet
-                            ? Colors.teal
-                            : Colors.grey.shade300,
-                      ),
-                    ),
-                    child: Text(
-                      diet,
-                      style: TextStyle(
-                        color: state.selectedDiet == diet
-                            ? Colors.teal
-                            : Colors.grey.shade600,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          children: dietOptions.map((diet) {
+            return GestureDetector(
+              onTap: () {
+                cubit.updateDietAndRecalculate(diet);
+                onDietSelected(
+                    diet); // Call the callback to update CaloriesChart
+              },
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: cubit.state.selectedDiet == diet
+                      ? Colors.teal.withOpacity(0.2)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: cubit.state.selectedDiet == diet
+                        ? Colors.teal
+                        : Colors.grey.shade300,
                   ),
-                );
-              }).toList(),
-            ),
-          ),
-        );
-      },
+                ),
+                child: Text(
+                  diet,
+                  style: TextStyle(
+                    color: cubit.state.selectedDiet == diet
+                        ? Colors.teal
+                        : Colors.grey.shade600,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 

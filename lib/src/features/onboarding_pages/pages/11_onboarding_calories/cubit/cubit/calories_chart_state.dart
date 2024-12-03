@@ -12,16 +12,17 @@ class CaloriesChartLoaded extends CaloriesChartState {
   final double activityLevel;
   final double finalCalories;
   final Map<String, double> macros;
+  final String selectedDiet;
 
-  CaloriesChartLoaded({
-    required this.gender,
-    required this.weight,
-    required this.height,
-    required this.age,
-    required this.activityLevel,
-    required this.finalCalories,
-    required this.macros,
-  });
+  CaloriesChartLoaded(
+      {required this.gender,
+      required this.weight,
+      required this.height,
+      required this.age,
+      required this.activityLevel,
+      required this.finalCalories,
+      required this.macros,
+      required this.selectedDiet});
 }
 
 class CaloriesChartError extends CaloriesChartState {

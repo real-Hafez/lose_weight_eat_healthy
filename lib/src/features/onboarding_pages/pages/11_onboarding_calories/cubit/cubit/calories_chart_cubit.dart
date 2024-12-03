@@ -43,9 +43,27 @@ class CaloriesChartCubit extends Cubit<CaloriesChartState> {
         activityLevel: activityLevelCalc,
         finalCalories: finalCalories,
         macros: macros,
+        selectedDiet: 'Balanced', // Add default diet
       ));
     } catch (e) {
       emit(CaloriesChartError(error: e.toString()));
+    }
+  }
+
+  // Update method to change diet
+  void updateSelectedDiet(String diet) {
+    final currentState = state;
+    if (currentState is CaloriesChartLoaded) {
+      emit(CaloriesChartLoaded(
+        gender: currentState.gender,
+        weight: currentState.weight,
+        height: currentState.height,
+        age: currentState.age,
+        activityLevel: currentState.activityLevel,
+        finalCalories: currentState.finalCalories,
+        macros: currentState.macros,
+        selectedDiet: diet,
+      ));
     }
   }
 
