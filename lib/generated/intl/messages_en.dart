@@ -23,7 +23,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Bmi": MessageLookupByLibrary.simpleMessage("Your BMI"),
+        "CaloriesChart": MessageLookupByLibrary.simpleMessage("Calories Chart"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "Carbs": MessageLookupByLibrary.simpleMessage("Carbs "),
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
@@ -47,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("Maintain Weight"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
+        "Protein": MessageLookupByLibrary.simpleMessage("Protein"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
@@ -116,6 +119,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Choose a custom goal like 0.75 kilograms"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("EXPERT TRAINING TIPS"),
+        "fats": MessageLookupByLibrary.simpleMessage("fats"),
         "female": MessageLookupByLibrary.simpleMessage("Female"),
         "firstNameHint": MessageLookupByLibrary.simpleMessage("Ahmed"),
         "firstNameLabel": MessageLookupByLibrary.simpleMessage("First name"),

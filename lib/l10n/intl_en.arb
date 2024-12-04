@@ -176,7 +176,14 @@
 "descriptionveryactive": "Hard exercise/sports 6-7 days/week. Example: Intensive gym training.",
 "titleextraactive": "Extra Active",
 "descriptionextraactive": "Very hard exercise or physical job. Example: Athlete, 2x daily training.",
-"activitylevel":"What is your activity level?"
+"activitylevel":"What is your activity level?",
+"CaloriesChart":"Calories Chart",
+"Protein":"Protein",
+"Carbs":"Carbs " ,
+"fats":"fats"
+
+
+
 
 }
 

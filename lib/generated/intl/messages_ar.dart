@@ -23,7 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Bmi": MessageLookupByLibrary.simpleMessage("مؤشر كتلة الجسم (Bmi)"),
+        "CaloriesChart":
+            MessageLookupByLibrary.simpleMessage("جدول السعرات الحرارية"),
         "Cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
+        "Carbs": MessageLookupByLibrary.simpleMessage("الكربوهيدرات "),
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
         "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
@@ -47,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("الحفاظ على الوزن"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("الحفاظ"),
+        "Protein": MessageLookupByLibrary.simpleMessage("بروتين"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "Save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
@@ -90,13 +94,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "descriptionextraactive": MessageLookupByLibrary.simpleMessage(
             "تمارين شديدة أو عمل بدني شاق. مثال: رياضي محترف، تدريب مرتين يومياً."),
         "descriptionlightlyactive": MessageLookupByLibrary.simpleMessage(
-            "تمارين خفيفة/رياضة من 1-3 أيام في الأسبوع. مثال: المشي، جلسات رياضية خفيفة."),
+            "تمارين خفيفة/رياضة من ١-٣ أيام في الأسبوع. مثال: المشي، جلسات رياضية خفيفة."),
         "descriptionmoderatelyactive": MessageLookupByLibrary.simpleMessage(
-            "تمارين متوسطة/رياضة من 3-5 أيام في الأسبوع. مثال: الذهاب إلى النادي الرياضي 3-5 مرات أسبوعياً."),
+            "تمارين متوسطة/رياضة من ٣-٥ أيام في الأسبوع. مثال: الذهاب إلى النادي الرياضي ٣-٥ مرات أسبوعياً."),
         "descriptionsedentary": MessageLookupByLibrary.simpleMessage(
             "قليل أو معدوم النشاط البدني. مثال: العمل المكتبي، الجلوس معظم اليوم."),
         "descriptionveryactive": MessageLookupByLibrary.simpleMessage(
-            "تمارين شاقة/رياضة من 6-7 أيام في الأسبوع. مثال: تدريبات مكثفة في النادي الرياضي."),
+            "تمارين شاقة/رياضة من ٦-٧ أيام في الأسبوع. مثال: تدريبات مكثفة في النادي الرياضي."),
         "desiredweekly":
             MessageLookupByLibrary.simpleMessage("ادخل هدفك الاسبوعي"),
         "diet": MessageLookupByLibrary.simpleMessage(
@@ -116,6 +120,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "ختر هدفًا مخصصًا مثل ٠٫٧٥ كيلو جرام"),
         "expertTrainingTips":
             MessageLookupByLibrary.simpleMessage("نصائح تدريبية من خبراء"),
+        "fats": MessageLookupByLibrary.simpleMessage("الدهون"),
         "female": MessageLookupByLibrary.simpleMessage("انثي"),
         "firstNameHint": MessageLookupByLibrary.simpleMessage("احمد"),
         "firstNameLabel": MessageLookupByLibrary.simpleMessage("الاسم الأول"),

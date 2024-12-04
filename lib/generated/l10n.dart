@@ -1809,6 +1809,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Calories Chart`
+  String get CaloriesChart {
+    return Intl.message(
+      'Calories Chart',
+      name: 'CaloriesChart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Protein`
+  String get Protein {
+    return Intl.message(
+      'Protein',
+      name: 'Protein',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Carbs `
+  String get Carbs {
+    return Intl.message(
+      'Carbs ',
+      name: 'Carbs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `fats`
+  String get fats {
+    return Intl.message(
+      'fats',
+      name: 'fats',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

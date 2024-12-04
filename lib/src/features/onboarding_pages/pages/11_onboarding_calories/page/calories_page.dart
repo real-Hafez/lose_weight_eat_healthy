@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/calories_chart_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/widget/NutritionDetails.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CaloriesChart extends StatelessWidget {
@@ -61,22 +62,43 @@ class CaloriesChart extends StatelessWidget {
                     (fatCalories / 9).round(); // Rounded to nearest integer
                 final calories =
                     finalCalories.round(); // Rounded to nearest integer
+                final bool isArabic =
+                    Localizations.localeOf(context).languageCode == 'ar';
 
                 final chartData = [
-                  ChartData('Protein', (protein * 4 / finalCalories) * 100,
-                      Colors.blue, protein),
-                  ChartData('Carbs', (carbs * 4 / finalCalories) * 100,
-                      Colors.green, carbs),
-                  ChartData('Fat', (fats * 9 / finalCalories) * 100,
-                      Colors.orange, fats),
+                  ChartData(
+                    '${S().Protein}',
+                    (protein * 4 / finalCalories) * 100, // Keep as double
+                    Colors.blue,
+                  ),
+                  ChartData(
+                    '${S().Carbs}',
+                    (carbs * 4 / finalCalories) * 100, // Keep as double
+                    Colors.green,
+                  ),
+                  ChartData(
+                    '${S().fats}',
+                    (fats * 9 / finalCalories) * 100, // Keep as double
+                    Colors.orange,
+                  ),
                 ];
+
+                // Helper method for formatting numbers
+                String formatPercentage(double value, bool isArabic) {
+                  String percentage = value
+                      .toStringAsFixed(1); // Convert to string with 1 decimal
+                  return isArabic
+                      ? NumberConversionHelper.convertToArabicNumbers(
+                          percentage)
+                      : percentage;
+                }
 
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Text(
                     //     '${finalCalories.toStringAsFixed(0)} Calories ${state.activityLevel}${state.age}${state.gender}${state.macros}${state.weight}   ${state.height}         ${state.age}         '),
-                    const TitleWidget(title: 'Calories Chart'),
+                    TitleWidget(title: '${S().CaloriesChart}'),
                     Flexible(
                       child: SfCircularChart(
                         legend: const Legend(
@@ -94,7 +116,8 @@ class CaloriesChart extends StatelessWidget {
                                 data.percentage,
                             pointColorMapper: (ChartData data, _) => data.color,
                             dataLabelMapper: (ChartData data, _) =>
-                                '${data.name}\n${data.percentage.toStringAsFixed(1)}%\n${data.grams.toStringAsFixed(1)} g',
+                                '${data.name}\n${formatPercentage(data.percentage, isArabic)}%\n',
+                            // '${data.grams.toStringAsFixed(1)} g',
                             dataLabelSettings: const DataLabelSettings(
                               isVisible: true,
                             ),
@@ -135,10 +158,15 @@ class CaloriesChart extends StatelessWidget {
 }
 
 class ChartData {
-  ChartData(this.name, this.percentage, this.color, this.grams);
+  ChartData(
+    this.name,
+    this.percentage,
+    this.color,
+    //  this.grams
+  );
 
   final String name;
   final double percentage;
   final Color color;
-  final int grams;
+  // final int grams;
 }
