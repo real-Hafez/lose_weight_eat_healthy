@@ -118,7 +118,11 @@ class CaloriesChart extends StatelessWidget {
                             dataLabelMapper: (ChartData data, _) =>
                                 '${data.name}\n${formatPercentage(data.percentage, isArabic)}%\n',
                             // '${data.grams.toStringAsFixed(1)} g',
-                            dataLabelSettings: const DataLabelSettings(
+                            dataLabelSettings: DataLabelSettings(
+                              textStyle: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize:
+                                      MediaQuery.sizeOf(context).height * .025),
                               isVisible: true,
                             ),
                           ),

@@ -180,7 +180,15 @@
 "CaloriesChart":"Calories Chart",
 "Protein":"Protein",
 "Carbs":"Carbs " ,
-"fats":"fats"
+"fats":"fats",
+"Balanced":"Balanced",
+"LowFat":"Low Fat",
+"LowCarb":"Low Carb",
+"HighProtein":"High Protein"
+
+
+
+
 
 
 

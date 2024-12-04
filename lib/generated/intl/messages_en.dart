@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Balanced": MessageLookupByLibrary.simpleMessage("Balanced"),
         "Bmi": MessageLookupByLibrary.simpleMessage("Your BMI"),
         "CaloriesChart": MessageLookupByLibrary.simpleMessage("Calories Chart"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -40,12 +41,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Goall": MessageLookupByLibrary.simpleMessage("Goal"),
         "Gradual": MessageLookupByLibrary.simpleMessage("Gradual"),
         "Healthyrange": MessageLookupByLibrary.simpleMessage("Healthy range:"),
+        "HighProtein": MessageLookupByLibrary.simpleMessage("High Protein"),
         "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" Login successful"),
         "LoseWeight": MessageLookupByLibrary.simpleMessage("Lose Weight"),
+        "LowCarb": MessageLookupByLibrary.simpleMessage("Low Carb"),
+        "LowFat": MessageLookupByLibrary.simpleMessage("Low Fat"),
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("Maintain Weight"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),

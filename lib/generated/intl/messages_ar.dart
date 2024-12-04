@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Balanced": MessageLookupByLibrary.simpleMessage("متوازن"),
         "Bmi": MessageLookupByLibrary.simpleMessage("مؤشر كتلة الجسم (Bmi)"),
         "CaloriesChart":
             MessageLookupByLibrary.simpleMessage("جدول السعرات الحرارية"),
@@ -41,12 +42,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Goall": MessageLookupByLibrary.simpleMessage("هدف"),
         "Gradual": MessageLookupByLibrary.simpleMessage("تدريجي"),
         "Healthyrange": MessageLookupByLibrary.simpleMessage("النطاق الصحي:"),
+        "HighProtein": MessageLookupByLibrary.simpleMessage("بروتين عالي"),
         "Keto": MessageLookupByLibrary.simpleMessage("كيتو"),
         "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
         "Loginsuccessful":
             MessageLookupByLibrary.simpleMessage(" تم تسجيل الدخول بنجاح "),
         "LoseWeight": MessageLookupByLibrary.simpleMessage("خسارة الوزن"),
+        "LowCarb": MessageLookupByLibrary.simpleMessage("منخفض الكربوهيدرات"),
+        "LowFat": MessageLookupByLibrary.simpleMessage("قليل الدهن"),
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("الحفاظ على الوزن"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("الحفاظ"),

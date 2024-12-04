@@ -1849,6 +1849,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Balanced`
+  String get Balanced {
+    return Intl.message(
+      'Balanced',
+      name: 'Balanced',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Low Fat`
+  String get LowFat {
+    return Intl.message(
+      'Low Fat',
+      name: 'LowFat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Low Carb`
+  String get LowCarb {
+    return Intl.message(
+      'Low Carb',
+      name: 'LowCarb',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `High Protein`
+  String get HighProtein {
+    return Intl.message(
+      'High Protein',
+      name: 'HighProtein',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
