@@ -21,7 +21,7 @@ class NutritionCubit extends Cubit<NutritionState> {
     "Low Fat": {"protein": 0.35, "carbs": 0.55, "fat": 0.10},
     "Low Carb": {"protein": 0.30, "carbs": 0.10, "fat": 0.60},
     "High Protein": {"protein": 0.40, "carbs": 0.40, "fat": 0.20},
-    "Create Your Own": {},
+    // "Create Your Own": {},
   };
 
   void updateTotalCalories(double calories) {
@@ -61,17 +61,17 @@ class NutritionCubit extends Cubit<NutritionState> {
     ));
   }
 
-  void updateCustomProtein(double value) {
-    emit(state.copyWith(customProtein: value, selectedDiet: "Create Your Own"));
-  }
+  // void updateCustomProtein(double value) {
+  //   emit(state.copyWith(customProtein: value, selectedDiet: "Create Your Own"));
+  // }
 
-  void updateCustomCarbs(double value) {
-    emit(state.copyWith(customCarbs: value, selectedDiet: "Create Your Own"));
-  }
+  // void updateCustomCarbs(double value) {
+  //   emit(state.copyWith(customCarbs: value, selectedDiet: "Create Your Own"));
+  // }
 
-  void updateCustomFat(double value) {
-    emit(state.copyWith(customFat: value, selectedDiet: "Create Your Own"));
-  }
+  // void updateCustomFat(double value) {
+  //   emit(state.copyWith(customFat: value, selectedDiet: "Create Your Own"));
+  // }
 
   double calculateCalories() {
     return (state.customProtein * 4 +

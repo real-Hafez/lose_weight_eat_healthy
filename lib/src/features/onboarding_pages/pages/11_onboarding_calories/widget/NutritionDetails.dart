@@ -13,22 +13,19 @@ class NutritionDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          CaloriesChartCubit()..loadCaloriesData(), // Ensure data is loaded
+      create: (_) => CaloriesChartCubit()..loadCaloriesData(),
       child: BlocBuilder<CaloriesChartCubit, CaloriesChartState>(
         builder: (context, state) {
           if (state is CaloriesChartLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is CaloriesChartLoaded) {
-            // Directly provide totalCalories to NutritionCubit
+            final totalCalories = state.finalCalories;
             return BlocProvider(
-              create: (_) => NutritionCubit(state.finalCalories),
-              child: _NutritionDetailsView(
-                onDietSelected: onDietSelected,
-              ),
+              create: (_) => NutritionCubit(totalCalories),
+              child: _NutritionDetailsView(onDietSelected: onDietSelected),
             );
           } else {
-            return const Text("Failed to load calorie data");
+            return const Center(child: Text("Failed to load calorie data"));
           }
         },
       ),
@@ -44,7 +41,7 @@ class _NutritionDetailsView extends StatelessWidget {
     "Low Fat",
     "Low Carb",
     "High Protein",
-    "Create Your Own"
+    // "Create Your Own"
   ];
 
   _NutritionDetailsView({super.key, required this.onDietSelected});
@@ -171,35 +168,74 @@ class _NutritionDetailsView extends StatelessWidget {
   }
 
   Widget _buildCustomDietControls(BuildContext context) {
-    return BlocBuilder<CaloriesChartCubit, CaloriesChartState>(
-      builder: (context, state) {
-        if (state is CaloriesChartLoaded) {
-          final totalCalories = state.finalCalories;
-          return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+    final cubit = context.read<NutritionCubit>();
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text(
+              "Adjust Your Macros:",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            elevation: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Text(
-                    "Total Calories: ${totalCalories.toStringAsFixed(0)} kcal",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  // Custom diet controls for user input here...
-                ],
-              ),
+            // const SizedBox(height: 16),
+            // _buildMacroInput(
+            //   label: "Protein (grams)",
+            //   value: cubit.state.customProtein,
+            //   onChanged: (val) =>
+            //       cubit.updateCustomProtein(double.tryParse(val) ?? 0),
+            // ),
+            // const SizedBox(height: 8),
+            // _buildMacroInput(
+            //   label: "Carbs (grams)",
+            //   value: cubit.state.customCarbs,
+            //   onChanged: (val) =>
+            //       cubit.updateCustomCarbs(double.tryParse(val) ?? 0),
+            // ),
+            // const SizedBox(height: 8),
+            // _buildMacroInput(
+            //   label: "Fat (grams)",
+            //   value: cubit.state.customFat,
+            //   onChanged: (val) =>
+            //       cubit.updateCustomFat(double.tryParse(val) ?? 0),
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMacroInput({
+    required String label,
+    required double value,
+    required Function(String) onChanged,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16),
+        ),
+        SizedBox(
+          width: 80,
+          child: TextFormField(
+            initialValue: value.toStringAsFixed(0),
+            keyboardType: TextInputType.number,
+            onChanged: onChanged,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             ),
-          );
-        }
-        return const SizedBox.shrink();
-      },
+          ),
+        ),
+      ],
     );
   }
 }
