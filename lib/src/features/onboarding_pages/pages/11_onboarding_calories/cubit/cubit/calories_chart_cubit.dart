@@ -90,6 +90,11 @@ class CaloriesChartCubit extends Cubit<CaloriesChartState> {
     return baseCalories + (adjustments[goal] ?? 0.0);
   }
 
+  // void saveData(Map<String, dynamic> dataToSave) {
+  //   // Add your database-saving logic here.
+  //   print("Saving data: $dataToSave");
+  // }
+
   Map<String, double> _calculateMacros(double finalCalories) {
     const proteinRatio = 0.2, carbRatio = 0.5, fatRatio = 0.3;
 

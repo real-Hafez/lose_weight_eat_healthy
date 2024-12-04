@@ -53,9 +53,14 @@ class CaloriesChart extends StatelessWidget {
                     finalCalories * macroDistribution['carbs']!;
                 final fatCalories = finalCalories * macroDistribution['fat']!;
 
-                final protein = proteinCalories / 4;
-                final carbs = carbCalories / 4;
-                final fats = fatCalories / 9;
+                final protein =
+                    (proteinCalories / 4).round(); // Rounded to nearest integer
+                final carbs =
+                    (carbCalories / 4).round(); // Rounded to nearest integer
+                final fats =
+                    (fatCalories / 9).round(); // Rounded to nearest integer
+                final calories =
+                    finalCalories.round(); // Rounded to nearest integer
 
                 final chartData = [
                   ChartData('Protein', (protein * 4 / finalCalories) * 100,
@@ -108,10 +113,15 @@ class CaloriesChart extends StatelessWidget {
                     NextButton(
                       onPressed: onNextButtonPressed,
                       collectionName: 'Cal',
-                      dataToSave: macroDistribution,
+                      dataToSave: {
+                        'proteinGrams': protein,
+                        'carbsGrams': carbs,
+                        'fatsGrams': fats,
+                        'calories': finalCalories.round(),
+                      },
                       saveData: true,
                       userId: FirebaseAuth.instance.currentUser?.uid ?? '',
-                    )
+                    ),
                   ],
                 );
               }
@@ -130,5 +140,5 @@ class ChartData {
   final String name;
   final double percentage;
   final Color color;
-  final double grams;
+  final int grams;
 }
