@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/calories_chart_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/widget/NutritionDetails.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CaloriesChart extends StatelessWidget {
@@ -102,6 +105,13 @@ class CaloriesChart extends StatelessWidget {
                             .updateSelectedDiet(diet);
                       },
                     ),
+                    NextButton(
+                      onPressed: onNextButtonPressed,
+                      collectionName: 'Cal',
+                      dataToSave: macroDistribution,
+                      saveData: true,
+                      userId: FirebaseAuth.instance.currentUser?.uid ?? '',
+                    )
                   ],
                 );
               }
