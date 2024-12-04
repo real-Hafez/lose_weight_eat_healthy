@@ -7,7 +7,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_on
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-boarding/onboarding_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/on-boarding/onboarding_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/4_onboarding_main_use_for_app/page/maintarget.dart';
-import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/BodyFatPercentagePage.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/9_onboaring_BodyFatPErcentatge/page/BodyFatPercentagePage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/5_onboarding_DietSelection/page/DietSelection_Screen.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/Finishpage.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/1_onboarding_language_selecthion/screen/languagescreen.dart';

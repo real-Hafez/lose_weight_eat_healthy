@@ -40,10 +40,19 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
 
   double currentValue = 22;
   final ScrollController _scrollController = ScrollController();
+  final int initialPhotoIndex = 3;
 
   @override
   void initState() {
     super.initState();
+
+    // Set initial scroll position to the fourth image
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final double initialPosition =
+          initialPhotoIndex * (MediaQuery.of(context).size.width * 0.5 + 16);
+      _scrollController.jumpTo(initialPosition);
+    });
+
     _scrollController.addListener(() {
       _updatePercentageBasedOnScroll();
     });
@@ -55,7 +64,7 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
     double minPercentage = 9;
     double maxPercentage = 42;
 
-    double imageWidth = 200;
+    double imageWidth = MediaQuery.of(context).size.width * 0.5;
     double imageSpacing = 16;
     double totalScrollableWidth =
         (imageWidth + imageSpacing) * (imagePaths.length - 1);
@@ -123,8 +132,8 @@ class _FifthonboardingpagemanState extends State<Fifthonboardingpageman> {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Image.asset(
                     path,
-                    // height: MediaQuery.of(context).size.height * .39,
-                    // width: MediaQuery.of(context).size.width * .5,
+                    height: MediaQuery.of(context).size.height * 0.39,
+                    width: MediaQuery.of(context).size.width * 0.5,
                   ),
                 );
               }).toList(),
