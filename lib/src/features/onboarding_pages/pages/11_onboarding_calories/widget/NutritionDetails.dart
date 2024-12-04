@@ -55,10 +55,11 @@ class _NutritionDetailsView extends StatelessWidget {
         const SizedBox(height: 16),
         BlocBuilder<NutritionCubit, NutritionState>(
           builder: (context, state) {
-            return state.selectedDiet == "Create Your Own"
-                ? _buildCustomDietControls(context)
-                : _buildNutritionDetails(
-                    context.read<NutritionCubit>().currentNutritionData);
+            return _buildNutritionDetails(
+              context, // Pass context here
+              context.read<NutritionCubit>().currentNutritionData(
+                  context), // Call currentNutritionData with context
+            );
           },
         ),
       ],
@@ -112,7 +113,7 @@ class _NutritionDetailsView extends StatelessWidget {
   }
 }
 
-Widget _buildNutritionDetails(Map<String, String> data) {
+Widget _buildNutritionDetails(BuildContext context, Map<String, String> data) {
   return Card(
     margin: const EdgeInsets.symmetric(horizontal: 16),
     shape: RoundedRectangleBorder(
@@ -167,49 +168,49 @@ Color _getColorForNutrient(String nutrient) {
   }
 }
 
-Widget _buildCustomDietControls(BuildContext context) {
-  final cubit = context.read<NutritionCubit>();
+// Widget _buildCustomDietControls(BuildContext context) {
+//   final cubit = context.read<NutritionCubit>();
 
-  return Card(
-    margin: const EdgeInsets.symmetric(horizontal: 16),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
-    ),
-    elevation: 4,
-    child: Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Text(
-            "Adjust Your Macros:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          // const SizedBox(height: 16),
-          // _buildMacroInput(
-          //   label: "Protein (grams)",
-          //   value: cubit.state.customProtein,
-          //   onChanged: (val) =>
-          //       cubit.updateCustomProtein(double.tryParse(val) ?? 0),
-          // ),
-          // const SizedBox(height: 8),
-          // _buildMacroInput(
-          //   label: "Carbs (grams)",
-          //   value: cubit.state.customCarbs,
-          //   onChanged: (val) =>
-          //       cubit.updateCustomCarbs(double.tryParse(val) ?? 0),
-          // ),
-          // const SizedBox(height: 8),
-          // _buildMacroInput(
-          //   label: "Fat (grams)",
-          //   value: cubit.state.customFat,
-          //   onChanged: (val) =>
-          //       cubit.updateCustomFat(double.tryParse(val) ?? 0),
-          // ),
-        ],
-      ),
-    ),
-  );
-}
+//   return Card(
+//     margin: const EdgeInsets.symmetric(horizontal: 16),
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.circular(12),
+//     ),
+//     elevation: 4,
+//     child: Padding(
+//       padding: const EdgeInsets.all(16),
+//       child: Column(
+//         children: [
+//           Text(
+//             "Adjust Your Macros:",
+//             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//           ),
+//           // const SizedBox(height: 16),
+//           // _buildMacroInput(
+//           //   label: "Protein (grams)",
+//           //   value: cubit.state.customProtein,
+//           //   onChanged: (val) =>
+//           //       cubit.updateCustomProtein(double.tryParse(val) ?? 0),
+//           // ),
+//           // const SizedBox(height: 8),
+//           // _buildMacroInput(
+//           //   label: "Carbs (grams)",
+//           //   value: cubit.state.customCarbs,
+//           //   onChanged: (val) =>
+//           //       cubit.updateCustomCarbs(double.tryParse(val) ?? 0),
+//           // ),
+//           // const SizedBox(height: 8),
+//           // _buildMacroInput(
+//           //   label: "Fat (grams)",
+//           //   value: cubit.state.customFat,
+//           //   onChanged: (val) =>
+//           //       cubit.updateCustomFat(double.tryParse(val) ?? 0),
+//           // ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 
 Widget _buildMacroInput({
   required String label,

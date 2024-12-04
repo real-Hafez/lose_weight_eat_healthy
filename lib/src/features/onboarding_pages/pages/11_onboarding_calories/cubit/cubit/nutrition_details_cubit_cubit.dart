@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/nutrition_details_cubit_state.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 
 // Define an initial diet
 const String initialDiet = "Balanced";
@@ -87,11 +90,20 @@ class NutritionCubit extends Cubit<NutritionState> {
     recalculateMacros();
   }
 
-  Map<String, String> get currentNutritionData {
+  Map<String, String> currentNutritionData(BuildContext context) {
+    final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
+
+    String formatValue(double value) {
+      final valueStr = value.toStringAsFixed(0);
+      return isArabic
+          ? NumberConversionHelper.convertToArabicNumbers(valueStr)
+          : valueStr;
+    }
+
     return {
-      "Protein": "${state.customProtein.toStringAsFixed(0)} grams/day",
-      "Carbs": "${state.customCarbs.toStringAsFixed(0)} grams/day",
-      "Fat": "${state.customFat.toStringAsFixed(0)} grams/day",
+      S().Protein: "${formatValue(state.customProtein)} ${S().gramsday}",
+      S().Carbs: "${formatValue(state.customCarbs)} ${S().gramsday}",
+      S().fats: "${formatValue(state.customFat)} ${S().gramsday}",
     };
   }
 }

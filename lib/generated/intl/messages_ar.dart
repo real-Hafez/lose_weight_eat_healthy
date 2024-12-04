@@ -133,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ft": MessageLookupByLibrary.simpleMessage("قدم"),
         "gain": MessageLookupByLibrary.simpleMessage("زيادة "),
         "genderselect": MessageLookupByLibrary.simpleMessage("حدد جنسك"),
+        "gramsday": MessageLookupByLibrary.simpleMessage("جرام/يوم"),
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("اقتراحات وصفات صحية"),
         "healthylifestyle": MessageLookupByLibrary.simpleMessage(

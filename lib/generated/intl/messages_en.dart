@@ -133,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "gain": MessageLookupByLibrary.simpleMessage("gain"),
         "genderselect":
             MessageLookupByLibrary.simpleMessage("Select Your Gender"),
+        "gramsday": MessageLookupByLibrary.simpleMessage("grams/day"),
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("HEALTHY RECIPE SUGGESTIONS"),
         "healthylifestyle": MessageLookupByLibrary.simpleMessage(

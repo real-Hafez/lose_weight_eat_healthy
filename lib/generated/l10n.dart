@@ -1889,6 +1889,16 @@ class S {
       args: [],
     );
   }
+
+  /// `grams/day`
+  String get gramsday {
+    return Intl.message(
+      'grams/day',
+      name: 'gramsday',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -184,7 +184,9 @@
 "Balanced":"Balanced",
 "LowFat":"Low Fat",
 "LowCarb":"Low Carb",
-"HighProtein":"High Protein"
+"HighProtein":"High Protein" ,
+"gramsday":"grams/day"
+
 
 
 
