@@ -1,6 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/Calorie_Progress_Indicator.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/Macro_Detail.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/Nutrition_Detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,7 +51,7 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
     return "${percentage.toStringAsFixed(1)}% $type";
   }
 
-  String _formatMacronutrientGrams(double grams) {
+  String _formatMacronutrientGrams(int grams) {
     if (grams <= 0) return "0g";
     return "${grams.toStringAsFixed(0)}g";
   }
@@ -64,11 +67,13 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            "Nutrition Budget",
+          AutoSizeText(
+            "${S().NutritionBudget}",
+            maxLines: 1,
+            minFontSize: 14,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 20.0,
+              fontSize: MediaQuery.sizeOf(context).height * .03,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -79,7 +84,7 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               NutritionDetail(
-                  label: "Calories", value: "${calories.round()} kcal"),
+                  label: "${S().Calories}", value: "${calories.round()} kcal"),
               NutritionDetail(label: "Burned", value: "221 kcal"),
             ],
           ),
@@ -87,18 +92,18 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Macro_Detail(
-              //   icon: Icons.local_pizza,
-              //   label: '${_formatMacronutrientGrams(fatsGrams)} Fats',
-              // ),
-              // Macro_Detail(
-              //   icon: Icons.rice_bowl,
-              //   label: '${_formatMacronutrientGrams(carbsGrams)} Carbs',
-              // ),
-              // Macro_Detail(
-              //   icon: Icons.fitness_center,
-              //   label: '${_formatMacronutrientGrams(proteinGrams)} Protein',
-              // ),
+              Macro_Detail(
+                icon: Icons.local_pizza,
+                label: '${_formatMacronutrientGrams(fatsGrams)} Fats',
+              ),
+              Macro_Detail(
+                icon: Icons.rice_bowl,
+                label: '${_formatMacronutrientGrams(carbsGrams)} Carbs',
+              ),
+              Macro_Detail(
+                icon: Icons.fitness_center,
+                label: '${_formatMacronutrientGrams(proteinGrams)} Protein',
+              ),
             ],
           ),
         ],

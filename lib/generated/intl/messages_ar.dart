@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Balanced": MessageLookupByLibrary.simpleMessage("متوازن"),
         "Bmi": MessageLookupByLibrary.simpleMessage("مؤشر كتلة الجسم (Bmi)"),
+        "Calories": MessageLookupByLibrary.simpleMessage("سعرات حرارية "),
         "CaloriesChart":
             MessageLookupByLibrary.simpleMessage("جدول السعرات الحرارية"),
         "Cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
@@ -54,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("الحفاظ على الوزن"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("الحفاظ"),
+        "NutritionBudget":
+            MessageLookupByLibrary.simpleMessage("إجمالي السعرات الحرارية"),
         "Protein": MessageLookupByLibrary.simpleMessage("بروتين"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "Save": MessageLookupByLibrary.simpleMessage("حفظ"),
@@ -133,7 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ft": MessageLookupByLibrary.simpleMessage("قدم"),
         "gain": MessageLookupByLibrary.simpleMessage("زيادة "),
         "genderselect": MessageLookupByLibrary.simpleMessage("حدد جنسك"),
-        "gramsday": MessageLookupByLibrary.simpleMessage("جرام/يوم"),
+        "gramsday": MessageLookupByLibrary.simpleMessage("جرام/يوميا"),
         "healthyRecipeSuggestions":
             MessageLookupByLibrary.simpleMessage("اقتراحات وصفات صحية"),
         "healthylifestyle": MessageLookupByLibrary.simpleMessage(

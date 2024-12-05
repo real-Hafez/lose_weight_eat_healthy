@@ -1899,6 +1899,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Nutrition Budget`
+  String get NutritionBudget {
+    return Intl.message(
+      'Nutrition Budget',
+      name: 'NutritionBudget',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calories`
+  String get Calories {
+    return Intl.message(
+      'Calories',
+      name: 'Calories',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

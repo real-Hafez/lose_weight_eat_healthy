@@ -185,7 +185,9 @@
 "LowFat":"Low Fat",
 "LowCarb":"Low Carb",
 "HighProtein":"High Protein" ,
-"gramsday":"grams/day"
+"gramsday":"grams/day",
+"NutritionBudget":"Nutrition Budget" ,
+"Calories":"Calories"
 
 
 

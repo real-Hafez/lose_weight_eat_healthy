@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Balanced": MessageLookupByLibrary.simpleMessage("Balanced"),
         "Bmi": MessageLookupByLibrary.simpleMessage("Your BMI"),
+        "Calories": MessageLookupByLibrary.simpleMessage("Calories"),
         "CaloriesChart": MessageLookupByLibrary.simpleMessage("Calories Chart"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Carbs": MessageLookupByLibrary.simpleMessage("Carbs "),
@@ -53,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("Maintain Weight"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
+        "NutritionBudget":
+            MessageLookupByLibrary.simpleMessage("Nutrition Budget"),
         "Protein": MessageLookupByLibrary.simpleMessage("Protein"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
