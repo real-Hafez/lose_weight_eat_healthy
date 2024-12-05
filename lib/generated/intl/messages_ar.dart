@@ -90,6 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اختر نسبة الدهون في جسمك"),
         "bodyfatwoman":
             MessageLookupByLibrary.simpleMessage("اختاري نسبة الدهون في جسمك"),
+        "burned": MessageLookupByLibrary.simpleMessage("محروق"),
         "buttonText":
             MessageLookupByLibrary.simpleMessage("ابدأ في تحقيق حلمك"),
         "cm": MessageLookupByLibrary.simpleMessage("سم"),
@@ -134,6 +135,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgetfield": MessageLookupByLibrary.simpleMessage(
             "يرجى ملء جميع الحقول المطلوبة"),
         "ft": MessageLookupByLibrary.simpleMessage("قدم"),
+        "g": MessageLookupByLibrary.simpleMessage("جرام"),
         "gain": MessageLookupByLibrary.simpleMessage("زيادة "),
         "genderselect": MessageLookupByLibrary.simpleMessage("حدد جنسك"),
         "gramsday": MessageLookupByLibrary.simpleMessage("جرام/يوميا"),

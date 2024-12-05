@@ -1919,6 +1919,26 @@ class S {
       args: [],
     );
   }
+
+  /// `burned`
+  String get burned {
+    return Intl.message(
+      'burned',
+      name: 'burned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `g`
+  String get g {
+    return Intl.message(
+      'g',
+      name: 'g',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

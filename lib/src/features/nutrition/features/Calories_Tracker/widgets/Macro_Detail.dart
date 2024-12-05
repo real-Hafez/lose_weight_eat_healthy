@@ -15,12 +15,13 @@ class Macro_Detail extends StatelessWidget {
     return Column(
       children: [
         Icon(icon, color: Colors.white70),
-        const SizedBox(height: 5),
+        SizedBox(height: MediaQuery.sizeOf(context).height * .005),
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white70,
-            fontSize: 14.0,
+            fontWeight: FontWeight.bold,
+            fontSize: MediaQuery.sizeOf(context).height * .015,
           ),
         ),
       ],

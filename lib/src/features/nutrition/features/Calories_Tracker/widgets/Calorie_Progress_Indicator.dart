@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/cubit/calorie_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Calorie_Progress_Indicator extends StatefulWidget {
-  final int age;
-
   const Calorie_Progress_Indicator({
     super.key,
-    required this.age,
   });
 
   @override
@@ -31,6 +30,14 @@ class _Calorie_Progress_IndicatorState
             );
       }
     });
+  }
+
+  String _convertBasedOnLanguage(String input) {
+    final locale = Localizations.localeOf(context).languageCode;
+    if (locale == 'ar') {
+      return NumberConversionHelper.convertToArabicNumbers(input);
+    }
+    return input;
   }
 
   @override
@@ -54,25 +61,25 @@ class _Calorie_Progress_IndicatorState
             center: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   Icons.local_fire_department,
                   color: Colors.orange,
-                  size: 30,
+                  size: MediaQuery.sizeOf(context).height * .05,
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  "0",
+                Text(
+                  _convertBasedOnLanguage("0"),
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18.0,
+                    fontSize: MediaQuery.sizeOf(context).height * .04,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "/${adjustedCalories.toStringAsFixed(0)} cal", // Display adjusted calories
-                  style: const TextStyle(
+                  "${_convertBasedOnLanguage(adjustedCalories.toStringAsFixed(0))} ${S().Calories}",
+                  style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 14.0,
+                    fontSize: MediaQuery.sizeOf(context).height * .020,
                   ),
                 ),
               ],

@@ -88,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Choose your body fat percentage"),
         "bodyfatwoman": MessageLookupByLibrary.simpleMessage(
             "Choose your body fat percentage"),
+        "burned": MessageLookupByLibrary.simpleMessage("burned"),
         "buttonText":
             MessageLookupByLibrary.simpleMessage("Start activating your dream"),
         "cm": MessageLookupByLibrary.simpleMessage("cm"),
@@ -133,6 +134,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "forgetfield": MessageLookupByLibrary.simpleMessage(
             "Please fill in all required fields"),
         "ft": MessageLookupByLibrary.simpleMessage("ft"),
+        "g": MessageLookupByLibrary.simpleMessage("g"),
         "gain": MessageLookupByLibrary.simpleMessage("gain"),
         "genderselect":
             MessageLookupByLibrary.simpleMessage("Select Your Gender"),

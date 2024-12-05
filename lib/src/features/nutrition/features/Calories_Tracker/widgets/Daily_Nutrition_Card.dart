@@ -5,6 +5,7 @@ import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/Calorie_Progress_Indicator.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/Macro_Detail.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/Nutrition_Detail.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Daily_Nutrition_Card extends StatefulWidget {
@@ -44,16 +45,16 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
     print("Calories: $calories kcal");
   }
 
-  String _formatMacronutrient(double grams, String type) {
-    if (grams <= 0) return "0 $type";
-    int totalGrams = proteinGrams + carbsGrams + fatsGrams;
-    double percentage = (grams / totalGrams) * 100;
-    return "${percentage.toStringAsFixed(1)}% $type";
+  String _formatMacronutrientGrams(int grams) {
+    if (grams <= 0) return "0${S().g}";
+    return "${grams.toStringAsFixed(0)}${S().g}";
   }
 
-  String _formatMacronutrientGrams(int grams) {
-    if (grams <= 0) return "0g";
-    return "${grams.toStringAsFixed(0)}g";
+  String _convertBasedOnLanguage(String input) {
+    final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    return isArabic
+        ? NumberConversionHelper.convertToArabicNumbers(input)
+        : input;
   }
 
   @override
@@ -77,32 +78,40 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 20),
-          const Calorie_Progress_Indicator(age: 22),
-          const SizedBox(height: 20),
+          SizedBox(height: MediaQuery.sizeOf(context).height * .02),
+          Calorie_Progress_Indicator(),
+          SizedBox(height: MediaQuery.sizeOf(context).height * .02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               NutritionDetail(
-                  label: "${S().Calories}", value: "${calories.round()} kcal"),
-              NutritionDetail(label: "Burned", value: "221 kcal"),
+                label: "${S().Calories}",
+                value: _convertBasedOnLanguage(calories.round().toString()),
+              ),
+              NutritionDetail(
+                label: "${S().burned}",
+                value: _convertBasedOnLanguage("221"),
+              ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: MediaQuery.sizeOf(context).height * .02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Macro_Detail(
                 icon: Icons.local_pizza,
-                label: '${_formatMacronutrientGrams(fatsGrams)} Fats',
+                label:
+                    '${_convertBasedOnLanguage(_formatMacronutrientGrams(fatsGrams))} ${S().fats}',
               ),
               Macro_Detail(
                 icon: Icons.rice_bowl,
-                label: '${_formatMacronutrientGrams(carbsGrams)} Carbs',
+                label:
+                    '${_convertBasedOnLanguage(_formatMacronutrientGrams(carbsGrams))} ${S().Carbs}',
               ),
               Macro_Detail(
                 icon: Icons.fitness_center,
-                label: '${_formatMacronutrientGrams(proteinGrams)} Protein',
+                label:
+                    '${_convertBasedOnLanguage(_formatMacronutrientGrams(proteinGrams))} ${S().Protein}',
               ),
             ],
           ),

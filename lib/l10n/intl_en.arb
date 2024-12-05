@@ -187,7 +187,9 @@
 "HighProtein":"High Protein" ,
 "gramsday":"grams/day",
 "NutritionBudget":"Nutrition Budget" ,
-"Calories":"Calories"
+"Calories":"Calories",
+"burned":"burned" ,
+"g":"g"
 
 
 
