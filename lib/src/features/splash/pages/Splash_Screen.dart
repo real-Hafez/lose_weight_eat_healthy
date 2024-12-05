@@ -28,8 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
           userDoc.collection('body percentage fat').get(),
           userDoc.collection('gender').get(),
           userDoc.collection('height').get(),
-          userDoc.collection('weight').get(),
-          userDoc.collection('weight_loss').get(),
+          userDoc.collection('Cal').get(),
+          userDoc.collection('Diet').get(),
+
+          // userDoc.collection('weight_loss').get(),
         ]);
 
         bool allCollectionsExist =
