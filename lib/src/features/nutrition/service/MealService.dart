@@ -11,9 +11,9 @@ class MealService {
     Map<String, dynamic>? closestMeal;
     double smallestWeightedDiff = double.infinity;
 
-    print("\nFinding closest meal for $mealType:");
-    print(
-        "Target -> Calories: $targetCalories, Protein: $targetProtein, Carbs: $targetCarbs, Fats: $targetFats\n");
+    // print("\nFinding closest meal for $mealType:");
+    // print(
+    //     "Target -> Calories: $targetCalories, Protein: $targetProtein, Carbs: $targetCarbs, Fats: $targetFats\n");
 
     for (var food in foods) {
       double calories = (food['calories'] ?? 0).toDouble();
@@ -46,11 +46,11 @@ class MealService {
     }
 
     if (closestMeal != null) {
-      print("Final Closest Meal for $mealType:");
-      print(
-          "Meal: ${closestMeal['name']} with smallest weighted diff $smallestWeightedDiff");
+      // print("Final Closest Meal for $mealType:");
+      // print(
+      //     "Meal: ${closestMeal['name']} with smallest weighted diff $smallestWeightedDiff");
     } else {
-      print("No suitable meal found for $mealType.");
+      // print("No suitable meal found for $mealType.");
     }
 
     return closestMeal;

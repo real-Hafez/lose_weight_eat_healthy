@@ -14,7 +14,7 @@ class FoodService_breakfast {
 
       return List<Map<String, dynamic>>.from(data.cast());
     } catch (e) {
-      print("Error fetching breakfast foods: $e");
+      // print("Error fetching breakfast foods: $e");
       return [];
     }
   }
