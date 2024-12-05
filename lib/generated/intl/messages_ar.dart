@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Balanced": MessageLookupByLibrary.simpleMessage("متوازن"),
         "Bmi": MessageLookupByLibrary.simpleMessage("مؤشر كتلة الجسم (Bmi)"),
+        "Breakfast": MessageLookupByLibrary.simpleMessage("الافطار"),
         "Calories": MessageLookupByLibrary.simpleMessage("سعرات حرارية "),
         "CaloriesChart":
             MessageLookupByLibrary.simpleMessage("جدول السعرات الحرارية"),
@@ -32,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("الكربوهيدرات، السكر، الحبوب"),
         "Custom": MessageLookupByLibrary.simpleMessage("مخصص"),
+        "Dinner": MessageLookupByLibrary.simpleMessage("العشاء"),
         "EnterValidHeight":
             MessageLookupByLibrary.simpleMessage("ادخل طول صحيح "),
         "Estimatedtime": MessageLookupByLibrary.simpleMessage(
@@ -52,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoseWeight": MessageLookupByLibrary.simpleMessage("خسارة الوزن"),
         "LowCarb": MessageLookupByLibrary.simpleMessage("منخفض الكربوهيدرات"),
         "LowFat": MessageLookupByLibrary.simpleMessage("قليل الدهن"),
+        "Lunch": MessageLookupByLibrary.simpleMessage("الغذاء"),
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("الحفاظ على الوزن"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("الحفاظ"),
@@ -61,6 +64,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "Save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
+        "Snacks": MessageLookupByLibrary.simpleMessage("الوجبات الخفيفة"),
         "TargetWeight": MessageLookupByLibrary.simpleMessage("الوزن المستهدف"),
         "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),
         "Vegan": MessageLookupByLibrary.simpleMessage("نباتي صارم"),

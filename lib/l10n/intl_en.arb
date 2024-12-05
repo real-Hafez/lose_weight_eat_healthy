@@ -189,7 +189,11 @@
 "NutritionBudget":"Nutrition Budget" ,
 "Calories":"Calories",
 "burned":"burned" ,
-"g":"g"
+"g":"g",
+"Breakfast":"Breakfast",
+"Lunch":"Lunch" , 
+"Dinner":"Dinner",
+"Snacks":"Snacks"
 
 
 

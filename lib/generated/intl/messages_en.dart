@@ -24,6 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Balanced": MessageLookupByLibrary.simpleMessage("Balanced"),
         "Bmi": MessageLookupByLibrary.simpleMessage("Your BMI"),
+        "Breakfast": MessageLookupByLibrary.simpleMessage("Breakfast"),
         "Calories": MessageLookupByLibrary.simpleMessage("Calories"),
         "CaloriesChart": MessageLookupByLibrary.simpleMessage("Calories Chart"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -31,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Carbssugargrains":
             MessageLookupByLibrary.simpleMessage("Carbs, sugar, grains"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
+        "Dinner": MessageLookupByLibrary.simpleMessage("Dinner"),
         "EnterValidHeight":
             MessageLookupByLibrary.simpleMessage("Enter Valid Height"),
         "Estimatedtime": MessageLookupByLibrary.simpleMessage(
@@ -51,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoseWeight": MessageLookupByLibrary.simpleMessage("Lose Weight"),
         "LowCarb": MessageLookupByLibrary.simpleMessage("Low Carb"),
         "LowFat": MessageLookupByLibrary.simpleMessage("Low Fat"),
+        "Lunch": MessageLookupByLibrary.simpleMessage("Lunch"),
         "MaintainWeight":
             MessageLookupByLibrary.simpleMessage("Maintain Weight"),
         "Maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
@@ -60,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
+        "Snacks": MessageLookupByLibrary.simpleMessage("Snacks"),
         "TargetWeight": MessageLookupByLibrary.simpleMessage("Target Weight"),
         "USoz": MessageLookupByLibrary.simpleMessage("US oz"),
         "Vegan": MessageLookupByLibrary.simpleMessage("Vegan"),

@@ -1939,6 +1939,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Breakfast`
+  String get Breakfast {
+    return Intl.message(
+      'Breakfast',
+      name: 'Breakfast',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lunch`
+  String get Lunch {
+    return Intl.message(
+      'Lunch',
+      name: 'Lunch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dinner`
+  String get Dinner {
+    return Intl.message(
+      'Dinner',
+      name: 'Dinner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Snacks`
+  String get Snacks {
+    return Intl.message(
+      'Snacks',
+      name: 'Snacks',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
