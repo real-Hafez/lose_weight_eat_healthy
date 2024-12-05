@@ -13,13 +13,10 @@ class Daily_Nutrition_Card extends StatefulWidget {
 }
 
 class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
-  double proteinGrams = 0.0;
-  double carbsGrams = 0.0;
-  double fatsGrams = 0.0;
-
-  static const String proteinKey = 'protein_grams';
-  static const String carbsKey = 'carbs_grams';
-  static const String fatsKey = 'fats_grams';
+  int proteinGrams = 0;
+  int carbsGrams = 0;
+  int fatsGrams = 0;
+  int calories = 0;
 
   @override
   void initState() {
@@ -30,21 +27,24 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
   Future<void> _loadMacronutrients() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
     setState(() {
-      proteinGrams = prefs.getDouble('protein_grams_$userId') ?? 0.0;
-      carbsGrams = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
-      fatsGrams = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+      proteinGrams = prefs.getInt('proteinGrams') ?? 200;
+      carbsGrams = prefs.getInt('carbsGrams') ?? 200;
+      fatsGrams = prefs.getInt('fatsGrams') ?? 0;
+      calories = prefs.getInt('calories') ?? 2000;
     });
 
     print("Fetched Macronutrients:");
     print("Protein: $proteinGrams grams");
     print("Carbs: $carbsGrams grams");
     print("Fats: $fatsGrams grams");
+    print("Calories: $calories kcal");
   }
 
   String _formatMacronutrient(double grams, String type) {
     if (grams <= 0) return "0 $type";
-    double totalGrams = proteinGrams + carbsGrams + fatsGrams;
+    int totalGrams = proteinGrams + carbsGrams + fatsGrams;
     double percentage = (grams / totalGrams) * 100;
     return "${percentage.toStringAsFixed(1)}% $type";
   }
@@ -76,10 +76,11 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
           const SizedBox(height: 20),
           const Calorie_Progress_Indicator(age: 22),
           const SizedBox(height: 20),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              NutritionDetail(label: "Consumed", value: "1556 kcal"),
+              NutritionDetail(
+                  label: "Calories", value: "${calories.round()} kcal"),
               NutritionDetail(label: "Burned", value: "221 kcal"),
             ],
           ),
@@ -87,21 +88,18 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Macro_Detail(
-                icon: Icons.local_pizza,
-                label:
-                    '${_formatMacronutrientGrams(fatsGrams)} Fats  ', // Fat in grams
-              ),
-              Macro_Detail(
-                icon: Icons.rice_bowl,
-                label:
-                    '${_formatMacronutrientGrams(carbsGrams)} carbs ', // Carbs in grams
-              ),
-              Macro_Detail(
-                icon: Icons.fitness_center,
-                label:
-                    '${_formatMacronutrientGrams(proteinGrams)} protein ', // Protein in grams
-              ),
+              // Macro_Detail(
+              //   icon: Icons.local_pizza,
+              //   label: '${_formatMacronutrientGrams(fatsGrams)} Fats',
+              // ),
+              // Macro_Detail(
+              //   icon: Icons.rice_bowl,
+              //   label: '${_formatMacronutrientGrams(carbsGrams)} Carbs',
+              // ),
+              // Macro_Detail(
+              //   icon: Icons.fitness_center,
+              //   label: '${_formatMacronutrientGrams(proteinGrams)} Protein',
+              // ),
             ],
           ),
         ],

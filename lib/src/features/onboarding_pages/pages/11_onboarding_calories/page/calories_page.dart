@@ -7,6 +7,7 @@ import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_o
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/TitleWidget.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/widgets/next_button.dart';
 import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CaloriesChart extends StatelessWidget {
@@ -138,7 +139,21 @@ class CaloriesChart extends StatelessWidget {
                       },
                     ),
                     NextButton(
-                      onPressed: onNextButtonPressed,
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+
+                        // Save to Firestore via `NextButton`
+                        onNextButtonPressed();
+
+                        // Save to SharedPreferences
+                        await prefs.setInt('proteinGrams', protein);
+                        await prefs.setInt('carbsGrams', carbs);
+                        await prefs.setInt('fatsGrams', fats);
+                        await prefs.setInt('calories', finalCalories.round());
+
+                        // Optional: Log or notify successful save
+                        print('Data saved in SharedPreferences!');
+                      },
                       collectionName: 'Cal',
                       dataToSave: {
                         'proteinGrams': protein,
