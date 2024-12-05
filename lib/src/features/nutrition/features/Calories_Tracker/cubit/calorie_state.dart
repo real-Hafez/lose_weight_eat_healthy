@@ -12,24 +12,16 @@ class CalorieCubitInitial extends Calorie_State {}
 class CalorieCubitLoading extends Calorie_State {}
 
 class CalorieCubitSuccess extends Calorie_State {
-  final double adjustedCalories;
+  final int proteinGrams;
+  final int carbsGrams;
+  final int fatsGrams;
+  final int calories;
 
-  const CalorieCubitSuccess(this.adjustedCalories);
-
-  @override
-  List<Object?> get props => [adjustedCalories];
-}
-
-class CalorieMacronutrientSuccess extends Calorie_State {
-  final double proteinGrams;
-  final double carbsGrams;
-  final double fatsGrams;
-
-  const CalorieMacronutrientSuccess(
-      this.proteinGrams, this.carbsGrams, this.fatsGrams);
+  const CalorieCubitSuccess(
+      this.proteinGrams, this.carbsGrams, this.fatsGrams, this.calories);
 
   @override
-  List<Object?> get props => [proteinGrams, carbsGrams, fatsGrams];
+  List<Object?> get props => [proteinGrams, carbsGrams, fatsGrams, calories];
 }
 
 class CalorieCubitError extends Calorie_State {

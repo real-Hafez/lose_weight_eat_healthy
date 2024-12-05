@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
           create: (context) => SignupCubit(AuthService()),
         ),
         BlocProvider(
-          create: (context) => Calorie_Cubit(),
+          create: (context) => CalorieCubit(),
         ),
         BlocProvider(
           create: (context) => SigninCubit(AuthService()),
@@ -115,16 +115,6 @@ class MyApp extends StatelessWidget {
             theme: light_theme,
             darkTheme: dark_theme,
             home: const SplashScreen(),
-            // home: Mealview(
-            //     foodImage:
-            //         'https://www.eatingwell.com/thmb/VqKostZeQfIVieTm9jkOOnkqQZk=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/45495781-216464daa160453bb307d31607564c9c.jpg',
-            //     foodName: "فول بالزيت الحار",
-            //     calories: 10,
-            //     weight: 100,
-            //     fat: 10,
-            //     carbs: 25,
-            //     protein: 35),
-            // home: const DietType(),
           );
         },
       ),

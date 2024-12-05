@@ -26,16 +26,16 @@ class _Calorie_Progress_IndicatorState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
       if (userId.isNotEmpty) {
-        context
-            .read<Calorie_Cubit>()
-            .fetchAndCalculateCalorieNeeds(userId, widget.age);
+        context.read<CalorieCubit>().fetchCaloriesAndMacros(
+              userId,
+            );
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<Calorie_Cubit, Calorie_State>(
+    return BlocBuilder<CalorieCubit, Calorie_State>(
       builder: (context, state) {
         if (state is CalorieCubitLoading) {
           return const AppLoadingIndicator();
@@ -45,7 +45,7 @@ class _Calorie_Progress_IndicatorState
             style: const TextStyle(color: Colors.red),
           );
         } else if (state is CalorieCubitSuccess) {
-          double adjustedCalories = state.adjustedCalories;
+          int adjustedCalories = state.calories;
           return CircularPercentIndicator(
             radius: 120.0,
             lineWidth: 15.0,
