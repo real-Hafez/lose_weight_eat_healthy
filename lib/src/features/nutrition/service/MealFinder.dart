@@ -5,12 +5,21 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealServi
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/Snacks_Service.dart';
 
 class MealFinder {
-  Future<List<Map<String, dynamic>>> findMeals(double userCalories) async {
-    final foodServiceBreakfast = FoodService_breakfast();
-    final foodServiceLunch = FoodService_launch();
-    final foodServiceDinner = FoodService_Dinner();
-    final foodServiceSnacks = FoodService_snacks();
+  final FoodService_breakfast foodServiceBreakfast;
+  final FoodService_launch foodServiceLunch;
+  final FoodService_Dinner foodServiceDinner;
+  final FoodService_snacks foodServiceSnacks;
+  final MealService mealService;
 
+  MealFinder({
+    required this.foodServiceBreakfast,
+    required this.foodServiceLunch,
+    required this.foodServiceDinner,
+    required this.foodServiceSnacks,
+    required this.mealService,
+  });
+
+  Future<List<Map<String, dynamic>>> findMeals(double userCalories) async {
     // Fetch foods
     List<Map<String, dynamic>> breakfastFoods =
         await foodServiceBreakfast.getFoods();
@@ -24,6 +33,7 @@ class MealFinder {
       return [];
     }
 
+    // Calculate macronutrient targets
     double targetProtein = userCalories * 0.4 / 4;
     double targetCarbs = userCalories * 0.4 / 4;
     double targetFats = userCalories * 0.2 / 9;
@@ -32,7 +42,7 @@ class MealFinder {
     List<Map<String, dynamic>> selectedMeals = [];
 
     // Select breakfast
-    final breakfast = await MealService().getClosestMeal(
+    final breakfast = await mealService.getClosestMeal(
       mealCalories['breakfast']!,
       (targetProtein * 0.3),
       (targetCarbs * 0.3),
@@ -54,11 +64,11 @@ class MealFinder {
     double remainingFats = targetFats - selectedMeals.last['fats'];
 
     // Select lunch
-    final lunch = await MealService().getClosestMeal(
-      remainingCalories,
-      remainingProtein,
-      remainingCarbs,
-      remainingFats,
+    final lunch = await mealService.getClosestMeal(
+      remainingCalories * 0.5, // 50% of remaining calories for lunch
+      remainingProtein * 0.5,
+      remainingCarbs * 0.5,
+      remainingFats * 0.5,
       lunchFoods,
       "Lunch",
     );
@@ -69,13 +79,15 @@ class MealFinder {
     }
 
     // Adjust remaining targets again
-    remainingCalories -= selectedMeals.last['calories'];
-    remainingProtein -= selectedMeals.last['protein'];
-    remainingCarbs -= selectedMeals.last['carbs'];
-    remainingFats -= selectedMeals.last['fats'];
+    if (selectedMeals.isNotEmpty) {
+      remainingCalories -= selectedMeals.last['calories'];
+      remainingProtein -= selectedMeals.last['protein'];
+      remainingCarbs -= selectedMeals.last['carbs'];
+      remainingFats -= selectedMeals.last['fats'];
+    }
 
     // Select dinner
-    final dinner = await MealService().getClosestMeal(
+    final dinner = await mealService.getClosestMeal(
       remainingCalories,
       remainingProtein,
       remainingCarbs,
@@ -96,7 +108,7 @@ class MealFinder {
     // Add snacks if needed
     if (totalCalories < userCalories) {
       double snackCaloriesNeeded = userCalories - totalCalories;
-      final snack = await MealService().getClosestMeal(
+      final snack = await mealService.getClosestMeal(
         snackCaloriesNeeded,
         remainingProtein,
         remainingCarbs,
@@ -112,5 +124,15 @@ class MealFinder {
     }
 
     return selectedMeals;
+  }
+
+  // Calculate calorie distribution for each meal
+  Map<String, double> calculateMealCalories(double totalCalories) {
+    return {
+      'breakfast': totalCalories * 0.25, // 25% of total calories for breakfast
+      'lunch': totalCalories * 0.40, // 40% for lunch
+      'dinner': totalCalories * 0.25, // 25% for dinner
+      'snacks': totalCalories * 0.10, // 10% for snacks
+    };
   }
 }

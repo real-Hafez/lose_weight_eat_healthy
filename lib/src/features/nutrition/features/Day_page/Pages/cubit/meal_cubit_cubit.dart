@@ -1,5 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_Dinner.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealFinder.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/Snacks_Service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MealCubit extends Cubit<Map<String, dynamic>?> {
@@ -11,8 +16,13 @@ class MealCubit extends Cubit<Map<String, dynamic>?> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Load meal details from your MealFinder service
-    List<Map<String, dynamic>> meals =
-        await MealFinder().findMeals(2000); // Example target calories
+    List<Map<String, dynamic>> meals = (await MealFinder(
+            foodServiceBreakfast: FoodService_breakfast(),
+            foodServiceLunch: FoodService_launch(),
+            foodServiceDinner: FoodService_Dinner(),
+            foodServiceSnacks: FoodService_snacks(),
+            mealService: MealService()))
+        as List<Map<String, dynamic>>; // Example target calories
     print("Meals fetched from MealFinder: $meals");
 
     if (meals.isNotEmpty) {

@@ -1,4 +1,9 @@
 // there for the three of them breakfats lunch ....
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_Dinner.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/Snacks_Service.dart';
+
 class MealService {
   Future<Map<String, dynamic>?> getClosestMeal(
     double targetCalories,
@@ -12,18 +17,17 @@ class MealService {
     double smallestWeightedDiff = double.infinity;
 
     for (var food in foods) {
-      // Ensure all values are converted to double safely
       double calories = (food['calories'] ?? 0.0).toDouble();
       double protein = (food['protein'] ?? 0.0).toDouble();
       double carbs = (food['carbs'] ?? 0.0).toDouble();
       double fats = (food['fat'] ?? 0.0).toDouble();
 
-      // Updated weights based on proximity
       double calorieDiff = (calories - targetCalories).abs();
       double proteinDiff = (protein - targetProtein).abs();
       double carbDiff = (carbs - targetCarbs).abs();
       double fatDiff = (fats - targetFats).abs();
 
+      // Weighted differences: prioritize calories > protein > carbs > fats
       double totalWeightedDiff = (calorieDiff * 3) +
           (proteinDiff * 2.5) +
           (carbDiff * 2) +
@@ -34,20 +38,84 @@ class MealService {
         closestMeal = food;
       }
     }
-
     return closestMeal;
   }
 }
 
-// Calculate percentages for meal distribution
-Map<String, double> calculateMealCalories(double totalCalories) {
-  double breakfastCalories = totalCalories * 0.20; // Adjustable up to 30%
-  double lunchCalories = totalCalories * 0.50; // Adjustable between 40-60%
-  double dinnerCalories = totalCalories * 0.30; // Adjustable between 25-35%
+class MealPlanner {
+  Future<List<Map<String, dynamic>>> planMeals(double targetCalories) async {
+    // Define calorie distribution
+    Map<String, double> mealCalories = {
+      'breakfast': targetCalories * 0.28, // Example: 28% for breakfast
+      'lunch': targetCalories * 0.48, // 48% for lunch
+      'dinner': targetCalories * 0.24, // 24% for dinner
+    };
 
-  return {
-    'breakfast': breakfastCalories,
-    'lunch': lunchCalories,
-    'dinner': dinnerCalories,
-  };
+    double proteinTarget = targetCalories * 0.4 / 4; // 40% from protein
+    double carbTarget = targetCalories * 0.4 / 4; // 40% from carbs
+    double fatTarget = targetCalories * 0.2 / 9; // 20% from fats
+
+    // Fetch food options
+    final breakfastFoods = await FoodService_breakfast().getFoods();
+    final lunchFoods = await FoodService_launch().getFoods();
+    final dinnerFoods = await FoodService_Dinner().getFoods();
+    final snackFoods = await FoodService_snacks().getFoods();
+
+    List<Map<String, dynamic>> selectedMeals = [];
+
+    // Select meals
+    for (var mealType in ['breakfast', 'lunch', 'dinner']) {
+      double mealCaloriesTarget = mealCalories[mealType]!;
+      List<Map<String, dynamic>> foodOptions = mealType == 'breakfast'
+          ? breakfastFoods
+          : mealType == 'lunch'
+              ? lunchFoods
+              : dinnerFoods;
+
+      Map<String, dynamic>? meal = await MealService().getClosestMeal(
+        mealCaloriesTarget,
+        proteinTarget * mealCaloriesTarget / targetCalories,
+        carbTarget * mealCaloriesTarget / targetCalories,
+        fatTarget * mealCaloriesTarget / targetCalories,
+        foodOptions,
+        mealType,
+      );
+
+      if (meal != null) {
+        selectedMeals.add(meal);
+
+        // Adjust remaining targets
+        targetCalories -= meal['calories'];
+        proteinTarget -= meal['protein'];
+        carbTarget -= meal['carbs'];
+        fatTarget -= meal['fat'];
+      }
+    }
+
+    // Add snacks if needed
+    if (targetCalories > 0) {
+      final snack = await MealService().getClosestMeal(
+        targetCalories,
+        proteinTarget,
+        carbTarget,
+        fatTarget,
+        snackFoods,
+        'snack',
+      );
+      if (snack != null) {
+        selectedMeals.add(snack);
+      }
+    }
+
+    // Ensure total calories are within acceptable range
+    double totalCalories =
+        selectedMeals.fold(0, (sum, meal) => sum + meal['calories']);
+    if (totalCalories < targetCalories * 0.85 ||
+        totalCalories > targetCalories * 1.15) {
+      print("Total calories out of range. Adjusting...");
+      // Handle cases where total calories deviate significantly
+    }
+
+    return selectedMeals;
+  }
 }
