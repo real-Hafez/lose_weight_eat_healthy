@@ -101,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "customgoal": MessageLookupByLibrary.simpleMessage("Custom goal"),
         "dailyMotivation":
             MessageLookupByLibrary.simpleMessage("DAILY MOTIVATION"),
+        "day": MessageLookupByLibrary.simpleMessage("day"),
         "days": MessageLookupByLibrary.simpleMessage("days"),
         "descriptionextraactive": MessageLookupByLibrary.simpleMessage(
             "Very hard exercise or physical job. Example: Athlete, 2x daily training."),
@@ -242,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Severe Thinness"),
         "severeThinnessRec": MessageLookupByLibrary.simpleMessage(
             "A healthier you is within reach! Consider consulting a healthcare professional, and explore our app\'s nutrition plans to support your journey."),
+        "shoppinglist": MessageLookupByLibrary.simpleMessage("Shopping list"),
         "short_term":
             MessageLookupByLibrary.simpleMessage("Set Your Short-Term Weight"),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),

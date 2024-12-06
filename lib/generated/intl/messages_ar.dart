@@ -102,6 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),
         "customgoal": MessageLookupByLibrary.simpleMessage("هدف مخصص"),
         "dailyMotivation": MessageLookupByLibrary.simpleMessage("تحفيز يومي"),
+        "day": MessageLookupByLibrary.simpleMessage("يوم"),
         "days": MessageLookupByLibrary.simpleMessage("ايام"),
         "descriptionextraactive": MessageLookupByLibrary.simpleMessage(
             "تمارين شديدة أو عمل بدني شاق. مثال: رياضي محترف، تدريب مرتين يومياً."),
@@ -244,6 +245,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("نقص شديد في الوزن"),
         "severeThinnessRec": MessageLookupByLibrary.simpleMessage(
             "الوصول إلى حياة أكثر صحة في متناول اليد! فكر في استشارة طبيب مختص واستكشف خطط التغذية في تطبيقنا لدعم مسيرتك."),
+        "shoppinglist": MessageLookupByLibrary.simpleMessage("قائمة التسوق"),
         "short_term":
             MessageLookupByLibrary.simpleMessage("حدد وزنك على المدى القصير"),
         "signIn": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),

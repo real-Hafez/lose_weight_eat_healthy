@@ -193,7 +193,9 @@
 "Breakfast":"Breakfast",
 "Lunch":"Lunch" , 
 "Dinner":"Dinner",
-"Snacks":"Snacks"
+"Snacks":"Snacks",
+"day":"day",
+"shoppinglist":"Shopping list"
 
 
 

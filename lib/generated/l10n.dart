@@ -1979,6 +1979,26 @@ class S {
       args: [],
     );
   }
+
+  /// `day`
+  String get day {
+    return Intl.message(
+      'day',
+      name: 'day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shopping list`
+  String get shoppinglist {
+    return Intl.message(
+      'Shopping list',
+      name: 'shoppinglist',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

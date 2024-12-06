@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Week_page/pages/Week_Page.dart';
 
 import '../features/Day_page/Pages/Dayview.dart';
@@ -15,7 +16,11 @@ class Nutrition extends StatefulWidget {
 
 class _NutritionState extends State<Nutrition> {
   // Define the options for the toggle buttons
-  final List<String> options = ['يوم', 'اسبوع', 'قائمة التسوق'];
+  final List<String> options = [
+    '${S().day}',
+    '${S().week}',
+    '${S().shoppinglist}'
+  ];
   int selectedIndex = 0;
 
   @override
