@@ -15,7 +15,6 @@ class Nutrition extends StatefulWidget {
 }
 
 class _NutritionState extends State<Nutrition> {
-  // Define the options for the toggle buttons
   final List<String> options = [
     '${S().day}',
     '${S().week}',
@@ -34,7 +33,6 @@ class _NutritionState extends State<Nutrition> {
             children: List.generate(options.length, (index) {
               return GestureDetector(
                 onTap: () {
-                  // When an item is tapped, update the selected index
                   setState(() {
                     selectedIndex = index;
                   });
