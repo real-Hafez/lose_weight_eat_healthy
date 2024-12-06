@@ -53,19 +53,17 @@ class _DinnerState extends State<Dinner> with SingleTickerProviderStateMixin {
     String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     // Get user macros and adjust for dinner (25-35% of daily calories)
-    double adjustedCalories =
-        (prefs.getDouble('adjusted_calories_$userId') ?? 0.0) *
-            0.3; // Assuming 30% here
-    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
-    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
-    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+    double proteinGrams = prefs.getDouble('proteinGrams') ?? 200.toDouble();
+    double carbsGrams = prefs.getDouble('carbsGrams') ?? 200.toDouble();
+    double fatsGrams = prefs.getDouble('fatsGrams') ?? 0.toDouble();
+    double calories = prefs.getDouble('calories') ?? 2000.toDouble();
 
     // Fetch food data from the service
     List<Map<String, dynamic>> foods = await foodService.getFoods();
 
     // Fetch the closest meal for dinner
-    return await MealService().getClosestMeal(adjustedCalories, targetProtein,
-        targetCarbs, targetFats, foods, 'Dinner');
+    return await MealService().getClosestMeal(
+        calories, proteinGrams, carbsGrams, fatsGrams, foods, 'Dinner');
   }
 
   @override
@@ -100,11 +98,11 @@ class _DinnerState extends State<Dinner> with SingleTickerProviderStateMixin {
             Ingredients: ingredients,
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
             foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
-            calories: meal['calories'] ?? 0,
-            weight: meal['weight'] ?? 0,
-            fat: meal['fat'] ?? 0,
-            carbs: meal['carbs'] ?? 0,
-            protein: meal['protein'] ?? 0,
+            calories: (meal['calories'] ?? 0).toDouble(),
+            weight: (meal['weight'] ?? 0).toDouble(),
+            fat: (meal['fat'] ?? 0).toDouble(),
+            carbs: (meal['carbs'] ?? 0).toDouble(),
+            protein: (meal['protein'] ?? 0).toDouble(),
             isCompleted: isCompleted,
             animationController: _controller,
             // isMinimized: isMinimized,

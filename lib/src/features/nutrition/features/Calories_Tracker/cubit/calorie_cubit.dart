@@ -16,10 +16,10 @@ class CalorieCubit extends Cubit<Calorie_State> {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      int? proteinGrams = prefs.getInt('proteinGrams');
-      int? carbsGrams = prefs.getInt('carbsGrams');
-      int? fatsGrams = prefs.getInt('fatsGrams');
-      int? calories = prefs.getInt('calories');
+      double? proteinGrams = prefs.getDouble('proteinGrams');
+      double? carbsGrams = prefs.getDouble('carbsGrams');
+      double? fatsGrams = prefs.getDouble('fatsGrams');
+      double? calories = prefs.getDouble('calories');
 
       if (proteinGrams == null ||
           carbsGrams == null ||
@@ -41,10 +41,10 @@ class CalorieCubit extends Cubit<Calorie_State> {
           calories = data?['calories'] ?? 0;
 
           // Save the fetched data to SharedPreferences
-          await prefs.setInt('proteinGrams', proteinGrams ?? 0);
-          await prefs.setInt('carbsGrams', carbsGrams ?? 0);
-          await prefs.setInt('fatsGrams', fatsGrams ?? 0);
-          await prefs.setInt('calories', calories ?? 0);
+          await prefs.setDouble('proteinGrams', proteinGrams ?? 0);
+          await prefs.setDouble('carbsGrams', carbsGrams ?? 0);
+          await prefs.setDouble('fatsGrams', fatsGrams ?? 0);
+          await prefs.setDouble('calories', calories ?? 0);
 
           print("Fetched and saved data from Firestore:");
           print(
@@ -69,14 +69,14 @@ class CalorieCubit extends Cubit<Calorie_State> {
 
   // Update calorie and macronutrient data
   Future<void> updateCaloriesAndMacros(
-      int protein, int carbs, int fats, int calories) async {
+      double protein, double carbs, double fats, double calories) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.setInt('proteinGrams', protein);
-      await prefs.setInt('carbsGrams', carbs);
-      await prefs.setInt('fatsGrams', fats);
-      await prefs.setInt('calories', calories);
+      await prefs.setDouble('proteinGrams', protein);
+      await prefs.setDouble('carbsGrams', carbs);
+      await prefs.setDouble('fatsGrams', fats);
+      await prefs.setDouble('calories', calories);
 
       print("Updated data in SharedPreferences:");
       print(

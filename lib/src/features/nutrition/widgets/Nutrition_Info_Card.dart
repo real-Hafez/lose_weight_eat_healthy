@@ -25,11 +25,11 @@ class NutritionInfoCard extends StatelessWidget {
 
   final String foodName;
   final String foodImage;
-  final int calories;
-  final int weight;
-  final int fat;
-  final int carbs;
-  final int protein;
+  final double calories;
+  final double weight;
+  final double fat;
+  final double carbs;
+  final double protein;
   final List<String> Ingredients;
   final List<String> steps;
   final List<Map<String, dynamic>> tips;

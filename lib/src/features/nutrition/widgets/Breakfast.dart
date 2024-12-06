@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
@@ -51,27 +50,27 @@ class _BreakfastState extends State<Breakfast>
 
   Future<Map<String, dynamic>?> _loadClosestMeal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-
-    // Get total adjusted calories
-    double totalCalories = prefs.getDouble('adjusted_calories_$userId') ?? 0.0;
 
     // Calculate calorie distribution
     // Map<String, double> mealCalories =
     //     MealService().calculateMealCalories(totalCalories);
 
-    // Use breakfast calories (20-30%)
-    // double targetCalories = mealCalories['breakfast'] ?? 0.0;
-    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
-    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
-    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+    double proteinGrams = prefs.getDouble('proteinGrams') ?? 200;
+    double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
+    double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
+    double calories = prefs.getDouble('calories') ?? 2000;
 
     // Fetch food data
     List<Map<String, dynamic>> foods = await foodService.getFoods();
 
     // Get closest meal
     return await MealService().getClosestMeal(
-        targetProtein, targetCarbs, targetFats, targetFats, foods, userId);
+        calories.toDouble(),
+        proteinGrams.toDouble(),
+        carbsGrams.toDouble(),
+        fatsGrams.toDouble(),
+        foods,
+        'Breakfast');
   }
 
   @override
@@ -110,16 +109,14 @@ class _BreakfastState extends State<Breakfast>
               foodName: meal['food_Name_Arabic'] ?? 'Unknown',
               foodImage:
                   meal['food_Image'] ?? 'https://via.placeholder.com/150',
-              calories: meal['calories'] ?? 0,
-              weight: meal['weight'] ?? 0,
-              fat: meal['fat'] ?? 0,
-              carbs: meal['carbs'] ?? 0,
-              protein: meal['protein'] ?? 0,
+              calories: (meal['calories'] ?? 0).toDouble(),
+              weight: (meal['weight'] ?? 0).toDouble(),
+              fat: (meal['fat'] ?? 0).toDouble(),
+              carbs: (meal['carbs'] ?? 0).toDouble(),
+              protein: (meal['protein'] ?? 0).toDouble(),
               isCompleted: isCompleted,
               animationController: _controller,
               meal_id: meal['id'],
-              // isMinimized: isMinimized,
-              // onToggleMinimize: toggleMinimize,
             ),
           );
         }

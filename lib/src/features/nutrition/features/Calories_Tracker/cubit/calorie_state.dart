@@ -12,10 +12,10 @@ class CalorieCubitInitial extends Calorie_State {}
 class CalorieCubitLoading extends Calorie_State {}
 
 class CalorieCubitSuccess extends Calorie_State {
-  final int proteinGrams;
-  final int carbsGrams;
-  final int fatsGrams;
-  final int calories;
+  final double proteinGrams;
+  final double carbsGrams;
+  final double fatsGrams;
+  final double calories;
 
   const CalorieCubitSuccess(
       this.proteinGrams, this.carbsGrams, this.fatsGrams, this.calories);

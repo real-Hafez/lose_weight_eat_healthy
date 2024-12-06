@@ -35,8 +35,8 @@ class CaloriesChart extends StatelessWidget {
               } else if (state is CaloriesChartError) {
                 return Center(child: Text('Error: ${state.error}'));
               } else if (state is CaloriesChartLoaded) {
-                final finalCalories = state.finalCalories;
-                final currentDiet = state.selectedDiet;
+                final double finalCalories = state.finalCalories;
+                final String currentDiet = state.selectedDiet;
 
                 // Diet macro distribution
                 final dietMacroDistribution = {
@@ -48,38 +48,36 @@ class CaloriesChart extends StatelessWidget {
 
                 final macroDistribution = dietMacroDistribution[currentDiet]!;
 
-                // Calculate macros based on current diet
-                final proteinCalories =
+                // Calculate macro calories and grams
+                final double proteinCalories =
                     finalCalories * macroDistribution['protein']!;
-                final carbCalories =
+                final double carbCalories =
                     finalCalories * macroDistribution['carbs']!;
-                final fatCalories = finalCalories * macroDistribution['fat']!;
+                final double fatCalories =
+                    finalCalories * macroDistribution['fat']!;
 
-                final protein =
-                    (proteinCalories / 4).round(); // Rounded to nearest integer
-                final carbs =
-                    (carbCalories / 4).round(); // Rounded to nearest integer
-                final fats =
-                    (fatCalories / 9).round(); // Rounded to nearest integer
-                final calories =
-                    finalCalories.round(); // Rounded to nearest integer
+                final double protein = proteinCalories / 4;
+                final double carbs = carbCalories / 4;
+                final double fats = fatCalories / 9;
+                final double calories = finalCalories;
+
                 final bool isArabic =
                     Localizations.localeOf(context).languageCode == 'ar';
 
                 final chartData = [
                   ChartData(
                     '${S().Protein}',
-                    (protein * 4 / finalCalories) * 100, // Keep as double
+                    (protein * 4 / calories) * 100,
                     Colors.blue,
                   ),
                   ChartData(
                     '${S().Carbs}',
-                    (carbs * 4 / finalCalories) * 100, // Keep as double
+                    (carbs * 4 / calories) * 100,
                     Colors.green,
                   ),
                   ChartData(
                     '${S().fats}',
-                    (fats * 9 / finalCalories) * 100, // Keep as double
+                    (fats * 9 / calories) * 100,
                     Colors.orange,
                   ),
                 ];
@@ -97,8 +95,6 @@ class CaloriesChart extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Text(
-                    //     '${finalCalories.toStringAsFixed(0)} Calories ${state.activityLevel}${state.age}${state.gender}${state.macros}${state.weight}   ${state.height}         ${state.age}         '),
                     TitleWidget(title: '${S().CaloriesChart}'),
                     Flexible(
                       child: SfCircularChart(
@@ -118,7 +114,6 @@ class CaloriesChart extends StatelessWidget {
                             pointColorMapper: (ChartData data, _) => data.color,
                             dataLabelMapper: (ChartData data, _) =>
                                 '${data.name}\n${formatPercentage(data.percentage, isArabic)}%\n',
-                            // '${data.grams.toStringAsFixed(1)} g',
                             dataLabelSettings: DataLabelSettings(
                               textStyle: TextStyle(
                                   color: Colors.black87,
@@ -146,10 +141,10 @@ class CaloriesChart extends StatelessWidget {
                         onNextButtonPressed();
 
                         // Save to SharedPreferences
-                        await prefs.setInt('proteinGrams', protein);
-                        await prefs.setInt('carbsGrams', carbs);
-                        await prefs.setInt('fatsGrams', fats);
-                        await prefs.setInt('calories', finalCalories.round());
+                        await prefs.setDouble('proteinGrams', protein);
+                        await prefs.setDouble('carbsGrams', carbs);
+                        await prefs.setDouble('fatsGrams', fats);
+                        await prefs.setDouble('calories', calories);
 
                         // Optional: Log or notify successful save
                         print('Data saved in SharedPreferences!');
@@ -159,7 +154,7 @@ class CaloriesChart extends StatelessWidget {
                         'proteinGrams': protein,
                         'carbsGrams': carbs,
                         'fatsGrams': fats,
-                        'calories': finalCalories.round(),
+                        'calories': calories,
                       },
                       saveData: true,
                       userId: FirebaseAuth.instance.currentUser?.uid ?? '',
@@ -181,11 +176,9 @@ class ChartData {
     this.name,
     this.percentage,
     this.color,
-    //  this.grams
   );
 
   final String name;
   final double percentage;
   final Color color;
-  // final int grams;
 }

@@ -16,10 +16,10 @@ class Daily_Nutrition_Card extends StatefulWidget {
 }
 
 class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
-  int proteinGrams = 0;
-  int carbsGrams = 0;
-  int fatsGrams = 0;
-  int calories = 0;
+  double proteinGrams = 0;
+  double carbsGrams = 0;
+  double fatsGrams = 0;
+  double calories = 0;
 
   @override
   void initState() {
@@ -32,10 +32,10 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
     String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     setState(() {
-      proteinGrams = prefs.getInt('proteinGrams') ?? 200;
-      carbsGrams = prefs.getInt('carbsGrams') ?? 200;
-      fatsGrams = prefs.getInt('fatsGrams') ?? 0;
-      calories = prefs.getInt('calories') ?? 2000;
+      proteinGrams = prefs.getDouble('proteinGrams') ?? 200;
+      carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
+      fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
+      calories = prefs.getDouble('calories') ?? 2000;
     });
 
     print("Fetched Macronutrients:");
@@ -45,7 +45,7 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
     print("Calories: $calories kcal");
   }
 
-  String _formatMacronutrientGrams(int grams) {
+  String _formatMacronutrientGrams(double grams) {
     if (grams <= 0) return "0${S().g}";
     return "${grams.toStringAsFixed(0)}${S().g}";
   }

@@ -62,21 +62,20 @@ class _snacks_state extends State<snacks> with SingleTickerProviderStateMixin {
     String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     // Get user macros for snacks and adjust for 30% of daily intake
-    double adjustedCalories =
-        (prefs.getDouble('adjusted_calories_$userId') ?? 0.0) * 0.3;
-    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
-    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
-    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+    double proteinGrams = prefs.getDouble('proteinGrams') ?? 200;
+    double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
+    double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
+    double calories = prefs.getDouble('calories') ?? 2000;
 
     // Fetch all available snack foods once
     List<Map<String, dynamic>> allFoods = await foodService.getFoods();
 
     // Get the first closest snack
     Map<String, dynamic>? firstSnack = await MealService().getClosestMeal(
-      adjustedCalories,
-      targetProtein,
-      targetCarbs,
-      targetFats,
+      calories,
+      proteinGrams,
+      carbsGrams,
+      fatsGrams,
       allFoods,
       'snacks',
     );
@@ -87,10 +86,10 @@ class _snacks_state extends State<snacks> with SingleTickerProviderStateMixin {
 
     // Get the second distinct closest snack
     Map<String, dynamic>? secondSnack = await MealService().getClosestMeal(
-      adjustedCalories,
-      targetProtein,
-      targetCarbs,
-      targetFats,
+      calories,
+      proteinGrams,
+      carbsGrams,
+      fatsGrams,
       remainingFoods,
       'snacks',
     );
@@ -107,17 +106,15 @@ class _snacks_state extends State<snacks> with SingleTickerProviderStateMixin {
     String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     // Get user macros and adjust for dinner (25-35% of daily calories)
-    double adjustedCalories =
-        (prefs.getDouble('adjusted_calories_$userId') ?? 0.0) *
-            0.3; // Assuming 30% here
-    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
-    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
-    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+    double proteinGrams = prefs.getDouble('proteinGrams') ?? 200;
+    double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
+    double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
+    double calories = prefs.getDouble('calories') ?? 2000;
 
     List<Map<String, dynamic>> foods = await foodService.getFoods();
 
-    return await MealService().getClosestMeal(adjustedCalories, targetProtein,
-        targetCarbs, targetFats, foods, 'snacks');
+    return await MealService().getClosestMeal(
+        calories, proteinGrams, carbsGrams, fatsGrams, foods, 'snacks');
   }
 
   @override
@@ -153,11 +150,11 @@ class _snacks_state extends State<snacks> with SingleTickerProviderStateMixin {
                 foodName: meal['food_Name_Arabic'] ?? 'Unknown',
                 foodImage:
                     meal['food_Image'] ?? 'https://via.placeholder.com/150',
-                calories: meal['calories'] ?? 0,
-                weight: meal['weight'] ?? 0,
-                fat: meal['fat'] ?? 0,
-                carbs: meal['carbs'] ?? 0,
-                protein: meal['protein'] ?? 0,
+                calories: (meal['calories'] ?? 0).toDouble(),
+                weight: (meal['weight'] ?? 0).toDouble(),
+                fat: (meal['fat'] ?? 0).toDouble(),
+                carbs: (meal['carbs'] ?? 0).toDouble(),
+                protein: (meal['protein'] ?? 0).toDouble(),
                 isCompleted: isCompleted,
                 animationController: _controller,
                 // isMinimized: isMinimized,

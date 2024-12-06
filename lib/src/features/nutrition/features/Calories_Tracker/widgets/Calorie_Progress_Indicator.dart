@@ -52,7 +52,7 @@ class _Calorie_Progress_IndicatorState
             style: const TextStyle(color: Colors.red),
           );
         } else if (state is CalorieCubitSuccess) {
-          int adjustedCalories = state.calories;
+          double adjustedCalories = state.calories;
           return CircularPercentIndicator(
             radius: 120.0,
             lineWidth: 15.0,

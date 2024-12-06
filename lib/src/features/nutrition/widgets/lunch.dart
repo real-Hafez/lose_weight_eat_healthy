@@ -15,9 +15,10 @@ class Lunch extends StatefulWidget {
 class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
   final FoodService_launch foodService = FoodService_launch();
   late Future<Map<String, dynamic>?> closestLunchMeal;
-  bool isCompleted = false; // New state variable for completion
-  late AnimationController _controller; // Animation controller
+  bool isCompleted = false;
+  late AnimationController _controller;
   bool isMinimized = false;
+
   void toggleMinimize() {
     setState(() {
       isMinimized = !isMinimized;
@@ -43,29 +44,32 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
   void _markAsCompleted() {
     setState(() {
       isCompleted = true;
-      isMinimized = true; // Set to true when completed
+      isMinimized = true;
     });
-    _controller.forward(); // Starts the checkmark animation
+    _controller.forward();
   }
 
   Future<Map<String, dynamic>?> _loadClosestMeal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
-    // Get user macros and adjust for lunch (40-60% of daily calories)
-    double adjustedCalories =
-        (prefs.getDouble('adjusted_calories_$userId') ?? 0.0) *
-            0.5; // Assuming 50% here
-    double targetProtein = prefs.getDouble('protein_grams_$userId') ?? 0.0;
-    double targetCarbs = prefs.getDouble('carbs_grams_$userId') ?? 0.0;
-    double targetFats = prefs.getDouble('fats_grams_$userId') ?? 0.0;
+    // Retrieve user preferences for macros
+    double proteinGrams = prefs.getDouble('proteinGrams')?.toDouble() ?? 200.0;
+    double carbsGrams = prefs.getDouble('carbsGrams')?.toDouble() ?? 200.0;
+    double fatsGrams = prefs.getDouble('fatsGrams')?.toDouble() ?? 0.0;
+    double calories = prefs.getDouble('calories')?.toDouble() ?? 2000.0;
 
-    // Fetch food data from the service
+    // Fetch foods from the service
     List<Map<String, dynamic>> foods = await foodService.getFoods();
 
-    // Fetch the closest meal for lunch
-    return await MealService().getClosestMeal(adjustedCalories, targetProtein,
-        targetCarbs, targetFats, foods, 'Lunch');
+    // Get closest lunch meal
+    return await MealService().getClosestMeal(
+      calories,
+      proteinGrams,
+      carbsGrams,
+      fatsGrams,
+      foods,
+      'Lunch',
+    );
   }
 
   @override
@@ -81,20 +85,17 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
           return const Center(child: Text('No suitable lunch found'));
         } else {
           var meal = snapshot.data!;
-          // Safely cast ingredients to List<String>
-          final ingredients = (meal['ingredients_Ar'] as List<dynamic>?)
-                  ?.map((item) => item.toString())
-                  .toList() ??
-              <String>[];
-          final steps = (meal['preparation_steps'] as List<dynamic>?)
-                  ?.map((item) => item.toString())
-                  .toList() ??
-              <String>[];
-          final tips = (meal['tips'] as List<dynamic>?)
-                  ?.map((item) => item as Map<String, dynamic>)
-                  .toList() ??
-              <Map<String, dynamic>>[];
-          // final id = meal['id'] as int? ?? 0;
+
+          // Safely cast data fields
+          final ingredients = (meal['ingredients_Ar'] as List<dynamic>? ?? [])
+              .map((item) => item.toString())
+              .toList();
+          final steps = (meal['preparation_steps'] as List<dynamic>? ?? [])
+              .map((item) => item.toString())
+              .toList();
+          final tips = (meal['tips'] as List<dynamic>? ?? [])
+              .map((item) => item as Map<String, dynamic>)
+              .toList();
 
           return NutritionInfoCard(
             tips: tips,
@@ -102,14 +103,14 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
             Ingredients: ingredients,
             foodName: meal['food_Name_Arabic'] ?? 'Unknown',
             foodImage: meal['food_Image'] ?? 'https://via.placeholder.com/150',
-            calories: meal['calories'] ?? 0,
-            weight: meal['weight'] ?? 0,
-            fat: meal['fat'] ?? 0,
-            carbs: meal['carbs'] ?? 0,
-            protein: meal['protein'] ?? 0,
+            calories: (meal['calories'] ?? 0).toDouble(),
+            weight: (meal['weight'] ?? 0).toDouble(),
+            fat: (meal['fat'] ?? 0).toDouble(),
+            carbs: (meal['carbs'] ?? 0).toDouble(),
+            protein: (meal['protein'] ?? 0).toDouble(),
             isCompleted: isCompleted,
             animationController: _controller,
-            meal_id: meal['id'],
+            meal_id: meal['id'] ?? 0,
           );
         }
       },
