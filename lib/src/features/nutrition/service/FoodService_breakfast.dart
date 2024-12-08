@@ -4,15 +4,15 @@ class FoodService_breakfast {
   final supabase = Supabase.instance.client;
 
   Future<List<Map<String, dynamic>>> getFoods(
-      double mincal, double maxcal) async {
+      double mincal, maxcal, minprotein, maxprotein) async {
     try {
       final response = await supabase
           .from('breakfast_middle eastern')
           .select()
           .gte('calories', mincal.toInt())
           .lte('calories', maxcal.toInt())
-          .gte('protein', 1)
-          .lte('protein', 8);
+          .gte('protein', minprotein.toInt())
+          .lte('protein', maxprotein.toInt());
 
       print("Query Response: ${response.runtimeType} - $response");
 

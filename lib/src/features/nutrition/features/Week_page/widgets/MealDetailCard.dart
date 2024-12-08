@@ -6,14 +6,14 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Week_pag
 class MealDetailCard extends StatefulWidget {
   final String mealType;
   final DateTime selectedDay;
-  final Future<List<Map<String, dynamic>>> Function() fetchFoodData;
+  // final Future<List<Map<String, dynamic>>> Function() fetchFoodData;
   final bool isExpanded;
 
   const MealDetailCard({
     super.key,
     required this.mealType,
     required this.selectedDay,
-    required this.fetchFoodData,
+    // required this.fetchFoodData,
     this.isExpanded = false,
   });
 
@@ -27,15 +27,15 @@ class _MealDetailCardState extends State<MealDetailCard> {
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    // _fetchData();
   }
 
-  Future<void> _fetchData() async {
-    if (cachedFoodData == null) {
-      cachedFoodData = await widget.fetchFoodData();
-      setState(() {});
-    }
-  }
+  // Future<void> _fetchData() async {
+  //   if (cachedFoodData == null) {
+  //     cachedFoodData = await widget.fetchFoodData();
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

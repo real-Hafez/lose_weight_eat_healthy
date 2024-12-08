@@ -32,8 +32,8 @@ class MealRow extends StatelessWidget {
               child: MealDetailCard(
                 mealType: 'Breakfast',
                 selectedDay: date,
-                fetchFoodData: () =>
-                    foodService.getFoods(100, 132), // this not depent
+                // fetchFoodData: () =>
+                // foodService.getFoods(100, 132, 2.5, 30), // this not depent
                 isExpanded: isExpanded,
               ),
             ),
@@ -42,7 +42,7 @@ class MealRow extends StatelessWidget {
               child: MealDetailCard(
                 mealType: 'Lunch',
                 selectedDay: date,
-                fetchFoodData: FoodService_launch().getFoods,
+                // fetchFoodData: FoodService_launch().getFoods,
                 isExpanded: isExpanded,
               ),
             ),
@@ -51,7 +51,7 @@ class MealRow extends StatelessWidget {
               child: MealDetailCard(
                 mealType: 'Dinner',
                 selectedDay: date,
-                fetchFoodData: FoodService_Dinner().getFoods,
+                // fetchFoodData: FoodService_Dinner().getFoods,
                 isExpanded: isExpanded,
               ),
             ),

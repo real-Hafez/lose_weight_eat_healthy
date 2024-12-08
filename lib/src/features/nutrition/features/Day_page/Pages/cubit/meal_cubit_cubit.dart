@@ -16,13 +16,14 @@ class MealCubit extends Cubit<Map<String, dynamic>?> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Load meal details from your MealFinder service
-    List<Map<String, dynamic>> meals = (await MealFinder(
-            foodServiceBreakfast: FoodService_breakfast(),
-            foodServiceLunch: FoodService_launch(),
-            foodServiceDinner: FoodService_Dinner(),
-            foodServiceSnacks: FoodService_snacks(),
-            mealService: MealService()))
-        as List<Map<String, dynamic>>; // Example target calories
+    List<Map<String, dynamic>> meals = (
+      // await MealFinder(
+      //       foodServiceBreakfast: FoodService_breakfast(),
+      //       foodServiceLunch: FoodService_launch(),
+      //       foodServiceDinner: FoodService_Dinner(),
+      //       foodServiceSnacks: FoodService_snacks(),
+      //       mealService: MealService())
+    ) as List<Map<String, dynamic>>; // Example target calories
     print("Meals fetched from MealFinder: $meals");
 
     if (meals.isNotEmpty) {
