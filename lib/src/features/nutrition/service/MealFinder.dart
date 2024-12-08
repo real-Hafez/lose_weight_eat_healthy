@@ -22,7 +22,7 @@ class MealFinder {
   Future<List<Map<String, dynamic>>> findMeals(double userCalories) async {
     // Fetch foods
     List<Map<String, dynamic>> breakfastFoods =
-        await foodServiceBreakfast.getFoods();
+        await foodServiceBreakfast.getFoods(100);
     List<Map<String, dynamic>> lunchFoods = await foodServiceLunch.getFoods();
     List<Map<String, dynamic>> dinnerFoods = await foodServiceDinner.getFoods();
     List<Map<String, dynamic>> snackFoods = await foodServiceSnacks.getFoods();

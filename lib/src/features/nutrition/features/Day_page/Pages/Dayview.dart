@@ -81,7 +81,7 @@ class _DayviewState extends State<Dayview> {
               minmize: snacksMinimized,
               onToggleMinimize: toggleSnacksMinimize,
             ),
-            if (!snacksMinimized) const Food_Card_snacks(),
+            // if (!snacksMinimized) const Food_Card_snacks(),
           ],
         ),
       ),

@@ -61,7 +61,7 @@ class _BreakfastState extends State<Breakfast>
     double calories = prefs.getDouble('calories') ?? 2000;
 
     // Fetch food data
-    List<Map<String, dynamic>> foods = await foodService.getFoods();
+    List<Map<String, dynamic>> foods = await foodService.getFoods(100);
 
     // Get closest meal
     return await MealService().getClosestMeal(

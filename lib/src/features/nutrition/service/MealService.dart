@@ -56,7 +56,7 @@ class MealPlanner {
     double fatTarget = targetCalories * 0.2 / 9; // 20% from fats
 
     // Fetch food options
-    final breakfastFoods = await FoodService_breakfast().getFoods();
+    final breakfastFoods = await FoodService_breakfast().getFoods(100);
     final lunchFoods = await FoodService_launch().getFoods();
     final dinnerFoods = await FoodService_Dinner().getFoods();
     final snackFoods = await FoodService_snacks().getFoods();
