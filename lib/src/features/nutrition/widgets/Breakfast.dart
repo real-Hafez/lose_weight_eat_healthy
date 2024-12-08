@@ -59,7 +59,6 @@ class _BreakfastState extends State<Breakfast>
     double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
     double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
     double calories = prefs.getDouble('calories') ?? 2000;
-
 // Calculate protein percentages (10% to 30%)
     double minProteinPercentage = 0.05; // 10%
     double maxProteinPercentage = 0.30; // 30%
@@ -75,7 +74,7 @@ class _BreakfastState extends State<Breakfast>
     double maxCarb = (carbsGrams * maxCarbPercentage); // Maximum carb grams
 
 // Calculate calorie percentages (10% to 40%)
-    double minCaloriePercentage = 0.10; // 10%
+    double minCaloriePercentage = 0.05; // 10%
     double maxCaloriePercentage = 0.40; // 40%
     double minCalories =
         (calories * minCaloriePercentage); // Minimum calorie value
@@ -96,6 +95,25 @@ class _BreakfastState extends State<Breakfast>
       minCarb,
       maxCarb,
     );
+
+// Calculate and print the actual percentages for fetched food
+    for (var food in foods) {
+      dynamic foodCalories = food['calories'];
+      dynamic foodProtein = food['protein'];
+      dynamic foodCarbs = food['carbs'];
+
+      dynamic actualProteinPercentage = (foodProtein / proteinGrams) * 100;
+      dynamic actualCarbPercentage = (foodCarbs / carbsGrams) * 100;
+      dynamic actualCaloriePercentage = (foodCalories / calories) * 100;
+
+      print('--- Food Item ---');
+      print(
+          'Calories: $foodCalories kcal (${actualCaloriePercentage.toStringAsFixed(2)}% of target)');
+      print(
+          'Protein: $foodProtein g (${actualProteinPercentage.toStringAsFixed(2)}% of target)');
+      print(
+          'Carbs: $foodCarbs g (${actualCarbPercentage.toStringAsFixed(2)}% of target)');
+    }
 
     // Get closest meal
     return await MealService().getClosestMeal(
