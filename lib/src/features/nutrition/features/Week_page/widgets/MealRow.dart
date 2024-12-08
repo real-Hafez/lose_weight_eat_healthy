@@ -33,7 +33,7 @@ class MealRow extends StatelessWidget {
                 mealType: 'Breakfast',
                 selectedDay: date,
                 fetchFoodData: () =>
-                    foodService.getFoods(100), // Pass as a function
+                    foodService.getFoods(100, 132), // this not depent
                 isExpanded: isExpanded,
               ),
             ),

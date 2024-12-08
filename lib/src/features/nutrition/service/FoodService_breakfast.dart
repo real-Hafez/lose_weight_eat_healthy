@@ -3,15 +3,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class FoodService_breakfast {
   final supabase = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>> getFoods(double mincal) async {
+  Future<List<Map<String, dynamic>>> getFoods(
+      double mincal, double maxcal) async {
     try {
       final response = await supabase
           .from('breakfast_middle eastern')
           .select()
           .gte('calories', mincal.toInt())
-          .lte('calories', 150)
+          .lte('calories', maxcal.toInt())
           .gte('protein', 1)
-          .lte('protein', 300);
+          .lte('protein', 8);
 
       print("Query Response: ${response.runtimeType} - $response");
 
