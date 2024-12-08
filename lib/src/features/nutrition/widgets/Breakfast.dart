@@ -59,7 +59,8 @@ class _BreakfastState extends State<Breakfast>
     double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
     double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
     double calories = prefs.getDouble('calories') ?? 2000;
-// Calculate protein percentages
+
+// Calculate protein percentages (10% to 30%)
     double minProteinPercentage = 0.05; // 10%
     double maxProteinPercentage = 0.30; // 30%
     double minProtein =
@@ -67,23 +68,34 @@ class _BreakfastState extends State<Breakfast>
     double maxProtein =
         (proteinGrams * maxProteinPercentage); // Maximum protein grams
 
-// Calculate calorie percentages
-    double minCaloriePercentage = 0.10; // 30%
+// Calculate carb percentages (10% to 50%)
+    double minCarbPercentage = 0.05; // 10%
+    double maxCarbPercentage = 0.50; // 50%
+    double minCarb = (carbsGrams * minCarbPercentage); // Minimum carb grams
+    double maxCarb = (carbsGrams * maxCarbPercentage); // Maximum carb grams
+
+// Calculate calorie percentages (10% to 40%)
+    double minCaloriePercentage = 0.10; // 10%
     double maxCaloriePercentage = 0.40; // 40%
     double minCalories =
         (calories * minCaloriePercentage); // Minimum calorie value
     double maxCalories =
         (calories * maxCaloriePercentage); // Maximum calorie value
+
+// Print the calculated ranges for debugging
     print('Protein range: $minProtein g to $maxProtein g');
+    print('Carb range: $minCarb g to $maxCarb g');
     print('Calorie range: $minCalories kcal to $maxCalories kcal');
 
-    // Fetch food data
+// Fetch food data
     List<Map<String, dynamic>> foods = await foodService.getFoods(
       minCalories,
       maxCalories,
       minProtein,
       maxProtein,
-    ); //this depend
+      minCarb,
+      maxCarb,
+    );
 
     // Get closest meal
     return await MealService().getClosestMeal(
