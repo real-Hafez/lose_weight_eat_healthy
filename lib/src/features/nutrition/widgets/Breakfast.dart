@@ -57,24 +57,29 @@ class _BreakfastState extends State<Breakfast>
     double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
     double calories = prefs.getDouble('calories') ?? 2000;
 
-    double minProteinPercentage = 0.05; // 10%
-    double maxProteinPercentage = 0.30; // 30%
+    double minProteinPercentage = 0.01; // 10%
+    double maxProteinPercentage = 0.70; // 30%
     double minProtein = (proteinGrams * minProteinPercentage);
     double maxProtein = (proteinGrams * maxProteinPercentage);
 
-    double minCarbPercentage = 0.05; // 10%
-    double maxCarbPercentage = 0.50; // 50%
+    double minCarbPercentage = 0.00; // 10%
+    double maxCarbPercentage = 0.70; // 50%
     double minCarb = (carbsGrams * minCarbPercentage);
     double maxCarb = (carbsGrams * maxCarbPercentage);
 
-    double minCaloriePercentage = 0.05; // 10%
-    double maxCaloriePercentage = 0.40; // 40%
+    double minCaloriePercentage = 0.01; // 10%
+    double maxCaloriePercentage = 0.70; // 40%
     double minCalories = (calories * minCaloriePercentage);
     double maxCalories = (calories * maxCaloriePercentage);
 
+    double minfatPercentage = 0.1; // 10%
+    double maxfatPercentage = 0.99; // 50%
+    double minfat = (fatsGrams * minfatPercentage);
+    double maxfat = (fatsGrams * maxfatPercentage);
     print('Protein range: $minProtein g to $maxProtein g');
     print('Carb range: $minCarb g to $maxCarb g');
     print('Calorie range: $minCalories kcal to $maxCalories kcal');
+    print('fat range: $minfat cal to $maxfat cal');
 
     // Fetch the list of foods
     List<Map<String, dynamic>> foods = await foodService.getFoods(
@@ -84,6 +89,8 @@ class _BreakfastState extends State<Breakfast>
       maxProtein,
       minCarb,
       maxCarb,
+      minfat,
+      maxfat,
     );
 
     // Get the closest meal
@@ -101,16 +108,18 @@ class _BreakfastState extends State<Breakfast>
       final foodCalories = closestMeal['calories'] ?? 0;
       final foodProtein = closestMeal['protein'] ?? 0;
       final foodCarbs = closestMeal['carbs'] ?? 0;
-
+      final foodfat = closestMeal['fat'] ?? 0;
       final calPercentage = (foodCalories / calories) * 100;
       final proteinPercentage = (foodProtein / proteinGrams) * 100;
       final carbsPercentage = (foodCarbs / carbsGrams) * 100;
+      final fatPercentage = (foodfat / fatsGrams) * 100;
 
       print('--- Chosen Meal ---');
       print('Name: ${closestMeal['food_Name_Arabic'] ?? "Unknown"}');
       print('Calories: $foodCalories (${calPercentage.toStringAsFixed(2)}%)');
       print('Protein: $foodProtein (${proteinPercentage.toStringAsFixed(2)}%)');
       print('Carbs: $foodCarbs (${carbsPercentage.toStringAsFixed(2)}%)');
+      print('fats: $foodfat (${fatPercentage.toStringAsFixed(2)}%)');
     }
 
     return closestMeal;

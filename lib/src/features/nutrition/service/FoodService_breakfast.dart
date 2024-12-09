@@ -3,8 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class FoodService_breakfast {
   final supabase = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>> getFoods(
-      double mincal, maxcal, minprotein, maxprotein, mincarb, maxcarb) async {
+  Future<List<Map<String, dynamic>>> getFoods(double mincal, maxcal, minprotein,
+      maxprotein, mincarb, maxcarb, minfat, maxfat) async {
     try {
       final response = await supabase
           .from('breakfast_middle eastern')
@@ -14,9 +14,11 @@ class FoodService_breakfast {
           .gte('protein', minprotein.toInt())
           .lte('protein', maxprotein.toInt())
           .gte('carbs', mincarb.toInt())
-          .lte('carbs', maxcarb.toInt());
+          .lte('carbs', maxcarb.toInt())
+          .gt('fat', minfat.toInt())
+          .lte('fat', maxfat.toInt());
 
-      print("Query Response: ${response.runtimeType} - $response");
+      // print("Query Response: ${response.runtimeType} - $response");
 
       if (response == null || response.isEmpty) {
         print("No breakfast foods found. Min Calories: $mincal");
@@ -25,7 +27,7 @@ class FoodService_breakfast {
 
       List<Map<String, dynamic>> result =
           List<Map<String, dynamic>>.from(response);
-      print("Fetched Meals: $result");
+      // print("Fetched Meals: $result");
       return result;
     } catch (e) {
       print("Error fetching breakfast foods: $e");
