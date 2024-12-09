@@ -18,6 +18,7 @@ class _BreakfastState extends State<Breakfast>
   bool isCompleted = false; // New state variable for completion
   late AnimationController _controller; // Animation controller
   bool isMinimized = false;
+
   void toggleMinimize() {
     setState(() {
       isMinimized = !isMinimized;
@@ -51,42 +52,31 @@ class _BreakfastState extends State<Breakfast>
   Future<Map<String, dynamic>?> _loadClosestMeal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Calculate calorie distribution
-    // Map<String, double> mealCalories =
-    //     MealService().calculateMealCalories(totalCalories);
-
     double proteinGrams = prefs.getDouble('proteinGrams') ?? 200;
     double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
     double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
     double calories = prefs.getDouble('calories') ?? 2000;
-// Calculate protein percentages (10% to 30%)
+
     double minProteinPercentage = 0.05; // 10%
     double maxProteinPercentage = 0.30; // 30%
-    double minProtein =
-        (proteinGrams * minProteinPercentage); // Minimum protein grams
-    double maxProtein =
-        (proteinGrams * maxProteinPercentage); // Maximum protein grams
+    double minProtein = (proteinGrams * minProteinPercentage);
+    double maxProtein = (proteinGrams * maxProteinPercentage);
 
-// Calculate carb percentages (10% to 50%)
     double minCarbPercentage = 0.05; // 10%
     double maxCarbPercentage = 0.50; // 50%
-    double minCarb = (carbsGrams * minCarbPercentage); // Minimum carb grams
-    double maxCarb = (carbsGrams * maxCarbPercentage); // Maximum carb grams
+    double minCarb = (carbsGrams * minCarbPercentage);
+    double maxCarb = (carbsGrams * maxCarbPercentage);
 
-// Calculate calorie percentages (10% to 40%)
     double minCaloriePercentage = 0.05; // 10%
     double maxCaloriePercentage = 0.40; // 40%
-    double minCalories =
-        (calories * minCaloriePercentage); // Minimum calorie value
-    double maxCalories =
-        (calories * maxCaloriePercentage); // Maximum calorie value
+    double minCalories = (calories * minCaloriePercentage);
+    double maxCalories = (calories * maxCaloriePercentage);
 
-// Print the calculated ranges for debugging
     print('Protein range: $minProtein g to $maxProtein g');
     print('Carb range: $minCarb g to $maxCarb g');
     print('Calorie range: $minCalories kcal to $maxCalories kcal');
 
-// Fetch food data
+    // Fetch the list of foods
     List<Map<String, dynamic>> foods = await foodService.getFoods(
       minCalories,
       maxCalories,
@@ -96,39 +86,39 @@ class _BreakfastState extends State<Breakfast>
       maxCarb,
     );
 
-// Calculate and print the actual percentages for fetched food
-    for (var food in foods) {
-      dynamic foodCalories = food['calories'];
-      dynamic foodProtein = food['protein'];
-      dynamic foodCarbs = food['carbs'];
+    // Get the closest meal
+    final closestMeal = await MealService().getClosestMeal(
+      calories,
+      proteinGrams,
+      carbsGrams,
+      fatsGrams,
+      foods,
+      'Breakfast',
+    );
 
-      dynamic actualProteinPercentage = (foodProtein / proteinGrams) * 100;
-      dynamic actualCarbPercentage = (foodCarbs / carbsGrams) * 100;
-      dynamic actualCaloriePercentage = (foodCalories / calories) * 100;
+    // Print details of the chosen meal
+    if (closestMeal != null) {
+      final foodCalories = closestMeal['calories'] ?? 0;
+      final foodProtein = closestMeal['protein'] ?? 0;
+      final foodCarbs = closestMeal['carbs'] ?? 0;
 
-      print('--- Food Item ---');
-      print(
-          'Calories: $foodCalories kcal (${actualCaloriePercentage.toStringAsFixed(2)}% of target)');
-      print(
-          'Protein: $foodProtein g (${actualProteinPercentage.toStringAsFixed(2)}% of target)');
-      print(
-          'Carbs: $foodCarbs g (${actualCarbPercentage.toStringAsFixed(2)}% of target)');
+      final calPercentage = (foodCalories / calories) * 100;
+      final proteinPercentage = (foodProtein / proteinGrams) * 100;
+      final carbsPercentage = (foodCarbs / carbsGrams) * 100;
+
+      print('--- Chosen Meal ---');
+      print('Name: ${closestMeal['food_Name_Arabic'] ?? "Unknown"}');
+      print('Calories: $foodCalories (${calPercentage.toStringAsFixed(2)}%)');
+      print('Protein: $foodProtein (${proteinPercentage.toStringAsFixed(2)}%)');
+      print('Carbs: $foodCarbs (${carbsPercentage.toStringAsFixed(2)}%)');
     }
 
-    // Get closest meal
-    return await MealService().getClosestMeal(
-        calories.toDouble(),
-        proteinGrams.toDouble(),
-        carbsGrams.toDouble(),
-        fatsGrams.toDouble(),
-        foods,
-        'Breakfast');
+    return closestMeal;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>?>(
-      // Ensure this handles null properly
       future: closestBreakfastMeal,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -139,18 +129,15 @@ class _BreakfastState extends State<Breakfast>
           return const Center(child: Text('No suitable breakfast found'));
         } else {
           var meal = snapshot.data!;
-          final ingredients = (meal['ingredients_Ar'] as List<dynamic>?)
-                  ?.map((item) => item.toString())
-                  .toList() ??
-              <String>[];
-          final steps = (meal['preparation_steps'] as List<dynamic>?)
-                  ?.map((item) => item.toString())
-                  .toList() ??
-              <String>[];
-          final tips = (meal['tips'] as List<dynamic>?)
-                  ?.map((item) => item as Map<String, dynamic>)
-                  .toList() ??
-              <Map<String, dynamic>>[];
+          final ingredients = (meal['ingredients_Ar'] as List<dynamic>? ?? [])
+              .map((item) => item.toString())
+              .toList();
+          final steps = (meal['preparation_steps'] as List<dynamic>? ?? [])
+              .map((item) => item.toString())
+              .toList();
+          final tips = (meal['tips'] as List<dynamic>? ?? [])
+              .map((item) => item as Map<String, dynamic>)
+              .toList();
 
           return GestureDetector(
             onTap: _markAsCompleted,
@@ -161,11 +148,11 @@ class _BreakfastState extends State<Breakfast>
               foodName: meal['food_Name_Arabic'] ?? 'Unknown',
               foodImage:
                   meal['food_Image'] ?? 'https://via.placeholder.com/150',
-              calories: (meal['calories'] ?? 0).toDouble(),
-              weight: (meal['weight'] ?? 0).toDouble(),
-              fat: (meal['fat'] ?? 0).toDouble(),
-              carbs: (meal['carbs'] ?? 0).toDouble(),
-              protein: (meal['protein'] ?? 0).toDouble(),
+              calories: (meal['calories'] as num?)?.toDouble() ?? 0.0,
+              weight: (meal['weight'] as num?)?.toDouble() ?? 0.0,
+              fat: (meal['fat'] as num?)?.toDouble() ?? 0.0,
+              carbs: (meal['carbs'] as num?)?.toDouble() ?? 0.0,
+              protein: (meal['protein'] as num?)?.toDouble() ?? 0.0,
               isCompleted: isCompleted,
               animationController: _controller,
               meal_id: meal['id'],
