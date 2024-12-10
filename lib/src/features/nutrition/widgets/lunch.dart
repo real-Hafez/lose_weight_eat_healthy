@@ -60,6 +60,11 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
 
     // Fetch foods from the service
     List<Map<String, dynamic>> foods = await foodService.getFoods();
+//here i want to pritn that
+//    print('Calories: $foodCalories (${calPercentage.toStringAsFixed(2)}%)');
+    // print('Protein: $foodProtein (${proteinPercentage.toStringAsFixed(2)}%)');
+    // print('Carbs: $foodCarbs (${carbsPercentage.toStringAsFixed(2)}%)');
+    // print('fats: $foodfat (${fatPercentage.toStringAsFixed(2)}%)'); that coming from breajfast
 
     // Get closest lunch meal
     return await MealService().getClosestMeal(
