@@ -1,14 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Breakfast/cubit/breakfast_state.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Lunch/cubit/lunch_state.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BreakfastCubit extends Cubit<BreakfastState> {
-  final FoodService_breakfast _foodService = FoodService_breakfast();
+class Lunchcubit extends Cubit<LunchState> {
+  final FoodService_launch _foodService = FoodService_launch();
   final MealService _mealService = MealService();
 
-  BreakfastCubit() : super(BreakfastState());
+  Lunchcubit() : super(LunchState());
 
   Future<void> loadClosestMeal() async {
     emit(state.copyWith(isLoading: true));
@@ -50,7 +51,7 @@ class BreakfastCubit extends Cubit<BreakfastState> {
         carbsGrams,
         fatsGrams,
         foods,
-        'Breakfast',
+        'Lunch',
       );
 
       // Log chosen meal details for debugging
@@ -82,7 +83,7 @@ class BreakfastCubit extends Cubit<BreakfastState> {
     final fatPercentage = (foodFat / fatsGrams) * 100;
 
     // Log the meal details and percentage contributions
-    print('--- Chosen Meal ---');
+    print('--- Chosen Meal  for lunch ---');
     print('Name: $foodName');
     print(
         'Calories: $foodCalories (${calPercentage.toStringAsFixed(2)}% of daily total)');
@@ -95,7 +96,7 @@ class BreakfastCubit extends Cubit<BreakfastState> {
   }
 
   void markAsCompleted() {
-    print('Marking breakfast as completed');
+    print('Marking lunch as completed');
     emit(state.copyWith(isCompleted: true));
   }
 }

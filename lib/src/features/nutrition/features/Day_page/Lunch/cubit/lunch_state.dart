@@ -1,20 +1,20 @@
-class BreakfastState {
+class LunchState {
   final Map<String, dynamic>? closestMeal;
   final bool isLoading;
   final bool isCompleted;
 
-  BreakfastState({
+  LunchState({
     this.closestMeal,
     this.isLoading = false,
     this.isCompleted = false,
   });
 
-  BreakfastState copyWith({
+  LunchState copyWith({
     Map<String, dynamic>? closestMeal,
     bool? isLoading,
     bool? isCompleted,
   }) {
-    return BreakfastState(
+    return LunchState(
       closestMeal: closestMeal ?? this.closestMeal,
       isLoading: isLoading ?? this.isLoading,
       isCompleted: isCompleted ?? this.isCompleted,
