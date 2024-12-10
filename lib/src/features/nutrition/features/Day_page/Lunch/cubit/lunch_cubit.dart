@@ -44,7 +44,7 @@ class Lunchcubit extends Cubit<LunchState> {
       );
 
       // Get the closest meal
-      final closestMeal = await _mealService.getClosestMeal(
+      final lunchMeal = await _mealService.getClosestMeal(
         calories,
         proteinGrams,
         carbsGrams,
@@ -53,13 +53,36 @@ class Lunchcubit extends Cubit<LunchState> {
         'Lunch',
       );
 
-      // Log chosen meal details for debugging
-      if (closestMeal != null) {
-        _logMealDetails(closestMeal, calories, proteinGrams, carbsGrams,
-            fatsGrams); // Log details with macronutrient percentages
+      // Log chosen lunch meal
+      if (lunchMeal != null) {
+        _logMealDetails(
+          lunchMeal,
+          calories,
+          proteinGrams,
+          carbsGrams,
+          fatsGrams,
+        );
+
+        // Example breakfast meal (replace with actual breakfast data)
+        Map<String, dynamic> breakfastMeal = {
+          'calories': 850.0,
+          'protein': 25.0,
+          'carbs': 60.0,
+          'fat': 45.0,
+        };
+
+        // Log combined meal totals
+        _logMealDetailsWithRemaining(
+          breakfastMeal,
+          lunchMeal,
+          calories,
+          proteinGrams,
+          carbsGrams,
+          fatsGrams,
+        );
       }
 
-      emit(state.copyWith(closestMeal: closestMeal, isLoading: false));
+      emit(state.copyWith(closestMeal: lunchMeal, isLoading: false));
     } catch (e) {
       print('Error loading closest meal: $e');
       emit(state.copyWith(isLoading: false));
@@ -97,5 +120,58 @@ class Lunchcubit extends Cubit<LunchState> {
   void markAsCompleted() {
     print('Marking lunch as completed');
     emit(state.copyWith(isCompleted: true));
+  }
+
+  void _logMealDetailsWithRemaining(
+    Map<String, dynamic> breakfastMeal,
+    Map<String, dynamic> lunchMeal,
+    double totalCalories,
+    double proteinGrams,
+    double carbsGrams,
+    double fatsGrams,
+  ) {
+    // Extract breakfast meal details
+    final breakfastCalories =
+        (breakfastMeal['calories'] as num?)?.toDouble() ?? 0.0;
+    final breakfastProtein =
+        (breakfastMeal['protein'] as num?)?.toDouble() ?? 0.0;
+    final breakfastCarbs = (breakfastMeal['carbs'] as num?)?.toDouble() ?? 0.0;
+    final breakfastFat = (breakfastMeal['fat'] as num?)?.toDouble() ?? 0.0;
+
+    // Extract lunch meal details
+    final lunchCalories = (lunchMeal['calories'] as num?)?.toDouble() ?? 0.0;
+    final lunchProtein = (lunchMeal['protein'] as num?)?.toDouble() ?? 0.0;
+    final lunchCarbs = (lunchMeal['carbs'] as num?)?.toDouble() ?? 0.0;
+    final lunchFat = (lunchMeal['fat'] as num?)?.toDouble() ?? 0.0;
+
+    // Calculate totals
+    final totalCaloriesConsumed = breakfastCalories + lunchCalories;
+    final totalProteinConsumed = breakfastProtein + lunchProtein;
+    final totalCarbsConsumed = breakfastCarbs + lunchCarbs;
+    final totalFatConsumed = breakfastFat + lunchFat;
+
+    // Calculate remaining values
+    final remainingCalories = totalCalories - totalCaloriesConsumed;
+    final remainingProtein = proteinGrams - totalProteinConsumed;
+    final remainingCarbs = carbsGrams - totalCarbsConsumed;
+    final remainingFat = fatsGrams - totalFatConsumed;
+
+    // Calculate percentages
+    final remainingCaloriesPercent = (remainingCalories / totalCalories) * 100;
+    final remainingProteinPercent = (remainingProtein / proteinGrams) * 100;
+    final remainingCarbsPercent = (remainingCarbs / carbsGrams) * 100;
+    final remainingFatPercent = (remainingFat / fatsGrams) * 100;
+
+    // Log details
+    print('--- Combined Meal Totals ---');
+    print('Total Calories Consumed: $totalCaloriesConsumed');
+    print(
+        'Remaining Calories: $remainingCalories (${remainingCaloriesPercent.toStringAsFixed(2)}%)');
+    print(
+        'Remaining Protein: $remainingProtein (${remainingProteinPercent.toStringAsFixed(2)}%)');
+    print(
+        'Remaining Carbs: $remainingCarbs (${remainingCarbsPercent.toStringAsFixed(2)}%)');
+    print(
+        'Remaining Fat: $remainingFat (${remainingFatPercent.toStringAsFixed(2)}%)');
   }
 }

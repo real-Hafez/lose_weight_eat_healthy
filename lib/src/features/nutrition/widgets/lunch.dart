@@ -60,6 +60,7 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
               onTap: () {
                 if (context.mounted) {
                   context.read<Lunchcubit>().markAsCompleted();
+                  // context.read<Lunchcubit>()._logMealDetailsWithRemaining();
                 }
               },
               child: NutritionInfoCard(
