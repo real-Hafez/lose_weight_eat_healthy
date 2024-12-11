@@ -10,6 +10,7 @@ import 'package:lose_weight_eat_healthy/firebase_options.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart'; // Import your cubit
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Breakfast/cubit/breakfast_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Lunch/cubit/lunch_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/dinner/cubit/dinner_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/calories_chart_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/nutrition_details_cubit_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(create: (_) => BreakfastCubit()),
         BlocProvider(create: (_) => Lunchcubit()),
+        BlocProvider(create: (_) => Dinner_cubit()),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {

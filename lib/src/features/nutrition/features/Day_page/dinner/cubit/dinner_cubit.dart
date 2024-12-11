@@ -1,14 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Lunch/cubit/lunch_state.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/dinner/cubit/dinner_state.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_Dinner.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Lunchcubit extends Cubit<LunchState> {
-  final FoodService_launch _foodService = FoodService_launch();
+class Dinner_cubit extends Cubit<DinnerState> {
+  final FoodService_Dinner _foodService = FoodService_Dinner();
   final MealService _mealService = MealService();
 
-  Lunchcubit() : super(LunchState());
+  Dinner_cubit() : super(DinnerState());
 
   Future<void> loadClosestMeal() async {
     emit(state.copyWith(isLoading: true));
@@ -44,26 +46,26 @@ class Lunchcubit extends Cubit<LunchState> {
       );
 
       // Get the closest meal
-      final lunchMeal = await _mealService.getClosestMeal(
+      final dinnerMeal = await _mealService.getClosestMeal(
         calories,
         proteinGrams,
         carbsGrams,
         fatsGrams,
         foods,
-        'Lunch',
+        'Dinner',
       );
 
       // Log chosen lunch meal
-      if (lunchMeal != null) {
+      if (dinnerMeal != null) {
         _logMealDetails(
-          lunchMeal,
+          dinnerMeal,
           calories,
           proteinGrams,
           carbsGrams,
           fatsGrams,
         );
 
-        Map<String, dynamic> LunchMeal = {
+        Map<String, dynamic> DinnerMeal = {
           'calories': 850.0,
           'protein': 25.0,
           'carbs': 60.0,
@@ -72,8 +74,8 @@ class Lunchcubit extends Cubit<LunchState> {
 
         // Log combined meal totals
         _logMealDetailsWithRemaining(
-          LunchMeal,
-          lunchMeal,
+          DinnerMeal,
+          dinnerMeal,
           calories,
           proteinGrams,
           carbsGrams,
@@ -81,7 +83,7 @@ class Lunchcubit extends Cubit<LunchState> {
         );
       }
 
-      emit(state.copyWith(closestMeal: lunchMeal, isLoading: false));
+      emit(state.copyWith(closestMeal: dinnerMeal, isLoading: false));
     } catch (e) {
       print('Error loading closest meal: $e');
       emit(state.copyWith(isLoading: false));
@@ -104,7 +106,7 @@ class Lunchcubit extends Cubit<LunchState> {
     final fatPercentage = (foodFat / fatsGrams) * 100;
 
     // Log the meal details and percentage contributions
-    print('--- Chosen Meal  for lunch ---');
+    print('--- Chosen Meal  for Dinner ---');
     print('Name: $foodName');
     print(
         'Calories: $foodCalories (${calPercentage.toStringAsFixed(2)}% of daily total)');
