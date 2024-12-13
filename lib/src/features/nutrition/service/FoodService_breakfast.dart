@@ -20,7 +20,7 @@ class FoodService_breakfast {
 
       // print("Query Response: ${response.runtimeType} - $response");
 
-      if (response == null || response.isEmpty) {
+      if (response.isEmpty) {
         print("No breakfast foods found. Min Calories: $mincal");
         return [];
       }

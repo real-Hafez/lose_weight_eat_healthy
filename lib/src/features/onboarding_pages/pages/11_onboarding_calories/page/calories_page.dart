@@ -12,10 +12,10 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CaloriesChart extends StatelessWidget {
   const CaloriesChart({
-    Key? key,
+    super.key,
     required this.onAnimationFinished,
     required this.onNextButtonPressed,
-  }) : super(key: key);
+  });
 
   final VoidCallback onAnimationFinished;
   final VoidCallback onNextButtonPressed;
@@ -66,17 +66,17 @@ class CaloriesChart extends StatelessWidget {
 
                 final chartData = [
                   ChartData(
-                    '${S().Protein}',
+                    S().Protein,
                     (protein * 4 / calories) * 100,
                     Colors.blue,
                   ),
                   ChartData(
-                    '${S().Carbs}',
+                    S().Carbs,
                     (carbs * 4 / calories) * 100,
                     Colors.green,
                   ),
                   ChartData(
-                    '${S().fats}',
+                    S().fats,
                     (fats * 9 / calories) * 100,
                     Colors.orange,
                   ),
@@ -95,7 +95,7 @@ class CaloriesChart extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TitleWidget(title: '${S().CaloriesChart}'),
+                    TitleWidget(title: S().CaloriesChart),
                     Flexible(
                       child: SfCircularChart(
                         legend: const Legend(

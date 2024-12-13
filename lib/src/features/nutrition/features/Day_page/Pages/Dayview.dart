@@ -50,34 +50,34 @@ class _DayviewState extends State<Dayview> {
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            Nutrition_Calendar(),
+            const Nutrition_Calendar(),
             const SizedBox(height: 25),
             const CalorieTrackerWidget(),
             const SizedBox(height: 25),
             Meal_Type_Display(
-              food: "${S().Breakfast}",
+              food: S().Breakfast,
               minmize: breakfastMinimized,
               onToggleMinimize: toggleBreakfastMinimize,
             ),
             if (!breakfastMinimized) const Food_Card_Breakfast(),
             Meal_Type_Display(
-              food: "${S().Lunch}",
+              food: S().Lunch,
               minmize: lunchMinimized,
               onToggleMinimize: toggleLunchMinimize,
               // onToggleMini mize: toggleLunchMinimize,
             ),
             if (!lunchMinimized) const Food_Card_Lunch(),
             Meal_Type_Display(
-              food: "${S().Dinner}",
+              food: S().Dinner,
               minmize: dinnerMinimized,
               onToggleMinimize: toggleDinnerMinimize,
             ),
             if (!dinnerMinimized) const Food_Card_Dinner(),
             Meal_Type_Display(
-              food: "${S().Snacks}",
+              food: S().Snacks,
               minmize: snacksMinimized,
               onToggleMinimize: toggleSnacksMinimize,
             ),

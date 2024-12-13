@@ -15,11 +15,7 @@ class Nutrition extends StatefulWidget {
 }
 
 class _NutritionState extends State<Nutrition> {
-  final List<String> options = [
-    '${S().day}',
-    '${S().week}',
-    '${S().shoppinglist}'
-  ];
+  final List<String> options = [(S().day), (S().week), (S().shoppinglist)];
   int selectedIndex = 0;
 
   @override

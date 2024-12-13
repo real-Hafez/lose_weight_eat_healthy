@@ -44,7 +44,7 @@ class Bmi_Card extends StatelessWidget {
           // Title at the top
           Text(
             S().Bmi,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.white,

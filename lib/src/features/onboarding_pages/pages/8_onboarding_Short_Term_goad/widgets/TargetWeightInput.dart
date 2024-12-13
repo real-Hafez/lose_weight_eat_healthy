@@ -69,17 +69,17 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
             TextPosition(offset: _controller.text.length),
           );
         }
-        String weight_unit = S().kg;
+        String weightUnit = S().kg;
         if (state.weightUnit == 'kg') {
-          weight_unit = '${S().kg}';
+          weightUnit = S().kg;
         } else {
-          weight_unit = '${S().lb}';
+          weightUnit = S().lb;
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${S().TargetWeight}',
+              S().TargetWeight,
               style: TextStyle(
                 fontSize: MediaQuery.sizeOf(context).height * .03,
                 fontWeight: FontWeight.bold,
@@ -88,7 +88,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
             ),
             const SizedBox(height: 8),
             Text(
-              '${S().Healthyrange} $formattedMinWeight - $formattedMaxWeight $weight_unit',
+              '${S().Healthyrange} $formattedMinWeight - $formattedMaxWeight $weightUnit',
               style: TextStyle(
                   fontSize: MediaQuery.sizeOf(context).height * .025,
                   color: Colors.grey.shade600),
@@ -135,7 +135,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
                           inputWeightKg > maxWeightKg) {
                         setState(() {
                           _validationMessage =
-                              '${S().rangeweight} $formattedMinWeight - $formattedMaxWeight $weight_unit .';
+                              '${S().rangeweight} $formattedMinWeight - $formattedMaxWeight $weightUnit .';
                         });
                       } else {
                         setState(() {
@@ -149,7 +149,7 @@ class _TargetWeightInputState extends State<TargetWeightInput> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  weight_unit,
+                  weightUnit,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

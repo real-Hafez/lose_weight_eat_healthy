@@ -15,9 +15,9 @@ class WeightGoalAppBar extends StatelessWidget implements PreferredSizeWidget {
         builder: (context, state) {
           String modifiedGoalText;
           if (state.userGoal == 'Lose Weight') {
-            modifiedGoalText = '${S().LoseWeight}';
+            modifiedGoalText = S().LoseWeight;
           } else if (state.userGoal == 'Gain Weight') {
-            modifiedGoalText = '${S().GainWeight}';
+            modifiedGoalText = S().GainWeight;
           } else {
             modifiedGoalText = 'f';
           }

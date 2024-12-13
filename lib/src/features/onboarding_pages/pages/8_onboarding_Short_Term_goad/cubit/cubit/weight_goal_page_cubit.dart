@@ -7,15 +7,15 @@ class WeightGoalCubit extends Cubit<WeightGoalState> {
   WeightGoalCubit() : super(WeightGoalState('60', '90'));
   String formatWeight(double weight) {
     return state.weightUnit == 'lb'
-        ? (weight * 2.20462).toStringAsFixed(1) + ' ${S().lb}'
-        : weight.toStringAsFixed(1) + ' ${S().kg}';
+        ? '${(weight * 2.20462).toStringAsFixed(1)} ${S().lb}'
+        : '${weight.toStringAsFixed(1)} ${S().kg}';
   }
 
   // Convert weekly loss goal to the selected unit
   String formatWeeklyLoss(double weeklyLoss) {
     return state.weightUnit == 'lb'
-        ? (weeklyLoss * 2.20462).toStringAsFixed(2) + '${S().lbweek}'
-        : weeklyLoss.toStringAsFixed(2) + '${S().kgweek}';
+        ? '${(weeklyLoss * 2.20462).toStringAsFixed(2)}${S().lbweek}'
+        : '${weeklyLoss.toStringAsFixed(2)}${S().kgweek}';
   }
 
   Future<void> loadPreferences() async {

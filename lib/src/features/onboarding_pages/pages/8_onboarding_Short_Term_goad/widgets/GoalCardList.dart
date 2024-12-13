@@ -80,7 +80,7 @@ class _GoalCardListState extends State<GoalCardList> {
                   title:
                       "${isLoseWeight ? S().lose : S().gain} ${convertNumber(context.read<WeightGoalCubit>().formatWeeklyLoss(0.5))}",
                   description:
-                      "${S().Gradual} ${isLoseWeight ? "${S().WeightLoss}" : "${S().weightgain}"}",
+                      "${S().Gradual} ${isLoseWeight ? S().WeightLoss : S().weightgain}",
                   icon: isLoseWeight
                       ? Icons.hourglass_bottom
                       : Icons.arrow_upward,
@@ -93,7 +93,7 @@ class _GoalCardListState extends State<GoalCardList> {
                   title:
                       "${isLoseWeight ? S().lose : S().gain} ${convertNumber(context.read<WeightGoalCubit>().formatWeeklyLoss(1.0))}",
                   description:
-                      "${S().Faster} ${isLoseWeight ? "${S().WeightLoss}" : "${S().weightgain}"}",
+                      "${S().Faster} ${isLoseWeight ? S().WeightLoss : S().weightgain}",
                   icon: isLoseWeight
                       ? Icons.flash_on
                       : Icons.arrow_upward_outlined,
@@ -152,7 +152,7 @@ class _GoalCardListState extends State<GoalCardList> {
           )
         : GoalOptionCard(
             title: S().customgoal,
-            description: '${S().weeklygoal}',
+            description: S().weeklygoal,
             icon: Icons.edit,
             isSelected: state.selectedOption == "Custom",
             onTap: () => _showCustomInputDialog(context, state),
@@ -168,7 +168,7 @@ class _GoalCardListState extends State<GoalCardList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("${S().customgoal}"),
+          title: Text(S().customgoal),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -181,8 +181,8 @@ class _GoalCardListState extends State<GoalCardList> {
                 controller: controller,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "${S().ex}",
+                  border: const OutlineInputBorder(),
+                  hintText: S().ex,
                 ),
               ),
             ],
@@ -190,7 +190,7 @@ class _GoalCardListState extends State<GoalCardList> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text("${S().Cancel}"),
+              child: Text(S().Cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -212,14 +212,14 @@ class _GoalCardListState extends State<GoalCardList> {
                       _saveSelectedGoal("Custom");
                       Navigator.of(context).pop();
                     } else {
-                      _showSnackBar(context, "${S().validgoal}");
+                      _showSnackBar(context, S().validgoal);
                     }
                   } else {
-                    _showSnackBar(context, "${S().vaildnumber}");
+                    _showSnackBar(context, S().vaildnumber);
                   }
                 }
               },
-              child: Text("${S().Save}"),
+              child: Text(S().Save),
             ),
           ],
         );

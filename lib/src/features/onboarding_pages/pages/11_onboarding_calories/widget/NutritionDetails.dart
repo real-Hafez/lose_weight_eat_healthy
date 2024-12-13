@@ -44,7 +44,7 @@ class _NutritionDetailsView extends StatelessWidget {
     "High Protein": S().HighProtein,
   };
 
-  _NutritionDetailsView({super.key, required this.onDietSelected});
+  _NutritionDetailsView({required this.onDietSelected});
 
   @override
   Widget build(BuildContext context) {

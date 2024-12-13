@@ -53,8 +53,7 @@ class _WeightGoalPageState extends State<WeightGoalPage> {
                 // Show the chart only if an option is selected
                 BlocBuilder<WeightGoalCubit, WeightGoalState>(
                   builder: (context, state) {
-                    if (state.selectedOption != null &&
-                        state.selectedOption != "") {
+                    if (state.selectedOption != "") {
                       return Column(
                         children: [
                           const AspectRatio(

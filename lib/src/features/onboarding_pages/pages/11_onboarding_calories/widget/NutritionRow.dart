@@ -7,6 +7,7 @@ class NutritionRow extends StatelessWidget {
   final Color color;
 
   const NutritionRow({
+    super.key,
     required this.label,
     required this.value,
     required this.icon,

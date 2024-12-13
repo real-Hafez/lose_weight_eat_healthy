@@ -69,7 +69,7 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
         mainAxisSize: MainAxisSize.min,
         children: [
           AutoSizeText(
-            "${S().NutritionBudget}",
+            S().NutritionBudget,
             maxLines: 1,
             minFontSize: 14,
             style: TextStyle(
@@ -79,17 +79,17 @@ class _DailyNutritionCardState extends State<Daily_Nutrition_Card> {
             ),
           ),
           SizedBox(height: MediaQuery.sizeOf(context).height * .02),
-          Calorie_Progress_Indicator(),
+          const Calorie_Progress_Indicator(),
           SizedBox(height: MediaQuery.sizeOf(context).height * .02),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               NutritionDetail(
-                label: "${S().Calories}",
+                label: S().Calories,
                 value: _convertBasedOnLanguage(calories.round().toString()),
               ),
               NutritionDetail(
-                label: "${S().burned}",
+                label: S().burned,
                 value: _convertBasedOnLanguage("221"),
               ),
             ],

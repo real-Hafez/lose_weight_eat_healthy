@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Week_page/widgets/MealDetailCard.dart';
-import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_Dinner.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_breakfast.dart';
-import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 
 class MealRow extends StatelessWidget {
   final DateTime date;
