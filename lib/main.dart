@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
           create: (_) => CaloriesChartCubit(),
         ),
         BlocProvider(create: (_) => BreakfastCubit()),
-        BlocProvider(create: (_) => Lunchcubit()),
+        BlocProvider(create: (_) => Lunch_cubit()),
         BlocProvider(create: (_) => Dinner_cubit()),
       ],
       child: BlocBuilder<LocaleCubit, Locale>(

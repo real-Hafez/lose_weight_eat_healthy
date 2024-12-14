@@ -4,11 +4,11 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodServi
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Lunchcubit extends Cubit<LunchState> {
+class Lunch_cubit extends Cubit<LunchState> {
   final FoodService_launch _foodService = FoodService_launch();
   final MealService _mealService = MealService();
 
-  Lunchcubit() : super(LunchState());
+  Lunch_cubit() : super(LunchState());
 
   Future<void> loadClosestMeal() async {
     emit(state.copyWith(isLoading: true));

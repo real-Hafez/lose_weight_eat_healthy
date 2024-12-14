@@ -32,8 +32,8 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => Lunchcubit()..loadClosestMeal(),
-      child: BlocBuilder<Lunchcubit, LunchState>(
+      create: (_) => Lunch_cubit()..loadClosestMeal(),
+      child: BlocBuilder<Lunch_cubit, LunchState>(
         builder: (context, state) {
           if (state.isLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -59,7 +59,7 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
             return GestureDetector(
               onTap: () {
                 if (context.mounted) {
-                  context.read<Lunchcubit>().markAsCompleted();
+                  context.read<Lunch_cubit>().markAsCompleted();
                   // context.read<Lunchcubit>()._logMealDetailsWithRemaining();
                 }
               },
