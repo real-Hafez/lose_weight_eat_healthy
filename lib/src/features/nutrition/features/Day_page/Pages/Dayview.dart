@@ -7,6 +7,7 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_Card
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_Card_Lunch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Food_card_Snacks.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Meal_Type_Display.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dayview extends StatefulWidget {
   const Dayview({super.key});
@@ -20,6 +21,31 @@ class _DayviewState extends State<Dayview> {
   bool lunchMinimized = false;
   bool dinnerMinimized = false;
   bool snacksMinimized = false;
+  double totalCalories =
+      2000.0; // Default calories, will be fetched from SharedPreferences
+  double breakfastCalories =
+      0.0; // To hold the calories for breakfast (set dynamically)
+  double remainingCalories = 0.0; // To hold remaining calories for the day
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCalories();
+  }
+
+  Future<void> _loadCalories() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Fetch total user calories from SharedPreferences
+    totalCalories = prefs.getDouble('calories') ?? 2000.0;
+
+    // Simulated breakfast calories (replace this with actual breakfast data fetching logic)
+    breakfastCalories = 600.0; // Example: breakfast calories
+    // Calculate remaining calories
+    remainingCalories = totalCalories - breakfastCalories;
+
+    setState(() {});
+  }
 
   void toggleBreakfastMinimize() {
     setState(() {
@@ -47,6 +73,10 @@ class _DayviewState extends State<Dayview> {
 
   @override
   Widget build(BuildContext context) {
+    // Calculate the percentage of the remaining calories
+    double remainingCaloriesPercentage =
+        (remainingCalories / totalCalories) * 100;
+
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -62,14 +92,14 @@ class _DayviewState extends State<Dayview> {
               minmize: breakfastMinimized,
               onToggleMinimize: toggleBreakfastMinimize,
             ),
-            if (!breakfastMinimized) const Food_Card_Breakfast(),
-            Meal_Type_Display(
-              food: S().Lunch,
-              minmize: lunchMinimized,
-              onToggleMinimize: toggleLunchMinimize,
-              // onToggleMini mize: toggleLunchMinimize,
-            ),
-            if (!lunchMinimized) const Food_Card_Lunch(),
+            if (!breakfastMinimized)
+              Food_Card_Breakfast(
+                remainingCalories: remainingCalories,
+                mincal: 0.00,
+                maxcal: 0.10,
+                description:
+                    'Breakfast calories: $breakfastCalories, remaining calories: $remainingCalories (${remainingCaloriesPercentage.toStringAsFixed(1)}%) for the day.',
+              ),
             Meal_Type_Display(
               food: S().Dinner,
               minmize: dinnerMinimized,
@@ -81,7 +111,6 @@ class _DayviewState extends State<Dayview> {
               minmize: snacksMinimized,
               onToggleMinimize: toggleSnacksMinimize,
             ),
-            // if (!snacksMinimized) const Food_Card_snacks(),
           ],
         ),
       ),

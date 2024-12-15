@@ -162,15 +162,15 @@ class Lunch_cubit extends Cubit<LunchState> {
     final remainingFatPercent = (remainingFat / fatsGrams) * 100;
 
     // Log details
-    print('--- Combined Meal Totals ---');
-    print('Total Calories Consumed: $totalCaloriesConsumed');
-    print(
-        'Remaining Calories: $remainingCalories (${remainingCaloriesPercent.toStringAsFixed(2)}%)');
-    print(
-        'Remaining Protein: $remainingProtein (${remainingProteinPercent.toStringAsFixed(2)}%)');
-    print(
-        'Remaining Carbs: $remainingCarbs (${remainingCarbsPercent.toStringAsFixed(2)}%)');
-    print(
-        'Remaining Fat: $remainingFat (${remainingFatPercent.toStringAsFixed(2)}%)');
+    // print('--- Combined Meal Totals ---');
+    // print('Total Calories Consumed: $totalCaloriesConsumed');
+    // print(
+    //     'Remaining Calories: $remainingCalories (${remainingCaloriesPercent.toStringAsFixed(2)}%)');
+    // print(
+    //     'Remaining Protein: $remainingProtein (${remainingProteinPercent.toStringAsFixed(2)}%)');
+    // print(
+    //     'Remaining Carbs: $remainingCarbs (${remainingCarbsPercent.toStringAsFixed(2)}%)');
+    // print(
+    //     'Remaining Fat: $remainingFat (${remainingFatPercent.toStringAsFixed(2)}%)');
   }
 }

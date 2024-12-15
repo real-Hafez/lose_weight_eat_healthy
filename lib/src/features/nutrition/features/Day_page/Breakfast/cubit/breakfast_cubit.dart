@@ -10,63 +10,63 @@ class BreakfastCubit extends Cubit<BreakfastState> {
 
   BreakfastCubit() : super(BreakfastState());
 
-  Future<void> loadClosestMeal() async {
-    emit(state.copyWith(isLoading: true));
+  // Future<void> loadClosestMeal() async {
+  //   emit(state.copyWith(isLoading: true));
 
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   try {
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      double proteinGrams = prefs.getDouble('proteinGrams') ?? 200;
-      double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
-      double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
-      double calories = prefs.getDouble('calories') ?? 2000;
+  //     double proteinGrams = prefs.getDouble('proteinGrams') ?? 200;
+  //     double carbsGrams = prefs.getDouble('carbsGrams') ?? 200;
+  //     double fatsGrams = prefs.getDouble('fatsGrams') ?? 0;
+  //     double calories = prefs.getDouble('calories') ?? 2000;
 
-      // Calculate ranges for meal search
-      double minProtein = proteinGrams * 0.01;
-      double maxProtein = proteinGrams * 0.70;
-      double minCarb = carbsGrams * 0.00;
-      double maxCarb = carbsGrams * 0.70;
-      double minCalories = calories * 0.01;
-      double maxCalories = calories * 0.70;
-      double minFat = fatsGrams * 0.10;
-      double maxFat = fatsGrams * 0.99;
+  //     // Calculate ranges for meal search
+  //     double minProtein = proteinGrams * 0.01;
+  //     double maxProtein = proteinGrams * 0.70;
+  //     double minCarb = carbsGrams * 0.00;
+  //     double maxCarb = carbsGrams * 0.70;
+  //     double minCalories = calories * 0.01;
+  //     double maxCalories = calories * 0.70;
+  //     double minFat = fatsGrams * 0.10;
+  //     double maxFat = fatsGrams * 0.99;
 
-      // Fetch the list of foods
-      List<Map<String, dynamic>> foods = await _foodService.getFoods(
-        minCalories,
-        maxCalories,
-        minProtein,
-        maxProtein,
-        minCarb,
-        maxCarb,
-        minFat,
-        maxFat,
-      );
+  //     // Fetch the list of foods
+  //     List<Map<String, dynamic>> foods = await _foodService.getFoods(
+  //       minCalories,
+  //       maxCalories,
+  //       minProtein,
+  //       maxProtein,
+  //       minCarb,
+  //       maxCarb,
+  //       minFat,
+  //       maxFat,
+  //     );
 
-      // Get the closest meal
-      final closestMeal = await _mealService.getClosestMeal(
-        calories,
-        proteinGrams,
-        carbsGrams,
-        fatsGrams,
-        foods,
-        'Breakfast',
-      );
+  //     // Get the closest meal
+  //     final closestMeal = await _mealService.getClosestMeal(
+  //       calories,
+  //       proteinGrams,
+  //       carbsGrams,
+  //       fatsGrams,
+  //       foods,
+  //       'Breakfast',
+  //     );
 
-      // Log chosen meal details for debugging
-      if (closestMeal != null) {
-        _logMealDetails(closestMeal, calories, proteinGrams, carbsGrams,
-            fatsGrams); // Log details with macronutrient percentages
-      }
+  //     // Log chosen meal details for debugging
+  //     if (closestMeal != null) {
+  //       _logMealDetails(closestMeal, calories, proteinGrams, carbsGrams,
+  //           fatsGrams); // Log details with macronutrient percentages
+  //     }
 
-      emit(state.copyWith(closestMeal: closestMeal, isLoading: false));
-    } catch (e) {
-      print('Error loading closest meal: $e');
-      emit(state.copyWith(isLoading: false));
-    }
-  }
+  //     emit(state.copyWith(closestMeal: closestMeal, isLoading: false));
+  //   } catch (e) {
+  //     print('Error loading closest meal: $e');
+  //     emit(state.copyWith(isLoading: false));
+  //   }
+  // }
 
-  // Helper method for logging meal details and calculating percentages
+  // // Helper method for logging meal details and calculating percentages
   void _logMealDetails(Map<String, dynamic> meal, double totalCalories,
       double proteinGrams, double carbsGrams, double fatsGrams) {
     final foodName = meal['food_Name_Arabic'] ?? 'Unknown';

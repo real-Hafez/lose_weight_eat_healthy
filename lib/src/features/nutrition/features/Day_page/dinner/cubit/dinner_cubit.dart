@@ -104,16 +104,16 @@ class Dinner_cubit extends Cubit<DinnerState> {
     final fatPercentage = (foodFat / fatsGrams) * 100;
 
     // Log the meal details and percentage contributions
-    print('--- Chosen Meal  for Dinner ---');
-    print('Name: $foodName');
-    print(
-        'Calories: $foodCalories (${calPercentage.toStringAsFixed(2)}% of daily total)');
-    print(
-        'Protein: $foodProtein (${proteinPercentage.toStringAsFixed(2)}% of daily protein target)');
-    print(
-        'Carbs: $foodCarbs (${carbsPercentage.toStringAsFixed(2)}% of daily carb target)');
-    print(
-        'Fat: $foodFat (${fatPercentage.toStringAsFixed(2)}% of daily fat target)');
+    //   print('--- Chosen Meal  for Dinner ---');
+    //   print('Name: $foodName');
+    //   print(
+    //       'Calories: $foodCalories (${calPercentage.toStringAsFixed(2)}% of daily total)');
+    //   print(
+    //       'Protein: $foodProtein (${proteinPercentage.toStringAsFixed(2)}% of daily protein target)');
+    //   print(
+    //       'Carbs: $foodCarbs (${carbsPercentage.toStringAsFixed(2)}% of daily carb target)');
+    //   print(
+    //       'Fat: $foodFat (${fatPercentage.toStringAsFixed(2)}% of daily fat target)');
   }
 
   void markAsCompleted() {
@@ -162,15 +162,15 @@ class Dinner_cubit extends Cubit<DinnerState> {
     final remainingFatPercent = (remainingFat / fatsGrams) * 100;
 
     // Log details
-    print('--- Combined Meal Totals ---');
-    print('Total Calories Consumed: $totalCaloriesConsumed');
-    print(
-        'Remaining Calories: $remainingCalories (${remainingCaloriesPercent.toStringAsFixed(2)}%)');
-    print(
-        'Remaining Protein: $remainingProtein (${remainingProteinPercent.toStringAsFixed(2)}%)');
-    print(
-        'Remaining Carbs: $remainingCarbs (${remainingCarbsPercent.toStringAsFixed(2)}%)');
-    print(
-        'Remaining Fat: $remainingFat (${remainingFatPercent.toStringAsFixed(2)}%)');
+    // print('--- Combined Meal Totals ---');
+    // print('Total Calories Consumed: $totalCaloriesConsumed');
+    // print(
+    //     'Remaining Calories: $remainingCalories (${remainingCaloriesPercent.toStringAsFixed(2)}%)');
+    // print(
+    //     'Remaining Protein: $remainingProtein (${remainingProteinPercent.toStringAsFixed(2)}%)');
+    // print(
+    //     'Remaining Carbs: $remainingCarbs (${remainingCarbsPercent.toStringAsFixed(2)}%)');
+    // print(
+    //     'Remaining Fat: $remainingFat (${remainingFatPercent.toStringAsFixed(2)}%)');
   }
 }
