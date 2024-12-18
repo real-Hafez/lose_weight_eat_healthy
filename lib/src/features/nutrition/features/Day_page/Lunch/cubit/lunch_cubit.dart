@@ -35,12 +35,12 @@ class Lunch_cubit extends Cubit<LunchState> {
       List<Map<String, dynamic>> foods = await _foodService.getFoods(
         minCalories,
         maxCalories,
-        minProtein,
-        maxProtein,
-        minCarb,
-        maxCarb,
-        minFat,
-        maxFat,
+        // minProtein,
+        // maxProtein,
+        // minCarb,
+        // maxCarb,
+        // minFat,
+        // maxFat,
       );
 
       // Get the closest meal

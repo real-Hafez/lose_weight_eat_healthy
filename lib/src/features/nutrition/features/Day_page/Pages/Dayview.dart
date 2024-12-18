@@ -101,6 +101,19 @@ class _DayviewState extends State<Dayview> {
                     'Breakfast calories: $breakfastCalories, remaining calories: $remainingCalories (${remainingCaloriesPercentage.toStringAsFixed(1)}%) for the day.',
               ),
             Meal_Type_Display(
+              food: S().Lunch,
+              minmize: lunchMinimized,
+              onToggleMinimize: toggleLunchMinimize,
+            ),
+            if (!lunchMinimized)
+              Food_Card_Lunch(
+                remainingCalories: remainingCalories,
+                mincal: 0.00,
+                maxcal: 0.10,
+                description:
+                    'Breakfast calories: $breakfastCalories, remaining calories: $remainingCalories (${remainingCaloriesPercentage.toStringAsFixed(1)}%) for the day.',
+              ),
+            Meal_Type_Display(
               food: S().Dinner,
               minmize: dinnerMinimized,
               onToggleMinimize: toggleDinnerMinimize,
