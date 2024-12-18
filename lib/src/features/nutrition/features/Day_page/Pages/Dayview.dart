@@ -82,12 +82,12 @@ class _DayviewState extends State<Dayview> {
             ),
             if (!breakfastMinimized)
               Food_Card_Breakfast(
-                remainingCalories: remainingAfterBreakfast,
-                mincal: 0.20,
-                maxcal: 0.30,
-                description:
-                    'Breakfast calories: $breakfastCalories. Remaining calories: ${remainingAfterBreakfast.toStringAsFixed(0)} cal.',
-              ),
+                  remainingCalories: remainingAfterBreakfast,
+                  mincal: 0.20,
+                  maxcal: 0.30,
+                  description: ''
+                  // 'Breakfast calories: $breakfastCalories. Remaining calories: ${remainingAfterBreakfast.toStringAsFixed(0)} cal.',
+                  ),
 
             // Lunch Section
             Meal_Type_Display(
@@ -97,12 +97,12 @@ class _DayviewState extends State<Dayview> {
             ),
             if (!lunchMinimized)
               Food_Card_Lunch(
-                remainingCalories: remainingAfterLunch,
-                mincal: 0.60,
-                maxcal: 0.80,
-                description:
-                    'Lunch calories: $lunchCalories. Remaining calories: ${remainingAfterLunch.toStringAsFixed(0)} cal.',
-              ),
+                  remainingCalories: remainingAfterLunch,
+                  mincal: 0.60,
+                  maxcal: 0.80,
+                  description: ''
+                  // 'Lunch calories: $lunchCalories. Remaining calories: ${remainingAfterLunch.toStringAsFixed(0)} cal.',
+                  ),
             Meal_Type_Display(
               food: S().Dinner,
               minmize: dinnerMinimized,
@@ -110,12 +110,13 @@ class _DayviewState extends State<Dayview> {
             ),
             if (!dinnerMinimized)
               Food_Card_Dinner(
-                remainingCalories: remainingAfterLunch,
-                mincal: 0.10,
-                maxcal: 0.20,
-                description:
-                    'Lunch calories: $lunchCalories. Remaining calories: ${remainingAfterLunch.toStringAsFixed(0)} cal.',
-              ),
+                  remainingCalories: remainingAfterLunch,
+                  mincal: 0.10,
+                  maxcal: 0.20,
+                  description: ''
+                  // 'Lunch calories: $lunchCalories. Remaining calories: ${remainingAfterLunch.toStringAsFixed(0)} cal.'
+                  // ,
+                  ),
           ],
         ),
       ),

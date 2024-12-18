@@ -160,11 +160,11 @@ class _DinnerState extends State<Dinner> with SingleTickerProviderStateMixin {
               meal_id: _closestMeal!['id'],
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            _description, // Use the dynamically updated description from state
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          // const SizedBox(height: 10),
+          // Text(
+          //   _description, // Use the dynamically updated description from state
+          //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          // ),
         ],
       );
     }
