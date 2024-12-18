@@ -7,7 +7,7 @@ class Food_Card_Breakfast extends StatelessWidget {
     required this.mincal,
     required this.maxcal,
     required this.remainingCalories,
-    required this.description, // New Parameter
+    required this.description,
   });
 
   final dynamic mincal;

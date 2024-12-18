@@ -64,21 +64,33 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
       double minCalories = _totalCalories * widget.mincal;
       double maxCalories = _totalCalories * widget.maxcal;
 
-      // Fetch foods for lunch
-      List<Map<String, dynamic>> foods = await _foodService.getFoods(
-        minCalories,
-        maxCalories,
-      );
+      // Expand search range dynamically if no meals are found
+      const double step = 50.0; // Increment step for expanding range
+      List<Map<String, dynamic>> foods = [];
+      while (foods.isEmpty) {
+        // Fetch foods for lunch within current range
+        foods = await _foodService.getFoods(minCalories, maxCalories);
 
-      // Get the closest meal
-      final closestMeal = await _mealService.getClosestMeal(
-        _totalCalories,
-        prefs.getDouble('proteinGrams') ?? 200,
-        prefs.getDouble('carbsGrams') ?? 200,
-        prefs.getDouble('fatsGrams') ?? 0,
-        foods,
-        'Lunch',
-      );
+        // If no foods are found, incrementally expand the range
+        if (foods.isEmpty) {
+          minCalories = (minCalories - step).clamp(0, double.infinity);
+          maxCalories += step;
+          if (minCalories < 0 && maxCalories > _totalCalories)
+            break; // Break to avoid infinite loop
+        }
+      }
+
+      // Get the closest meal if meals are found
+      final closestMeal = foods.isNotEmpty
+          ? await _mealService.getClosestMeal(
+              _totalCalories,
+              prefs.getDouble('proteinGrams') ?? 200,
+              prefs.getDouble('carbsGrams') ?? 200,
+              prefs.getDouble('fatsGrams') ?? 0,
+              foods,
+              'lunch',
+            )
+          : null;
 
       // Extract the consumed calories
       _consumedCalories = (closestMeal?['calories'] as num?)?.toDouble() ?? 0;
@@ -91,8 +103,10 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
         _isLoading = false;
 
         // Update the description dynamically
-        _description = 'You have consumed $_consumedCalories calories '
-            'for lunch. Remaining calories for the day: $remainingCalories cal.';
+        _description = closestMeal != null
+            ? 'You have consumed $_consumedCalories calories '
+                'for lunch. Remaining calories for the day: $remainingCalories cal.'
+            : 'No suitable meal found for the given criteria.';
       });
     } catch (e) {
       print('Error loading closest meal: $e');
