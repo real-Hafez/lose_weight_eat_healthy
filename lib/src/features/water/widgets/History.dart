@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
 
@@ -7,8 +8,11 @@ class History extends StatefulWidget {
   final List<Map<String, dynamic>> intakeHistory;
   final String savedUnit;
 
-  const History(
-      {super.key, required this.intakeHistory, required this.savedUnit});
+  const History({
+    super.key,
+    required this.intakeHistory,
+    required this.savedUnit,
+  });
 
   @override
   _HistoryState createState() => _HistoryState();
@@ -19,113 +23,145 @@ class _HistoryState extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WaterBloc, WaterState>(
-      builder: (context, state) {
-        if (state is WaterLoaded) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'History',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).size.height * .06,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(isExpanded
-                        ? Icons.minimize
-                        : Icons.add), // Minimize or expand icon
-                    onPressed: () {
-                      setState(() {
-                        isExpanded = !isExpanded;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              if (isExpanded)
-                widget.intakeHistory.isEmpty
-                    ? const Text('No history for this day')
-                    : Column(
-                        children: widget.intakeHistory.map((entry) {
-                          String date =
-                              "${entry['date'].day}-${entry['date'].month}-${entry['date'].year}";
-                          String time =
-                              "${entry['date'].hour}:${entry['date'].minute}";
-                          DateTime entryDate = DateTime(entry['date'].year,
-                              entry['date'].month, entry['date'].day);
-                          bool? goalStatus =
-                              state.goalCompletionStatus[entryDate];
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
-                          return Row(
-                            children: [
-                              Text(
-                                date,
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height * .03,
-                                ),
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * .02),
-                              Icon(
-                                Icons.water_drop_outlined,
-                                size: MediaQuery.of(context).size.height * .02,
-                              ),
-                              Text(
-                                'Water',
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height * .02,
-                                ),
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * .05),
-                              Text(
-                                '${entry['amount'].toStringAsFixed(1)} ${widget.savedUnit}',
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height * .02,
-                                ),
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * .05),
-                              Text(
-                                time,
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height * .02,
-                                ),
-                              ),
-                              const Spacer(),
-                              _buildGoalStatusIcon(goalStatus),
-                            ],
-                          );
-                        }).toList(),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+      child: BlocBuilder<WaterBloc, WaterState>(
+        builder: (context, state) {
+          if (state is WaterLoaded) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AutoSizeText(
+                      'History',
+                      style: TextStyle(
+                        fontSize: screenHeight * 0.04,
+                        fontWeight: FontWeight.bold,
                       ),
-            ],
-          );
-        }
-        return const SizedBox();
-      },
+                      maxLines: 1,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        isExpanded ? Icons.minimize : Icons.add,
+                        size: screenHeight * 0.03,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isExpanded = !isExpanded;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                if (isExpanded)
+                  widget.intakeHistory.isEmpty
+                      ? Center(
+                          child: AutoSizeText(
+                            'No history for this day',
+                            style: TextStyle(fontSize: screenHeight * 0.02),
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: widget.intakeHistory.length,
+                          itemBuilder: (context, index) {
+                            final entry = widget.intakeHistory[index];
+                            String date =
+                                "${entry['date'].day}-${entry['date'].month}-${entry['date'].year}";
+                            String time =
+                                "${entry['date'].hour}:${entry['date'].minute.toString().padLeft(2, '0')}";
+                            DateTime entryDate = DateTime(
+                              entry['date'].year,
+                              entry['date'].month,
+                              entry['date'].day,
+                            );
+                            bool? goalStatus =
+                                state.goalCompletionStatus[entryDate];
+
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: screenHeight * 0.01),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: AutoSizeText(
+                                      date,
+                                      style: TextStyle(
+                                        fontSize: screenHeight * 0.02,
+                                      ),
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  SizedBox(width: screenWidth * 0.02),
+                                  Icon(
+                                    Icons.water_drop_outlined,
+                                    size: screenHeight * 0.025,
+                                  ),
+                                  SizedBox(width: screenWidth * 0.01),
+                                  Expanded(
+                                    flex: 3,
+                                    child: AutoSizeText(
+                                      '${entry['amount'].toStringAsFixed(1)} ${widget.savedUnit}',
+                                      style: TextStyle(
+                                        fontSize: screenHeight * 0.02,
+                                      ),
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: AutoSizeText(
+                                      time,
+                                      style: TextStyle(
+                                        fontSize: screenHeight * 0.02,
+                                      ),
+                                      maxLines: 1,
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                  SizedBox(width: screenWidth * 0.02),
+                                  _buildGoalStatusIcon(
+                                      goalStatus, screenHeight),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+              ],
+            );
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 
-  Widget _buildGoalStatusIcon(bool? status) {
+  Widget _buildGoalStatusIcon(bool? status, double screenHeight) {
     if (status == null) {
-      return const Icon(Icons.hourglass_empty,
-          color: Colors.orange); // In-progress
+      return Icon(
+        Icons.hourglass_empty,
+        color: Colors.orange,
+        size: screenHeight * 0.03,
+      );
     } else if (status) {
-      return const Icon(Icons.check_circle,
-          color: Colors.green); 
+      return Icon(
+        Icons.check_circle,
+        color: Colors.green,
+        size: screenHeight * 0.03,
+      );
     } else {
-      return const Icon(Icons.close, color: Colors.red); 
+      return Icon(
+        Icons.close,
+        color: Colors.red,
+        size: screenHeight * 0.03,
+      );
     }
   }
 }
