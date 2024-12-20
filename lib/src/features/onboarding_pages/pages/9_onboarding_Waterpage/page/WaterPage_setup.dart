@@ -99,73 +99,98 @@ class _WaterPage_setupState extends State<WaterPage_setup> {
           } else if (state is WaterError) {
             return Center(child: Text(state.message));
           } else if (state is WaterLoaded) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            return Stack(
               children: [
-                ProgressIndicatorWidget(value: 0.7),
-                AnimatedTextWidget(
-                  onFinished: () {
-                    context.read<WaterCubit>().finishAnimation();
-                    widget.onAnimationFinished();
-                  },
-                  text: S().Water,
-                ),
-                const SizedBox(height: 24),
-                if (state.animationFinished)
-                  WaterTogglebuttons(
-                    units: _units,
-                    selectedUnit: state.selectedUnit,
-                    onUnitSelected: (int index) {
-                      final selectedUnit = _units[index];
-                      context
-                          .read<WaterCubit>()
-                          .updateSelectedUnit(selectedUnit);
-                    },
-                  ),
-                const SizedBox(height: 24),
-                if (state.selectedUnit != null && state.waterNeeded > 0)
-                  Column(
-                    children: [
-                      AutoSizeText(
-                        '${S().howmanywater} ${state.waterNeeded.toStringAsFixed(1)} ${state.selectedUnit} ${S().perday}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.red,
-                        ),
-                        maxLines: 1,
-                        maxFontSize: 24,
-                        minFontSize: 14,
-                        textAlign: TextAlign.center,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ProgressIndicatorWidget(value: 0.7),
+                    AnimatedTextWidget(
+                      onFinished: () {
+                        context.read<WaterCubit>().finishAnimation();
+                        widget.onAnimationFinished();
+                      },
+                      instantDisplay: context.read<WaterCubit>().skipAnimation,
+                      text: S().Water,
+                    ),
+                    const SizedBox(height: 24),
+                    if (state.animationFinished)
+                      WaterTogglebuttons(
+                        units: _units,
+                        selectedUnit: state.selectedUnit,
+                        onUnitSelected: (int index) {
+                          final selectedUnit = _units[index];
+                          context
+                              .read<WaterCubit>()
+                              .updateSelectedUnit(selectedUnit);
+                        },
                       ),
-                    ],
-                  ),
-                const SizedBox(height: 24),
-                if (state.selectedUnit != null && state.waterNeeded > 0)
-                  Timepacker(
-                    onWakeUpTimeSelected: (time) {
-                      setState(() {
-                        _wakeUpTime = time;
-                      });
-                      context.read<WaterCubit>().selectWakeUpTime(true);
-                    },
-                    onSleepTimeSelected: (time) {
-                      setState(() {
-                        _sleepTime = time;
-                      });
-                      context.read<WaterCubit>().selectSleepTime(true);
-                    },
-                  ),
-                const SizedBox(height: 24),
-                if (state.wakeUpTimeSelected)
-                  NextButton(
-                    onPressed: () async {
-                      widget.onNextButtonPressed();
-                      await _savePreferences(
-                        state.waterNeeded,
-                        state.selectedUnit!,
-                      );
-                    },
-                    collectionName: '',
+                    const SizedBox(height: 24),
+                    if (state.selectedUnit != null && state.waterNeeded > 0)
+                      Column(
+                        children: [
+                          AutoSizeText(
+                            '${S().howmanywater} ${state.waterNeeded.toStringAsFixed(1)} ${state.selectedUnit} ${S().perday}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.red,
+                            ),
+                            maxLines: 1,
+                            maxFontSize: 24,
+                            minFontSize: 14,
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 24),
+                    if (state.selectedUnit != null && state.waterNeeded > 0)
+                      Timepacker(
+                        onWakeUpTimeSelected: (time) {
+                          setState(() {
+                            _wakeUpTime = time;
+                          });
+                          context.read<WaterCubit>().selectWakeUpTime(true);
+                        },
+                        onSleepTimeSelected: (time) {
+                          setState(() {
+                            _sleepTime = time;
+                          });
+                          context.read<WaterCubit>().selectSleepTime(true);
+                        },
+                      ),
+                    const SizedBox(height: 24),
+                    if (state.wakeUpTimeSelected)
+                      NextButton(
+                        onPressed: () async {
+                          widget.onNextButtonPressed();
+                          await _savePreferences(
+                            state.waterNeeded,
+                            state.selectedUnit!,
+                          );
+                        },
+                        saveData: false,
+                      ),
+                  ],
+                ),
+                if (!state.animationFinished)
+                  Positioned(
+                    bottom: 20,
+                    right: 20,
+                    child: TextButton(
+                      onPressed: () {
+                        context
+                            .read<WaterCubit>()
+                            .skipTextAnimation(); // Set skip animation flag
+                        widget.onAnimationFinished();
+                      },
+                      child: Text(
+                        S.of(context).skipButton,
+                        style: TextStyle(
+                          fontSize: MediaQuery.sizeOf(context).height * .03,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
                   ),
               ],
             );

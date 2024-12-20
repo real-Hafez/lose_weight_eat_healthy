@@ -15,7 +15,7 @@ class WaterLoaded extends WaterState {
   final double currentIntake;
   final double waterNeeded;
   final String unit;
-  final Map<DateTime, bool?> goalCompletionStatus; // Updated to include null
+  final Map<DateTime, bool?> goalCompletionStatus;
   final List<Map<String, dynamic>> intakeHistory;
   final List<double> cardAmounts;
   const WaterLoaded({

@@ -3,8 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/water/water_state.dart';
 
+import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/cubit/water/water_state.dart';
+
 class WaterCubit extends Cubit<WaterState> {
   WaterCubit() : super(WaterInitial());
+  bool skipAnimation = false;
 
   Future<void> fetchWeight() async {
     emit(WaterLoading());
@@ -72,6 +78,14 @@ class WaterCubit extends Cubit<WaterState> {
   }
 
   void finishAnimation() {
+    if (state is WaterLoaded) {
+      final loadedState = state as WaterLoaded;
+      emit(loadedState.copyWith(animationFinished: true));
+    }
+  }
+
+  void skipTextAnimation() {
+    skipAnimation = true;
     if (state is WaterLoaded) {
       final loadedState = state as WaterLoaded;
       emit(loadedState.copyWith(animationFinished: true));
