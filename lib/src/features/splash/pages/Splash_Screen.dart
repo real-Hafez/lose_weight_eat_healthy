@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       try {
         final collections = await Future.wait([
           userDoc.collection('body percentage fat').get(),
-          userDoc.collection('gender').get(),
+          userDoc.collection('genders').get(),
           userDoc.collection('height').get(),
           userDoc.collection('Cal').get(),
           userDoc.collection('Diet').get(),
