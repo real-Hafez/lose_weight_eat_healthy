@@ -35,23 +35,28 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Supabase.initialize(
-      url: 'https://icobobugrotssbzwnilc.supabase.co',
-      anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imljb2JvYnVncm90c3NienduaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4NjU2NzQsImV4cCI6MjA0MzQ0MTY3NH0.xmV_dP0nTiCVppIGwr5CLPo5Ln_QVbMbnoGaUDtZHN4');
+    url: 'https://icobobugrotssbzwnilc.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imljb2JvYnVncm90c3NienduaWxjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4NjU2NzQsImV4cCI6MjA0MzQ0MTY3NH0.xmV_dP0nTiCVppIGwr5CLPo5Ln_QVbMbnoGaUDtZHN4',
+  );
 
-  // final mealFinder = MealFinder();
-  // await mealFinder.findMeals();
+  // Initialize LocaleCubit and get the initial locale
+  final localeCubit = LocaleCubit();
+  await localeCubit.initializeLocale();
 
   runApp(
     DevicePreview(
       enabled: kDebugMode,
-      builder: (context) => const MyApp(),
+      builder: (context) => MyApp(localeCubit: localeCubit),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final LocaleCubit localeCubit;
+
+  const MyApp({super.key, required this.localeCubit});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -66,7 +71,7 @@ class MyApp extends StatelessWidget {
           create: (context) => SigninCubit(AuthService()),
         ),
         BlocProvider(
-          create: (context) => LocaleCubit(),
+          create: (context) => localeCubit,
         ),
         BlocProvider(
           create: (context) => OnboardingCubit(),
@@ -87,8 +92,7 @@ class MyApp extends StatelessWidget {
           create: (context) => WeightCubit(),
         ),
         BlocProvider<NutritionCubit>(
-          create: (_) =>
-              NutritionCubit(2500), // Pass initial calories, e.g., 2000
+          create: (_) => NutritionCubit(2500),
         ),
         BlocProvider<CaloriesChartCubit>(
           create: (_) => CaloriesChartCubit(),
@@ -106,7 +110,6 @@ class MyApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
-              //testnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn
             ],
             supportedLocales: S.delegate.supportedLocales,
             locale: locale,

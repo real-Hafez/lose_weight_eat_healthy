@@ -1,45 +1,45 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocaleCubit extends Cubit<Locale> {
-  LocaleCubit()
-      : super(_getDeviceLocale()); // Initialize with the device's language
+  LocaleCubit() : super(LocaleCubit._getDeviceLocale());
 
   Future<void> initializeLocale() async {
-    final Locale savedLocale = await _getSavedLocale() ??
-        _getDeviceLocale(); // Fallback to device locale
-    emit(savedLocale);
+    final savedLocale = await _getSavedLocale();
+    emit(savedLocale ?? _getDeviceLocale());
   }
 
   static Future<Locale?> _getSavedLocale() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? languageCode = prefs.getString('languageCode');
-    final String? countryCode = prefs.getString('countryCode');
-    if (languageCode != null && countryCode != null) {
-      return Locale(languageCode, countryCode);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final languageCode = prefs.getString('languageCode');
+      final countryCode = prefs.getString('countryCode');
+      if (languageCode != null) {
+        return Locale(languageCode, countryCode);
+      }
+    } catch (e) {
+      debugPrint('Error retrieving saved locale: $e');
     }
     return null;
   }
 
-  void updateLocale(Locale newLocale) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('languageCode', newLocale.languageCode);
-    await prefs.setString('countryCode', newLocale.countryCode ?? '');
-    emit(newLocale);
+  Future<void> updateLocale(Locale newLocale) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('languageCode', newLocale.languageCode);
+      await prefs.setString('countryCode', newLocale.countryCode ?? '');
+      emit(newLocale);
+    } catch (e) {
+      debugPrint('Error updating locale: $e');
+    }
   }
 
-  // Get the device's current locale and return it, falling back to English if needed
   static Locale _getDeviceLocale() {
-    final deviceLocale = window.locale.languageCode;
-
-    // Check if the device's language is Arabic ('ar') or English ('en')
-    if (deviceLocale == 'ar') {
-      return const Locale(
-          'ar', 'SA'); // Set to Arabic if the device is in Arabic
-    } else {
-      return const Locale('en',
-          'US'); // Default to English if the device is in any other language
-    }
+    final deviceLocale = window.locale;
+    return deviceLocale.languageCode == 'ar'
+        ? const Locale('ar', 'SA')
+        : const Locale('en', 'US');
   }
 }
