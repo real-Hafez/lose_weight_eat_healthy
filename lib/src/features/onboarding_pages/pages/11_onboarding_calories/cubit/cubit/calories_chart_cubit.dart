@@ -71,7 +71,7 @@ class CaloriesChartCubit extends Cubit<CaloriesChartState> {
       String gender, double weight, double height, int age) {
     if (gender.toLowerCase().contains('male') || gender == 'ذكر') {
       return 10 * weight + 6.25 * height - 5 * age + 5;
-    } else if (gender.toLowerCase().contains('female') || gender == 'أنثى') {
+    } else if (gender.toLowerCase().contains('female') || gender == 'انثي') {
       return 10 * weight + 6.25 * height - 5 * age - 161;
     } else {
       return 0.0;

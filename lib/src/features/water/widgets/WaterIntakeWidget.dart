@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
@@ -13,8 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class WaterIntakeWidget extends StatelessWidget {
   final bool isEditMode;
 
-  const WaterIntakeWidget(
-      {super.key, required this.isEditMode});  
+  const WaterIntakeWidget({super.key, required this.isEditMode});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class WaterIntakeWidget extends StatelessWidget {
           } else if (newUnit == 'US oz') {
             return amountInMl / 29.5735;
           } else {
-            return amountInMl; 
+            return amountInMl;
           }
         }
 
@@ -123,14 +123,15 @@ class WaterIntakeWidget extends StatelessWidget {
                       ),
                       onPressed: () {
                         double intakeAmount;
-                        if (state.unit == 'mL') {
+                        if (state.unit == 'mL' || state.unit == 'مل') {
                           intakeAmount = 300.0;
-                        } else if (state.unit == 'L') {
+                        } else if (state.unit == 'L' || state.unit == 'لتر') {
                           intakeAmount = 0.3;
-                        } else if (state.unit == 'US oz') {
+                        } else if (state.unit == 'US oz' ||
+                            state.unit == 'أونصة') {
                           intakeAmount = 10.14;
                         } else {
-                          intakeAmount = 600.0;
+                          intakeAmount = 1.0;
                         }
                         context
                             .read<WaterBloc>()

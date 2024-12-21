@@ -10,7 +10,7 @@ class hydration_card_widget extends StatefulWidget {
   final double amount;
   final Color backgroundColor;
   final bool isEditMode;
-  final int cardIndex; 
+  final int cardIndex;
 
   const hydration_card_widget({
     super.key,
@@ -43,8 +43,8 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
 
     if (savedAmountInMl != null) {
       String currentUnit = _getCurrentUnit();
-      double convertedAmount = convertWaterAmount(savedAmountInMl, 'mL',
-          currentUnit);  
+      double convertedAmount =
+          convertWaterAmount(savedAmountInMl, 'mL', currentUnit);
       setState(() {
         _currentAmount = convertedAmount;
         _controller.text = convertedAmount.toStringAsFixed(1);
@@ -161,11 +161,8 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
                             if (newAmount != null) {
                               String currentUnit = _getCurrentUnit();
                               double convertedAmount = convertWaterAmount(
-                                  newAmount,
-                                  currentUnit,
-                                  _getCurrentUnit());  
-                              _saveAmount(
-                                  convertedAmount); // Save the converted amount (based on new card )
+                                  newAmount, currentUnit, _getCurrentUnit());
+                              _saveAmount(convertedAmount);
                             }
                           }),
                     )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +13,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final List<String> _units = ['L', 'mL', 'US oz'];
+  final List<String> _units = ['${S().Litres}', '${S().mL}', '${S().USoz}'];
   int _selectedIndex = 0;
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
@@ -64,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       case 'US oz':
         mlValue = value * 29.5735;
         break;
-      default: 
+      default:
         mlValue = value;
     }
 
@@ -73,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         return mlValue / 1000;
       case 'US oz':
         return mlValue / 29.5735;
-      default: 
+      default:
         return mlValue;
     }
   }

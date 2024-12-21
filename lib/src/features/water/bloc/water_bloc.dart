@@ -18,6 +18,7 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
 
   final Map<String, List<double>> defaultCardAmounts = {
     'mL': [100, 200, 400, 500],
+    'مل': [100, 200, 400, 500], // Arabic equivalent
     'L': [0.1, 0.2, 0.4, 0.5],
     'US oz': [3.38, 6.76, 13.53, 16.91],
   };
@@ -112,11 +113,12 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
         double intakeAmount = 0;
 
         if (currentState is WaterLoaded) {
-          if (currentState.unit == 'mL') {
+          if (currentState.unit == 'mL' || currentState.unit == 'مل') {
             intakeAmount = 300.0;
-          } else if (currentState.unit == 'L') {
+          } else if (currentState.unit == 'L' || currentState.unit == 'لتر') {
             intakeAmount = 0.3;
-          } else if (currentState.unit == 'US oz') {
+          } else if (currentState.unit == 'US oz' ||
+              currentState.unit == 'أونصة') {
             intakeAmount = 10.14;
           }
           add(AddWaterIntake(intakeAmount));
