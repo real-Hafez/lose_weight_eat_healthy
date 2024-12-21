@@ -25,14 +25,14 @@ class WaterIntakeWidget extends StatelessWidget {
       if (state is WaterLoaded) {
         double percentage = state.currentIntake / state.waterNeeded;
         List<double> cardAmounts;
-        if (state.unit == 'mL') {
+        if (state.unit == 'mL' || state.unit == 'مل') {
           cardAmounts = [100, 200, 400, 500];
-        } else if (state.unit == 'L') {
+        } else if (state.unit == 'L' || state.unit == 'لتر') {
           cardAmounts = [0.1, 0.2, 0.4, 0.5];
-        } else if (state.unit == 'US oz') {
+        } else if (state.unit == 'US oz' || state.unit == 'أونصة') {
           cardAmounts = [3.38, 6.76, 13.53, 16.91];
         } else {
-          cardAmounts = [100, 200, 400, 500];
+          cardAmounts = [1, 2, 4, 5];
         }
         double convertWaterAmount(
             double amount, String oldUnit, String newUnit) {

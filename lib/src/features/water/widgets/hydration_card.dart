@@ -57,22 +57,22 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
       return amount;
     }
 
-    if (fromUnit == 'mL') {
-      if (toUnit == 'L') {
+    if (fromUnit == 'mL' || fromUnit == 'مل') {
+      if (toUnit == 'L' || toUnit == 'لتر') {
         return amount / 1000;
-      } else if (toUnit == 'US oz') {
+      } else if (toUnit == 'US oz' || toUnit == 'أونصة') {
         return amount * 0.033814;
       }
-    } else if (fromUnit == 'L') {
-      if (toUnit == 'mL') {
+    } else if (fromUnit == 'L' || fromUnit == 'لتر') {
+      if (toUnit == 'mL' || toUnit == 'مل') {
         return amount * 1000;
-      } else if (toUnit == 'US oz') {
+      } else if (toUnit == 'US oz' || toUnit == 'أونصة') {
         return amount * 33.814;
       }
-    } else if (fromUnit == 'US oz') {
-      if (toUnit == 'mL') {
+    } else if (fromUnit == 'US oz' || fromUnit == 'أونصة') {
+      if (toUnit == 'mL' || toUnit == 'مل') {
         return amount / 0.033814;
-      } else if (toUnit == 'L') {
+      } else if (toUnit == 'L' || toUnit == 'لتر') {
         return amount / 33.814;
       }
     }
