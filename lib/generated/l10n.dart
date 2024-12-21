@@ -1999,6 +1999,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Home`
+  String get Home {
+    return Intl.message(
+      'Home',
+      name: 'Home',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `water`
+  String get water {
+    return Intl.message(
+      'water',
+      name: 'water',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `nutrition`
+  String get nutrition {
+    return Intl.message(
+      'nutrition',
+      name: 'nutrition',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `setting`
+  String get setting {
+    return Intl.message(
+      'setting',
+      name: 'setting',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

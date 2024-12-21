@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Gradual": MessageLookupByLibrary.simpleMessage("تدريجي"),
         "Healthyrange": MessageLookupByLibrary.simpleMessage("النطاق الصحي:"),
         "HighProtein": MessageLookupByLibrary.simpleMessage("بروتين عالي"),
+        "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "Keto": MessageLookupByLibrary.simpleMessage("كيتو"),
         "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول "),
@@ -198,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "أنت على الطريق الصحيح! واصل العادات الجيدة واستكشف طرقًا جديدة للحفاظ على نمط حياة متوازن."),
         "normalWeight": MessageLookupByLibrary.simpleMessage("الوزن الطبيعي"),
         "nothing": MessageLookupByLibrary.simpleMessage("لا شئ "),
+        "nutrition": MessageLookupByLibrary.simpleMessage("التغذية"),
         "obeseClassI":
             MessageLookupByLibrary.simpleMessage("السمنة من الفئة الأولى"),
         "obeseClassII":
@@ -241,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "s": MessageLookupByLibrary.simpleMessage(""),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "إعداد روتين التمارين الخاص بك..."),
+        "setting": MessageLookupByLibrary.simpleMessage("الاعدادات"),
         "severeThinness":
             MessageLookupByLibrary.simpleMessage("نقص شديد في الوزن"),
         "severeThinnessRec": MessageLookupByLibrary.simpleMessage(
@@ -294,6 +297,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wakeup": MessageLookupByLibrary.simpleMessage("وقت الاستيقاظ:"),
         "wakeupclock":
             MessageLookupByLibrary.simpleMessage("اختر وقت الاستيقاظ"),
+        "water": MessageLookupByLibrary.simpleMessage("الماء"),
         "waterwidget": MessageLookupByLibrary.simpleMessage(
             "أفضل طريقة لتحقيق أحلامك هي إبقائها في الأفق. لهذا السبب تحتاج إلى إضافة هذه الأداة إلى شاشتك الرئيسية."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(

@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Gradual": MessageLookupByLibrary.simpleMessage("Gradual"),
         "Healthyrange": MessageLookupByLibrary.simpleMessage("Healthy range:"),
         "HighProtein": MessageLookupByLibrary.simpleMessage("High Protein"),
+        "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -198,6 +199,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "You’re on the right track! Keep up the great habits and explore new ways to maintain a balanced lifestyle."),
         "normalWeight": MessageLookupByLibrary.simpleMessage("Normal weight"),
         "nothing": MessageLookupByLibrary.simpleMessage("nothing"),
+        "nutrition": MessageLookupByLibrary.simpleMessage("nutrition"),
         "obeseClassI": MessageLookupByLibrary.simpleMessage("Obese Class I"),
         "obeseClassII": MessageLookupByLibrary.simpleMessage("Obese Class II"),
         "obeseClassIII":
@@ -239,6 +241,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "s": MessageLookupByLibrary.simpleMessage("s"),
         "setp1": MessageLookupByLibrary.simpleMessage(
             "Making your workout Routines..."),
+        "setting": MessageLookupByLibrary.simpleMessage("setting"),
         "severeThinness":
             MessageLookupByLibrary.simpleMessage("Severe Thinness"),
         "severeThinnessRec": MessageLookupByLibrary.simpleMessage(
@@ -295,6 +298,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter a valid goal within a healthy range."),
         "wakeup": MessageLookupByLibrary.simpleMessage("Wake-up Time:"),
         "wakeupclock": MessageLookupByLibrary.simpleMessage("waking time"),
+        "water": MessageLookupByLibrary.simpleMessage("water"),
         "waterwidget": MessageLookupByLibrary.simpleMessage(
             "The best way to achieve your dreams is to keep them in sight. That\'s why you need to add this widget to your home screen."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(
