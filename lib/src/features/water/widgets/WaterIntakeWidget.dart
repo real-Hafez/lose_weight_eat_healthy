@@ -9,6 +9,7 @@ import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/EditWaterGoalDialog.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/widgets/water_cards.dart';
 import 'package:lose_weight_eat_healthy/src/shared/AppLoadingIndicator.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WaterIntakeWidget extends StatelessWidget {
@@ -57,6 +58,10 @@ class WaterIntakeWidget extends StatelessWidget {
           }
         }
 
+        // Check if the app is in Arabic language
+        final bool isArabic =
+            Localizations.localeOf(context).languageCode == 'ar';
+
         return Center(
             child: Column(
           children: [
@@ -75,9 +80,12 @@ class WaterIntakeWidget extends StatelessWidget {
                 Center(
                     child: Column(mainAxisSize: MainAxisSize.min, children: [
                   Text(
-                    "${(percentage * 100).toStringAsFixed(0)}%",
-                    style: const TextStyle(
-                      fontSize: 28,
+                    isArabic
+                        ? NumberConversionHelper.convertToArabicNumbers(
+                            "%${(percentage * 100).toStringAsFixed(0)}")
+                        : "${(percentage * 100).toStringAsFixed(0)}%",
+                    style: TextStyle(
+                      fontSize: MediaQuery.sizeOf(context).height * .045,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -86,9 +94,11 @@ class WaterIntakeWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${state.currentIntake.toStringAsFixed(1)} ${state.unit} / ${state.waterNeeded.toStringAsFixed(1)} ${state.unit}",
-                        style: const TextStyle(
-                          fontSize: 18,
+                        isArabic
+                            ? "${NumberConversionHelper.convertToArabicNumbers(state.currentIntake.toStringAsFixed(1))} ${state.unit} / ${NumberConversionHelper.convertToArabicNumbers(state.waterNeeded.toStringAsFixed(1))} ${state.unit} "
+                            : "${state.currentIntake.toStringAsFixed(1)} ${state.unit} / ${state.waterNeeded.toStringAsFixed(1)} ${state.unit}",
+                        style: TextStyle(
+                          fontSize: MediaQuery.sizeOf(context).height * .025,
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
                         ),
