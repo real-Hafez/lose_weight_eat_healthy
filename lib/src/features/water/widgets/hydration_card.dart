@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_event.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class hydration_card_widget extends StatefulWidget {
@@ -107,6 +108,10 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
     }
   }
 
+  bool _isArabicLocale() {
+    return Localizations.localeOf(context).languageCode == 'ar';
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!widget.isEditMode) {
@@ -143,31 +148,36 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: TextField(
-                          controller: _controller,
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            filled: true,
-                            fillColor: Colors.black,
-                          ),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                          onSubmitted: (value) {
-                            double? newAmount = double.tryParse(value);
-                            if (newAmount != null) {
-                              String currentUnit = _getCurrentUnit();
-                              double convertedAmount = convertWaterAmount(
-                                  newAmount, currentUnit, _getCurrentUnit());
-                              _saveAmount(convertedAmount);
-                            }
-                          }),
+                        controller: _controller,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Colors.black,
+                        ),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        onSubmitted: (value) {
+                          double? newAmount = double.tryParse(value);
+                          if (newAmount != null) {
+                            String currentUnit = _getCurrentUnit();
+                            double convertedAmount = convertWaterAmount(
+                                newAmount, currentUnit, _getCurrentUnit());
+                            _saveAmount(convertedAmount);
+                          }
+                        },
+                      ),
                     )
                   : Text(
-                      _currentAmount.toStringAsFixed(1),
+                      _isArabicLocale()
+                          ? NumberConversionHelper.convertToArabicNumbers(
+                              _currentAmount.toStringAsFixed(1),
+                            )
+                          : _currentAmount.toStringAsFixed(1),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
