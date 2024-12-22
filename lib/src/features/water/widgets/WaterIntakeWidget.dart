@@ -95,7 +95,7 @@ class WaterIntakeWidget extends StatelessWidget {
                     children: [
                       Text(
                         isArabic
-                            ? "${NumberConversionHelper.convertToArabicNumbers(state.currentIntake.toStringAsFixed(1))} ${state.unit} / ${NumberConversionHelper.convertToArabicNumbers(state.waterNeeded.toStringAsFixed(1))} ${state.unit} "
+                            ? "${NumberConversionHelper.convertToArabicNumbers(state.currentIntake.toStringAsFixed(1))} ${state.unit == 'mL' || state.unit == 'مل' ? S().mL : (state.unit == 'L' || state.unit == 'لتر' ? S().Litres : (state.unit == 'US oz' || state.unit == 'أونصة' ? S().USoz : ''))} / ${NumberConversionHelper.convertToArabicNumbers(state.waterNeeded.toStringAsFixed(1))} ${state.unit == 'mL' || state.unit == 'مل' ? S().mL : (state.unit == 'L' || state.unit == 'لتر' ? S().Litres : (state.unit == 'US oz' || state.unit == 'أونصة' ? S().USoz : ''))}"
                             : "${state.currentIntake.toStringAsFixed(1)} ${state.unit} / ${state.waterNeeded.toStringAsFixed(1)} ${state.unit}",
                         style: TextStyle(
                           fontSize: MediaQuery.sizeOf(context).height * .025,
