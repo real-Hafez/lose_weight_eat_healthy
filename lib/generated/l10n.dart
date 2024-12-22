@@ -2039,6 +2039,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Edit Water Goal`
+  String get watergoal {
+    return Intl.message(
+      'Edit Water Goal',
+      name: 'watergoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter new water goal`
+  String get waternewgoal {
+    return Intl.message(
+      'Enter new water goal',
+      name: 'waternewgoal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Water goal cannot exceed the limit of`
+  String get waterendgoal {
+    return Intl.message(
+      'Water goal cannot exceed the limit of',
+      name: 'waterendgoal',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

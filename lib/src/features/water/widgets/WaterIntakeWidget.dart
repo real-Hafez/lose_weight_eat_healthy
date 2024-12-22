@@ -42,16 +42,16 @@ class WaterIntakeWidget extends StatelessWidget {
           }
 
           double amountInMl;
-          if (oldUnit == 'L') {
+          if (oldUnit == 'L' || oldUnit == 'لتر') {
             amountInMl = amount * 1000;
-          } else if (oldUnit == 'US oz') {
+          } else if (oldUnit == 'US oz' || oldUnit == 'أونصة') {
             amountInMl = amount * 29.5735;
           } else {
             amountInMl = amount;
           }
-          if (newUnit == 'L') {
+          if (newUnit == 'L' || newUnit == 'لتر') {
             return amountInMl / 1000;
-          } else if (newUnit == 'US oz') {
+          } else if (newUnit == 'US oz' || newUnit == 'أونصة') {
             return amountInMl / 29.5735;
           } else {
             return amountInMl;

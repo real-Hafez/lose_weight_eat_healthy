@@ -18,11 +18,14 @@ class water_calendar_widget extends StatelessWidget {
       builder: (context, state) {
         if (state is WaterLoaded) {
           final DateTime today = DateTime.now();
+          String currentLocale = Localizations.localeOf(context).languageCode;
 
           return TableCalendar(
             firstDay: today.subtract(const Duration(days: 30)),
             lastDay: today,
             focusedDay: today,
+            locale:
+                currentLocale == 'ar' ? 'ar' : 'en', // Set locale dynamically
             selectedDayPredicate: (day) => isSameDay(day, today),
             calendarFormat: CalendarFormat.week,
             headerVisible: false,
@@ -39,6 +42,7 @@ class water_calendar_widget extends StatelessWidget {
                 final bool? status = state.goalCompletionStatus[normalizedDate];
 
                 if (isToday) {
+                  // If today
                   if (status == true) {
                     return const Icon(Icons.check_circle, color: Colors.green);
                   } else {

@@ -299,6 +299,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "wakeup": MessageLookupByLibrary.simpleMessage("Wake-up Time:"),
         "wakeupclock": MessageLookupByLibrary.simpleMessage("waking time"),
         "water": MessageLookupByLibrary.simpleMessage("water"),
+        "waterendgoal": MessageLookupByLibrary.simpleMessage(
+            "Water goal cannot exceed the limit of"),
+        "watergoal": MessageLookupByLibrary.simpleMessage("Edit Water Goal"),
+        "waternewgoal":
+            MessageLookupByLibrary.simpleMessage("Enter new water goal"),
         "waterwidget": MessageLookupByLibrary.simpleMessage(
             "The best way to achieve your dreams is to keep them in sight. That\'s why you need to add this widget to your home screen."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(

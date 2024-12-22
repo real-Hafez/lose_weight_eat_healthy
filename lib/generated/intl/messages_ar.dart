@@ -298,6 +298,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wakeupclock":
             MessageLookupByLibrary.simpleMessage("اختر وقت الاستيقاظ"),
         "water": MessageLookupByLibrary.simpleMessage("الماء"),
+        "watergoal": MessageLookupByLibrary.simpleMessage("تعديل هدف المياه"),
         "waterwidget": MessageLookupByLibrary.simpleMessage(
             "أفضل طريقة لتحقيق أحلامك هي إبقائها في الأفق. لهذا السبب تحتاج إلى إضافة هذه الأداة إلى شاشتك الرئيسية."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(

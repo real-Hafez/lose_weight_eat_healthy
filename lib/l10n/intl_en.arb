@@ -199,7 +199,12 @@
 "Home":"Home",
 "water":"water" ,
 "nutrition":"nutrition",
-"setting":"setting"
+"setting":"setting" ,
+"watergoal":"Edit Water Goal",
+"waternewgoal":"Enter new water goal" ,
+"waterendgoal":"Water goal cannot exceed the limit of"
+
+
 
 
 
