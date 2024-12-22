@@ -46,6 +46,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Gradual": MessageLookupByLibrary.simpleMessage("تدريجي"),
         "Healthyrange": MessageLookupByLibrary.simpleMessage("النطاق الصحي:"),
         "HighProtein": MessageLookupByLibrary.simpleMessage("بروتين عالي"),
+        "History": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
         "Keto": MessageLookupByLibrary.simpleMessage("كيتو"),
         "Litres": MessageLookupByLibrary.simpleMessage("لتر"),
@@ -298,7 +299,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "wakeupclock":
             MessageLookupByLibrary.simpleMessage("اختر وقت الاستيقاظ"),
         "water": MessageLookupByLibrary.simpleMessage("الماء"),
+        "waterendgoal": MessageLookupByLibrary.simpleMessage(
+            "لا يمكن أن يتجاوز هدف المياه الحد الأقصى"),
         "watergoal": MessageLookupByLibrary.simpleMessage("تعديل هدف المياه"),
+        "waternewgoal":
+            MessageLookupByLibrary.simpleMessage("أدخل هدف المياه الجديد"),
         "waterwidget": MessageLookupByLibrary.simpleMessage(
             "أفضل طريقة لتحقيق أحلامك هي إبقائها في الأفق. لهذا السبب تحتاج إلى إضافة هذه الأداة إلى شاشتك الرئيسية."),
         "weakPassword": MessageLookupByLibrary.simpleMessage(

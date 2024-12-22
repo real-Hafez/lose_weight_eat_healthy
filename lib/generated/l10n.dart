@@ -2069,6 +2069,16 @@ class S {
       args: [],
     );
   }
+
+  /// `History`
+  String get History {
+    return Intl.message(
+      'History',
+      name: 'History',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

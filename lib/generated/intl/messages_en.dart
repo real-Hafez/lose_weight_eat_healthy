@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Gradual": MessageLookupByLibrary.simpleMessage("Gradual"),
         "Healthyrange": MessageLookupByLibrary.simpleMessage("Healthy range:"),
         "HighProtein": MessageLookupByLibrary.simpleMessage("High Protein"),
+        "History": MessageLookupByLibrary.simpleMessage("History"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Keto": MessageLookupByLibrary.simpleMessage("Keto"),
         "Litres": MessageLookupByLibrary.simpleMessage("L"),
