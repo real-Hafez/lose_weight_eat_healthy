@@ -53,32 +53,44 @@ class _HydrationCardWidgetState extends State<hydration_card_widget> {
     }
   }
 
-  double convertWaterAmount(double amount, String fromUnit, String toUnit) {
-    if (fromUnit == toUnit) {
+  double convertWaterAmount(double amount, String oldUnit, String newUnit) {
+    final unitMapping = {
+      'mL': 'mL',
+      'مل': 'mL',
+      'L': 'L',
+      'لتر': 'L',
+      'US oz': 'US oz',
+      'أونصة': 'US oz',
+    };
+
+    // Normalize units for comparison
+    oldUnit = unitMapping[oldUnit] ?? oldUnit;
+    newUnit = unitMapping[newUnit] ?? newUnit;
+
+    if (oldUnit == newUnit) {
       return amount;
     }
 
-    if (fromUnit == 'mL' || fromUnit == 'مل') {
-      if (toUnit == 'L' || toUnit == 'لتر') {
-        return amount / 1000;
-      } else if (toUnit == 'US oz' || toUnit == 'أونصة') {
-        return amount * 0.033814;
-      }
-    } else if (fromUnit == 'L' || fromUnit == 'لتر') {
-      if (toUnit == 'mL' || toUnit == 'مل') {
-        return amount * 1000;
-      } else if (toUnit == 'US oz' || toUnit == 'أونصة') {
-        return amount * 33.814;
-      }
-    } else if (fromUnit == 'US oz' || fromUnit == 'أونصة') {
-      if (toUnit == 'mL' || toUnit == 'مل') {
-        return amount / 0.033814;
-      } else if (toUnit == 'L' || toUnit == 'لتر') {
-        return amount / 33.814;
-      }
+    double amountInMl;
+    switch (oldUnit) {
+      case 'L':
+        amountInMl = amount * 1000;
+        break;
+      case 'US oz':
+        amountInMl = amount * 29.5735;
+        break;
+      default: // 'mL'
+        amountInMl = amount;
     }
 
-    return amount;
+    switch (newUnit) {
+      case 'L':
+        return amountInMl / 1000;
+      case 'US oz':
+        return amountInMl / 29.5735;
+      default: // 'mL'
+        return amountInMl;
+    }
   }
 
   String _getCurrentUnit() {

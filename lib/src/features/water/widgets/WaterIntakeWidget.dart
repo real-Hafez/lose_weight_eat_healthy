@@ -95,33 +95,49 @@ class WaterIntakeWidget extends StatelessWidget {
                     children: [
                       Text(
                         isArabic
-                            ? "${NumberConversionHelper.convertToArabicNumbers(convertWaterAmount(state.currentIntake, 'mL', state.unit).toStringAsFixed(1))} ${state.unit == 'mL' || state.unit == 'مل' ? S().mL : (state.unit == 'L' || state.unit == 'لتر' ? S().Litres : (state.unit == 'US oz' || state.unit == 'أونصة' ? S().USoz : ''))} / ${NumberConversionHelper.convertToArabicNumbers(convertWaterAmount(state.waterNeeded, 'mL', state.unit).toStringAsFixed(1))} ${state.unit == 'mL' || state.unit == 'مل' ? S().mL : (state.unit == 'L' || state.unit == 'لتر' ? S().Litres : (state.unit == 'US oz' || state.unit == 'أونصة' ? S().USoz : ''))}"
-                            : "${convertWaterAmount(state.currentIntake, 'mL', state.unit).toStringAsFixed(1)} ${state.unit} / ${convertWaterAmount(state.waterNeeded, 'mL', state.unit).toStringAsFixed(1)} ${state.unit}",
-                        style: TextStyle(
-                          fontSize: MediaQuery.sizeOf(context).height * .025,
+                            ? "${NumberConversionHelper.convertToArabicNumbers(state.currentIntake.toStringAsFixed(1))} ${getUnitTranslation(state.unit, true)} / ${NumberConversionHelper.convertToArabicNumbers(state.waterNeeded.toStringAsFixed(1))} ${getUnitTranslation(state.unit, true)}"
+                            : "${state.currentIntake.toStringAsFixed(1)} ${state.unit} / ${state.waterNeeded.toStringAsFixed(1)} ${state.unit}",
+                        style: const TextStyle(
+                          fontSize: 26,
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
                         ),
                       ),
                       if (isEditMode)
                         IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.black),
-                          onPressed: () async {
-                            final newWaterNeeded = await showDialog<double>(
-                              context: context,
-                              builder: (_) => EditWaterGoalDialog(
-                                currentWaterGoal: state.waterNeeded,
-                              ),
-                            );
-                            if (newWaterNeeded != null) {
-                              final prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.setDouble(
-                                  'water_needed', newWaterNeeded);
-                              context.read<WaterBloc>().add(LoadInitialData());
-                            }
-                          },
-                        ),
+                            icon: const Icon(Icons.edit, color: Colors.black),
+                            onPressed: () {
+                              final unitMapping = {
+                                'mL': 'mL',
+                                'مل': 'mL',
+                                'L': 'L',
+                                'لتر': 'L',
+                                'US oz': 'US oz',
+                                'أونصة': 'US oz',
+                              };
+
+                              final normalizedUnit =
+                                  unitMapping[state.unit] ?? state.unit;
+
+                              double intakeAmount;
+                              switch (normalizedUnit) {
+                                case 'mL':
+                                  intakeAmount = 300.0;
+                                  break;
+                                case 'L':
+                                  intakeAmount = 0.3;
+                                  break;
+                                case 'US oz':
+                                  intakeAmount = 10.14;
+                                  break;
+                                default:
+                                  intakeAmount = 1.0;
+                              }
+
+                              context
+                                  .read<WaterBloc>()
+                                  .add(AddWaterIntake(intakeAmount));
+                            }),
                     ],
                   ),
                   IconButton(
@@ -159,5 +175,37 @@ class WaterIntakeWidget extends StatelessWidget {
       }
       return const SizedBox(height: 100);
     });
+  }
+}
+
+String getUnitTranslation(String unit, bool isArabic) {
+  if (isArabic) {
+    switch (unit) {
+      case 'mL':
+      case 'مل':
+        return S().mL;
+      case 'L':
+      case 'لتر':
+        return S().Litres;
+      case 'US oz':
+      case 'أونصة':
+        return S().USoz;
+      default:
+        return unit;
+    }
+  } else {
+    switch (unit) {
+      case 'mL':
+      case 'مل':
+        return 'mL';
+      case 'L':
+      case 'لتر':
+        return 'L';
+      case 'US oz':
+      case 'أونصة':
+        return 'US oz';
+      default:
+        return unit;
+    }
   }
 }

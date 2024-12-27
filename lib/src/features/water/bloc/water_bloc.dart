@@ -185,18 +185,40 @@ class WaterBloc extends Bloc<WaterEvent, WaterState> {
     final currentState = state;
     if (currentState is WaterLoaded) {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final unitMapping = {
+        'mL': 'mL',
+        'مل': 'mL',
+        'L': 'L',
+        'لتر': 'L',
+        'US oz': 'US oz',
+        'أونصة': 'US oz',
+      };
+
+      // Normalize the new unit to its English counterpart for storage
+      final normalizedNewUnit = unitMapping[newUnit] ?? newUnit;
+      final normalizedCurrentUnit =
+          unitMapping[currentState.unit] ?? currentState.unit;
+
       List<double> currentCardAmounts = await _loadCardAmounts();
       List<double> newCardAmounts = currentCardAmounts.map((amount) {
-        return _convertToUnit(amount, currentState.unit, newUnit);
+        return _convertToUnit(amount, normalizedCurrentUnit, normalizedNewUnit);
       }).toList();
 
-      await prefs.setString('water_unit', newUnit);
+      // Convert current intake and water needed
+      double convertedCurrentIntake = _convertToUnit(
+          currentState.currentIntake, normalizedCurrentUnit, normalizedNewUnit);
+      double convertedWaterNeeded = _convertToUnit(
+          currentState.waterNeeded, normalizedCurrentUnit, normalizedNewUnit);
+
+      await prefs.setString('water_unit', normalizedNewUnit);
       for (int i = 0; i < newCardAmounts.length; i++) {
         await prefs.setDouble('card_$i', newCardAmounts[i]);
       }
+
       emit(WaterLoaded(
-        currentIntake: currentState.currentIntake,
-        waterNeeded: currentState.waterNeeded,
+        currentIntake: convertedCurrentIntake,
+        waterNeeded: convertedWaterNeeded,
         unit: newUnit,
         cardAmounts: newCardAmounts,
         goalCompletionStatus: currentState.goalCompletionStatus,
