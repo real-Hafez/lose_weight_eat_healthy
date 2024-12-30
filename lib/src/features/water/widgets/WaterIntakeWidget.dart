@@ -42,16 +42,16 @@ class WaterIntakeWidget extends StatelessWidget {
           }
 
           double amountInMl;
-          if (oldUnit == 'L' || oldUnit == 'لتر') {
+          if (oldUnit == 'L') {
             amountInMl = amount * 1000;
-          } else if (oldUnit == 'US oz' || oldUnit == 'أونصة') {
+          } else if (oldUnit == 'US oz') {
             amountInMl = amount * 29.5735;
           } else {
             amountInMl = amount;
           }
-          if (newUnit == 'L' || newUnit == 'لتر') {
+          if (newUnit == 'L') {
             return amountInMl / 1000;
-          } else if (newUnit == 'US oz' || newUnit == 'أونصة') {
+          } else if (newUnit == 'US oz') {
             return amountInMl / 29.5735;
           } else {
             return amountInMl;
@@ -95,49 +95,33 @@ class WaterIntakeWidget extends StatelessWidget {
                     children: [
                       Text(
                         isArabic
-                            ? "${NumberConversionHelper.convertToArabicNumbers(state.currentIntake.toStringAsFixed(1))} ${getUnitTranslation(state.unit, true)} / ${NumberConversionHelper.convertToArabicNumbers(state.waterNeeded.toStringAsFixed(1))} ${getUnitTranslation(state.unit, true)}"
+                            ? "${NumberConversionHelper.convertToArabicNumbers(state.currentIntake.toStringAsFixed(1))} ${state.unit == 'mL' || state.unit == 'مل' ? S().mL : (state.unit == 'L' || state.unit == 'لتر' ? S().Litres : (state.unit == 'US oz' || state.unit == 'أونصة' ? S().USoz : ''))} / ${NumberConversionHelper.convertToArabicNumbers(state.waterNeeded.toStringAsFixed(1))} ${state.unit == 'mL' || state.unit == 'مل' ? S().mL : (state.unit == 'L' || state.unit == 'لتر' ? S().Litres : (state.unit == 'US oz' || state.unit == 'أونصة' ? S().USoz : ''))}"
                             : "${state.currentIntake.toStringAsFixed(1)} ${state.unit} / ${state.waterNeeded.toStringAsFixed(1)} ${state.unit}",
-                        style: const TextStyle(
-                          fontSize: 26,
+                        style: TextStyle(
+                          fontSize: MediaQuery.sizeOf(context).height * .025,
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
                         ),
                       ),
                       if (isEditMode)
                         IconButton(
-                            icon: const Icon(Icons.edit, color: Colors.black),
-                            onPressed: () {
-                              final unitMapping = {
-                                'mL': 'mL',
-                                'مل': 'mL',
-                                'L': 'L',
-                                'لتر': 'L',
-                                'US oz': 'US oz',
-                                'أونصة': 'US oz',
-                              };
-
-                              final normalizedUnit =
-                                  unitMapping[state.unit] ?? state.unit;
-
-                              double intakeAmount;
-                              switch (normalizedUnit) {
-                                case 'mL':
-                                  intakeAmount = 300.0;
-                                  break;
-                                case 'L':
-                                  intakeAmount = 0.3;
-                                  break;
-                                case 'US oz':
-                                  intakeAmount = 10.14;
-                                  break;
-                                default:
-                                  intakeAmount = 1.0;
-                              }
-
-                              context
-                                  .read<WaterBloc>()
-                                  .add(AddWaterIntake(intakeAmount));
-                            }),
+                          icon: const Icon(Icons.edit, color: Colors.black),
+                          onPressed: () async {
+                            final newWaterNeeded = await showDialog<double>(
+                              context: context,
+                              builder: (_) => EditWaterGoalDialog(
+                                currentWaterGoal: state.waterNeeded,
+                              ),
+                            );
+                            if (newWaterNeeded != null) {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              await prefs.setDouble(
+                                  'water_needed', newWaterNeeded);
+                              context.read<WaterBloc>().add(LoadInitialData());
+                            }
+                          },
+                        ),
                     ],
                   ),
                   IconButton(
@@ -175,37 +159,5 @@ class WaterIntakeWidget extends StatelessWidget {
       }
       return const SizedBox(height: 100);
     });
-  }
-}
-
-String getUnitTranslation(String unit, bool isArabic) {
-  if (isArabic) {
-    switch (unit) {
-      case 'mL':
-      case 'مل':
-        return S().mL;
-      case 'L':
-      case 'لتر':
-        return S().Litres;
-      case 'US oz':
-      case 'أونصة':
-        return S().USoz;
-      default:
-        return unit;
-    }
-  } else {
-    switch (unit) {
-      case 'mL':
-      case 'مل':
-        return 'mL';
-      case 'L':
-      case 'لتر':
-        return 'L';
-      case 'US oz':
-      case 'أونصة':
-        return 'US oz';
-      default:
-        return unit;
-    }
   }
 }

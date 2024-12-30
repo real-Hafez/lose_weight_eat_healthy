@@ -13,7 +13,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final List<String> _units = ['${S().Litres}', '${S().mL}', '${S().USoz}'];
+  final List<String> _units = ['L', 'mL', 'US oz'];
   int _selectedIndex = 0;
   static const platform =
       MethodChannel('com.example.lose_weight_eat_healthy/widget');
