@@ -88,13 +88,16 @@ class NutritionInfoCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           child: CachedNetworkImage(
                             imageUrl: foodImage,
-                            width: screenWidth * 0.37, // Adaptive image width
-                            height: screenWidth * 0.37, // Adaptive image height
+                            width: screenWidth * 0.37,
+                            height: screenWidth * 0.37,
                             fit: BoxFit.cover,
                             placeholder: (context, url) =>
                                 _buildShimmerEffect(),
-                            errorWidget: (context, url, error) =>
-                                _buildErrorWidget(),
+                            errorWidget: (context, url, error) {
+                              // Log the error for debugging purposes
+                              debugPrint('Image load error: $error');
+                              return _buildErrorWidget();
+                            },
                           ),
                         ),
                         const SizedBox(width: 12),
