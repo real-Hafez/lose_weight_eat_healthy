@@ -30,35 +30,67 @@ class _DayviewState extends State<Dayview> {
   @override
   void initState() {
     super.initState();
-    _loadCalories();
+    _checkAndResetForNewDay();
   }
 
-  Future<void> _loadCalories() async {
+  Future<void> _checkAndResetForNewDay() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? lastUpdatedDay = prefs.getString('lastUpdatedDay');
+    String currentDay = DateTime.now().toIso8601String().split('T').first;
+
+    if (lastUpdatedDay == null || lastUpdatedDay != currentDay) {
+      await prefs.setString('lastUpdatedDay', currentDay);
+      await prefs.setBool('breakfastMinimized', false);
+      await prefs.setBool('lunchMinimized', false);
+      await prefs.setBool('dinnerMinimized', false);
+
+      // Clear completed states for meals
+      await prefs.remove('Breakfast_completed');
+      await prefs.remove('Lunch_completed');
+      await prefs.remove('Dinner_completed');
+
+      setState(() {
+        breakfastMinimized = false;
+        lunchMinimized = false;
+        dinnerMinimized = false;
+      });
+    } else {
+      _loadMealStates();
+    }
+  }
+
+  Future<void> _loadMealStates() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      totalCalories = prefs.getDouble('calories') ?? 2959.0;
-      breakfastCalories = 850.0;
-      lunchCalories =
-          1500.0; // Set lunch calories here instead of inside Builder
+      breakfastMinimized = prefs.getBool('breakfastMinimized') ?? false;
+      lunchMinimized = prefs.getBool('lunchMinimized') ?? false;
+      dinnerMinimized = prefs.getBool('dinnerMinimized') ?? false;
     });
   }
 
-  void toggleBreakfastMinimize() {
+  void toggleBreakfastMinimize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       breakfastMinimized = !breakfastMinimized;
     });
+    await prefs.setBool('breakfastMinimized', breakfastMinimized);
   }
 
-  void toggleLunchMinimize() {
+  void toggleLunchMinimize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       lunchMinimized = !lunchMinimized;
     });
+    await prefs.setBool('lunchMinimized', lunchMinimized);
   }
 
-  void toggledinnerMinimize() {
+  void toggledinnerMinimize() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       dinnerMinimized = !dinnerMinimized;
     });
+    await prefs.setBool('dinnerMinimized', dinnerMinimized);
   }
 
   @override
@@ -73,7 +105,6 @@ class _DayviewState extends State<Dayview> {
             const SizedBox(height: 25),
             const CalorieTrackerWidget(),
             const SizedBox(height: 25),
-
             // Breakfast Section
             Meal_Type_Display(
               food: S().Breakfast,
@@ -82,13 +113,11 @@ class _DayviewState extends State<Dayview> {
             ),
             if (!breakfastMinimized)
               Food_Card_Breakfast(
-                  remainingCalories: remainingAfterBreakfast,
-                  mincal: 0.20,
-                  maxcal: 0.30,
-                  description: ''
-                  // 'Breakfast calories: $breakfastCalories. Remaining calories: ${remainingAfterBreakfast.toStringAsFixed(0)} cal.',
-                  ),
-
+                remainingCalories: remainingAfterBreakfast,
+                mincal: 0.20,
+                maxcal: 0.30,
+                description: '',
+              ),
             // Lunch Section
             Meal_Type_Display(
               food: S().Lunch,
@@ -97,12 +126,12 @@ class _DayviewState extends State<Dayview> {
             ),
             if (!lunchMinimized)
               Food_Card_Lunch(
-                  remainingCalories: remainingAfterLunch,
-                  mincal: 0.60,
-                  maxcal: 0.80,
-                  description: ''
-                  // 'Lunch calories: $lunchCalories. Remaining calories: ${remainingAfterLunch.toStringAsFixed(0)} cal.',
-                  ),
+                remainingCalories: remainingAfterLunch,
+                mincal: 0.60,
+                maxcal: 0.80,
+                description: '',
+              ),
+            // Dinner Section
             Meal_Type_Display(
               food: S().Dinner,
               minmize: dinnerMinimized,
@@ -110,13 +139,11 @@ class _DayviewState extends State<Dayview> {
             ),
             if (!dinnerMinimized)
               Food_Card_Dinner(
-                  remainingCalories: remainingAfterLunch,
-                  mincal: 0.10,
-                  maxcal: 0.20,
-                  description: ''
-                  // 'Lunch calories: $lunchCalories. Remaining calories: ${remainingAfterLunch.toStringAsFixed(0)} cal.'
-                  // ,
-                  ),
+                remainingCalories: remainingAfterLunch,
+                mincal: 0.10,
+                maxcal: 0.20,
+                description: '',
+              ),
           ],
         ),
       ),

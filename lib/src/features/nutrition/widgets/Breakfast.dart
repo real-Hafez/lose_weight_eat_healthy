@@ -62,60 +62,79 @@ class _BreakfastState extends State<Breakfast>
       // Fetch total daily calories from preferences
       _totalCalories = prefs.getDouble('calories') ?? 2000.0;
 
+      // Fetch consumed meals from preferences
+      List<String> consumedMeals = prefs.getStringList('consumedMeals') ?? [];
+      List<String> recentMeals = _getRecentMeals(consumedMeals);
+
       // Calculate calorie range for breakfast
       double minCalories = _totalCalories * widget.mincal;
       double maxCalories = _totalCalories * widget.maxcal;
 
-      // Expand search range dynamically if no meals are found
-      const double step = 50.0; // Increment step for expanding range
-      List<Map<String, dynamic>> foods = [];
-      while (foods.isEmpty) {
-        // Fetch foods for breakfast within current range
-        foods = await _foodService.getFoods(minCalories, maxCalories);
+      // Fetch foods excluding recently consumed meals
+      List<Map<String, dynamic>> foods = await _foodService.getFoods(
+        minCalories,
+        maxCalories,
+        excludeMeals: recentMeals,
+      );
 
-        // If no foods are found, incrementally expand the range
-        if (foods.isEmpty) {
-          minCalories = (minCalories - step).clamp(0, double.infinity);
-          maxCalories += step;
-          if (minCalories < 0 && maxCalories > _totalCalories)
-            break; // Break to avoid infinite loop
-        }
+      if (foods.isNotEmpty) {
+        _closestMeal = foods.first;
+        _consumedCalories = (_closestMeal?['calories'] as num?)?.toDouble() ??
+            0.0; // Correctly fetch calories
+        _description =
+            _closestMeal?['description'] ?? 'No description available';
       }
+      print('Recent Meals: $recentMeals'); // Inside `_loadClosestMeal`
+      print('Closest Meal: $_closestMeal');
+      print('Calories: $_consumedCalories');
 
-      // Get the closest meal if meals are found
-      final closestMeal = foods.isNotEmpty
-          ? await _mealService.getClosestMeal(
-              _totalCalories,
-              prefs.getDouble('proteinGrams') ?? 200,
-              prefs.getDouble('carbsGrams') ?? 200,
-              prefs.getDouble('fatsGrams') ?? 0,
-              foods,
-              'Breakfast',
-            )
-          : null;
-
-      // Extract the consumed calories
-      _consumedCalories = (closestMeal?['calories'] as num?)?.toDouble() ?? 0;
-
-      // Calculate remaining calories dynamically
-      final double remainingCalories = _totalCalories - _consumedCalories;
-
-      setState(() {
-        _closestMeal = closestMeal;
-        _isLoading = false;
-
-        // Update the description dynamically
-        _description = closestMeal != null
-            ? 'You have consumed $_consumedCalories calories '
-                'for breakfast. Remaining calories for the day: $remainingCalories cal.'
-            : 'No suitable meal found for the given criteria.';
-      });
+      print('Min Calories: $minCalories, Max Calories: $maxCalories');
+      print('Foods fetched: ${foods.length}');
+      print('recent meal is $recentMeals');
     } catch (e) {
-      print('Error loading closest meal: $e');
+      print("Error loading meals: $e");
+    } finally {
       setState(() {
         _isLoading = false;
       });
     }
+  }
+
+// Helper: Get meals consumed in the last 8 days
+  List<String> _getRecentMeals(List<String> consumedMeals) {
+    DateTime now = DateTime.now();
+    return consumedMeals
+        .where((entry) {
+          final parts = entry.split('|');
+          if (parts.length != 2) return false;
+
+          final mealDate = DateTime.tryParse(parts[1]);
+          if (mealDate == null) return false;
+
+          return now.difference(mealDate).inDays < 8;
+        })
+        .map((entry) => entry.split('|').first) // Use meal ID
+        .toList();
+  }
+
+  void _markMealAsConsumed() async {
+    if (_closestMeal == null) return;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Mark meal as consumed
+    String mealEntry = "${_closestMeal?['id']}|${DateTime.now()}";
+    List<String> consumedMeals = prefs.getStringList('consumedMeals') ?? [];
+    consumedMeals.add(mealEntry);
+
+    await prefs.setStringList('consumedMeals', consumedMeals);
+
+    // Save minimized state
+    await prefs.setBool('isMealMinimized', true);
+
+    setState(() {
+      _description = 'Meal completed!';
+    });
   }
 
   @override

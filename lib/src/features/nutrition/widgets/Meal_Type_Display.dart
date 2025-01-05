@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Meal_Type_Display extends StatefulWidget {
   const Meal_Type_Display({
@@ -27,6 +28,7 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
     super.initState();
     _confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
+    _checkAndResetState();
   }
 
   @override
@@ -35,15 +37,46 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
     super.dispose();
   }
 
-  void _toggleComplete() {
+  Future<void> _checkAndResetState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String today = DateTime.now().toIso8601String().split('T')[0];
+    String? lastResetDate = prefs.getString('lastResetDate');
+
+    if (lastResetDate != today) {
+      await _resetMealState();
+      await prefs.setString('lastResetDate', today);
+    } else {
+      await _loadCompletionState();
+    }
+  }
+
+  Future<void> _resetMealState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('${widget.food}_completed');
+    setState(() {
+      _isCompleted = false;
+    });
+  }
+
+  Future<void> _loadCompletionState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isCompleted = prefs.getBool('${widget.food}_completed') ?? false;
+    });
+  }
+
+  void _toggleComplete() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _isCompleted = !_isCompleted;
     });
-    widget.onToggleMinimize();
+
     if (_isCompleted) {
-      _confettiController
-          .play(); // Trigger confetti when meal is marked as complete
+      widget.onToggleMinimize(); // Minimize meal
+      _confettiController.play();
     }
+
+    await prefs.setBool('${widget.food}_completed', _isCompleted);
   }
 
   @override
@@ -56,9 +89,11 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
-              color: _isCompleted
-                  ? Colors.blue.withOpacity(0.2)
-                  : Colors.transparent,
+              color: widget.minmize
+                  ? Colors.transparent
+                  : (_isCompleted
+                      ? Colors.blue.withOpacity(0.2)
+                      : Colors.transparent),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(

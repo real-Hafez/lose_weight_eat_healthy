@@ -160,10 +160,11 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
             ),
           ),
           // const SizedBox(height: 10),
-          // Text(
-          //   _description, // Use the dynamically updated description from state
-          //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          // ),
+          Text(
+            _closestMeal!['id']
+                .toString(), // Use the dynamically updated description from state
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ],
       );
     }
