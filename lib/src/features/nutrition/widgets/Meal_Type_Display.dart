@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Meal_Type_Display extends StatefulWidget {
   const Meal_Type_Display({
@@ -20,7 +18,6 @@ class Meal_Type_Display extends StatefulWidget {
 }
 
 class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
-  bool _isCompleted = false;
   late ConfettiController _confettiController;
 
   @override
@@ -28,7 +25,6 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
     super.initState();
     _confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
-    _checkAndResetState();
   }
 
   @override
@@ -37,46 +33,14 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
     super.dispose();
   }
 
-  Future<void> _checkAndResetState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String today = DateTime.now().toIso8601String().split('T')[0];
-    String? lastResetDate = prefs.getString('lastResetDate');
-
-    if (lastResetDate != today) {
-      await _resetMealState();
-      await prefs.setString('lastResetDate', today);
-    } else {
-      await _loadCompletionState();
-    }
-  }
-
-  Future<void> _resetMealState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('${widget.food}_completed');
+  void _handleTap() {
     setState(() {
-      _isCompleted = false;
+      if (!widget.minmize) {
+        // Play confetti animation only when minimizing
+        _confettiController.play();
+      }
+      widget.onToggleMinimize(); // Toggle minimize state
     });
-  }
-
-  Future<void> _loadCompletionState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isCompleted = prefs.getBool('${widget.food}_completed') ?? false;
-    });
-  }
-
-  void _toggleComplete() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isCompleted = !_isCompleted;
-    });
-
-    if (_isCompleted) {
-      widget.onToggleMinimize(); // Minimize meal
-      _confettiController.play();
-    }
-
-    await prefs.setBool('${widget.food}_completed', _isCompleted);
   }
 
   @override
@@ -85,15 +49,13 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
       alignment: Alignment.center,
       children: [
         GestureDetector(
-          onTap: _toggleComplete,
+          onTap: _handleTap,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
               color: widget.minmize
-                  ? Colors.transparent
-                  : (_isCompleted
-                      ? Colors.blue.withOpacity(0.2)
-                      : Colors.transparent),
+                  ? Colors.blue.withOpacity(0.4)
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -104,13 +66,12 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: MediaQuery.of(context).size.height * .04,
-                    fontWeight:
-                        _isCompleted ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Icon(
-                  FontAwesomeIcons.check,
-                  color: _isCompleted ? Colors.blue : Colors.white,
+                  widget.minmize ? Icons.arrow_downward : Icons.arrow_upward,
+                  color: Colors.white,
                 ),
               ],
             ),
@@ -121,14 +82,10 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
             confettiController: _confettiController,
             blastDirectionality: BlastDirectionality.explosive,
             shouldLoop: false,
-            emissionFrequency: 0.6,
-            numberOfParticles: 20,
-            maxBlastForce: 20,
-            minBlastForce: 5,
             colors: const [
-              Colors.blue,
               Colors.green,
-              Colors.purple,
+              Colors.blue,
+              Colors.pink,
               Colors.orange
             ],
           ),

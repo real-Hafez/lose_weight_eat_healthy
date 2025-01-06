@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/FoodService_launch.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/service/MealService.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/Nutrition_Info_Card.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/mealPlans.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Lunch extends StatefulWidget {
@@ -26,6 +27,7 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   final FoodService_launch _foodService = FoodService_launch();
   final MealService _mealService = MealService();
+  final MealPlanService _mealPlanService = MealPlanService();
   bool _isLoading = true;
   Map<String, dynamic>? _closestMeal;
   double _totalCalories = 0;
@@ -70,6 +72,9 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
       while (foods.isEmpty) {
         // Fetch foods for lunch within current range
         foods = await _foodService.getFoods(minCalories, maxCalories);
+
+        // Filter out completed meals
+        foods = await _filterCompletedMeals(foods);
 
         // If no foods are found, incrementally expand the range
         if (foods.isEmpty) {
@@ -116,6 +121,18 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
     }
   }
 
+  Future<List<Map<String, dynamic>>> _filterCompletedMeals(
+      List<Map<String, dynamic>> foods) async {
+    List<Map<String, dynamic>> filteredFoods = [];
+    for (var food in foods) {
+      bool isCompleted = await _mealPlanService.isMealCompleted(food['id']);
+      if (!isCompleted) {
+        filteredFoods.add(food);
+      }
+    }
+    return filteredFoods;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -133,6 +150,8 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
           GestureDetector(
             onTap: () {
               print('Meal tapped: ${_closestMeal!['id']}');
+              _mealPlanService.markMealAsCompleted(_closestMeal!['id']);
+              _mealPlanService.clearOldCompletedMeals();
             },
             child: NutritionInfoCard(
               foodName: _closestMeal!['food_Name_Arabic'] ?? 'Unknown',
@@ -159,10 +178,8 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
               meal_id: _closestMeal!['id'],
             ),
           ),
-          // const SizedBox(height: 10),
           Text(
-            _closestMeal!['id']
-                .toString(), // Use the dynamically updated description from state
+            _closestMeal!['id'].toString(),
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
