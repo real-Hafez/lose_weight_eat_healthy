@@ -55,6 +55,7 @@ class _DayviewState extends State<Dayview> {
     setState(() {
       currentMealPlan = mealPlan;
     });
+    print('currentMealPlan $currentMealPlan');
   }
 
   Future<void> _checkAndResetForNewDay() async {

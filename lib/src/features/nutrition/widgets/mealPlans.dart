@@ -6,21 +6,21 @@ class MealPlanService {
     {
       "breakfast": {
         "mincal": 0.00,
-        "maxcal": 0.60,
+        "maxcal": 0.10,
         "description": "Day 0 Breakfast"
       },
-      "lunch": {"mincal": 0.40, "maxcal": 0.50, "description": "Day 0 Lunch"},
-      "dinner": {"mincal": 0.30, "maxcal": 0.40, "description": "Day 0 Dinner"}
+      "lunch": {"mincal": 0.00, "maxcal": 0.20, "description": "Day 0 Lunch"},
+      "dinner": {"mincal": 0.00, "maxcal": 0.10, "description": "Day 0 Dinner"}
     },
     // Day 1
     {
       "breakfast": {
-        "mincal": 0.00,
+        "mincal": 0.20,
         "maxcal": 0.60,
         "description": "Day 1 Breakfast"
       },
-      "lunch": {"mincal": 0.30, "maxcal": 0.40, "description": "Day 1 Lunch"},
-      "dinner": {"mincal": 0.0, "maxcal": 0.25, "description": "Day 1 Dinner"}
+      "lunch": {"mincal": 0.30, "maxcal": 0.50, "description": "Day 1 Lunch"},
+      "dinner": {"mincal": 0.20, "maxcal": 0.60, "description": "Day 1 Dinner"}
     },
     // Day 2
     {
