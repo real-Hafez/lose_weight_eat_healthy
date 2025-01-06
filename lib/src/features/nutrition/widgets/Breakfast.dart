@@ -77,6 +77,38 @@ class _BreakfastState extends State<Breakfast>
         excludeMeals: recentMeals,
       );
 
+      if (foods.isEmpty) {
+        // If no foods found in the exact range, start alternating search
+        int offset = 1;
+        final maxOffset = (_totalCalories * 0.5)
+            .round(); // Limit search to 50% of total calories
+
+        while (foods.isEmpty && offset < maxOffset) {
+          // Try below the range
+          double lowerMinCalories = minCalories - offset;
+          double lowerMaxCalories = maxCalories - offset;
+          foods = await _foodService.getFoods(
+            lowerMinCalories,
+            lowerMaxCalories,
+            excludeMeals: recentMeals,
+          );
+
+          // If found, break the loop
+          if (foods.isNotEmpty) break;
+
+          // Try above the range
+          double upperMinCalories = minCalories + offset;
+          double upperMaxCalories = maxCalories + offset;
+          foods = await _foodService.getFoods(
+            upperMinCalories,
+            upperMaxCalories,
+            excludeMeals: recentMeals,
+          );
+
+          offset++;
+        }
+      }
+
       if (foods.isNotEmpty) {
         _closestMeal = foods.first;
         _consumedCalories = (_closestMeal?['calories'] as num?)?.toDouble() ??

@@ -42,11 +42,15 @@ class _DayviewState extends State<Dayview> {
 
   Future<void> _loadCurrentDay() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int day = await _mealPlanService.getCurrentDay();
-    setState(() {
-      currentDay = day;
-    });
-    _loadMealPlanForDay(day);
+    int day = prefs.getInt('currentDay') ?? 0;
+
+    // Avoid redundant calls to `_loadMealPlanForDay`
+    if (currentDay != day) {
+      setState(() {
+        currentDay = day;
+      });
+      await _loadMealPlanForDay(day);
+    }
   }
 
   Future<void> _loadMealPlanForDay(int day) async {
@@ -55,30 +59,83 @@ class _DayviewState extends State<Dayview> {
     setState(() {
       currentMealPlan = mealPlan;
     });
-    print('currentMealPlan $currentMealPlan');
+
+    // Log current meal plan for debugging
+    print("Loaded meal plan for day $day: $currentMealPlan");
+
+    // Directly pass the actual calorie values for breakfast, lunch, and dinner
+    double breakfastTarget = breakfastCalories;
+    Map<String, dynamic> closestBreakfast =
+        await _mealPlanService.findClosestMealPlan(
+      'breakfast',
+      breakfastTarget,
+      totalCalories,
+    );
+    if (closestBreakfast.isNotEmpty &&
+        closestBreakfast['description'].contains('Day $day')) {
+      setState(() {
+        currentMealPlan!['breakfast'] = closestBreakfast;
+      });
+      print("Updated breakfast: $closestBreakfast");
+    }
+
+    double lunchTarget = lunchCalories;
+    Map<String, dynamic> closestLunch =
+        await _mealPlanService.findClosestMealPlan(
+      'lunch',
+      lunchTarget,
+      totalCalories,
+    );
+    if (closestLunch.isNotEmpty &&
+        closestLunch['description'].contains('Day $day')) {
+      setState(() {
+        currentMealPlan!['lunch'] = closestLunch;
+      });
+      print("Updated lunch: $closestLunch");
+    }
+
+    double dinnerTarget = remainingAfterLunch;
+    Map<String, dynamic> closestDinner =
+        await _mealPlanService.findClosestMealPlan(
+      'dinner',
+      dinnerTarget,
+      totalCalories,
+    );
+    if (closestDinner.isNotEmpty &&
+        closestDinner['description'].contains('Day $day')) {
+      setState(() {
+        currentMealPlan!['dinner'] = closestDinner;
+      });
+      print("Updated dinner: $closestDinner");
+    }
+
+    print('Final updated meal plan: $currentMealPlan');
   }
 
   Future<void> _checkAndResetForNewDay() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? lastUpdatedDay = prefs.getString('lastUpdatedDay');
-    String currentDay = DateTime.now().toIso8601String().split('T').first;
+    String currentDate = DateTime.now().toIso8601String().split('T').first;
 
-    if (lastUpdatedDay == null || lastUpdatedDay != currentDay) {
-      await prefs.setString('lastUpdatedDay', currentDay);
-      await _mealPlanService.incrementDay();
+    if (lastUpdatedDay == null || lastUpdatedDay != currentDate) {
+      await prefs.setString('lastUpdatedDay', currentDate);
+
+      // Increment the current day if needed
+      int currentDay = prefs.getInt('currentDay') ?? 0;
+      await prefs.setInt('currentDay', currentDay + 1);
 
       // Reset minimization states for a new day
       await prefs.setBool('breakfastMinimized', false);
       await prefs.setBool('lunchMinimized', false);
       await prefs.setBool('dinnerMinimized', false);
 
+      // Force reload the meal plan for the new day
       setState(() {
         breakfastMinimized = false;
         lunchMinimized = false;
         dinnerMinimized = false;
       });
-
-      await _loadCurrentDay(); // Load the new day's meal plan
+      await _loadCurrentDay();
     }
   }
 
