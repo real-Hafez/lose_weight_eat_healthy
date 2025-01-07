@@ -204,7 +204,9 @@
 "waternewgoal":"Enter new water goal" ,
 "waterendgoal":"Water goal cannot exceed the limit of" ,
 "History":"History",
-"cal":"Cal"
+"cal":"Cal" ,
+"thisweek":"You cannot select a day outside the current week."
+
 
 
 

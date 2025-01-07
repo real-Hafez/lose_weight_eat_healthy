@@ -97,7 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "burned": MessageLookupByLibrary.simpleMessage("burned"),
         "buttonText":
             MessageLookupByLibrary.simpleMessage("Start activating your dream"),
-        "cal": MessageLookupByLibrary.simpleMessage("cal"),
+        "cal": MessageLookupByLibrary.simpleMessage("Cal"),
         "cm": MessageLookupByLibrary.simpleMessage("cm"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("CUSTOM WORKOUT PLANS"),
@@ -268,6 +268,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Discover the quickest way to nutritious meals that help you stay fit and healthy."),
         "subTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "It’s all free! We want you to get fit and healthy, so enjoy our content at no cost."),
+        "thisweek": MessageLookupByLibrary.simpleMessage(
+            "You cannot select a day outside the current week."),
         "titleextraactive":
             MessageLookupByLibrary.simpleMessage("Extra Active"),
         "titlelightlyactive":

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:fluttertoast/fluttertoast.dart'; // Import FlutterToast for showing messages
 
@@ -15,6 +17,9 @@ class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the current locale
+    String currentLocale = Localizations.localeOf(context).languageCode;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       decoration: BoxDecoration(
@@ -29,7 +34,9 @@ class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
         ],
       ),
       child: TableCalendar(
-        locale: 'ar', // Arabic locale
+        locale: currentLocale == 'ar'
+            ? 'ar'
+            : 'en', // Set locale to 'ar' for Arabic, 'en' for English
         firstDay: DateTime.utc(2024, 1, 1),
         lastDay: DateTime.utc(2030, 12, 31),
         focusedDay: _focusedDay,
@@ -58,8 +65,7 @@ class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
               selectedDay.isAfter(endOfWeek)) {
             // Show message and reset selection
             Fluttertoast.showToast(
-              msg:
-                  "لا يمكنك اختيار يوم خارج الأسبوع الحالي.", // "You cannot select a day outside the current week."
+              msg: "${S().thisweek}",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               backgroundColor: Colors.red,
@@ -105,23 +111,55 @@ class _Nutrition_CalendarState extends State<Nutrition_Calendar> {
           ),
           cellMargin: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
         ),
-        daysOfWeekStyle: const DaysOfWeekStyle(
+        daysOfWeekStyle: DaysOfWeekStyle(
           weekdayStyle: TextStyle(
-            color: Colors.grey, // Light grey for weekday labels
+            color: currentLocale == 'ar'
+                ? Colors.grey
+                : Colors.black, // Arabic: grey, English: black
             fontSize: 12,
           ),
           weekendStyle: TextStyle(
-            color: Colors.grey, // Light grey for weekend labels
+            color: currentLocale == 'ar'
+                ? Colors.grey
+                : Colors.black, // Arabic: grey, English: black
             fontSize: 12,
           ),
         ),
 
         calendarBuilders: CalendarBuilders(
           defaultBuilder: (context, day, focusedDay) {
+            // Convert the day number to Arabic numerals if locale is Arabic
+            String dayText = currentLocale == 'ar'
+                ? NumberConversionHelper.convertToArabicNumbers(
+                    day.day.toString())
+                : day.day.toString();
+
             return Center(
               child: Text(
-                day.day.toString(),
-                style: const TextStyle(color: Colors.grey),
+                dayText, // Display the appropriate numeral
+                style: TextStyle(
+                    color: currentLocale == 'ar' ? Colors.grey : Colors.black),
+              ),
+            );
+          },
+          todayBuilder: (context, day, focusedDay) {
+            // Convert today's date to Arabic numerals if locale is Arabic
+            String arabicToday = currentLocale == 'ar'
+                ? NumberConversionHelper.convertToArabicNumbers(
+                    day.day.toString())
+                : day.day.toString();
+
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.2),
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.orange, width: 2),
+              ),
+              child: Center(
+                child: Text(
+                  arabicToday, // Display today's date in appropriate locale
+                  style: const TextStyle(color: Colors.orange),
+                ),
               ),
             );
           },

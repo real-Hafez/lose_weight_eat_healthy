@@ -2080,11 +2080,21 @@ class S {
     );
   }
 
-  /// `cal`
+  /// `Cal`
   String get cal {
     return Intl.message(
-      'cal',
+      'Cal',
       name: 'cal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You cannot select a day outside the current week.`
+  String get thisweek {
+    return Intl.message(
+      'You cannot select a day outside the current week.',
+      name: 'thisweek',
       desc: '',
       args: [],
     );

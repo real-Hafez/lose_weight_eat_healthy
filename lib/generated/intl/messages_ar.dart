@@ -268,6 +268,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "اكتشف أسرع الطرق لتحضير وجبات مغذية تساعدك على الحفاظ على لياقتك وصحتك."),
         "subTextThirdOnboardingPage": MessageLookupByLibrary.simpleMessage(
             "كل شيء مجاني! نريدك أن تصبح لائقًا وصحيًا، لذا استمتع بمحتوانا دون أي تكلفة."),
+        "thisweek": MessageLookupByLibrary.simpleMessage(
+            "لا يمكنك اختيار يوم خارج الأسبوع الحالي."),
         "titleextraactive": MessageLookupByLibrary.simpleMessage("نشاط مكثف"),
         "titlelightlyactive": MessageLookupByLibrary.simpleMessage("نشاط خفيف"),
         "titlemoderatelyactive":
