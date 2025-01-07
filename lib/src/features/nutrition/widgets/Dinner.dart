@@ -136,7 +136,9 @@ class _DinnerState extends State<Dinner> with SingleTickerProviderStateMixin {
               print('Meal tapped: ${_closestMeal!['id']}');
             },
             child: NutritionInfoCard(
-              foodName: _closestMeal!['food_Name_Arabic'] ?? 'Unknown',
+              foodName: Localizations.localeOf(context).languageCode == 'ar'
+                  ? _closestMeal!['food_Name_Arabic'] ?? 'Unknown'
+                  : _closestMeal!['food_Name'] ?? 'Unknown',
               foodImage: _closestMeal!['food_Image'] ??
                   'https://via.placeholder.com/150',
               calories: _consumedCalories,

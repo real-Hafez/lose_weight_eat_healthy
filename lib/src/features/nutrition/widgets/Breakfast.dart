@@ -16,7 +16,7 @@ class Breakfast extends StatefulWidget {
   final double mincal;
   final double maxcal;
   final double remainingCalories;
-  final String description; // Keep as final
+  final String description;
 
   @override
   _BreakfastState createState() => _BreakfastState();
@@ -188,7 +188,9 @@ class _BreakfastState extends State<Breakfast>
               print('Meal tapped: ${_closestMeal!['id']}');
             },
             child: NutritionInfoCard(
-              foodName: _closestMeal!['food_Name_Arabic'] ?? 'Unknown',
+              foodName: Localizations.localeOf(context).languageCode == 'ar'
+                  ? _closestMeal!['food_Name_Arabic'] ?? 'Unknown'
+                  : _closestMeal!['food_Name'] ?? 'Unknown',
               foodImage: _closestMeal!['food_Image'] ??
                   'https://via.placeholder.com/150',
               calories: _consumedCalories,
