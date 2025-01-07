@@ -2,78 +2,70 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MealPlanService {
   final List<Map<String, dynamic>> mealPlans = [
-    // Day 0
     {
       "breakfast": {
-        "mincal": 0.00,
-        "maxcal": 0.10,
+        "mincal": 0.15,
+        "maxcal": 0.25,
         "description": "Day 0 Breakfast"
       },
-      "lunch": {"mincal": 0.00, "maxcal": 0.20, "description": "Day 0 Lunch"},
-      "dinner": {"mincal": 0.00, "maxcal": 0.10, "description": "Day 0 Dinner"}
+      "lunch": {"mincal": 0.45, "maxcal": 0.50, "description": "Day 0 Lunch"},
+      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 0 Dinner"}
     },
-    // Day 1
     {
       "breakfast": {
-        "mincal": 0.00,
-        "maxcal": 0.60,
+        "mincal": 0.35,
+        "maxcal": 0.45,
         "description": "Day 1 Breakfast"
       },
-      "lunch": {"mincal": 0.30, "maxcal": 0.50, "description": "Day 1 Lunch"},
-      "dinner": {"mincal": 0.20, "maxcal": 0.60, "description": "Day 1 Dinner"}
+      "lunch": {"mincal": 0.25, "maxcal": 0.30, "description": "Day 1 Lunch"},
+      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 1 Dinner"}
     },
-    // Day 2
-    {
-      "breakfast": {
-        "mincal": 0.00,
-        "maxcal": 0.60,
-        "description": "Day 2 Breakfast"
-      },
-      "lunch": {"mincal": 0.45, "maxcal": 0.55, "description": "Day 2 Lunch"},
-      "dinner": {"mincal": 0.25, "maxcal": 0.30, "description": "Day 2 Dinner"}
-    },
-    // Day 3
-    {
-      "breakfast": {
-        "mincal": 0.30,
-        "maxcal": 0.31,
-        "description": "Day 3 Breakfast"
-      },
-      "lunch": {"mincal": 0.00, "maxcal": 0.35, "description": "Day 3 Lunch"},
-      "dinner": {"mincal": 0.0, "maxcal": 0.20, "description": "Day 3 Dinner"}
-    },
-    // Day 4
-    {
-      "breakfast": {
-        "mincal": 0.00,
-        "maxcal": 0.60,
-        "description": "Day 4 Breakfast"
-      },
-      "lunch": {"mincal": 0.30, "maxcal": 0.40, "description": "Day 4 Lunch"},
-      "dinner": {"mincal": 0.30, "maxcal": 0.40, "description": "Day 4 Dinner"}
-    },
-    // Day 5
-    {
-      "breakfast": {
-        "mincal": 0.00,
-        "maxcal": 0.004,
-        "description": "Day 5 Breakfast"
-      },
-      "lunch": {"mincal": 0.00, "maxcal": 0.00, "description": "Day 5 Lunch"},
-      "dinner": {"mincal": 0.00, "maxcal": 0.00, "description": "Day 5 Dinner"}
-    },
-    // Day 6
     {
       "breakfast": {
         "mincal": 0.20,
-        "maxcal": 0.60,
+        "maxcal": 0.30,
+        "description": "Day 2 Breakfast"
+      },
+      "lunch": {"mincal": 0.40, "maxcal": 0.45, "description": "Day 2 Lunch"},
+      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 2 Dinner"}
+    },
+    {
+      "breakfast": {
+        "mincal": 0.25,
+        "maxcal": 0.35,
+        "description": "Day 3 Breakfast"
+      },
+      "lunch": {"mincal": 0.30, "maxcal": 0.40, "description": "Day 3 Lunch"},
+      "dinner": {"mincal": 0.35, "maxcal": 0.45, "description": "Day 3 Dinner"}
+    },
+    {
+      "breakfast": {
+        "mincal": 0.40,
+        "maxcal": 0.45,
+        "description": "Day 4 Breakfast"
+      },
+      "lunch": {"mincal": 0.20, "maxcal": 0.30, "description": "Day 4 Lunch"},
+      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 4 Dinner"}
+    },
+    {
+      "breakfast": {
+        "mincal": 0.15,
+        "maxcal": 0.25,
+        "description": "Day 5 Breakfast"
+      },
+      "lunch": {"mincal": 0.45, "maxcal": 0.50, "description": "Day 5 Lunch"},
+      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 5 Dinner"}
+    },
+    {
+      "breakfast": {
+        "mincal": 0.30,
+        "maxcal": 0.40,
         "description": "Day 6 Breakfast"
       },
-      "lunch": {"mincal": 0.50, "maxcal": 0.70, "description": "Day 6 Lunch"},
-      "dinner": {"mincal": 0.35, "maxcal": 0.45, "description": "Day 6 Dinner"}
-    },
+      "lunch": {"mincal": 0.35, "maxcal": 0.40, "description": "Day 6 Lunch"},
+      "dinner": {"mincal": 0.25, "maxcal": 0.30, "description": "Day 6 Dinner"}
+    }
   ];
-
   Map<String, dynamic>? _findMealInRange(
     List<Map<String, dynamic>> meals,
     double calorieValue,

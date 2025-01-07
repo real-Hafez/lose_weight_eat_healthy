@@ -372,7 +372,6 @@ class Mealview extends StatelessWidget {
           ),
         ],
       ),
-      // ),
     );
   }
 }
