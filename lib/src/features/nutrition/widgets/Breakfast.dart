@@ -212,11 +212,6 @@ class _BreakfastState extends State<Breakfast>
               meal_id: _closestMeal!['id'],
             ),
           ),
-          // const SizedBox(height: 10),
-          Text(
-            _description, // Use the dynamically updated description from state
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
         ],
       );
     }

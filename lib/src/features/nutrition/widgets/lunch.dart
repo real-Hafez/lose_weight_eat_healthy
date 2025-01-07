@@ -178,10 +178,10 @@ class _LunchState extends State<Lunch> with SingleTickerProviderStateMixin {
               meal_id: _closestMeal!['id'],
             ),
           ),
-          Text(
-            _closestMeal!['id'].toString(),
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          // Text(
+          //   _closestMeal!['id'].toString(),
+          //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          // ),
         ],
       );
     }

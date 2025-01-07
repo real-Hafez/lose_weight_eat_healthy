@@ -221,10 +221,10 @@ class _DayviewState extends State<Dayview> {
                 maxcal: currentMealPlan!['dinner']['maxcal'],
                 description: currentMealPlan!['dinner']['description'],
               ),
-            Text(
-              'Today is day $currentDay',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            // Text(
+            //   'Today is day $currentDay',
+            //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // ),
           ],
         ),
       ),
