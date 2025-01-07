@@ -2099,6 +2099,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Nutritional Information`
+  String get NutritionalInformation {
+    return Intl.message(
+      'Nutritional Information',
+      name: 'NutritionalInformation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ingredients`
+  String get ingredients {
+    return Intl.message(
+      'Ingredients',
+      name: 'ingredients',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preparation Steps`
+  String get preparationSteps {
+    return Intl.message(
+      'Preparation Steps',
+      name: 'preparationSteps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tips`
+  String get Tips {
+    return Intl.message(
+      'Tips',
+      name: 'Tips',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -61,12 +61,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Maintenance": MessageLookupByLibrary.simpleMessage("Maintenance"),
         "NutritionBudget":
             MessageLookupByLibrary.simpleMessage("Nutrition Budget"),
+        "NutritionalInformation":
+            MessageLookupByLibrary.simpleMessage("Nutritional Information"),
         "Protein": MessageLookupByLibrary.simpleMessage("Protein"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("No Restrictions"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("Sleep Time:"),
         "Snacks": MessageLookupByLibrary.simpleMessage("Snacks"),
         "TargetWeight": MessageLookupByLibrary.simpleMessage("Target Weight"),
+        "Tips": MessageLookupByLibrary.simpleMessage("Tips"),
         "USoz": MessageLookupByLibrary.simpleMessage("US oz"),
         "Vegan": MessageLookupByLibrary.simpleMessage("Vegan"),
         "Vegetarian": MessageLookupByLibrary.simpleMessage("Vegetarian"),
@@ -157,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "howmanywater": MessageLookupByLibrary.simpleMessage(
             "You will need to drink around:"),
         "howold": MessageLookupByLibrary.simpleMessage("How old are you"),
+        "ingredients": MessageLookupByLibrary.simpleMessage("Ingredients"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "The email address is badly formatted."),
         "kg": MessageLookupByLibrary.simpleMessage("kg"),
@@ -228,6 +232,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("PERSONALIZED TRAINING"),
         "preferlanguage": MessageLookupByLibrary.simpleMessage(
             "What is your preferred language for using the app?"),
+        "preparationSteps":
+            MessageLookupByLibrary.simpleMessage("Preparation Steps"),
         "progressTracking":
             MessageLookupByLibrary.simpleMessage("PROGRESS TRACKING"),
         "promptTextlogin": MessageLookupByLibrary.simpleMessage(

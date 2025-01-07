@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 
 class Mealview extends StatelessWidget {
   const Mealview({
@@ -86,7 +87,7 @@ class Mealview extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        'المعلومات الغذائية',
+                        '${S().NutritionalInformation}',
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.height * .03,
                           color: Colors.white,
@@ -104,18 +105,18 @@ class Mealview extends StatelessWidget {
                                 child: NutrientCard(
                                   icon: Icons.local_fire_department,
                                   iconColor: Colors.red,
-                                  title: 'البروتين',
+                                  title: '${S().Protein}',
                                   content: protein,
-                                  unit: 'جرام',
+                                  unit: '${S().g}',
                                 ),
                               ),
                               Expanded(
                                 child: NutrientCard(
                                   icon: Icons.local_fire_department,
                                   iconColor: Colors.red,
-                                  title: 'السعرات الحرارية',
+                                  title: '${S().Calories}',
                                   content: calories,
-                                  unit: 'السعرات الحرارية',
+                                  unit: '${S().cal}',
                                 ),
                               ),
                             ],
@@ -126,18 +127,18 @@ class Mealview extends StatelessWidget {
                                 child: NutrientCard(
                                   icon: Icons.local_fire_department,
                                   iconColor: Colors.red,
-                                  title: 'الدهون',
+                                  title: '${S().fats}',
                                   content: fat,
-                                  unit: 'غ',
+                                  unit: '${S().g}',
                                 ),
                               ),
                               Expanded(
                                 child: NutrientCard(
                                   icon: Icons.local_fire_department,
                                   iconColor: Colors.red,
-                                  title: 'الكربوهيدرات',
+                                  title: '${S().Carbs}',
                                   content: carbs,
-                                  unit: 'غ',
+                                  unit: '${S().g}',
                                 ),
                               ),
                             ],
@@ -152,7 +153,7 @@ class Mealview extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        'المكونات',
+                        '${S().ingredients}',
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.height * .04,
                           color: Colors.white,
@@ -197,7 +198,7 @@ class Mealview extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        'خطوات التحضير',
+                        '${S().preparationSteps}',
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.height * .04,
                           color: Colors.white,
@@ -278,7 +279,7 @@ class Mealview extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        'نصائح',
+                        '${S().Tips}',
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.height * .04,
                           color: Colors.white,

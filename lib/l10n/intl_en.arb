@@ -205,7 +205,13 @@
 "waterendgoal":"Water goal cannot exceed the limit of" ,
 "History":"History",
 "cal":"Cal" ,
-"thisweek":"You cannot select a day outside the current week."
+"thisweek":"You cannot select a day outside the current week." ,
+"NutritionalInformation":"Nutritional Information",
+"ingredients":"Ingredients" ,
+"preparationSteps":"Preparation Steps" ,
+"Tips":"Tips"
+
+
 
 
 

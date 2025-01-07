@@ -62,12 +62,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Maintenance": MessageLookupByLibrary.simpleMessage("الحفاظ"),
         "NutritionBudget":
             MessageLookupByLibrary.simpleMessage("إجمالي السعرات الحرارية"),
+        "NutritionalInformation":
+            MessageLookupByLibrary.simpleMessage("معلومات غذائية"),
         "Protein": MessageLookupByLibrary.simpleMessage("بروتين"),
         "Restrictions": MessageLookupByLibrary.simpleMessage("كل شئ"),
         "Save": MessageLookupByLibrary.simpleMessage("حفظ"),
         "SleepTime": MessageLookupByLibrary.simpleMessage("وقت النوم:"),
         "Snacks": MessageLookupByLibrary.simpleMessage("الوجبات الخفيفة"),
         "TargetWeight": MessageLookupByLibrary.simpleMessage("الوزن المستهدف"),
+        "Tips": MessageLookupByLibrary.simpleMessage("نصائح"),
         "USoz": MessageLookupByLibrary.simpleMessage("أونصة"),
         "Vegan": MessageLookupByLibrary.simpleMessage("نباتي صارم"),
         "Vegetarian": MessageLookupByLibrary.simpleMessage("نباتي"),
@@ -157,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "howmanywater":
             MessageLookupByLibrary.simpleMessage("سوف تحتاج إلى شرب حول:"),
         "howold": MessageLookupByLibrary.simpleMessage("كم عمرك"),
+        "ingredients": MessageLookupByLibrary.simpleMessage("المكونات"),
         "invalidEmail": MessageLookupByLibrary.simpleMessage(
             "عنوان البريد الإلكتروني بتنسيق غير صحيح."),
         "kg": MessageLookupByLibrary.simpleMessage("كجم"),
