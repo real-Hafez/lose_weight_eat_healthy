@@ -99,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "burned": MessageLookupByLibrary.simpleMessage("محروق"),
         "buttonText":
             MessageLookupByLibrary.simpleMessage("ابدأ في تحقيق حلمك"),
+        "cal": MessageLookupByLibrary.simpleMessage("سعره"),
         "cm": MessageLookupByLibrary.simpleMessage("سم"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("خطط تمرين مخصصة"),

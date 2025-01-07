@@ -203,7 +203,9 @@
 "watergoal":"Edit Water Goal",
 "waternewgoal":"Enter new water goal" ,
 "waterendgoal":"Water goal cannot exceed the limit of" ,
-"History":"History" 
+"History":"History",
+"cal":"Cal"
+
 
 
 

@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Mealview/screen/mealview.dart';
+import 'package:lose_weight_eat_healthy/src/shared/NumberConversion_Helper.dart';
 import 'package:shimmer/shimmer.dart'; // For shimmer effect
 
 class NutritionInfoCard extends StatelessWidget {
@@ -117,7 +119,13 @@ class NutritionInfoCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 6),
                               Text(
-                                '$weight g',
+                                Localizations.localeOf(context).languageCode ==
+                                        'ar'
+                                    ? NumberConversionHelper
+                                            .convertToArabicNumbers(
+                                                weight.toStringAsFixed(0)) +
+                                        ' ${S().g}'
+                                    : '$weight ${S().g}',
                                 style: TextStyle(
                                   color: Colors.grey[600],
                                   fontSize: 14,
@@ -136,26 +144,40 @@ class NutritionInfoCard extends StatelessWidget {
                       children: [
                         _buildNutrientCard(
                           FontAwesomeIcons.fire,
-                          '$calories cal',
-                          'Calories',
+                          Localizations.localeOf(context).languageCode == 'ar'
+                              ? NumberConversionHelper.convertToArabicNumbers(
+                                      calories.toStringAsFixed(0)) +
+                                  ' ${S().cal}'
+                              : '$calories ${S().cal}',
+                          '${S().Calories}',
                           Colors.deepOrangeAccent,
                         ),
                         _buildNutrientCard(
                           FontAwesomeIcons.drumstickBite,
-                          '$protein g',
-                          'Protein',
+                          Localizations.localeOf(context).languageCode == 'ar'
+                              ? '${NumberConversionHelper.convertToArabicNumbers(protein.toStringAsFixed(0))} ${S().g}'
+                              : '$protein ${S().g}',
+                          '${S().Protein}',
                           Colors.lightGreen,
                         ),
                         _buildNutrientCard(
                           FontAwesomeIcons.breadSlice,
-                          '$carbs g',
-                          'Carbs',
+                          Localizations.localeOf(context).languageCode == 'ar'
+                              ? NumberConversionHelper.convertToArabicNumbers(
+                                      carbs.toStringAsFixed(0)) +
+                                  ' ${S().g}'
+                              : '$carbs ${S().g}',
+                          '${S().Carbs}',
                           Colors.lightBlueAccent,
                         ),
                         _buildNutrientCard(
                           FontAwesomeIcons.cheese,
-                          '$fat g',
-                          'Fat',
+                          Localizations.localeOf(context).languageCode == 'ar'
+                              ? NumberConversionHelper.convertToArabicNumbers(
+                                      fat.toStringAsFixed(0)) +
+                                  ' ${S().g}'
+                              : '$fat ${S().g}',
+                          '${S().fats}',
                           Colors.amberAccent,
                         ),
                       ],

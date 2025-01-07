@@ -97,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "burned": MessageLookupByLibrary.simpleMessage("burned"),
         "buttonText":
             MessageLookupByLibrary.simpleMessage("Start activating your dream"),
+        "cal": MessageLookupByLibrary.simpleMessage("cal"),
         "cm": MessageLookupByLibrary.simpleMessage("cm"),
         "customWorkoutPlans":
             MessageLookupByLibrary.simpleMessage("CUSTOM WORKOUT PLANS"),
