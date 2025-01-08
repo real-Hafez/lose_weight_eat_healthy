@@ -8,6 +8,7 @@ import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/login_cubit/sign
 import 'package:lose_weight_eat_healthy/src/features/Auth/service/AuthService.dart';
 import 'package:lose_weight_eat_healthy/firebase_options.dart';
 import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/signup_cubit.dart'; // Import your cubit
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/MealCompletionState.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Breakfast/cubit/breakfast_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Lunch/cubit/lunch_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/dinner/cubit/dinner_cubit.dart';
@@ -61,6 +62,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<MealCompletionCubit>(
+          create: (context) => MealCompletionCubit()..loadSavedCompletion(),
+        ),
         BlocProvider(
           create: (context) => SignupCubit(AuthService()),
         ),

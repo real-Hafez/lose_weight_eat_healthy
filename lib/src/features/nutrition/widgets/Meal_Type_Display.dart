@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/MealCompletionState.dart';
 
 class Meal_Type_Display extends StatefulWidget {
   const Meal_Type_Display({
@@ -34,13 +36,17 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
   }
 
   void _handleTap() {
-    setState(() {
-      if (!widget.minmize) {
-        // Play confetti animation only when minimizing
-        _confettiController.play();
-      }
-      widget.onToggleMinimize(); // Toggle minimize state
-    });
+    if (widget.minmize) {
+      // Meal was marked as completed, now unmark it
+      String mealType = widget.food.toLowerCase();
+      context.read<MealCompletionCubit>().uncompleteMeal(mealType);
+    } else {
+      // Play confetti animation and mark as completed
+      _confettiController.play();
+      String mealType = widget.food.toLowerCase();
+      context.read<MealCompletionCubit>().completeMeal(mealType);
+    }
+    widget.onToggleMinimize(); // Toggle minimize state
   }
 
   @override
