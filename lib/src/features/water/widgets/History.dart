@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_bloc.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/bloc/water_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class History extends StatefulWidget {
   final List<Map<String, dynamic>> intakeHistory;
@@ -21,6 +22,24 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   bool isExpanded = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExpansionState();
+  }
+
+  Future<void> _loadExpansionState() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isExpanded = prefs.getBool('isExpanded') ?? true;
+    });
+  }
+
+  Future<void> _saveExpansionState(bool expanded) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isExpanded', expanded);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +74,7 @@ class _HistoryState extends State<History> {
                         setState(() {
                           isExpanded = !isExpanded;
                         });
+                        _saveExpansionState(isExpanded);
                       },
                     ),
                   ],
