@@ -29,8 +29,8 @@ class CalorieCubit extends Cubit<Calorie_State> {
         final doc = await FirebaseFirestore.instance
             .collection('users')
             .doc(userId)
-            .collection('nutrition')
-            .doc('Cal')
+            .collection('Cal')
+            .doc('data')
             .get();
 
         if (doc.exists) {
