@@ -63,27 +63,51 @@ class _Calorie_Progress_IndicatorState
               print('Progress indicator updated: $completionPercentage');
               return CircularPercentIndicator(
                 radius: 120.0,
+                addAutomaticKeepAlive: true,
+                animateFromLastPercent: true,
+                animationDuration: 2000,
                 lineWidth: 15.0,
                 animation: true,
+                curve: Curves.easeInOut, // Smooth curve for animation
                 percent: completionPercentage,
                 center: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.local_fire_department,
-                      color: Colors.orange,
-                      size: MediaQuery.sizeOf(context).height * .05,
+                    TweenAnimationBuilder<double>(
+                      tween: Tween<double>(begin: 0.8, end: 1.0),
+                      duration: const Duration(milliseconds: 800),
+                      curve: Curves.elasticOut,
+                      builder: (context, scale, child) {
+                        return Transform.scale(
+                          scale: scale,
+                          child: Icon(
+                            Icons.local_fire_department,
+                            color: Colors.orange,
+                            size: MediaQuery.sizeOf(context).height * .05,
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      _convertBasedOnLanguage(
-                          (completionPercentage * calorieState.calories)
-                              .toStringAsFixed(0)),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MediaQuery.sizeOf(context).height * .04,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    TweenAnimationBuilder<double>(
+                      tween: Tween<double>(begin: 0.9, end: 1.0),
+                      duration: const Duration(milliseconds: 800),
+                      builder: (context, scale, child) {
+                        return Transform.scale(
+                          scale: scale,
+                          child: Text(
+                            _convertBasedOnLanguage(
+                              (completionPercentage * calorieState.calories)
+                                  .toStringAsFixed(0),
+                            ),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: MediaQuery.sizeOf(context).height * .04,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     Text(
                       "${_convertBasedOnLanguage(calorieState.calories.toStringAsFixed(0))} ${S().Calories}",
@@ -94,9 +118,16 @@ class _Calorie_Progress_IndicatorState
                     ),
                   ],
                 ),
-                progressColor: Colors.orange,
+                linearGradient: const LinearGradient(
+                  colors: [Colors.orange, Colors.red],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ), // Gradient effect on progress
+                // arcType: ArcType.,
+
+                rotateLinearGradient: true,
                 backgroundColor: Colors.white12,
-                circularStrokeCap: CircularStrokeCap.round,
+                circularStrokeCap: CircularStrokeCap.butt,
               );
             },
           );
