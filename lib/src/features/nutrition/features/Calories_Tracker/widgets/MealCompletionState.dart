@@ -74,21 +74,25 @@ class MealCompletionCubit extends Cubit<MealCompletionState> {
   Future<void> loadSavedCompletion() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // Check if it's a new day
+    // Check the last recorded date
     String? lastRecordedDateStr = prefs.getString('last_recorded_date');
     if (lastRecordedDateStr != null) {
       DateTime lastRecordedDate = DateTime.parse(lastRecordedDateStr);
+
+      // If it's not the same day, reset completion
       if (!_isSameDay(lastRecordedDate, DateTime.now())) {
         await resetCompletion();
         return;
       }
     }
 
-    // Load saved state
+    // Load saved daily calories or set default
     _totalDailyCalories = prefs.getDouble('calories') ?? 2000.0;
+
+    // Load the current completion percentage
     _currentCompletion = prefs.getDouble('meal_completion') ?? 0.0;
 
-    // Load completed meals
+    // Load completed meals from preferences
     final completedMealsJson = prefs.getString('completed_meals');
     if (completedMealsJson != null) {
       final Map<String, dynamic> savedMeals =
@@ -99,6 +103,7 @@ class MealCompletionCubit extends Cubit<MealCompletionState> {
       });
     }
 
+    // Emit the loaded state
     emit(MealCompletionSuccess(_currentCompletion, Map.from(_completedMeals)));
   }
 
