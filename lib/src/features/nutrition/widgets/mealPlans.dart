@@ -5,67 +5,145 @@ class MealPlanService {
     {
       "breakfast": {
         "mincal": 0.15,
+        "medin": 0.20,
         "maxcal": 0.25,
         "description": "Day 0 Breakfast"
       },
-      "lunch": {"mincal": 0.45, "maxcal": 0.50, "description": "Day 0 Lunch"},
-      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 0 Dinner"}
+      "lunch": {
+        "mincal": 0.45,
+        "medin": 0.475,
+        "maxcal": 0.50,
+        "description": "Day 0 Lunch"
+      },
+      "dinner": {
+        "mincal": 0.30,
+        "medin": 0.325,
+        "maxcal": 0.35,
+        "description": "Day 0 Dinner"
+      }
     },
     {
       "breakfast": {
         "mincal": 0.35,
+        "medin": 0.40,
         "maxcal": 0.45,
         "description": "Day 1 Breakfast"
       },
-      "lunch": {"mincal": 0.25, "maxcal": 0.30, "description": "Day 1 Lunch"},
-      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 1 Dinner"}
+      "lunch": {
+        "mincal": 0.25,
+        "medin": 0.275,
+        "maxcal": 0.30,
+        "description": "Day 1 Lunch"
+      },
+      "dinner": {
+        "mincal": 0.30,
+        "medin": 0.325,
+        "maxcal": 0.35,
+        "description": "Day 1 Dinner"
+      }
     },
     {
       "breakfast": {
         "mincal": 0.20,
+        "medin": 0.25,
         "maxcal": 0.30,
         "description": "Day 2 Breakfast"
       },
-      "lunch": {"mincal": 0.40, "maxcal": 0.45, "description": "Day 2 Lunch"},
-      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 2 Dinner"}
+      "lunch": {
+        "mincal": 0.40,
+        "medin": 0.425,
+        "maxcal": 0.45,
+        "description": "Day 2 Lunch"
+      },
+      "dinner": {
+        "mincal": 0.30,
+        "medin": 0.325,
+        "maxcal": 0.35,
+        "description": "Day 2 Dinner"
+      }
     },
     {
       "breakfast": {
         "mincal": 0.25,
+        "medin": 0.30,
         "maxcal": 0.35,
         "description": "Day 3 Breakfast"
       },
-      "lunch": {"mincal": 0.30, "maxcal": 0.40, "description": "Day 3 Lunch"},
-      "dinner": {"mincal": 0.35, "maxcal": 0.45, "description": "Day 3 Dinner"}
+      "lunch": {
+        "mincal": 0.30,
+        "medin": 0.35,
+        "maxcal": 0.40,
+        "description": "Day 3 Lunch"
+      },
+      "dinner": {
+        "mincal": 0.35,
+        "medin": 0.40,
+        "maxcal": 0.45,
+        "description": "Day 3 Dinner"
+      }
     },
     {
       "breakfast": {
         "mincal": 0.40,
+        "medin": 0.42,
         "maxcal": 0.45,
         "description": "Day 4 Breakfast"
       },
-      "lunch": {"mincal": 0.20, "maxcal": 0.30, "description": "Day 4 Lunch"},
-      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 4 Dinner"}
+      "lunch": {
+        "mincal": 0.20,
+        "medin": 0.25,
+        "maxcal": 0.30,
+        "description": "Day 4 Lunch"
+      },
+      "dinner": {
+        "mincal": 0.30,
+        "medin": 0.325,
+        "maxcal": 0.35,
+        "description": "Day 4 Dinner"
+      }
     },
     {
       "breakfast": {
         "mincal": 0.15,
+        "medin": 0.20,
         "maxcal": 0.25,
         "description": "Day 5 Breakfast"
       },
-      "lunch": {"mincal": 0.45, "maxcal": 0.50, "description": "Day 5 Lunch"},
-      "dinner": {"mincal": 0.30, "maxcal": 0.35, "description": "Day 5 Dinner"}
+      "lunch": {
+        "mincal": 0.45,
+        "medin": 0.475,
+        "maxcal": 0.50,
+        "description": "Day 5 Lunch"
+      },
+      "dinner": {
+        "mincal": 0.30,
+        "medin": 0.325,
+        "maxcal": 0.35,
+        "description": "Day 5 Dinner"
+      }
     },
     {
       "breakfast": {
         "mincal": 0.30,
+        "medin": 0.35,
         "maxcal": 0.40,
         "description": "Day 6 Breakfast"
       },
-      "lunch": {"mincal": 0.35, "maxcal": 0.40, "description": "Day 6 Lunch"},
-      "dinner": {"mincal": 0.25, "maxcal": 0.30, "description": "Day 6 Dinner"}
+      "lunch": {
+        "mincal": 0.35,
+        "medin": 0.375,
+        "maxcal": 0.40,
+        "description": "Day 6 Lunch"
+      },
+      "dinner": {
+        "mincal": 0.25,
+        "medin": 0.275,
+        "maxcal": 0.30,
+        "description": "Day 6 Dinner"
+      }
     }
   ];
+
   Map<String, dynamic>? _findMealInRange(
     List<Map<String, dynamic>> meals,
     double calorieValue,
