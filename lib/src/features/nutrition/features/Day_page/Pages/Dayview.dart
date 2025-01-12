@@ -20,7 +20,7 @@ class _DayviewState extends State<Dayview> {
   bool breakfastMinimized = false;
   bool lunchMinimized = false;
   bool dinnerMinimized = false;
-  double totalCalories = 2959.0;
+  double totalCalories = 1747;
   double breakfastCalories = 0.0;
   double lunchCalories = 1500.0;
   Map<String, dynamic>? currentMealPlan;
@@ -188,6 +188,8 @@ class _DayviewState extends State<Dayview> {
               food: S().Breakfast,
               minmize: breakfastMinimized,
               onToggleMinimize: toggleBreakfastMinimize,
+              mealCalories: (currentMealPlan?['breakfast']['mincal'] ?? 0) *
+                  totalCalories,
             ),
             if (!breakfastMinimized && currentMealPlan != null)
               Food_Card_Breakfast(
@@ -201,6 +203,8 @@ class _DayviewState extends State<Dayview> {
               food: S().Lunch,
               minmize: lunchMinimized,
               onToggleMinimize: toggleLunchMinimize,
+              mealCalories:
+                  (currentMealPlan?['lunch']['mincal'] ?? 0) * totalCalories,
             ),
             if (!lunchMinimized && currentMealPlan != null)
               Food_Card_Lunch(
@@ -213,6 +217,8 @@ class _DayviewState extends State<Dayview> {
               food: S().Dinner,
               minmize: dinnerMinimized,
               onToggleMinimize: toggledinnerMinimize,
+              mealCalories:
+                  (currentMealPlan?['dinner']['mincal'] ?? 0) * totalCalories,
             ),
             if (!dinnerMinimized && currentMealPlan != null)
               Food_Card_Dinner(

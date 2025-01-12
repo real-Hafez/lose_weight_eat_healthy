@@ -9,11 +9,13 @@ class Meal_Type_Display extends StatefulWidget {
     required this.food,
     required this.minmize,
     required this.onToggleMinimize,
+    required this.mealCalories, // Add this property
   });
 
   final String food;
   final bool minmize;
   final VoidCallback onToggleMinimize;
+  final double mealCalories; // Add this property
 
   @override
   _Meal_Type_DisplayState createState() => _Meal_Type_DisplayState();
@@ -44,7 +46,9 @@ class _Meal_Type_DisplayState extends State<Meal_Type_Display> {
       // Play confetti animation and mark as completed
       _confettiController.play();
       String mealType = widget.food.toLowerCase();
-      context.read<MealCompletionCubit>().completeMeal(mealType);
+      context
+          .read<MealCompletionCubit>()
+          .completeMeal(mealType, widget.mealCalories);
     }
     widget.onToggleMinimize(); // Toggle minimize state
   }
