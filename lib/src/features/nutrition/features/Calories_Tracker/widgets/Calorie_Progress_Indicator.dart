@@ -68,7 +68,7 @@ class _Calorie_Progress_IndicatorState
                 animationDuration: 2000,
                 lineWidth: 15.0,
                 animation: true,
-                curve: Curves.easeInOut, // Smooth curve for animation
+                curve: Curves.easeInOut,
                 percent: completionPercentage,
                 center: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

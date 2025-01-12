@@ -20,7 +20,7 @@ class _DayviewState extends State<Dayview> {
   bool breakfastMinimized = false;
   bool lunchMinimized = false;
   bool dinnerMinimized = false;
-  double totalCalories = 1747;
+  double totalCalories = 0.0;
   double breakfastCalories = 0.0;
   double lunchCalories = 1500.0;
   Map<String, dynamic>? currentMealPlan;
@@ -35,9 +35,22 @@ class _DayviewState extends State<Dayview> {
   @override
   void initState() {
     super.initState();
+    _initializeUserCalories();
     _checkAndResetForNewDay();
     _loadCurrentDay();
-    _loadMinimizationStates(); // Load saved minimization states
+    _loadMinimizationStates();
+  }
+
+  Future<void> _initializeUserCalories() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    double userCalories = prefs.getDouble('userCalories') ?? 2000.0;
+
+    setState(() {
+      totalCalories = userCalories;
+    });
+
+    print('Total calories for the user: $totalCalories');
   }
 
   Future<void> _loadCurrentDay() async {

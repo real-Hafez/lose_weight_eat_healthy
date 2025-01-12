@@ -7,31 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:528529121967:android:e3d1257ed1873e10bfea5a",
-        "android_client_info": {
-          "package_name": "com.example.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCLRnrW-vO5U311DjgVM6JEbS33xIwhpIA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:528529121967:android:1ba110bf571de710bfea5a",
         "android_client_info": {
           "package_name": "com.example.lose_weight_eat_healthy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "528529121967-06tkto9rr6ejapard4ugm4905fileb7u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lose_weight_eat_healthy",
+            "certificate_hash": "783faf960eab322b772954af72d7f143f5001a31"
+          }
+        },
+        {
+          "client_id": "528529121967-ic5eiivgfrbam9ue67e86tnvb39ikdcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCLRnrW-vO5U311DjgVM6JEbS33xIwhpIA"
@@ -39,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528529121967-ic5eiivgfrbam9ue67e86tnvb39ikdcl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "528529121967-a3r4kjepq8p8gnd3pm2o7fp6shna09kg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.loseWeightEatHealthy"
+              }
+            }
+          ]
         }
       }
     }
