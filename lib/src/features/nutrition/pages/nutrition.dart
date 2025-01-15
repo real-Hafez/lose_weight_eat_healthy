@@ -6,8 +6,6 @@ import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Week_pag
 import '../features/Day_page/Pages/Dayview.dart';
 
 class Nutrition extends StatefulWidget {
-  // final FoodService_breakfast foodService = FoodService();
-
   const Nutrition({super.key});
 
   @override

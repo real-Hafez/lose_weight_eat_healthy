@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/generated/l10n.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/Calorie_Tracker_Widget.dart';
@@ -44,13 +46,46 @@ class _DayviewState extends State<Dayview> {
   Future<void> _initializeUserCalories() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    double userCalories = prefs.getDouble('userCalories') ?? 2000.0;
+    // Try to get the calories from SharedPreferences
+    double? userCalories = prefs.getDouble('userCalories');
 
+    // If not available, fetch from Firestore
+    if (userCalories == null) {
+      print(
+          "Calories not found in SharedPreferences. Fetching from Firestore...");
+      try {
+        String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+        final doc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .collection('Cal')
+            .doc('data')
+            .get();
+
+        if (doc.exists) {
+          Map<String, dynamic>? data = doc.data();
+          userCalories = data?['calories']?.toDouble() ??
+              2700.0; // Default to 2700 if not found
+          print("Fetched calories from Firestore: $userCalories");
+
+          // Save to SharedPreferences for future use
+          await prefs.setDouble('userCalories', userCalories ?? 2700.0);
+        } else {
+          print("No calorie data found in Firestore. Using default value.");
+          userCalories = 2700.0; // Fallback default
+        }
+      } catch (e) {
+        print("Error fetching calories from Firestore: $e");
+        userCalories = 2700.0; // Fallback in case of an error
+      }
+    } else {
+      print("Calories loaded from SharedPreferences: $userCalories");
+    }
+
+    // Set the value in state
     setState(() {
-      totalCalories = userCalories;
+      totalCalories = userCalories ?? 2700.0; // Provide a default value
     });
-
-    print('Total calories for the user: $totalCalories');
   }
 
   Future<void> _loadCurrentDay() async {
