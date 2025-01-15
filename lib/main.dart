@@ -11,7 +11,9 @@ import 'package:lose_weight_eat_healthy/src/features/Auth/cubit/signup_cubit/sig
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Calories_Tracker/widgets/MealCompletionState.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Breakfast/cubit/breakfast_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Lunch/cubit/lunch_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/Pages/cubit/cubit/DayViewCubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/features/Day_page/dinner/cubit/dinner_cubit.dart';
+import 'package:lose_weight_eat_healthy/src/features/nutrition/widgets/mealPlans.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/calories_chart_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/11_onboarding_calories/cubit/cubit/nutrition_details_cubit_cubit.dart';
 import 'package:lose_weight_eat_healthy/src/features/onboarding_pages/pages/3_onboarding_gender_selecthion/cubit/GenderSelection/gender_selection_cubit.dart';
@@ -67,6 +69,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => SignupCubit(AuthService()),
+        ),
+        BlocProvider(
+          create: (context) => DayViewCubit(context.read<MealPlanService>()),
         ),
         BlocProvider(
           create: (context) => CalorieCubit(),
