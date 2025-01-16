@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lose_weight_eat_healthy/src/features/Home/pages/Home_page.dart';
+import 'package:lose_weight_eat_healthy/src/features/Settings/widget/Water_unit_preferences.dart';
 import 'package:lose_weight_eat_healthy/src/features/Settings/pages/setting.dart';
 import 'package:lose_weight_eat_healthy/src/features/nutrition/pages/nutrition.dart';
 import 'package:lose_weight_eat_healthy/src/features/water/pages/water.dart';
@@ -9,6 +10,6 @@ List<Widget> buildScreens() {
     const HomeScreen(),
     const Water(),
     const Nutrition(),
-    const SettingsScreen(),
+    const setting(),
   ];
 }
