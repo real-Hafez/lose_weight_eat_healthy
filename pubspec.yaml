@@ -52,6 +52,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   fluttertoast: ^8.2.8
   font_awesome_flutter: ^10.7.0
+  gif: ^2.3.0
   google_sign_in: ^6.2.1
   intl: ^0.19.0
   intl_utils: ^2.8.7
@@ -84,6 +85,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/gif_for_setting/
     - assets/on-boarding-assets/
     - assets/body_percentage_fat/body_percentage_fat_man/
     - assets/body_percentage_fat/body_percentage_fat_woman/

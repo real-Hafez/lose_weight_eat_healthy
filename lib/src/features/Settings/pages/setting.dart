@@ -6,6 +6,6 @@ class setting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const settings_screen();
+    return settings_screen();
   }
 }
