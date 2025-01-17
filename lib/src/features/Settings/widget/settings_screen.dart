@@ -41,15 +41,21 @@ class settings_screen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Align(
-                  alignment: Alignment.topCenter,
-                  child: AutoSizeText(
-                    'Account \nSettings',
-                    maxLines: 2,
-                    minFontSize: 18,
-                    maxFontSize: 45,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: MediaQuery.sizeOf(context).height * .03,
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.sizeOf(context).width * .015),
+                    child: AutoSizeText(
+                      'Account \nSettings',
+                      maxLines: 2,
+                      minFontSize: 18,
+                      maxFontSize: 40,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Kirang_Haerang',
+                        fontWeight: FontWeight.w600,
+                        fontSize: MediaQuery.sizeOf(context).height * .040,
+                      ),
                     ),
                   ),
                 ),

@@ -126,7 +126,8 @@ class MyApp extends StatelessWidget {
             onGenerateRoute: AppRoutes.generateRoute,
             builder: DevicePreview.appBuilder,
             themeMode: ThemeMode.system,
-            theme: light_theme,
+            // theme: light_theme,
+            theme: dark_theme,
             darkTheme: dark_theme,
             home: const SplashScreen(),
           );

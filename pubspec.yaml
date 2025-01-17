@@ -112,6 +112,10 @@ flutter:
     - family: Indie_Flower
       fonts:
         - asset: assets/fonts/english-hand_written_font/IndieFlower-Regular.ttf
+
+    - family: Kirang_Haerang
+      fonts:
+        - asset: assets/fonts/Kirang_Haerang_font_for_setting/KirangHaerang-Regular.ttf    
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
 flutter_intl:
