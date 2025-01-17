@@ -8,9 +8,25 @@ class settings_screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        Expanded(
-          child: Water_unit_preferences(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+              'Mahmood hafez',
+              style: TextStyle(
+                fontSize: 32,
+              ),
+            ),
+            CircleAvatar(
+              backgroundColor: Colors.green,
+              maxRadius: 60,
+            ),
+          ],
         ),
+
+        // Expanded(
+        // child: Water_unit_preferences(),
+        // ),
       ],
     );
   }

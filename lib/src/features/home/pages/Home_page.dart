@@ -11,14 +11,7 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           const streak(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .02,
-          ),
-          // const calender_for_training_water(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .02,
-          ),
-          const water_home_page(),
+          Expanded(child: const water_home_page()),
           SizedBox(
             height: MediaQuery.of(context).size.height * .02,
           ),
