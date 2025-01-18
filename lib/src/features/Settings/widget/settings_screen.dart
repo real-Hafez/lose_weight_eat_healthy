@@ -21,107 +21,155 @@ class _settings_screenState extends State<settings_screen>
 
   @override
   void dispose() {
-    // Dispose the GifController to stop the Ticker
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.sizeOf(context).width * .06),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Mahmood Hafez',
-                  style: TextStyle(
-                    fontSize: MediaQuery.sizeOf(context).height * .04,
-                  ),
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Mahmood Hafez',
+                      style: TextStyle(
+                        fontSize: height * 0.04,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundColor: Colors.green,
+                      radius: height * 0.03,
+                    ),
+                  ],
                 ),
-                CircleAvatar(
-                  backgroundColor: Colors.green,
-                  radius: MediaQuery.sizeOf(context).height * .03,
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.sizeOf(context).height * .03,
-        ),
-        Container(
-          width: MediaQuery.sizeOf(context).width * .9,
-          height: MediaQuery.sizeOf(context).height * .3,
-          decoration: ShapeDecoration(
-            color: Colors.green,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(33),
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SizedBox(height: height * 0.03),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(height * 0.02),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.sizeOf(context).width * .015),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        'Account \nSettings',
+                        maxLines: 2,
+                        minFontSize: 18,
+                        maxFontSize: 40,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Kirang_Haerang',
+                          fontWeight: FontWeight.w600,
+                          fontSize: height * 0.04,
+                        ),
+                      ),
+                      SizedBox(height: height * 0.02),
+                      Gif(
+                        image: const AssetImage(
+                          'assets/gif_for_setting/output-onlinegiftools (1).gif',
+                        ),
+                        height: height * 0.16,
+                        controller: _controller,
+                        autostart: Autostart.loop,
+                        placeholder: (context) => const Text('Loading...'),
+                        onFetchCompleted: () {
+                          if (_controller.isAnimating) {
+                            _controller.stop();
+                          }
+                          _controller.reset();
+                          _controller.forward();
+                        },
+                      ),
+                    ],
+                  ),
+                  // SizedBox(width: width * 0.0),
+                  Expanded(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AutoSizeText(
-                          'Account \nSettings',
-                          maxLines: 2,
-                          minFontSize: 18,
-                          maxFontSize: 40,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Kirang_Haerang',
-                            fontWeight: FontWeight.w600,
-                            fontSize: MediaQuery.sizeOf(context).height * .040,
-                          ),
-                        ),
-                        Gif(
-                          image: const AssetImage(
-                            'assets/gif_for_setting/output-onlinegiftools (1).gif',
-                          ),
-                          height: MediaQuery.sizeOf(context).height * .18,
-                          controller: _controller,
-                          autostart: Autostart.loop,
-                          placeholder: (context) => const Text('Loading...'),
-                          onFetchCompleted: () {
-                            if (_controller.isAnimating) {
-                              _controller.stop();
-                            }
-                            _controller.reset();
-                            _controller.forward();
-                          },
-                        ),
+                        _settingsText('Profile Information', Icons.person),
+                        _divider(),
+                        _settingsText('Password Management', Icons.lock),
+                        _divider(),
+                        _settingsText('Privacy Controls', Icons.privacy_tip),
+                        _divider(),
+                        _settingsText('Connected Accounts', Icons.link),
+                        _divider(),
+                        _settingsText(
+                            'Subscription Management', Icons.subscriptions),
                       ],
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      const Text('data'),
-                      const Text('data'),
-                      const Text('data'),
-                      const Text('data'),
-                      const Text('data'),
-                    ],
-                  )
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
+    );
+  }
+
+  Widget _settingsText(String text, IconData leadingIcon) {
+    return GestureDetector(
+      onTap: () {
+        print('Settings  $text');
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            Icon(
+              leadingIcon,
+              color: Colors.white,
+              size: MediaQuery.of(context).size.height * 0.025,
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: AutoSizeText(
+                text,
+                maxLines: 1,
+                minFontSize: 22,
+                maxFontSize: 32,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Kirang_Haerang',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.black,
+              size: MediaQuery.of(context).size.height * 0.02,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _divider() {
+    return Divider(
+      height: 1,
+      thickness: 0.5,
+      color: Colors.white70,
     );
   }
 }
